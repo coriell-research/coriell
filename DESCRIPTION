@@ -1,0 +1,20 @@
+Package: coriell
+Type: Package
+Title: Convenience functions for bioinformatics
+Version: 0.1.0
+Author: Gennaro Calendo
+Maintainer: Gennaro Calendo <gcalendo@coriell.org>
+Description: Functions for plotting and transforming data.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.0
+Imports: 
+    dplyr,
+    ggplot2,
+    ggrepel,
+    edgeR,
+    magrittr,
+    rlang
+Suggests: 
+    testthat
