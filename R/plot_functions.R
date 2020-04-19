@@ -5,7 +5,7 @@
 #' @param graph_title Title of the plot. Required.
 #' @param fdr Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default (0)
-#' @param label_sig Plot the gene id labels on the plot with ggrepel. Default (FALSE)
+#' @param label_sig bool. apply ggrepel::geom_text_labels to significant DE genes.
 #' @param pt_alpha Alpha level of the points. Default (0.25)
 #' @param pt_size Size of the points. Default (2.25)
 #' @return ggplot volcano plot
@@ -13,27 +13,28 @@
 #' @keywords plot, volcano, volcano plot
 #' @importFrom rlang .data
 #'
-plot_volcano = function(result, graph_title, label_sig = FALSE, fdr = 0.05, lfc = 0, pt_alpha = 0.25, pt_size = 2.25) {
-  vplot <- edgeR::topTags(result, n = nrow(result$table))$table %>%
+plot_volcano = function(result, graph_title, fdr = 0.05, lfc = 0, label_sig = FALSE, pt_alpha = 0.25, pt_size = 2.25) {
+  plot_df <- edgeR::topTags(result, n = nrow(result$table))$table %>%
     dplyr::as_tibble(rownames = 'gene_id') %>%
-    dplyr::mutate(signif = dplyr::if_else(.data$FDR < fdr & abs(.data$logFC) > lfc, 'yes', 'no')) %>%
-    ggplot2::ggplot(ggplot2::aes(x = .data$logFC, y = -log10(.data$FDR))) +
-    ggplot2::geom_point(ggplot2::aes(color = .data$signif), alpha = pt_alpha, size = pt_size) +
-    ggplot2::scale_colour_manual(values = c('gray40','red2')) +
-    ggplot2::geom_vline(xintercept = 0, linetype = 2) +
-    ggplot2::labs(color = 'Significant') +
-    ggplot2::labs(title = graph_title,
-                  subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
-                  x = "logFC",
-                  y = "-log10(FDR") +
-    ggplot2::theme_classic()
+    dplyr::mutate(signif = dplyr::if_else(.data$FDR < fdr & abs(.data$logFC) > lfc, 'yes', 'no'))
 
-  if (label_sig == FALSE) {
-    vplot
+  vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = .data$logFC, y = -log10(.data$FDR))) +
+           ggplot2::geom_point(ggplot2::aes(color = .data$signif), alpha = pt_alpha, size = pt_size) +
+           ggplot2::scale_colour_manual(values = c('gray40','red2')) +
+           ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+           ggplot2::labs(color = 'Significant') +
+           ggplot2::labs(title = graph_title,
+                         subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
+                         x = "logFC",
+                         y = "-log10(FDR") +
+           ggplot2::theme_classic()
+
+  if (label_sig == TRUE) {
+    vplot + ggrepel::geom_text_repel(data = plot_df %>% dplyr::filter(signif == 'yes'),
+                                     ggplot2::aes(label = .data$gene_id))
   } else {
-    vplot + ggrepel::geom_text_repel(data = .data %>% dplyr::filter(.data$signif == 'yes'), ggplot2::aes(label = .data$gene_id))
+    vplot
   }
-
 }
 
 #' MD plot function
@@ -51,23 +52,26 @@ plot_volcano = function(result, graph_title, label_sig = FALSE, fdr = 0.05, lfc 
 #' @importFrom rlang .data
 #'
 plot_MD = function(result, graph_title, fdr = 0.05, lfc = 0, up_alpha = 0.8, down_alpha = 0.8, non_alpha = 0.1) {
-  edgeR::topTags(result, n = nrow(result$table))$table %>%
-  dplyr::as_tibble(rownames = 'gene_id') %>%
-  dplyr::mutate(DE = dplyr::case_when(.data$FDR < fdr & .data$logFC < -lfc ~ "Down",
-                                      .data$FDR < fdr & .data$logFC > lfc ~ "Up",
-                                      TRUE ~ "Non-DE"),
-           DE = factor(.data$DE, levels = c("Up", "Non-DE", "Down"))) %>%
-    ggplot2::ggplot(ggplot2::aes(x = .data$logCPM, y = .data$logFC)) +
-    ggplot2::geom_point(data = .data %>% dplyr::filter(.data$DE == "Up"), ggplot2::aes(color = .data$DE), alpha = up_alpha) +
-    ggplot2::geom_point(data = .data %>% dplyr::filter(.data$DE == "Down"), ggplot2::aes(color = .data$DE), alpha = down_alpha) +
-    ggplot2::geom_point(data = .data %>% dplyr::filter(.data$DE == "Non-DE"), ggplot2::aes(color = .data$DE), alpha = non_alpha, size = 0.5) +
+  plot_df <- edgeR::topTags(result, n = nrow(result$table))$table %>%
+    dplyr::as_tibble(rownames = 'gene_id') %>%
+    dplyr::mutate(DE = dplyr::case_when(.data$FDR < fdr & .data$logFC < -lfc ~ "Down",
+                                        .data$FDR < fdr & .data$logFC > lfc ~ "Up",
+                                        TRUE ~ "Non-DE"),
+                  DE = factor(.data$DE, levels = c("Up", "Non-DE", "Down")))
+
+  md_plot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = .data$logCPM, y = .data$logFC)) +
+    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Up"), ggplot2::aes(color = .data$DE), alpha = up_alpha) +
+    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Down"), ggplot2::aes(color = .data$DE), alpha = down_alpha) +
+    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Non-DE"), ggplot2::aes(color = .data$DE), alpha = non_alpha, size = 0.5) +
     ggplot2::scale_color_manual(values = c('Up' = 'red', 'Non-DE' = 'black', 'Down' = 'blue')) +
     ggplot2::geom_hline(yintercept = 0, linetype = 1) +
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
     ggplot2::labs(title = graph_title,
-         subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
-         x = "Average logCPM",
-         y = "Log-fold change") +
+                 subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
+                 x = "Average logCPM",
+                 y = "Log-fold change") +
     ggplot2::theme_classic()
+
+  md_plot
 }

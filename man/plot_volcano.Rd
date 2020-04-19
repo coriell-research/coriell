@@ -7,9 +7,9 @@
 plot_volcano(
   result,
   graph_title,
-  label_sig = FALSE,
   fdr = 0.05,
   lfc = 0,
+  label_sig = FALSE,
   pt_alpha = 0.25,
   pt_size = 2.25
 )
@@ -19,11 +19,11 @@ plot_volcano(
 
 \item{graph_title}{Title of the plot. Required.}
 
-\item{label_sig}{Plot the gene id labels on the plot with ggrepel. Default (FALSE)}
-
 \item{fdr}{Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)}
 
 \item{lfc}{Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default (0)}
+
+\item{label_sig}{bool. apply ggrepel::geom_text_labels to significant DE genes.}
 
 \item{pt_alpha}{Alpha level of the points. Default (0.25)}
 
