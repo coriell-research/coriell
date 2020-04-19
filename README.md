@@ -5,7 +5,7 @@ create a function and put it in this package.
 
 ## Installation
 
-The package can be intsalled using the `devtools` package. First, install `devtools` with:
+First, install `devtools` with:
 
 `install.packages("devtools")`
 
