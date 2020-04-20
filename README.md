@@ -15,7 +15,7 @@ Then install `coriell` with:
 
 ## Currently Available Functions
 
-- `plot_volcano` and `plot_MD` produce volcano and MD plots using `edgeR` results objects as input.
+`plot_volcano` and `plot_MD` produce volcano and MD plots using `edgeR` results objects as input.
 
 ### Example
 
@@ -40,7 +40,7 @@ plot_volcano(qlf, graph_title = "Group1 vs. Group2 DGE - volcano plot")
 plot_MD(qlf, graph_title = "Group1 vs. Group2 DGE- MD plot")
 ```
 
-- `parallel_permutation_test` performs a correlation based permutation test on a data.frame using multiple CPU cores. This version of the permutation test is at least 10X faster and more memory efficient than older code.
+`parallel_permutation_test` performs a correlation based permutation test on a data.frame using multiple CPU cores. This version of the permutation test is at least 10X faster and more memory efficient than older code.
 
 ### Example
 
