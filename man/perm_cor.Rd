@@ -20,5 +20,5 @@ One of "pearson", "kendall", or "spearman" (default): can be abbreviated.}
 numeric vector of length n_perm
 }
 \description{
-Function for performing a correlation permutation test
+Internal function for performing a correlation permutation test
 }

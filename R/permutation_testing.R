@@ -1,6 +1,6 @@
 #' Correlation Permutation Test Function
 #'
-#' Function for performing a correlation permutation test
+#' Internal function for performing a correlation permutation test
 #' @param x a numeric vector
 #' @param y a numeric vector
 #' @param n_perm numeric. the number of permutations to perform
@@ -71,11 +71,8 @@ parallel_permutation_test = function(df, y, n_cores = 1, n_perm = 1000, method =
   doParallel::registerDoParallel(cores = n_cores)
 
   # compute the empirical p.values in parallel
-  empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind) %dopar%
+  empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind, .inorder = TRUE) %dopar%
     (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, method = method))
-
-  # strip 'result.' from rownames added by foreach call
-  rownames(empirical_p) <- gsub("^result.", "", rownames(empirical_p))
 
   p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method  = method))
   p_res_df <- cbind(df, "cor" = p_cor, empirical_p)
