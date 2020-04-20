@@ -53,8 +53,8 @@ perc_meth <- data.frame(ctl1 = runif(n = 1000, min = 0, max = 100),
                         ctl2 = runif(n = 1000, min = 0, max = 100),
                         ctl3 = runif(n = 1000, min = 0, max = 100),
                         trt1 = runif(n = 1000, min = 0, max = 100),
-                        trt1 = runif(n = 1000, min = 0, max = 100),
-                        trt1 = runif(n = 1000, min = 0, max = 100))
+                        trt2 = runif(n = 1000, min = 0, max = 100),
+                        trt3 = runif(n = 1000, min = 0, max = 100))
 
 # create a vector of sample ages matching the column order                       
 ages <- c(20, 34, 65, 25, 42, 60)
