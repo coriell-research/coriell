@@ -5,10 +5,12 @@ create a function and put it in this package.
 
 ## Installation
 
-First, install `devtools` with:
+Since this package will be constantly changing be sure to install the latest version from github using:
 
-`install.packages("devtools")`
+```{r}
+if (!require("devtools")) {
+  install.packages("devtools")
+}
 
-Then install `coriell` with:
-
-`devtools::install_github('coriell-research/coriell')`
+devtools::install_github("coriell-research/coriell")
+```
