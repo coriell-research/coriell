@@ -20,6 +20,7 @@ devtools::install_github("coriell-research/coriell")
 ### Perform correlation permutation test using multiple cores
 
 ```{r}
+library(coriell)
 library(methylKit)
 
 # define age dataframe -- ages matching column order
