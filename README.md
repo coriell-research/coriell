@@ -11,4 +11,4 @@ First, install `devtools` with:
 
 Then install `coriell` with:
 
-`devtools::install_github('jcalendo/coriell')`
+`devtools::install_github('coriell-research/coriell')`
