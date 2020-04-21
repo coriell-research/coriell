@@ -4,14 +4,10 @@
 \alias{edger_to_df}
 \title{edgeR result to dataframe}
 \usage{
-edger_to_df(res_obj, fdr = 1, lfc = 0)
+edger_to_df(res_obj)
 }
 \arguments{
 \item{res_obj}{edgeR results object to be converted}
-
-\item{fdr}{numeric. adjusted p-value under which genes are considered significant}
-
-\item{lfc}{numeric. abs(log-fold-change) value above which genes are considered significant}
 }
 \value{
 tibble
