@@ -17,14 +17,16 @@
 #' library(coriell)
 #'
 #' # create some fake data
-#' x <- data.frame(ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 row.names = paste0('gene', 1:1000))
+#' x <- data.frame(
+#'   ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   row.names = paste0("gene", 1:1000)
+#' )
 #'
 #' # run edger pipeline
-#' group <- factor(c(1,1,2,2))
+#' group <- factor(c(1, 1, 2, 2))
 #' y <- DGEList(counts = x, group = group)
 #' y <- calcNormFactors(y)
 #' design <- model.matrix(~group)
@@ -41,27 +43,30 @@
 #' plot_volcano(res_df, x = logFC, y = FDR)
 #' }
 #'
-
-plot_volcano = function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = FALSE) {
+plot_volcano <- function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = FALSE) {
   plot_df <- df %>%
-    dplyr::mutate(signif = dplyr::if_else({{ y }} < fdr & abs({{ x }}) > lfc, 'yes', 'no'))
+    dplyr::mutate(signif = dplyr::if_else({{ y }} < fdr & abs({{ x }}) > lfc, "yes", "no"))
 
   vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = -log10({{ y }}))) +
-           ggplot2::geom_point(ggplot2::aes(color = .data$signif)) +
-           ggplot2::scale_colour_manual(values = c('gray40','red2')) +
-           ggplot2::geom_vline(xintercept = 0, linetype = 2) +
-           ggplot2::geom_vline(xintercept = lfc, linetype = 3) +
-           ggplot2::geom_vline(xintercept = -lfc, linetype = 3) +
-           ggplot2::geom_hline(yintercept = -log10(fdr), linetype = 3) +
-           ggplot2::labs(color = 'Significant') +
-           ggplot2::labs(subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
-                         x = "logFC",
-                         y = "-log10(FDR") +
-           ggplot2::theme_classic()
+    ggplot2::geom_point(ggplot2::aes(color = .data$signif)) +
+    ggplot2::scale_colour_manual(values = c("gray40", "red2")) +
+    ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+    ggplot2::geom_vline(xintercept = lfc, linetype = 3) +
+    ggplot2::geom_vline(xintercept = -lfc, linetype = 3) +
+    ggplot2::geom_hline(yintercept = -log10(fdr), linetype = 3) +
+    ggplot2::labs(color = "Significant") +
+    ggplot2::labs(
+      subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
+      x = "logFC",
+      y = "-log10(FDR"
+    ) +
+    ggplot2::theme_classic()
 
   if (label_sig == TRUE) {
-    vplot + ggrepel::geom_text_repel(data = plot_df %>% dplyr::filter(signif == 'yes'),
-                                     ggplot2::aes(label = {{ lab }}))
+    vplot + ggrepel::geom_text_repel(
+      data = plot_df %>% dplyr::filter(signif == "yes"),
+      ggplot2::aes(label = {{ lab }})
+    )
   } else {
     vplot
   }
@@ -85,22 +90,24 @@ plot_volcano = function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = F
 #' library(coriell)
 #'
 #' # create some fake data
-#' x <- data.frame(ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'                 row.names = paste0('gene', 1:1000))
+#' x <- data.frame(
+#'   ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+#'   row.names = paste0("gene", 1:1000)
+#' )
 #'
 #' # run edger pipeline
-#' group <- factor(c(1,1,2,2))
-#' y <- DGEList(counts=x,group=group)
+#' group <- factor(c(1, 1, 2, 2))
+#' y <- DGEList(counts = x, group = group)
 #' y <- calcNormFactors(y)
 #' design <- model.matrix(~group)
-#' y <- estimateDisp(y,design)
+#' y <- estimateDisp(y, design)
 #'
 #' # To perform quasi-likelihood F-tests:
-#' fit <- glmQLFit(y,design)
-#' qlf <- glmQLFTest(fit,coef=2)
+#' fit <- glmQLFit(y, design)
+#' qlf <- glmQLFTest(fit, coef = 2)
 #'
 #' # convert the results object to a dataframe
 #' res_df <- edger_to_df(qlf)
@@ -108,25 +115,31 @@ plot_volcano = function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = F
 #' # Create md plot
 #' plot_md(res_df, x = logCPM, y = logFC, sig_col = FDR)
 #' }
-
-plot_md = function(df, x, y, sig_col, fdr = 0.05, lfc = 0) {
+#'
+plot_md <- function(df, x, y, sig_col, fdr = 0.05, lfc = 0) {
   plot_df <- df %>%
-    dplyr::mutate(DE = dplyr::case_when({{ sig_col }} < fdr & {{ y }} < -lfc ~ "Down",
-                                        {{ sig_col }} < fdr & {{ y }} > lfc ~ "Up",
-                                        TRUE ~ "Non-DE"),
-                  DE = factor(.data$DE, levels = c("Up", "Non-DE", "Down")))
+    dplyr::mutate(
+      DE = dplyr::case_when(
+        {{ sig_col }} < fdr & {{ y }} < -lfc ~ "Down",
+        {{ sig_col }} < fdr & {{ y }} > lfc ~ "Up",
+        TRUE ~ "Non-DE"
+      ),
+      DE = factor(.data$DE, levels = c("Up", "Non-DE", "Down"))
+    )
 
   md_plot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = {{ y }})) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Up"), ggplot2::aes(color = .data$DE)) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Down"), ggplot2::aes(color = .data$DE)) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Non-DE"), ggplot2::aes(color = .data$DE), size = 0.5) +
-    ggplot2::scale_color_manual(values = c('Up' = 'red', 'Non-DE' = 'black', 'Down' = 'blue')) +
+    ggplot2::scale_color_manual(values = c("Up" = "red", "Non-DE" = "black", "Down" = "blue")) +
     ggplot2::geom_hline(yintercept = 0, linetype = 1) +
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
-    ggplot2::labs(subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
-                  x = "Average logCPM",
-                  y = "Log-fold change") +
+    ggplot2::labs(
+      subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
+      x = "Average logCPM",
+      y = "Log-fold change"
+    ) +
     ggplot2::theme_classic()
 
   md_plot

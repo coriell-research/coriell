@@ -1,14 +1,14 @@
 #' Correlation Permutation Test Function
 #'
 #' Internal function for performing a correlation permutation test
-#' @param x a numeric vector
-#' @param y a numeric vector
-#' @param n_perm numeric. the number of permutations to perform
+#' @param x numeric vector
+#' @param y numeric vector
+#' @param n_perm numeric. The number of permutations to perform
 #' @param method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
 #' @importFrom stats cor
 #' @return numeric vector of length n_perm
-perm_cor = function(x, y, n_perm, method = "spearman") {
+perm_cor <- function(x, y, n_perm, method = "spearman") {
   # calculate the actual value
   test_stat <- cor(x, y, method = method)
 
@@ -30,7 +30,6 @@ perm_cor = function(x, y, n_perm, method = "spearman") {
   } else {
     mean(cor_results >= test_stat)
   }
-
 }
 
 #' Parallel Implementation of a Correlation Permutation Test
@@ -49,7 +48,7 @@ perm_cor = function(x, y, n_perm, method = "spearman") {
 #' \dontrun{
 #' library(methylKit)
 #'
-#' ages = data.frame(age = c(30, 80, 34, 30, 80, 40))
+#' ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
 #'
 #' sim_meth <- dataSim(
 #'   replicates = 6,
@@ -67,14 +66,14 @@ perm_cor = function(x, y, n_perm, method = "spearman") {
 #' res <- parallel_permutation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
 #' }
 #' @export
-parallel_permutation_test = function(df, y, n_cores = 1, n_perm = 1000, method = "spearman") {
+parallel_permutation_test <- function(df, y, n_cores = 1, n_perm = 1000, method = "spearman") {
   doParallel::registerDoParallel(cores = n_cores)
 
   # compute the empirical p.values in parallel
   empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind, .inorder = TRUE) %dopar%
     (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, method = method))
 
-  p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method  = method))
+  p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method = method))
   p_res_df <- cbind(df, "cor" = p_cor, empirical_p)
   p_res_df$fdr <- p.adjust(p_res_df$empirical_p, method = "BH")
 
