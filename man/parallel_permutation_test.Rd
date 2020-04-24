@@ -34,7 +34,7 @@ Performs a correlation permutation test over all rows of a data.frame using mult
 \dontrun{
 library(methylKit)
 
-ages = data.frame(age = c(30, 80, 34, 30, 80, 40))
+ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
 
 sim_meth <- dataSim(
   replicates = 6,

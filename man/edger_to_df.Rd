@@ -4,16 +4,21 @@
 \alias{edger_to_df}
 \title{edgeR result to dataframe}
 \usage{
-edger_to_df(res_obj)
+edger_to_df(res_obj, fdr = 1, lfc = 0)
 }
 \arguments{
 \item{res_obj}{edgeR results object to be converted}
+
+\item{fdr}{numeric. FDR adjusted p-value used as a filter. Return only records with this value or less.}
+
+\item{lfc}{numeric. Log-fold-change used as filter. Return only records where abs(logFC) > lfc.}
 }
 \value{
 tibble
 }
 \description{
-Create a dataframe from an edger results object
+Create a dataframe from an edger results object. The function can also be used to filter the results object by the FDR and/or log-fold-change values by 
+supplying fdr and lfc arguments. By default the function returns all rows of the results object.
 }
 \examples{
 \dontrun{
@@ -21,26 +26,27 @@ library(edgeR)
 library(coriell)
 
 # create some fake data
-x <- data.frame(ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                row.names = paste0('gene', 1:1000))
+x <- data.frame(
+  ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  row.names = paste0("gene", 1:1000)
+)
 
 # run edger pipeline
-group <- factor(c(1,1,2,2))
-y <- DGEList(counts=x,group=group)
+group <- factor(c(1, 1, 2, 2))
+y <- DGEList(counts = x, group = group)
 y <- calcNormFactors(y)
 design <- model.matrix(~group)
-y <- estimateDisp(y,design)
+y <- estimateDisp(y, design)
 
 # To perform quasi-likelihood F-tests:
-fit <- glmQLFit(y,design)
-qlf <- glmQLFTest(fit,coef=2)
+fit <- glmQLFit(y, design)
+qlf <- glmQLFTest(fit, coef = 2)
 
-# convert the results object to a dataframe
-res_df <- edger_to_df(qlf)
-
+# convert the results object to a dataframe -- do not filter the results
+res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
 }
 
 }

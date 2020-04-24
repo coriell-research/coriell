@@ -33,14 +33,16 @@ library(edgeR)
 library(coriell)
 
 # create some fake data
-x <- data.frame(ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                row.names = paste0('gene', 1:1000))
+x <- data.frame(
+  ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
+  row.names = paste0("gene", 1:1000)
+)
 
 # run edger pipeline
-group <- factor(c(1,1,2,2))
+group <- factor(c(1, 1, 2, 2))
 y <- DGEList(counts = x, group = group)
 y <- calcNormFactors(y)
 design <- model.matrix(~group)

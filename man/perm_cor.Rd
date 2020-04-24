@@ -7,11 +7,11 @@
 perm_cor(x, y, n_perm, method = "spearman")
 }
 \arguments{
-\item{x}{a numeric vector}
+\item{x}{numeric vector}
 
-\item{y}{a numeric vector}
+\item{y}{numeric vector}
 
-\item{n_perm}{numeric. the number of permutations to perform}
+\item{n_perm}{numeric. The number of permutations to perform}
 
 \item{method}{a character string indicating which correlation coefficient (or covariance) is to be computed.
 One of "pearson", "kendall", or "spearman" (default): can be abbreviated.}
