@@ -1,8 +1,11 @@
 #' edgeR result to dataframe
 #'
-#' Create a dataframe from an edger results object
+#' Create a dataframe from an edger results object. The function can also be used to filter the results object by the FDR and/or log-fold-change values by 
+#' supplying fdr and lfc arguments. By default the function returns all rows of the results object.
 #'
 #' @param res_obj edgeR results object to be converted
+#' @param fdr numeric. FDR adjusted p-value used as a filter. Return only records with this value or less.
+#' @param lfc numeric. Log-fold-change used as filter. Return only records where abs(logFC) > lfc.
 #' @export
 #' @return tibble
 #' @examples
@@ -30,13 +33,14 @@
 #' fit <- glmQLFit(y, design)
 #' qlf <- glmQLFTest(fit, coef = 2)
 #'
-#' # convert the results object to a dataframe
-#' res_df <- edger_to_df(qlf)
+#' # convert the results object to a dataframe -- do not filter the results
+#' res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
 #' }
 #'
-edger_to_df <- function(res_obj) {
+edger_to_df <- function(res_obj, fdr = 1, lfc = 0) {
   edgeR::topTags(res_obj, n = nrow(res_obj$table))$table %>%
-    dplyr::as_tibble(rownames = "gene_id")
+    dplyr::as_tibble(rownames = "gene_id") %>% 
+    dplyr::filter(FDR < fdr & abs(logFC) > lfc)
 }
 
 #' Summarize Results
