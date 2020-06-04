@@ -4,7 +4,7 @@
 \alias{summarize_dge}
 \title{Summarize Results}
 \usage{
-summarize_dge(df, fdr_col, lfc_col, fdr = 0.05, lfc = 1.5)
+summarize_dge(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0)
 }
 \arguments{
 \item{df}{dataframe of results. Must have columns containing significance values and log-fold changes.}
@@ -22,7 +22,7 @@ tibble
 }
 \description{
 Summarize a results dataframe. Return dataframe of counts of up/down/non-DE genes based on
-log-fold-change and significance values
+log-fold-change and significance values.
 }
 \examples{
 \dontrun{
