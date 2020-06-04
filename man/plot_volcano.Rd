@@ -4,16 +4,24 @@
 \alias{plot_volcano}
 \title{Volcano Plot Function}
 \usage{
-plot_volcano(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = FALSE)
+plot_volcano(
+  df,
+  x = logFC,
+  y = FDR,
+  lab = NULL,
+  fdr = 0.05,
+  lfc = 0,
+  label_sig = FALSE
+)
 }
 \arguments{
 \item{df}{dataframe containing columns with gene names, p-values, and log-fold changes.}
 
-\item{x}{logFC column}
+\item{x}{logFC column. Default (logFC)}
 
-\item{y}{FDR or p-value column}
+\item{y}{FDR or p-value column. Default (FDR)}
 
-\item{lab}{column containing gene id or labels}
+\item{lab}{column containing gene id or labels. Default (NULL)}
 
 \item{fdr}{significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)}
 
@@ -56,7 +64,7 @@ qlf <- glmQLFTest(fit, coef = 2)
 res_df <- edger_to_df(qlf)
 
 # Create volcano plot
-plot_volcano(res_df, x = logFC, y = FDR)
+plot_volcano(res_df)
 }
 
 }

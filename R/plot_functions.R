@@ -2,9 +2,9 @@
 #'
 #' Create a volcano plot from the given dataframe
 #' @param df dataframe containing columns with gene names, p-values, and log-fold changes.
-#' @param x logFC column
-#' @param y FDR or p-value column
-#' @param lab column containing gene id or labels
+#' @param x logFC column. Default (logFC)
+#' @param y FDR or p-value column. Default (FDR)
+#' @param lab column containing gene id or labels. Default (NULL)
 #' @param fdr significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default (0)
 #' @param label_sig TRUE/FALSE. apply ggrepel::geom_text_labels to significant DE genes.
@@ -40,10 +40,10 @@
 #' res_df <- edger_to_df(qlf)
 #'
 #' # Create volcano plot
-#' plot_volcano(res_df, x = logFC, y = FDR)
+#' plot_volcano(res_df)
 #' }
 #'
-plot_volcano <- function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = FALSE) {
+plot_volcano <- function(df, x = logFC, y = FDR, lab = NULL, fdr = 0.05, lfc = 0, label_sig = FALSE) {
   plot_df <- df %>%
     dplyr::mutate(signif = dplyr::if_else({{ y }} < fdr & abs({{ x }}) > lfc, "yes", "no"))
 
@@ -76,9 +76,9 @@ plot_volcano <- function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = 
 #'
 #' Create an MD plot from the given dataframe
 #' @param df dataframe containing log-fold-change, p-value, and logCPM columns.
-#' @param x column in dataframe containing the logCPM data
-#' @param y column in dataframe containing the log-fold-change values
-#' @param sig_col column in dataframe containing the results from significance testing.
+#' @param x column in dataframe containing the logCPM data. Default (logCPM)
+#' @param y column in dataframe containing the log-fold-change values. Default (logFC)
+#' @param sig_col column in dataframe containing the results from significance testing. Default (FDR)
 #' @param fdr numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)
 #' @return ggplot MD plot
@@ -113,10 +113,10 @@ plot_volcano <- function(df, x, y, lab = NULL, fdr = 0.05, lfc = 0, label_sig = 
 #' res_df <- edger_to_df(qlf)
 #'
 #' # Create md plot
-#' plot_md(res_df, x = logCPM, y = logFC, sig_col = FDR)
+#' plot_md(res_df)
 #' }
 #'
-plot_md <- function(df, x, y, sig_col, fdr = 0.05, lfc = 0) {
+plot_md <- function(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 0) {
   plot_df <- df %>%
     dplyr::mutate(
       DE = dplyr::case_when(

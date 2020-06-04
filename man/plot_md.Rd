@@ -4,16 +4,16 @@
 \alias{plot_md}
 \title{MD Plot Function}
 \usage{
-plot_md(df, x, y, sig_col, fdr = 0.05, lfc = 0)
+plot_md(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 0)
 }
 \arguments{
 \item{df}{dataframe containing log-fold-change, p-value, and logCPM columns.}
 
-\item{x}{column in dataframe containing the logCPM data}
+\item{x}{column in dataframe containing the logCPM data. Default (logCPM)}
 
-\item{y}{column in dataframe containing the log-fold-change values}
+\item{y}{column in dataframe containing the log-fold-change values. Default (logFC)}
 
-\item{sig_col}{column in dataframe containing the results from significance testing.}
+\item{sig_col}{column in dataframe containing the results from significance testing. Default (FDR)}
 
 \item{fdr}{numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)}
 
@@ -54,7 +54,7 @@ qlf <- glmQLFTest(fit, coef = 2)
 res_df <- edger_to_df(qlf)
 
 # Create md plot
-plot_md(res_df, x = logCPM, y = logFC, sig_col = FDR)
+plot_md(res_df)
 }
 
 }
