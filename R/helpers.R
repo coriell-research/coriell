@@ -83,7 +83,7 @@ edger_to_df <- function(res_obj, fdr = 1, lfc = 0) {
 #' res_df <- edger_to_df(qlf) %>%
 #'   summarize_dge(fdr_col = FDR, lfc_col = logFC)
 #' }
-summarize_dge <- function(df, fdr_col, lfc_col, fdr = 0.05, lfc = 1.5) {
+summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0) {
   df %>%
     dplyr::mutate(dge = dplyr::case_when(
       ({{ fdr_col }} < fdr) & (abs({{ lfc_col }}) > lfc) & ({{ lfc_col }} < 0) ~ "down",
