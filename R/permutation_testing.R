@@ -4,13 +4,13 @@
 #' @param x numeric vector
 #' @param y numeric vector
 #' @param n_perm numeric. The number of permutations to perform
-#' @param method a character string indicating which correlation coefficient (or covariance) is to be computed.
+#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
 #' @importFrom stats cor
 #' @return numeric vector of length n_perm
-perm_cor <- function(x, y, n_perm, method = "spearman") {
+perm_cor <- function(x, y, n_perm, cor_method = "spearman") {
   # calculate the actual value
-  test_stat <- cor(x, y, method = method)
+  test_stat <- cor(x, y, method = cor_method)
 
   # test_stat will be NA for rows without variance
   if (is.na(test_stat)) {
@@ -21,7 +21,7 @@ perm_cor <- function(x, y, n_perm, method = "spearman") {
   cor_results <- vector("double", length = n_perm)
   for (i in 1:n_perm) {
     perm_vec <- sample(x)
-    cor_results[[i]] <- cor(perm_vec, y, method = method)
+    cor_results[[i]] <- cor(perm_vec, y, method = cor_method)
   }
 
   # calculate and return the empirical p-value
@@ -39,8 +39,9 @@ perm_cor <- function(x, y, n_perm, method = "spearman") {
 #' @param y numeric vector. Numeric vector of values used to correlate with each row of df
 #' @param n_cores numeric. Number of cores to use for parallel processing.  Default 1.
 #' @param n_perm numeric. Number of permutations to perform on each row. Default 1000.
-#' @param method a character string indicating which correlation coefficient (or covariance) is to be computed.
+#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
+#' @param p_adjust_method a character string indicating which of the p.adjust.methods to use for correction. Default "fdr". 
 #' @return df with additional columns for correlations, empirical p-values, and fdr adjusted p-values.
 #' @importFrom stats cor p.adjust
 #' @importFrom foreach %dopar%
@@ -63,19 +64,19 @@ perm_cor <- function(x, y, n_perm, method = "spearman") {
 #'
 #' # perform permutation testing using 4 cores and 1000 permutations
 #' # return a dataframe (res) with the new columns
-#' res <- parallel_permutation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
+#' res <- permutation_correlation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
 #' }
 #' @export
-parallel_permutation_test <- function(df, y, n_cores = 1, n_perm = 1000, method = "spearman") {
+permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_method = "spearman", p_adjust_method = "fdr") {
   doParallel::registerDoParallel(cores = n_cores)
 
   # compute the empirical p.values in parallel
   empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind, .inorder = TRUE) %dopar%
-    (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, method = method))
-
-  p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method = method))
-  p_res_df <- cbind(df, "cor" = p_cor, empirical_p)
-  p_res_df$fdr <- p.adjust(p_res_df$empirical_p, method = "BH")
+    (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, cor_method = cor_method))
+  
+  p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method = cor_method))
+  p_res_df <- cbind(df, cor_method = p_cor, empirical_p)
+  p_res_df[p_adjust_method] <- p.adjust(p_res_df$empirical_p, method = p_adjust_method)
 
   p_res_df
 }
