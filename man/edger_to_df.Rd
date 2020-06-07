@@ -46,7 +46,7 @@ fit <- glmQLFit(y, design)
 qlf <- glmQLFTest(fit, coef = 2)
 
 # convert the results object to a dataframe -- do not filter the results
-res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
+res_df <- edger_to_df(qlf)
 }
 
 }

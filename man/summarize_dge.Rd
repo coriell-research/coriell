@@ -50,7 +50,7 @@ fit <- glmQLFit(y, design)
 qlf <- glmQLFTest(fit, coef = 2)
 
 # convert the results object to a dataframe and summarize
-res_df <- edger_to_df(qlf) \%>\%
-  summarize_dge(fdr_col = FDR, lfc_col = logFC)
+edger_to_df(qlf) \%>\%
+  summarize_dge()
 }
 }

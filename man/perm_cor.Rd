@@ -4,7 +4,7 @@
 \alias{perm_cor}
 \title{Correlation Permutation Test Function}
 \usage{
-perm_cor(x, y, n_perm, method = "spearman")
+perm_cor(x, y, n_perm, cor_method = "spearman")
 }
 \arguments{
 \item{x}{numeric vector}
@@ -13,7 +13,7 @@ perm_cor(x, y, n_perm, method = "spearman")
 
 \item{n_perm}{numeric. The number of permutations to perform}
 
-\item{method}{a character string indicating which correlation coefficient (or covariance) is to be computed.
+\item{cor_method}{a character string indicating which correlation coefficient (or covariance) is to be computed.
 One of "pearson", "kendall", or "spearman" (default): can be abbreviated.}
 }
 \value{
