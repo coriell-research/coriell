@@ -58,7 +58,7 @@ plot_volcano <- function(df, x = logFC, y = FDR, lab = NULL, fdr = 0.05, lfc = 0
     ggplot2::labs(
       subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
       x = "logFC",
-      y = "-log10(FDR"
+      y = "-log10(FDR)"
     ) +
     ggplot2::theme_classic()
 
