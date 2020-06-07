@@ -40,7 +40,7 @@ perc_meth <- as.data.frame(percMethylation(sim_meth))
 
 # permutation testing -----------------------------------------------------------
 # perform permutation testing using 4 cores and 1000 permutations
-res <- parallel_permutation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
+res <- permutation_correlation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
 
 head(res)
 >       test1     test2     test3     ctrl1      ctrl2     ctrl3         cor empirical_p       fdr
@@ -81,11 +81,11 @@ qlf <- glmQLFTest(fit, coef = 2)
 res_df <- edger_to_df(qlf)
 
 # Create a volcano plot
-plot_volcano(res_df, x = logFC, y = FDR)
+plot_volcano(res_df)
 
 # Create an md plot
-plot_md(res_df, x = logCPM, y = logFC, sig_col = FDR)
+plot_md(res_df)
 
 # Summarize the counts into table of up/down/non-de
-summarize_dge(res_df, fdr_col = FDR, lfc_col = logFC)
+summarize_dge(res_df)
 ```
