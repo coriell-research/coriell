@@ -34,7 +34,7 @@
 #' qlf <- glmQLFTest(fit, coef = 2)
 #'
 #' # convert the results object to a dataframe -- do not filter the results
-#' res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
+#' res_df <- edger_to_df(qlf)
 #' }
 #'
 edger_to_df <- function(res_obj, fdr = 1, lfc = 0) {
@@ -80,8 +80,8 @@ edger_to_df <- function(res_obj, fdr = 1, lfc = 0) {
 #' qlf <- glmQLFTest(fit, coef = 2)
 #'
 #' # convert the results object to a dataframe and summarize
-#' res_df <- edger_to_df(qlf) %>%
-#'   summarize_dge(fdr_col = FDR, lfc_col = logFC)
+#' edger_to_df(qlf) %>%
+#'   summarize_dge()
 #' }
 summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0) {
   df %>%
