@@ -128,15 +128,15 @@ plot_md <- function(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 
     )
 
   md_plot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = {{ y }})) +
+    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Non-DE"), ggplot2::aes(color = .data$DE)) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Up"), ggplot2::aes(color = .data$DE)) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Down"), ggplot2::aes(color = .data$DE)) +
-    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Non-DE"), ggplot2::aes(color = .data$DE), size = 0.5) +
     ggplot2::scale_color_manual(values = c("Up" = "red", "Non-DE" = "black", "Down" = "blue")) +
     ggplot2::geom_hline(yintercept = 0, linetype = 1) +
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
     ggplot2::labs(
-      subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", lfc),
+      subtitle = paste0("FDR = ", fdr, "; lfc cutoff = ", lfc),
       x = "Average logCPM",
       y = "Log-fold change"
     ) +
