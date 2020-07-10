@@ -5,10 +5,10 @@
 #' @param y numeric vector
 #' @param n_perm numeric. The number of permutations to perform
 #' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
-#'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
+#'   One of "pearson", "kendall", or "spearman": can be abbreviated.
 #' @importFrom stats cor
 #' @return numeric vector of length n_perm
-perm_cor <- function(x, y, n_perm, cor_method = "spearman") {
+perm_cor <- function(x, y, n_perm, cor_method) {
   # calculate the actual value
   test_stat <- cor(x, y, method = cor_method)
 
@@ -45,6 +45,7 @@ perm_cor <- function(x, y, n_perm, cor_method = "spearman") {
 #' @return df with additional columns for correlations, empirical p-values, and fdr adjusted p-values.
 #' @importFrom stats cor p.adjust
 #' @importFrom foreach %dopar%
+#' @importFrom parallel detectCores
 #' @examples
 #' \dontrun{
 #' library(methylKit)
@@ -68,15 +69,24 @@ perm_cor <- function(x, y, n_perm, cor_method = "spearman") {
 #' }
 #' @export
 permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_method = "spearman", p_adjust_method = "fdr") {
-  doParallel::registerDoParallel(cores = n_cores)
+  # Simple error checking
+  stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
+  stopifnot("n_cores exceeds number of cores detected" = n_cores <= parallel::detectCores())
+  stopifnot("Incorrect p.adjust method specified" = p_adjust_method %in% c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH', 'BY', 'fdr', 'none'))
 
+  doParallel::registerDoParallel(cores = n_cores)
+  
   # compute the empirical p.values in parallel
   empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind, .inorder = TRUE) %dopar%
     (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, cor_method = cor_method))
   
   p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method = cor_method))
-  p_res_df <- cbind(df, cor_method = p_cor, empirical_p)
+  p_res_df <- cbind(df, p_cor, empirical_p)
   p_res_df[p_adjust_method] <- p.adjust(p_res_df$empirical_p, method = p_adjust_method)
+  
+  # clean up column and rownames
+  names(p_res_df)[names(p_res_df) == "p_cor"] <- cor_method
+  rownames(p_res_df) <- rownames(df)
 
   p_res_df
 }
