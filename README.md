@@ -59,7 +59,7 @@ res <- permutation_correlation_test(perc_meth,
                                     p_adjust_method = "fdr")
 
 head(res)
->       test1     test2     test3     ctrl1      ctrl2     ctrl3         cor empirical_p       fdr
+>       test1     test2     test3     ctrl1      ctrl2     ctrl3    spearman empirical_p       fdr
 > 1  12.28070  44.11765  39.13043  28.57143  80.000000  32.25806  0.91215932       0.013 0.4116061
 > 2  26.19048  58.10811  64.10256  53.08642  50.574713  11.11111  0.08827348       0.428 0.5180415
 > 3  12.16216  10.52632  29.03226   6.47482   6.451613  34.17085 -0.20597146       0.345 0.5039347
