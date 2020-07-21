@@ -68,6 +68,20 @@ head(res)
 > 6 100.00000 100.00000 100.00000 100.00000 100.000000 100.00000          NA          NA        NA
 ```
 
+### Extract random correlations from a data.frame
+
+```{r}
+# using the same perc_meth data.frame and ages as defined above
+# get 10,000 random correlations from the dataset
+cors <- sample_n_random_cor(df = perc_meth, 
+                            y = ages$age,
+                            n = 10000,
+                            cor_method = "spearman")
+
+# simple histogram of correlation values -- drop NAs if present
+hist(cors[!is.na(cors)])
+```
+
 ### Plot and summarize results from edgeR analysis
 
 ```{r}
