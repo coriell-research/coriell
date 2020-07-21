@@ -90,3 +90,54 @@ permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_
 
   p_res_df
 }
+
+
+#' Sample Random Correlations from a dataframe
+#' 
+#' Selects n random rows from a dataframe with replacement. For each random row, 
+#' permute vector y and perform correlation with the given cor_method.
+#' @param df data.frame. Site by Samples data.frame
+#' @param y numeric vector. Numeric vector of values used to correlate with each row of df
+#' @param n integer. Number of random correlations to return. Default (10000)
+#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
+#'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
+#' @return named numeric vector of correlation values and row indeces. Vector can contain NAs if row variance == 0.
+#' @export
+#' @importFrom stats cor
+#' @examples
+#' \dontrun{
+#' library(methylKit)
+#'
+#' ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
+#'
+#' sim_meth <- dataSim(
+#'   replicates = 6,
+#'   sites = 1000,
+#'   treatment = c(rep(1, 3), rep(0, 3)),
+#'   covariates = ages,
+#'   sample.ids = c(paste0("test", 1:3), paste0("ctrl", 1:3))
+#' )
+#'
+#' # extract the methylation as percentages and coerce to data.frame
+#' perc_meth <- as.data.frame(percMethylation(sim_meth))
+#'
+#' # Get 10_000 random correlations from perc_meth data.frame
+#' cors <- sample_n_random_cor(perc_meth, y = ages$age, n = 10000, cor_method = "spearman")
+#' 
+#' # histogram of distribution -- filter NAs if present
+#' hist(cors[!is.na(cors)])
+#' }
+sample_n_random_cor = function(df, y, n = 10000, cor_method = "spearman") {
+  stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
+  random_rows <- sample(1:nrow(df), n, replace = TRUE)
+  cor_results <- apply(df[random_rows, ],
+                       MARGIN = 1, 
+                       FUN = function(x) {
+                         cor(
+                           as.numeric(x), 
+                           y = sample(y), 
+                           method = cor_method)
+                         }
+                       )
+  return(cor_results)
+}
