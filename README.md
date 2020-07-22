@@ -72,10 +72,10 @@ head(res)
 
 ```{r}
 # using the same perc_meth data.frame and ages as defined above
-# get 10,000 random correlations from the dataset
+# get 1,000,000 random correlations from the dataset
 cors <- sample_n_random_cor(df = perc_meth, 
                             y = ages$age,
-                            n = 10000,
+                            n = 1000000,
                             cor_method = "spearman")
 
 # simple histogram of correlation values -- drop NAs if present
