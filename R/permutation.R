@@ -121,13 +121,13 @@ permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_
 #' # extract the methylation as percentages and coerce to data.frame
 #' perc_meth <- as.data.frame(percMethylation(sim_meth))
 #'
-#' # Get 10_000 random correlations from perc_meth data.frame
-#' cors <- sample_n_random_cor(perc_meth, y = ages$age, n = 10000, cor_method = "spearman")
+#' # Get 1_000_000 random correlations from perc_meth data.frame
+#' cors <- sample_n_random_cor(perc_meth, y = ages$age)
 #' 
 #' # histogram of distribution -- filter NAs if present
 #' hist(cors[!is.na(cors)])
 #' }
-sample_n_random_cor = function(df, y, n = 10000, cor_method = "spearman") {
+sample_n_random_cor = function(df, y, n = 1e+06, cor_method = "spearman") {
   stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
   random_rows <- sample(1:nrow(df), n, replace = TRUE)
   cor_results <- apply(df[random_rows, ],
