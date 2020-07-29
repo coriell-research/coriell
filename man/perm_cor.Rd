@@ -17,7 +17,7 @@ perm_cor(x, y, n_perm, cor_method)
 One of "pearson", "kendall", or "spearman": can be abbreviated.}
 }
 \value{
-numeric vector of length n_perm
+numeric. empirical p-value from permutation test.
 }
 \description{
 Internal function for performing a correlation permutation test

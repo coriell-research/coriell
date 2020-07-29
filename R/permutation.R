@@ -7,9 +7,8 @@
 #' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman": can be abbreviated.
 #' @importFrom stats cor
-#' @return numeric vector of length n_perm
+#' @return numeric. empirical p-value from permutation test.
 perm_cor <- function(x, y, n_perm, cor_method) {
-  # calculate the actual value
   test_stat <- cor(x, y, method = cor_method)
 
   # test_stat will be NA for rows without variance
