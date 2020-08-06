@@ -43,7 +43,7 @@
 #' plot_volcano(res_df)
 #' }
 #'
-plot_volcano <- function(df, x = logFC, y = FDR, lab = NULL, fdr = 0.05, lfc = 0, label_sig = FALSE) {
+plot_volcano <- function(df, x = logFC, y = FDR, lab = feature_id, fdr = 0.05, lfc = 0, label_sig = FALSE) {
   plot_df <- df %>%
     dplyr::mutate(signif = dplyr::if_else({{ y }} < fdr & abs({{ x }}) > lfc, "yes", "no"))
 
