@@ -1,3 +1,37 @@
+#' Exact Permutation Test
+#' 
+#' In the case where the number of number of permutations chosen is greater
+#' than the actual number of permutations, perform an exact test instead.
+#' The code for getting all distinct permutations was stolen from:
+#' https://stackoverflow.com/a/34287541
+#' 
+#' @param x numeric vector
+#' @param y numeric vector
+#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
+#'   One of "pearson", "kendall", or "spearman": can be abbreviated.
+#' @importFrom stats cor
+#' @return numeric vector. Correlations from permutations of x with y
+#' @keywords internal
+exact_cor_test <- function(x, y, cor_method) {
+  permutations <- function(x) {
+    if (length(x) == 1) {
+      return(x)
+    }
+    else {
+      res <- matrix(nrow = 0, ncol = length(x))
+      for (i in seq_along(x)) {
+        res <- rbind(res, cbind(x[i], Recall(x[-i])))
+      }
+      return(res)
+    }
+  }
+  
+  perms <- permutations(x)
+  res <- apply(X = perms, MARGIN = 1, FUN = cor, y, method = cor_method)
+  res
+}
+
+
 #' Correlation Permutation Test Function
 #'
 #' Internal function for performing a correlation permutation test
@@ -8,6 +42,7 @@
 #'   One of "pearson", "kendall", or "spearman": can be abbreviated.
 #' @importFrom stats cor
 #' @return numeric. empirical p-value from permutation test.
+#' @keywords internal
 perm_cor <- function(x, y, n_perm, cor_method) {
   test_stat <- cor(x, y, method = cor_method)
 
@@ -16,11 +51,15 @@ perm_cor <- function(x, y, n_perm, cor_method) {
     return(NA)
   }
 
-  # Perform the permutation test
-  cor_results <- vector("double", length = n_perm)
-  for (i in 1:n_perm) {
-    perm_vec <- sample(x)
-    cor_results[[i]] <- cor(perm_vec, y, method = cor_method)
+  # perform exact test if real perms less than n_perms
+  if (factorial(length(x)) < n_perm) {
+    cor_results <- exact_cor_test(x, y, cor_method)
+  } else {
+    cor_results <- vector("double", length = n_perm)
+    for (i in 1:n_perm) {
+      perm_vec <- sample(x)
+      cor_results[[i]] <- cor(perm_vec, y, method = cor_method)
+    }
   }
 
   # calculate and return the empirical p-value
@@ -47,32 +86,42 @@ perm_cor <- function(x, y, n_perm, cor_method) {
 #' @importFrom parallel detectCores
 #' @examples
 #' \dontrun{
+#' library(coriell)
 #' library(methylKit)
+#' 
+#' #define age dataframe -- ages matching column order
+#' ages = data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
 #'
-#' ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
-#'
+#' # simulate a methylation dataset
 #' sim_meth <- dataSim(
-#'   replicates = 6,
+#'   replicates = 8,
 #'   sites = 1000,
-#'   treatment = c(rep(1, 3), rep(0, 3)),
+#'   treatment = c(rep(1, 4), rep(0, 4)),
 #'   covariates = ages,
-#'   sample.ids = c(paste0("test", 1:3), paste0("ctrl", 1:3))
-#' )
+#'   sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4)))
 #'
 #' # extract the methylation as percentages and coerce to data.frame
 #' perc_meth <- as.data.frame(percMethylation(sim_meth))
 #'
-#' # perform permutation testing using 4 cores and 1000 permutations
-#' # return a dataframe (res) with the new columns
-#' res <- permutation_correlation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
-#' }
+#' # perform permutation testing using 4 cores and 10000 permutations
+#' res <- permutation_correlation_test(perc_meth, 
+#'                                     y = ages$age, 
+#'                                     n_cores = 4, 
+#'                                     n_perm = 10000,
+#'                                     cor_method = "spearman", 
+#'                                     p_adjust_method = "fdr")
+#'}
 #' @export
 permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_method = "spearman", p_adjust_method = "fdr") {
   # Simple error checking
   stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
   stopifnot("n_cores exceeds number of cores detected" = n_cores <= parallel::detectCores())
   stopifnot("Incorrect p.adjust method specified" = p_adjust_method %in% c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH', 'BY', 'fdr', 'none'))
-
+  
+  if (factorial(length(y)) < n_perm) {
+    message(paste0("The number of permutations (", factorial(length(y)), ") is less than n_perm (", n_perm, "). Performing exact test on all permutations."))
+  }
+  
   doParallel::registerDoParallel(cores = n_cores)
   
   # compute the empirical p.values in parallel
