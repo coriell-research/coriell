@@ -22,3 +22,4 @@ numeric. empirical p-value from permutation test.
 \description{
 Internal function for performing a correlation permutation test
 }
+\keyword{internal}

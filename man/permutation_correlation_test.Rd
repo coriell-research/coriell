@@ -35,23 +35,29 @@ Performs a correlation permutation test over all rows of a data.frame using mult
 }
 \examples{
 \dontrun{
+library(coriell)
 library(methylKit)
 
-ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
+#define age dataframe -- ages matching column order
+ages = data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
 
+# simulate a methylation dataset
 sim_meth <- dataSim(
-  replicates = 6,
+  replicates = 8,
   sites = 1000,
-  treatment = c(rep(1, 3), rep(0, 3)),
+  treatment = c(rep(1, 4), rep(0, 4)),
   covariates = ages,
-  sample.ids = c(paste0("test", 1:3), paste0("ctrl", 1:3))
-)
+  sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4)))
 
 # extract the methylation as percentages and coerce to data.frame
 perc_meth <- as.data.frame(percMethylation(sim_meth))
 
-# perform permutation testing using 4 cores and 1000 permutations
-# return a dataframe (res) with the new columns
-res <- permutation_correlation_test(perc_meth, y = ages$age, n_cores = 4, n_perm = 1000)
+# perform permutation testing using 4 cores and 10000 permutations
+res <- permutation_correlation_test(perc_meth, 
+                                    y = ages$age, 
+                                    n_cores = 4, 
+                                    n_perm = 10000,
+                                    cor_method = "spearman", 
+                                    p_adjust_method = "fdr")
 }
 }

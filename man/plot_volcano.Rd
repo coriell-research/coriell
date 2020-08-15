@@ -8,7 +8,7 @@ plot_volcano(
   df,
   x = logFC,
   y = FDR,
-  lab = NULL,
+  lab = feature_id,
   fdr = 0.05,
   lfc = 0,
   label_sig = FALSE
