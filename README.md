@@ -23,9 +23,9 @@ devtools::install_github("coriell-research/coriell")
 
 Note: if the number of possible permutations of your data is less than the desired number
 of permutations given by the parameter `n_perm` then an exact test on all of the real permutations
-will be performed instead of random sampling. For example, if you only have 6 samples (720) 
-possible permutations but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be tested.
-The `permutation_correlation_test` will display a message if this occurs.
+will be performed instead of random sampling. For example, if you only have 6 samples (720 possible permutations)
+but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be tested.
+The `permutation_correlation_test` function will display a message if this occurs.
 
 ```{r}
 library(coriell)
