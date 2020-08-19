@@ -12,7 +12,7 @@ zscore_df(df, by = "row")
 \item{by}{a character string indicating which axis to scale by. Either "row" or "column". Default ("row")}
 }
 \value{
-data.frame with either
+data.frame with scaled values
 }
 \description{
 Convenience function for scaling a dataframe by rows or columns.

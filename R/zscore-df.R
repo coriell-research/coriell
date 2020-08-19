@@ -4,7 +4,7 @@
 #' 
 #' @param df data.frame or matrix of numeric columns
 #' @param by a character string indicating which axis to scale by. Either "row" or "column". Default ("row")
-#' @return data.frame with either
+#' @return data.frame with scaled values
 #' @examples
 #' df <- data.frame(a = runif(10),
 #'                  b = runif(10),
