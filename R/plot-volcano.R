@@ -49,7 +49,7 @@ plot_volcano <- function(df, x = logFC, y = FDR, lab = feature_id, fdr = 0.05, l
   
   vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = -log10({{ y }}))) +
     ggplot2::geom_point(ggplot2::aes(color = .data$signif)) +
-    ggplot2::scale_colour_manual(values = c("gray40", "red2")) +
+    ggplot2::scale_colour_manual(values = c("no" = "gray40", "yes" = "red2")) +
     ggplot2::geom_vline(xintercept = 0, linetype = 2) +
     ggplot2::geom_vline(xintercept = lfc, linetype = 3) +
     ggplot2::geom_vline(xintercept = -lfc, linetype = 3) +
