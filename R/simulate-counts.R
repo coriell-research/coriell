@@ -37,7 +37,7 @@ simulate_counts = function(n_genes = 1000,
   de_genes <- sample(n_genes, size = n_de)
   
   # generate the count table
-  counts <- matrix(rnbinom(n_genes * n_samples,
+  counts <- matrix(stats::rnbinom(n_genes * n_samples,
                            mu = mu,
                            size = 1 / phi),
                   nrow = n_genes,
