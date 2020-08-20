@@ -46,6 +46,6 @@ summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 
       TRUE ~ "non-dge"
     )) %>%
     dplyr::group_by(dge) %>%
-    dplyr::summarize(n = n()) %>%
+    dplyr::summarize(n = dplyr::n()) %>%
     dplyr::mutate(perc = n / sum(n) * 100)
 }
