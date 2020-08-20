@@ -94,16 +94,21 @@ hist(cors[!is.na(cors)])
 library(edgeR)
 library(coriell)
 
-# create some fake expression data
-x <- data.frame(ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-                row.names = paste0('gene', 1:1000))
+# simulate expression data using coriell::simulate_counts()
+x <- simulate_counts(
+  n_genes = 1000,
+  n_de = 100,
+  n_samples = 6,
+  groups = c("ctl", "trt"),
+  de_group = "trt",
+  mu = 10,
+  phi = 0.1,
+  count_offset = 25
+)
 
 # run edger pipeline
-group <- factor(c(1,1,2,2))
-y <- DGEList(counts = x,group = group)
+group <-  factor(rep(c("ctl", "trt"), each = 3))
+y <- DGEList(counts = x$table, group = group)
 y <- calcNormFactors(y)
 design <- model.matrix(~group)
 y <- estimateDisp(y, design)
