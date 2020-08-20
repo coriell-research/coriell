@@ -38,7 +38,7 @@
 #' }
 #'
 edger_to_df <- function(res_obj, fdr = 1, lfc = 0) {
-  edgeR::topTags(res_obj, n = nrow(res_obj$table))$table %>%
+  res_obj[['table']] %>%
     dplyr::as_tibble(rownames = "feature_id") %>% 
     dplyr::filter(FDR <= fdr & abs(logFC) >= lfc)
 }
