@@ -94,9 +94,9 @@ plot_volcano <- function(df,
     plot_lims <- coriell::get_axis_limits(vplot)
 
     up_count <- d[d$dge == "up", "n", drop = TRUE]
-    down_count <- d[d$dge == "up", "n", drop = TRUE]
-    up_pct <- d[d$dge == "up", "perc", drop = TRUE]
-    down_pct <- d[d$dge == "down", "perc", drop = TRUE]
+    down_count <- d[d$dge == "down", "n", drop = TRUE]
+    up_pct <- round(d[d$dge == "up", "perc", drop = TRUE], digits = 2)
+    down_pct <- round(d[d$dge == "down", "perc", drop = TRUE], digits = 2)
 
     vplot <- vplot +
       ggplot2::annotate(
