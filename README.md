@@ -95,16 +95,7 @@ library(edgeR)
 library(coriell)
 
 # simulate expression data using coriell::simulate_counts()
-x <- simulate_counts(
-  n_genes = 1000,
-  n_de = 100,
-  n_samples = 6,
-  groups = c("ctl", "trt"),
-  de_group = "trt",
-  mu = 10,
-  phi = 0.1,
-  count_offset = 25
-)
+x <- simulate_counts()
 
 # run edger pipeline
 group <-  factor(rep(c("ctl", "trt"), each = 3))
