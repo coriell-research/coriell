@@ -45,7 +45,8 @@ summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 
       ({{ fdr_col }} < fdr) & (abs({{ lfc_col }}) > lfc) & ({{ lfc_col }} > 0) ~ "up",
       TRUE ~ "non-dge"
     )) %>%
-    dplyr::group_by(dge) %>%
+    dplyr::mutate(dge = factor(dge, levels = c("up", "down", "non-dge"))) %>% 
+    dplyr::group_by(dge, .drop = FALSE) %>%
     dplyr::summarize(n = dplyr::n()) %>%
     dplyr::mutate(perc = n / sum(n) * 100)
 }
