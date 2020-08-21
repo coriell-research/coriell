@@ -90,7 +90,7 @@ plot_volcano <- function(df,
   }
 
   if (annotate_counts) {
-    d <- coriell::summarize_dge(df, fdr = fdr, lfc = lfc)
+    d <- coriell::summarize_dge(df, fdr_col = {{ y }}, lfc_col = {{ x }}, fdr = fdr, lfc = lfc)
     plot_lims <- coriell::get_axis_limits(vplot)
 
     up_count <- d[d$dge == "up", "n", drop = TRUE]

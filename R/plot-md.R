@@ -87,7 +87,7 @@ plot_md <- function(df,
 
 
   if (annotate_counts) {
-    d <- coriell::summarize_dge(df, fdr = fdr, lfc = lfc)
+    d <- coriell::summarize_dge(df, fdr_col = {{ sig_col }}, lfc_col = {{ y }}, fdr = fdr, lfc = lfc)
     plot_lims <- coriell::get_axis_limits(md_plot)
 
     up_count <- d[d$dge == "up", "n", drop = TRUE]
