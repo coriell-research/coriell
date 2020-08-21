@@ -4,7 +4,18 @@
 \alias{plot_md}
 \title{MD Plot Function}
 \usage{
-plot_md(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 0)
+plot_md(
+  df,
+  x = logCPM,
+  y = logFC,
+  sig_col = FDR,
+  fdr = 0.05,
+  lfc = 0,
+  annotate_counts = TRUE,
+  xmax_label_offset = 0.8,
+  ymax_label_offset = 0.5,
+  ymin_label_offset = 0.5
+)
 }
 \arguments{
 \item{df}{dataframe containing log-fold-change, p-value, and logCPM columns.}
@@ -18,6 +29,14 @@ plot_md(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 0)
 \item{fdr}{numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)}
 
 \item{lfc}{numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)}
+
+\item{annotate_counts}{TRUE/FALSE. Annotate the plot with the summarized gene counts}
+
+\item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels}
+
+\item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label}
+
+\item{ymin_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label}
 }
 \value{
 ggplot MD plot

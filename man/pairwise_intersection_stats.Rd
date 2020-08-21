@@ -19,19 +19,21 @@ statistics about the intersections.
 \details{
 The function returns a single list with several elements: intersection_size, size_A, size_B,
 size_AB, prop_A, prop_B, prop_AB. Each of the elements contains a named vector with the given statistic.
-Named vectors represent the comparison of set A to set B from the list of sets given as input. 
+Named vectors represent the comparison of set A to set B from the list of sets given as input.
 intersection_size is the number of elements from Intersect(A, B). uniq_A is the number of elements unique to
-set A when comparing set A to set B. uniq_B is the number of elements unique to set B when comparing set A to set B. 
-union_AB is the number of elements in the Union(A, B). prop_A is the number of elements unique to A 
-divided by the Union(A, B). prop_B is the number of elements unique to B divided by the Union(A, B). 
+set A when comparing set A to set B. uniq_B is the number of elements unique to set B when comparing set A to set B.
+union_AB is the number of elements in the Union(A, B). prop_A is the number of elements unique to A
+divided by the Union(A, B). prop_B is the number of elements unique to B divided by the Union(A, B).
 prop_AB is the number of elements in Intersect(A, B) divided by the number of elements in Union(A, B)
 }
 \examples{
-sets <- list("set1" = letters[1:5],
-             "set2" = letters[1:10],
-             "set3" = letters[5:10],
-             "set4" = letters[2:6])
-             
+sets <- list(
+  "set1" = letters[1:5],
+  "set2" = letters[1:10],
+  "set3" = letters[5:10],
+  "set4" = letters[2:6]
+)
+
 set_stats <- pairwise_intersection_stats(sets)
 
 # access the intersection sizes

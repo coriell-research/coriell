@@ -40,6 +40,8 @@ list containing the count matrix and a vectors indicating which rows were modifi
 }
 \description{
 Simulate an RNASeq count matrix. Adapted from edgeR documentation.
+This function is not meant for any serious modelling. It's really used mostly for testing
+plotting and summarizing functions internally. It's good for generating test data.
 }
 \examples{
 # simulate counts using default parameters

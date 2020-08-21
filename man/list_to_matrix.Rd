@@ -10,16 +10,18 @@ list_to_matrix(sets)
 \item{sets}{named list of sets (vectors) to be converted to binary matrix.}
 }
 \value{
-binary matrix with a column for each set. rownames of the matrix represent the union of all sets. 
+binary matrix with a column for each set. rownames of the matrix represent the union of all sets.
 A '1' indicates the inclusion of the element in the set.
 }
 \description{
 Convert a list of sets into a binary matrix.
 }
 \examples{
-sets <- list("set1" = letters[1:5], 
-             "set2" = letters[2:6], 
-             "set3" = letters[1:7])
+sets <- list(
+  "set1" = letters[1:5],
+  "set2" = letters[2:6],
+  "set3" = letters[1:7]
+)
 
 list_to_matrix(sets)
 }

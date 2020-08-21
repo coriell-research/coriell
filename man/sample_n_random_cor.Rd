@@ -20,7 +20,7 @@ One of "pearson", "kendall", or "spearman" (default): can be abbreviated.}
 named numeric vector of correlation values and row indeces. Vector can contain NAs if row variance == 0.
 }
 \description{
-Selects n random rows from a dataframe with replacement. For each random row, 
+Selects n random rows from a dataframe with replacement. For each random row,
 permute vector y and perform correlation with the given cor_method.
 }
 \examples{

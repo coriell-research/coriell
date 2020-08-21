@@ -2,6 +2,7 @@
 
 export("%>%")
 export(edger_to_df)
+export(get_axis_limits)
 export(list_to_matrix)
 export(pairwise_intersection_stats)
 export(permutation_correlation_test)

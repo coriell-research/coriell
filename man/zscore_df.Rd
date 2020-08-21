@@ -18,11 +18,12 @@ data.frame with scaled values
 Convenience function for scaling a dataframe by rows or columns.
 }
 \examples{
-df <- data.frame(a = runif(10),
-                 b = runif(10),
-                 c = runif(10))
+df <- data.frame(
+  a = runif(10),
+  b = runif(10),
+  c = runif(10)
+)
 rownames(df) <- paste0("row", rownames(df))
 
 zscore_df(df, by = "row")
-
 }

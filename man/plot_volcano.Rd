@@ -11,7 +11,11 @@ plot_volcano(
   lab = feature_id,
   fdr = 0.05,
   lfc = 0,
-  label_sig = FALSE
+  label_sig = FALSE,
+  annotate_counts = TRUE,
+  xmin_label_offset = 0.5,
+  xmax_label_offset = 0.5,
+  ymax_label_offset = 0.8
 )
 }
 \arguments{
@@ -28,6 +32,14 @@ plot_volcano(
 \item{lfc}{log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default (0)}
 
 \item{label_sig}{TRUE/FALSE. apply ggrepel::geom_text_labels to significant DE genes.}
+
+\item{annotate_counts}{TRUE/FALSE. Annotate the plot with the summarized gene counts}
+
+\item{xmin_label_offset}{numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'down' counts}
+
+\item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'up' counts}
+
+\item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.}
 }
 \value{
 ggplot volcano plot
