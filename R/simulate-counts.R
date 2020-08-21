@@ -47,7 +47,8 @@ simulate_counts = function(n_genes = 1000,
                   nrow = n_genes,
                   ncol = n_samples)
   
-  colnames(counts) <- rep(groups, each = n_samples / length(groups))
+  colnames(counts) <- paste(rep(groups, each = n_samples / length(groups)), 
+                            1:(n_samples / length(groups)), sep = ".")
   
   group <- gl(length(groups), n_samples / length(groups), labels = groups)
   
