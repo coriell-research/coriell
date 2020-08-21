@@ -34,6 +34,7 @@ simulate_counts = function(n_genes = 1000,
   stopifnot("de_group must be a member of groups" = de_group %in% groups)
   stopifnot("More groups than samples" = length(groups) <= n_samples)
   stopifnot("n_samples not a multiple of levels(groups)" = n_samples %% length(groups) == 0)
+  stopifnot("Sum(n_up, n_down) must be than n_genes" = n_up + n_down <= n_genes)
   
   de_genes <- sample(n_genes, size = n_up + n_down)
   up <- sample(de_genes, size = n_up)
