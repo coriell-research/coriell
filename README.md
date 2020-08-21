@@ -9,7 +9,7 @@ create a function and put it in this package.
 
 Since this package will be constantly changing be sure to install the latest version from github using:
 
-```{r}
+```R
 if (!require("devtools")) {
   install.packages("devtools")
 }
@@ -19,6 +19,16 @@ devtools::install_github("coriell-research/coriell")
 
 ## Examples
 
+- [Correlate methylation data with age](https://github.com/coriell-research/coriell#perform-correlation-permutation-test-using-multiple-cores)
+- [Create a null distribution of correlations](https://github.com/coriell-research/coriell#extract-random-correlations-from-a-dataframe)
+- [Convert edgeR results into tidy dataframes](https://github.com/coriell-research/coriell#convert-edger-results-into-a-tidy-dataframe)
+- [Summarize results from differential expression analysis](https://github.com/coriell-research/coriell#summarize-results-from-differential-expression-test)
+- [Create volcano plot from differential expression results](https://github.com/coriell-research/coriell#create-volcano-plot-from-differential-expression-results)
+- [Create md plot from differential expression results](https://github.com/coriell-research/coriell#create-md-plot-from-differential-expression-results)
+- [Z-score a dataframe](https://github.com/coriell-research/coriell#z-score-a-dataframe)
+- [Convert a list of sets into a binary matrix](https://github.com/coriell-research/coriell#convert-a-list-of-sets-into-a-binary-matrix)
+- [Get statistics for all pairwise combinations of a list of sets](https://github.com/coriell-research/coriell#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets)
+
 ### Perform correlation permutation test using multiple cores
 
 Note: if the number of possible permutations of your data is less than the desired number
@@ -27,7 +37,7 @@ will be performed instead of random sampling. For example, if you only have 6 sa
 but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be tested.
 The `permutation_correlation_test` function will display a message if this occurs.
 
-```{r}
+```R
 library(coriell)
 library(methylKit)
 
@@ -76,7 +86,7 @@ head(res)
 
 ### Extract random correlations from a data.frame
 
-```{r}
+```R
 # using the same perc_meth data.frame and ages as defined above
 # get 1,000,000 random correlations from the dataset
 cors <- sample_n_random_cor(df = perc_meth, 
@@ -88,9 +98,9 @@ cors <- sample_n_random_cor(df = perc_meth,
 hist(cors[!is.na(cors)])
 ```
 
-### Plot and summarize results from edgeR analysis
+### Convert edgeR results into a tidy dataframe
 
-```{r}
+```R
 library(edgeR)
 library(coriell)
 
@@ -104,32 +114,194 @@ y <- calcNormFactors(y)
 design <- model.matrix(~group)
 y <- estimateDisp(y, design)
 
-# To perform quasi-likelihood F-tests:
+# To perform quasi-likelihood F-tests
 fit <- glmQLFit(y, design)
 qlf <- glmQLFTest(fit, coef = 2)
 
-# coriell functions ------------------------------------------------------------
-# convert the results object to a tibble
+
+# -----------------------------------------------------------------------------
+# convert to tidy dataframe
+res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
+```
+
+### Summarize results from differential expression test
+
+Return a table of up/down/non-de counts and their percentages.
+
+```R
+# for edgeR results default values can be used
 res_df <- edger_to_df(qlf)
+summarize_dge(res_df, fdr = 0.05)
 
-# results can be filtered with optional arguments
-edger_to_df(qlf, fdr = 0.01, lfc = 2)
+# For DESeq2 results you must specify the column names
+summarize_dge(deseq_res_df, 
+              fdr_col = padj,
+              lfc_col = log2FoldChange,
+              fdr = 0.05)
+```
 
-# Create a volcano plot (use defaults)
+### Create volcano plot from differential expression results
+
+```R
+# For edgeR results default values can be used
 plot_volcano(res_df)
 
-# Additional plot parameters can be specified, for example adding fdr/lfc cutoffs
-plot_volcano(res_df, fdr = 0.01, lfc = 2)
+# For DESeq2 results you must specify the column names
+plot_volcano(deseq_res_df,
+             x = log2FoldChange,
+             y = padj)
+```
 
-# Create an md plot (use defaults)
+Different Significance levels can be used to filter the plotted points. For example,
+significance levels can be set by specifying the `fdr` and `lfc` values.
+
+```R
+plot_volcano(res_df, fdr = 0.1, lfc = log2(2))
+```
+
+Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
+
+```R
+plot_volcano(res_df, annotate_counts = FALSE)
+```
+
+Positions of the count labels can be adjusted by setting the `xmax_label_offset`, `xmin_label_offset` 
+and `ymax_label_offset` values. Setting the values closer to 1 moves the labels away from the origin.
+`xmax_label_offset` controls the 'up' gene label whereas `xmin_label_offset` controls the 'down'
+genes label. `ymax_label_offset` controls the vertical position of the labels.
+
+```R
+plot_volcano(res_df, xmax_label_offset = 0.6, xmin_label_offset = 0.25, ymax_label_offset = 0.9)
+```
+
+Text labels can also be added for the DE genes by setting `label_sig = TRUE`. Caution, if there are many
+DE genes this will be overplotted
+
+```R
+plot_volcano(res_df, label_sig = TRUE)
+```
+
+### Create md plot from differential expression results
+
+```R
+# For edgeR results default values can be used
 plot_md(res_df)
 
-# Additional plot parameters can be specified, for example adding fdr/lfc cutoffs
-plot_md(res_df, fdr = 0.01, lfc = 2)
+# For DESeq2 results you must specify the column names
+plot_md(deseq_res_df,
+        x = baseMean,
+        y = log2FoldChange,
+        sig_col = padj)
+```
 
-# Summarize the counts into table of up/down/non-de
-summarize_dge(res_df)
+Different significance levels can be used to filter the plotted points. For example,
+significance levels can be set by specifying the `fdr` and `lfc` values.
 
-# Summary table can be filtered as well
-summarize_dge(res_df, fdr = 0.05, lfc = 0)
+```R
+plot_md(res_df, fdr = 0.1, lfc = log2(2))
+```
+
+Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
+
+```R
+plot_md(res_df, annotate_counts = FALSE)
+```
+
+Positions of the count labels can be adjusted by setting the `xmax_label_offset`, `ymin_label_offset` 
+and `ymax_label_offset` values. Setting the values closer to 1 moves the labels away from the origin.
+`xmax_label_offset` controls the horizontal position of the labels. `ymin_label_offset` controls the 
+'down' gene label. `ymax_label_offset` controls the 'up' genes label.
+
+```R
+plot_md(res_df, xmax_label_offset = 0.6, xyin_label_offset = 0.25, ymax_label_offset = 0.25)
+```
+
+### Z-score a dataframe
+
+Z-score a dataframe by row or column
+
+```R
+# create some example data
+cpms <- data.frame(a = runif(100, min = 0, max = 100),
+                   b = runif(100, min = 0, max = 100),
+                   c = runif(100, min = 0, max = 100),
+                   d = runif(100, min = 0, max = 100))
+
+> head(cpms)
+>           a        b        c         d
+> 1 93.586737 41.79316 58.59588 73.082215
+> 2 70.009822 25.84383 57.03569 40.512135
+> 3 60.053908 14.68176 82.66302 60.842900
+> 4 95.711441 86.76281 58.07523 22.571323
+> 5  2.833631 25.04612 72.85270  5.417795
+> 6 24.596068 85.46398 16.12987 33.810050
+
+# scale the data by rows
+cpms_st <- zscore_df(cpms)
+
+> head(cpms_st)
+>            a           b          c          d
+> 1  1.2201846 -1.13598436 -0.3716029  0.2874026
+> 2  1.1247307 -1.16871823  0.4510108 -0.4070232
+> 3  0.1922442 -1.39554374  0.9834448  0.2198548
+> 4  0.9076295  0.63627273 -0.2336442 -1.3102580
+> 5 -0.7309118 -0.04598875  1.4281295 -0.6512290
+> 6 -0.4943903  1.45917080 -0.7661138 -0.1986667
+
+
+# default is to scale by row, scaling by columns can also be performed by
+# setting the by = "column"
+cpms_st_by_col <- zscore_df(cpms, by = "column")
+```
+
+### Convert a list of sets into a binary matrix
+
+This function is useful for comparing if a given gene is present across all
+or a certain proportion of conditions.
+
+```R
+sets <- list("set1" = letters[1:4],
+             "set2" = letters[3:8],
+             "set3" = letters[1:5],
+             "set4" = letters[4:6])
+
+# convert the sets to a binary matrix
+mat <- list_to_matrix(sets)
+
+mat
+>   set1 set2 set3 set4
+> a    1    0    1    0
+> b    1    0    1    0
+> c    1    1    1    0
+> d    1    1    1    1
+> e    0    1    1    1
+> f    0    1    0    1
+> g    0    1    0    0
+> h    0    1    0    0
+```
+
+### Get statistics for all pairwise combinations of a list of sets
+
+Compare every set to every other set and return statistics about their intersections.
+
+Statistics are returned in a list object. The returned list contains a named vector of the 
+statistic computed. The names of the vectore indicate the pairwise comparison, i.e. "Set A : Set B"
+for all combinations of sets. Use `?pairwise_intersection_stats()` for more information about
+the statistics computed.
+
+```R
+sets <- list("set1" = letters[1:4],
+             "set2" = letters[3:8],
+             "set3" = letters[1:5],
+             "set4" = letters[4:6])
+
+# get the intersection stats -- returns a list of statistics
+stats <- pairwise_intersection_stats(sets)
+
+# individual statistics can be accessed with subsetting the list
+# to get the intersection sizes of every combination of sets:
+stats$intersection_size
+
+> set1 : set2 set1 : set3 set1 : set4 set2 : set3 set2 : set4 set3 : set4 
+>           2           4           1           3           3           2
 ```
