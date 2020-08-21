@@ -6,19 +6,22 @@
 \usage{
 simulate_counts(
   n_genes = 1000,
-  n_de = 100,
+  n_up = 50,
+  n_down = 50,
   n_samples = 6,
   groups = c("ctl", "trt"),
   de_group = "trt",
   mu = 10,
   phi = 0.1,
-  count_offset = 25
+  count_offset = 10
 )
 }
 \arguments{
 \item{n_genes}{integer. The number of gene to simulate}
 
-\item{n_de}{integer. The number of genes to be differentially expressed}
+\item{n_up}{integer. The number of genes the count offset will be added to}
+
+\item{n_down}{integer. the number of genes the count offset will be subtracted from. Negative numbers will be coerced to zeros.}
 
 \item{n_samples}{integer. The number of samples to simulate}
 
@@ -30,10 +33,10 @@ simulate_counts(
 
 \item{phi}{numeric. Dispersion parameter}
 
-\item{count_offset}{numeric. Count to be added to the de_group}
+\item{count_offset}{numeric. Count offset to be applied to the up/down genes.}
 }
 \value{
-list containing the count matrix and a vector indicating which rows were modified.
+list containing the count matrix and a vectors indicating which rows were modified.
 }
 \description{
 Simulate an RNASeq count matrix. Adapted from edgeR documentation.
