@@ -7,6 +7,10 @@
 #' @param sig_col column in dataframe containing the results from significance testing. Default (FDR)
 #' @param fdr numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)
+#' @param annotate_counts. TRUE/FALSE. Annotate the plot with the summarized gene counts
+#' @param xmax_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels
+#' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label
+#' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
 #' @return ggplot MD plot
 #' @export
 #' @importFrom rlang .data
@@ -42,7 +46,21 @@
 #' plot_md(res_df)
 #' }
 #'
-plot_md <- function(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 0) {
+plot_md <- function(df, 
+                    x = logCPM, 
+                    y = logFC, 
+                    sig_col = FDR, 
+                    fdr = 0.05, 
+                    lfc = 0,
+                    annotate_counts = TRUE,
+                    xmax_label_offset = 0.8,
+                    ymax_label_offset = 0.5,
+                    ymin_label_offset = 0.5) {
+  
+  stopifnot("xmax_label_offset must be between 0 and 1" = xmax_label_offset >= 0 & xmax_label_offset <= 1)
+  stopifnot("ymax_label_offset must be between 0 and 1" = ymax_label_offset >= 0 & ymax_label_offset <= 1)
+  stopifnot("ymin_label_offset must be between 0 and 1" = ymin_label_offset >= 0 & ymin_label_offset <= 1)
+  
   plot_df <- df %>%
     dplyr::mutate(
       DE = dplyr::case_when(
@@ -67,6 +85,26 @@ plot_md <- function(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 
       y = "Log-fold change"
     ) +
     ggplot2::theme_classic()
-
+  
+  
+  if (annotate_counts) {
+    d <- coriell::summarize_dge(df, fdr = fdr, lfc = lfc)
+    plot_lims <- coriell::get_axis_limits(md_plot)
+    
+    up_count <- d[d$dge == "up", "n", drop = TRUE]
+    down_count <- d[d$dge == "up", "n", drop = TRUE]
+    up_pct <- d[d$dge == "up", "perc", drop = TRUE]
+    down_pct <- d[d$dge == "down", "perc", drop = TRUE]
+    
+    md_plot <- md_plot +
+      ggplot2::annotate(geom = "label",
+                        x = xmax_label_offset * plot_lims$x_max,
+                        y = ymax_label_offset * plot_lims$y_max,
+                        label = paste0(up_count, "\n", up_pct, "%")) +
+      ggplot2::annotate(geom = "label",
+                        x = xmax_label_offset * plot_lims$x_max,
+                        y = ymin_label_offset * plot_lims$y_min,
+                        label = paste0(down_count, "\n", down_pct, "%"))
+  }
   md_plot
 }
