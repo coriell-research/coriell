@@ -1,6 +1,6 @@
 #' edgeR result to dataframe
 #'
-#' Create a dataframe from an edger results object. The function can also be used to filter the results object by the FDR and/or log-fold-change values by 
+#' Create a dataframe from an edger results object. The function can also be used to filter the results object by the FDR and/or log-fold-change values by
 #' supplying fdr and lfc arguments. By default the function returns all rows of the results object.
 #'
 #' @param res_obj edgeR results object to be converted
@@ -39,6 +39,6 @@
 #'
 edger_to_df <- function(res_obj, fdr = 1, lfc = 0) {
   edgeR::topTags(res_obj, n = nrow(res_obj[["table"]]))[["table"]] %>%
-    dplyr::as_tibble(rownames = "feature_id") %>% 
+    dplyr::as_tibble(rownames = "feature_id") %>%
     dplyr::filter(FDR <= fdr & abs(logFC) >= lfc)
 }

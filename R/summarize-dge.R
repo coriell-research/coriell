@@ -1,7 +1,7 @@
 #' Summarize Results
 #'
 #' Summarize a results dataframe. Return dataframe of counts of up/down/non-DE genes based on
-#' log-fold-change and significance values. 
+#' log-fold-change and significance values.
 #' @param df dataframe of results. Must have columns containing significance values and log-fold changes.
 #' @param fdr_col dataframe column. Column of dataframe containing the significance level values.
 #' @param lfc_col dataframe column. Column of dataframe containing the lof-fold change values.
@@ -45,7 +45,7 @@ summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 
       ({{ fdr_col }} < fdr) & (abs({{ lfc_col }}) > lfc) & ({{ lfc_col }} > 0) ~ "up",
       TRUE ~ "non-dge"
     )) %>%
-    dplyr::mutate(dge = factor(dge, levels = c("up", "down", "non-dge"))) %>% 
+    dplyr::mutate(dge = factor(dge, levels = c("up", "down", "non-dge"))) %>%
     dplyr::group_by(dge, .drop = FALSE) %>%
     dplyr::summarize(n = dplyr::n()) %>%
     dplyr::mutate(perc = n / sum(n) * 100)

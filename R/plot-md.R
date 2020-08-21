@@ -52,7 +52,7 @@ plot_md <- function(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 
       ),
       DE = factor(.data$DE, levels = c("Up", "Non-DE", "Down"))
     )
-  
+
   md_plot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = {{ y }})) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Non-DE"), ggplot2::aes(color = .data$DE)) +
     ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Up"), ggplot2::aes(color = .data$DE)) +
@@ -67,6 +67,6 @@ plot_md <- function(df, x = logCPM, y = logFC, sig_col = FDR, fdr = 0.05, lfc = 
       y = "Log-fold change"
     ) +
     ggplot2::theme_classic()
-  
+
   md_plot
 }

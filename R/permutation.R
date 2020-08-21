@@ -1,10 +1,10 @@
 #' Exact Permutation Test
-#' 
+#'
 #' In the case where the number of number of permutations chosen is greater
 #' than the actual number of permutations, perform an exact test instead.
 #' The code for getting all distinct permutations was stolen from:
 #' https://stackoverflow.com/a/34287541
-#' 
+#'
 #' @param x numeric vector
 #' @param y numeric vector
 #' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
@@ -25,7 +25,7 @@ exact_cor_test <- function(x, y, cor_method) {
       return(res)
     }
   }
-  
+
   perms <- permutations(x)
   res <- apply(X = perms, MARGIN = 1, FUN = cor, y, method = cor_method)
   res
@@ -79,7 +79,7 @@ perm_cor <- function(x, y, n_perm, cor_method) {
 #' @param n_perm numeric. Number of permutations to perform on each row. Default 1000.
 #' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
-#' @param p_adjust_method a character string indicating which of the p.adjust.methods to use for correction. Default "fdr". 
+#' @param p_adjust_method a character string indicating which of the p.adjust.methods to use for correction. Default "fdr".
 #' @return df with additional columns for correlations, empirical p-values, and fdr adjusted p-values.
 #' @importFrom stats cor p.adjust
 #' @importFrom foreach %dopar%
@@ -88,9 +88,9 @@ perm_cor <- function(x, y, n_perm, cor_method) {
 #' \dontrun{
 #' library(coriell)
 #' library(methylKit)
-#' 
-#' #define age dataframe -- ages matching column order
-#' ages = data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
+#'
+#' # define age dataframe -- ages matching column order
+#' ages <- data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
 #'
 #' # simulate a methylation dataset
 #' sim_meth <- dataSim(
@@ -98,40 +98,42 @@ perm_cor <- function(x, y, n_perm, cor_method) {
 #'   sites = 1000,
 #'   treatment = c(rep(1, 4), rep(0, 4)),
 #'   covariates = ages,
-#'   sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4)))
+#'   sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4))
+#' )
 #'
 #' # extract the methylation as percentages and coerce to data.frame
 #' perc_meth <- as.data.frame(percMethylation(sim_meth))
 #'
 #' # perform permutation testing using 4 cores and 10000 permutations
-#' res <- permutation_correlation_test(perc_meth, 
-#'                                     y = ages$age, 
-#'                                     n_cores = 4, 
-#'                                     n_perm = 10000,
-#'                                     cor_method = "spearman", 
-#'                                     p_adjust_method = "fdr")
-#'}
+#' res <- permutation_correlation_test(perc_meth,
+#'   y = ages$age,
+#'   n_cores = 4,
+#'   n_perm = 10000,
+#'   cor_method = "spearman",
+#'   p_adjust_method = "fdr"
+#' )
+#' }
 #' @export
 permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_method = "spearman", p_adjust_method = "fdr") {
   # Simple error checking
   stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
   stopifnot("n_cores exceeds number of cores detected" = n_cores <= parallel::detectCores())
-  stopifnot("Incorrect p.adjust method specified" = p_adjust_method %in% c('holm', 'hochberg', 'hommel', 'bonferroni', 'BH', 'BY', 'fdr', 'none'))
-  
+  stopifnot("Incorrect p.adjust method specified" = p_adjust_method %in% c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"))
+
   if (factorial(length(y)) < n_perm) {
     message(paste0("The number of permutations (", factorial(length(y)), ") is less than n_perm (", n_perm, "). Performing exact test on all permutations."))
   }
-  
+
   doParallel::registerDoParallel(cores = n_cores)
-  
+
   # compute the empirical p.values in parallel
   empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind, .inorder = TRUE) %dopar%
     (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, cor_method = cor_method))
-  
+
   p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method = cor_method))
   p_res_df <- cbind(df, p_cor, empirical_p)
   p_res_df[p_adjust_method] <- p.adjust(p_res_df$empirical_p, method = p_adjust_method)
-  
+
   # clean up column and rownames
   names(p_res_df)[names(p_res_df) == "p_cor"] <- cor_method
   rownames(p_res_df) <- rownames(df)
@@ -141,8 +143,8 @@ permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_
 
 
 #' Sample Random Correlations from a dataframe
-#' 
-#' Selects n random rows from a dataframe with replacement. For each random row, 
+#'
+#' Selects n random rows from a dataframe with replacement. For each random row,
 #' permute vector y and perform correlation with the given cor_method.
 #' @param df data.frame. Site by Samples data.frame
 #' @param y numeric vector. Numeric vector of values used to correlate with each row of df
@@ -171,21 +173,22 @@ permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_
 #'
 #' # Get 1_000_000 random correlations from perc_meth data.frame
 #' cors <- sample_n_random_cor(perc_meth, y = ages$age)
-#' 
+#'
 #' # histogram of distribution -- filter NAs if present
 #' hist(cors[!is.na(cors)])
 #' }
-sample_n_random_cor = function(df, y, n = 1e+06, cor_method = "spearman") {
+sample_n_random_cor <- function(df, y, n = 1e+06, cor_method = "spearman") {
   stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
   random_rows <- sample(1:nrow(df), n, replace = TRUE)
   cor_results <- apply(df[random_rows, ],
-                       MARGIN = 1, 
-                       FUN = function(x) {
-                         cor(
-                           as.numeric(x), 
-                           y = sample(y), 
-                           method = cor_method)
-                         }
-                       )
+    MARGIN = 1,
+    FUN = function(x) {
+      cor(
+        as.numeric(x),
+        y = sample(y),
+        method = cor_method
+      )
+    }
+  )
   return(cor_results)
 }

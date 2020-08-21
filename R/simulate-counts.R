@@ -1,5 +1,5 @@
 #' Simulate RNASeq Count Data
-#' 
+#'
 #' Simulate an RNASeq count matrix. Adapted from edgeR documentation.
 #' This function is not meant for any serious modelling. It's really used mostly for testing
 #' plotting and summarizing functions internally. It's good for generating test data.
@@ -16,53 +16,58 @@
 #' @examples
 #' # simulate counts using default parameters
 #' sim <- simulate_counts()
-#' 
+#'
 #' # extract the count matrix from the simulation result
 #' counts <- sim$table
-#' 
+#'
 #' # show rows where counts were modified
 #' counts[sim$de_genes, ]
 #' @export
-simulate_counts = function(n_genes = 1000, 
-                           n_up = 50,
-                           n_down = 50,
-                           n_samples = 6, 
-                           groups = c("ctl", "trt"),
-                           de_group = "trt", 
-                           mu = 10, 
-                           phi = 0.1, 
-                           count_offset = 10) {
-  
+simulate_counts <- function(n_genes = 1000,
+                            n_up = 50,
+                            n_down = 50,
+                            n_samples = 6,
+                            groups = c("ctl", "trt"),
+                            de_group = "trt",
+                            mu = 10,
+                            phi = 0.1,
+                            count_offset = 10) {
   stopifnot("de_group must be a member of groups" = de_group %in% groups)
   stopifnot("More groups than samples" = length(groups) <= n_samples)
   stopifnot("n_samples not a multiple of levels(groups)" = n_samples %% length(groups) == 0)
   stopifnot("Sum(n_up, n_down) must be than n_genes" = n_up + n_down <= n_genes)
-  
+
   de_genes <- sample(n_genes, size = n_up + n_down)
   up <- sample(de_genes, size = n_up)
   down <- setdiff(de_genes, up)
-  
+
   # generate the count table
   counts <- matrix(stats::rnbinom(n_genes * n_samples,
-                           mu = mu,
-                           size = 1 / phi),
-                  nrow = n_genes,
-                  ncol = n_samples)
-  
-  colnames(counts) <- paste(rep(groups, each = n_samples / length(groups)), 
-                            1:(n_samples / length(groups)), sep = ".")
-  
+    mu = mu,
+    size = 1 / phi
+  ),
+  nrow = n_genes,
+  ncol = n_samples
+  )
+
+  colnames(counts) <- paste(rep(groups, each = n_samples / length(groups)),
+    1:(n_samples / length(groups)),
+    sep = "."
+  )
+
   group <- gl(length(groups), n_samples / length(groups), labels = groups)
-  
+
   counts[up, group == de_group] <- counts[up, group == de_group] + count_offset
   counts[down, group == de_group] <- counts[down, group == de_group] - count_offset
-  
+
   # silently convert negative numbers to zero if present
   counts <- apply(counts, 2, function(x) ifelse(x < 0, 0, x))
-  
+
   rownames(counts) <- paste("gene", 1:n_genes, sep = ".")
-  
-  list("table" = counts, 
-       "up_genes" = paste("gene", up, sep = "."),
-       "down_genes" = paste("gene", down, sep = "."))
+
+  list(
+    "table" = counts,
+    "up_genes" = paste("gene", up, sep = "."),
+    "down_genes" = paste("gene", down, sep = ".")
+  )
 }
