@@ -1,6 +1,8 @@
 #' Simulate RNASeq Count Data
 #' 
 #' Simulate an RNASeq count matrix. Adapted from edgeR documentation.
+#' This function is not meant for any serious modelling. It's really used mostly for testing
+#' plotting and summarizing functions internally. It's good for generating test data.
 #' @param n_genes integer. The number of gene to simulate
 #' @param n_up integer. The number of genes the count offset will be added to
 #' @param n_down integer. the number of genes the count offset will be subtracted from. Negative numbers will be coerced to zeros.
