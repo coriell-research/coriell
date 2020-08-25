@@ -118,7 +118,6 @@ y <- estimateDisp(y, design)
 fit <- glmQLFit(y, design)
 qlf <- glmQLFTest(fit, coef = 2)
 
-
 # -----------------------------------------------------------------------------
 # convert to tidy dataframe
 res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
@@ -144,7 +143,8 @@ summarize_dge(deseq_res_df,
 
 ```R
 # For edgeR results default values can be used
-plot_volcano(res_df)
+plot_volcano(res_df) +
+  ggtitle("Treatment vs Control")
 
 # For DESeq2 results you must specify the column names
 plot_volcano(deseq_res_df,
@@ -152,18 +152,29 @@ plot_volcano(deseq_res_df,
              y = padj)
 ```
 
-Different Significance levels can be used to filter the plotted points. For example,
+![](man/figures/volcano1.png)
+
+Different significance levels can be used to filter the plotted points. For example,
 significance levels can be set by specifying the `fdr` and `lfc` values.
 
 ```R
-plot_volcano(res_df, fdr = 0.1, lfc = log2(2))
+plot_volcano(res_df, fdr = 0.01, lfc = log2(2))  +
+  ggtitle("Treatment vs Control")
 ```
+
+![](man/figures/volcano2.png)
 
 Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
 
 ```R
-plot_volcano(res_df, annotate_counts = FALSE)
+plot_volcano(res_df, 
+             fdr = 0.01, 
+             lfc = log2(2), 
+             annotate_counts = FALSE)  +
+  ggtitle("Treatment vs Control")
 ```
+
+![](man/figures/volcano3.png)
 
 Positions of the count labels can be adjusted by setting the `xmax_label_offset`, `xmin_label_offset` 
 and `ymax_label_offset` values. Setting the values closer to 1 moves the labels away from the origin.
@@ -171,21 +182,37 @@ and `ymax_label_offset` values. Setting the values closer to 1 moves the labels 
 genes label. `ymax_label_offset` controls the vertical position of the labels.
 
 ```R
-plot_volcano(res_df, xmax_label_offset = 0.6, xmin_label_offset = 0.25, ymax_label_offset = 0.9)
+plot_volcano(res_df,
+             fdr = 0.01,
+             lfc = log2(2),
+             xmax_label_offset = 0.2, 
+             xmin_label_offset = 0.7, 
+             ymax_label_offset = 0.9)  +
+  ggtitle("Treatment vs Control")
 ```
+
+![](man/figures/volcano4.png)
 
 Text labels can also be added for the DE genes by setting `label_sig = TRUE`. Caution, if there are many
 DE genes this will be overplotted
 
 ```R
-plot_volcano(res_df, label_sig = TRUE)
+plot_volcano(res_df,
+             fdr = 1e-4,
+             lfc = log2(2),
+             annotate_counts = FALSE,
+             label_sig = TRUE)  +
+  ggtitle("Treatment vs Control")
 ```
+
+![](man/figures/volcano5.png)
 
 ### Create md plot from differential expression results
 
 ```R
 # For edgeR results default values can be used
-plot_md(res_df)
+plot_md(res_df) +
+  ggtitle("Treatment vs Control")
 
 # For DESeq2 results you must specify the column names
 plot_md(deseq_res_df,
@@ -194,18 +221,31 @@ plot_md(deseq_res_df,
         sig_col = padj)
 ```
 
+![](man/figures/md1.png)
+
 Different significance levels can be used to filter the plotted points. For example,
 significance levels can be set by specifying the `fdr` and `lfc` values.
 
 ```R
-plot_md(res_df, fdr = 0.1, lfc = log2(2))
+plot_md(res_df, 
+        fdr = 0.01, 
+        lfc = log2(2)) +
+  ggtitle("Treatment vs Control")
 ```
+
+![](man/figures/md2.png)
 
 Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
 
 ```R
-plot_md(res_df, annotate_counts = FALSE)
+plot_md(res_df, 
+        fdr = 0.01, 
+        lfc = log2(2),
+        annotate_counts = FALSE) +
+  ggtitle("Treatment vs Control")
 ```
+
+![](man/figures/md3.png)
 
 Positions of the count labels can be adjusted by setting the `xmax_label_offset`, `ymin_label_offset` 
 and `ymax_label_offset` values. Setting the values closer to 1 moves the labels away from the origin.
@@ -213,9 +253,16 @@ and `ymax_label_offset` values. Setting the values closer to 1 moves the labels 
 'down' gene label. `ymax_label_offset` controls the 'up' genes label.
 
 ```R
-plot_md(res_df, xmax_label_offset = 0.6, xyin_label_offset = 0.25, ymax_label_offset = 0.25)
+plot_md(res_df, 
+        fdr = 0.01,
+        lfc = log2(2),
+        xmax_label_offset = 0.6, 
+        ymin_label_offset = 0.25, 
+        ymax_label_offset = 0.25) +
+  ggtitle("Treatment vs Control")
 ```
 
+![](man/figures/md4.png)
 ### Z-score a dataframe
 
 Z-score a dataframe by row or column
