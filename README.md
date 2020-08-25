@@ -121,6 +121,17 @@ qlf <- glmQLFTest(fit, coef = 2)
 # -----------------------------------------------------------------------------
 # convert to tidy dataframe
 res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
+
+head(res_df)
+> # A tibble: 6 x 6
+>   feature_id logFC unshrunk.logFC logCPM   PValue        FDR
+>   <chr>      <dbl>          <dbl>  <dbl>    <dbl>      <dbl>
+> 1 gene.51    -4.43          -4.43   6.37 2.93e-10 0.00000561
+> 2 gene.26    -6.63          -6.68   3.45 8.37e- 9  0.0000801 
+> 3 gene.19    -7.01          -7.05   3.41 1.51e- 8  0.0000962 
+> 4 gene.100   -4.62          -4.63   4.40 3.24e- 8   0.000132  
+> 5 gene.74    -6.05          -6.07   7.04 4.06e- 8   0.000132  
+> 6 gene.53    -4.67          -4.68   3.91 4.14e- 8   0.000132 
 ```
 
 ### Summarize results from differential expression test
@@ -130,7 +141,14 @@ Return a table of up/down/non-de counts and their percentages.
 ```R
 # for edgeR results default values can be used
 res_df <- edger_to_df(qlf)
+
 summarize_dge(res_df, fdr = 0.05)
+> # A tibble: 3 x 3
+>   dge         n   perc
+>   <fct>   <int>  <dbl>
+> 1 up        162  0.847
+> 2 down      266   1.39 
+> 3 non-dge 18709   97.8  
 
 # For DESeq2 results you must specify the column names
 summarize_dge(deseq_res_df, 
