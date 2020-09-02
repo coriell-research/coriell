@@ -26,16 +26,10 @@ list_to_matrix <- function(sets) {
   )
   colnames(mat) <- names(sets)
   rownames(mat) <- union_all
-
-  for (i in 1:nrow(mat)) {
-    for (j in 1:ncol(mat)) {
-      el <- rownames(mat)[[i]]
-      set <- sets[[j]]
-
-      if (is.element(el, set)) {
-        mat[i, j] <- 1
-      }
-    }
+  
+  for(i in seq_along(sets)) {
+    mat[unique(sets[[i]]), i] <- 1
   }
+  
   mat
 }
