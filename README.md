@@ -25,6 +25,7 @@ devtools::install_github("coriell-research/coriell")
 - [Summarize results from differential expression analysis](https://github.com/coriell-research/coriell#summarize-results-from-differential-expression-test)
 - [Create volcano plot from differential expression results](https://github.com/coriell-research/coriell#create-volcano-plot-from-differential-expression-results)
 - [Create md plot from differential expression results](https://github.com/coriell-research/coriell#create-md-plot-from-differential-expression-results)
+- [Heatmap with sensible defaults](https://github.com/coriell-research/coriell#heatmap-with-sensible-defaults)
 - [Z-score a dataframe](https://github.com/coriell-research/coriell#z-score-a-dataframe)
 - [Convert a list of sets into a binary matrix](https://github.com/coriell-research/coriell#convert-a-list-of-sets-into-a-binary-matrix)
 - [Get statistics for all pairwise combinations of a list of sets](https://github.com/coriell-research/coriell#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets)
@@ -127,11 +128,11 @@ head(res_df)
 >   feature_id logFC unshrunk.logFC logCPM   PValue        FDR
 >   <chr>      <dbl>          <dbl>  <dbl>    <dbl>      <dbl>
 > 1 gene.51    -4.43          -4.43   6.37 2.93e-10 0.00000561
-> 2 gene.26    -6.63          -6.68   3.45 8.37e- 9  0.0000801 
-> 3 gene.19    -7.01          -7.05   3.41 1.51e- 8  0.0000962 
-> 4 gene.100   -4.62          -4.63   4.40 3.24e- 8   0.000132  
-> 5 gene.74    -6.05          -6.07   7.04 4.06e- 8   0.000132  
-> 6 gene.53    -4.67          -4.68   3.91 4.14e- 8   0.000132 
+> 2 gene.26    -6.63          -6.68   3.45 8.37e-9   0.0000801 
+> 3 gene.19    -7.01          -7.05   3.41 1.51e-8   0.0000962 
+> 4 gene.100   -4.62          -4.63   4.40 3.24e-8    0.000132  
+> 5 gene.74    -6.05          -6.07   7.04 4.06e-8    0.000132  
+> 6 gene.53    -4.67          -4.68   3.91 4.14e-8    0.000132 
 ```
 
 ### Summarize results from differential expression test
@@ -281,6 +282,47 @@ plot_md(res_df,
 ```
 
 ![](man/figures/md4.png)
+
+### Heatmap with sensible defaults
+
+We often use the same settings when making calls to `pheatmap`. This function is a wrapper around `pheatmap`
+which uses sensible default values for expression data. It changes the default color scale to a diverging
+blue to white to red scale, modifies the clustering parameters (row-wise euclidean, col-wise correlation) and
+clustering method (complete), angles the column labels, removes border colors and rownames. 
+
+Any of these options can be overridden by simply supplying the arguments to `quickmap` as you would `pheatmap`. 
+This also allows for additional arguments to be passed to the `quickmap` function for creating row and column 
+annotations. 
+
+```R
+# generate some example data and log-scale it
+lcpms <- coriell::simulate_counts(n = 1000)$table %>% log1p()
+
+# plot a heatmap of the logCPM values
+quickmap(lcpms)
+```
+
+![](man/figures/quickmap1.png)
+
+Other `pheatmap` arguments can be passed to the `quickmap` function as well.
+
+```R
+# create annotation for columns
+col_df <- data.frame(treatment = rep(c("ctl", "trt"), each = 3))
+rownames(col_df) <- colnames(lcpms)
+
+# create color scheme for treatment conditions
+ann_colors = list(treatment = c("ctl" = "steelblue", "trt" = "firebrick"))
+
+# plot the heatmap, passing additional args to pheatmap
+quickmap(lcpms,
+         annotation_col = col_df,
+         annotation_colors = ann_colors,
+         main = "Treatment vs Control")
+```
+
+![](man/figures/quickmap2.png)
+
 ### Z-score a dataframe
 
 Z-score a dataframe by row or column

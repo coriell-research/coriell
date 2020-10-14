@@ -18,6 +18,7 @@ Imports:
     rlang,
     doParallel,
     foreach,
-    parallel
+    parallel,
+    pheatmap
 Suggests: 
     testthat
