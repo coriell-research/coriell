@@ -323,6 +323,19 @@ quickmap(lcpms,
 
 ![](man/figures/quickmap2.png)
 
+There are two default color scales included which can be specified by setting the `diverging_palette` argument. 
+By default `diverging_palette = TRUE` which sets the color scale the same as the above heatmaps. This is useful for
+scaled data. However, if you are plotting unscaled data such as normalized expression values then a continuous color
+palette is more appropriate. Setting `diverging_palette = FALSE` will set the color palette to a continuous (`viridis::magma(50)`)
+palette.
+
+```R
+# NOTE: different lcpms data than above
+quickmap(lcpms, diverging_palette = FALSE, scale = "none")
+```
+
+![](man/figures/quickmap3.png)
+
 ### Z-score a dataframe
 
 Z-score a dataframe by row or column
