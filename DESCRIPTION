@@ -19,6 +19,7 @@ Imports:
     doParallel,
     foreach,
     parallel,
-    pheatmap
+    pheatmap,
+    viridisLite
 Suggests: 
     testthat
