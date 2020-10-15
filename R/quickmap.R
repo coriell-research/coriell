@@ -10,12 +10,18 @@
 #'
 #' @importFrom pheatmap pheatmap
 #' @importFrom grDevices colorRampPalette
+#' @importFrom viridisLite magma
 #' @param mat numeric matrix to be passed onto pheatmap function
+#' @param diverging_palette logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
+#' color to a continuous color palette (viridis::magma), useful for un-scaled expression data.
 #' @param ... args to be passed to pheatmap function
 #' @return pheatmap object. See ?pheatmap::pheatmap for details
 #' @export
-quickmap <- function(mat, ...) {
-  col_code <- (grDevices::colorRampPalette(c("dodgerblue3", "grey99", "firebrick3")))(50)
+quickmap <- function(mat, diverging_palette = TRUE, ...) {
+  diverging_pal <- grDevices::colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(50)
+  continuous_pal <- rev(viridisLite::magma(n = 50))
+  col_code <- if (diverging_palette) diverging_pal else continuous_pal
+
   default_args <- list(
     scale = "row", show_rownames = FALSE, border_color = NA, cluster_rows = TRUE,
     cluster_cols = TRUE, color = col_code, cellWidth = 20, treeheight_row = 0, clustering_distance_rows = "euclidean",
