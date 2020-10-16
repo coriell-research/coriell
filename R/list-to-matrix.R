@@ -16,8 +16,12 @@
 #' list_to_matrix(sets)
 list_to_matrix <- function(sets) {
   stopifnot("List of vectors must be supplied" = class(sets) == "list")
+  union_all <- Reduce(union, sets)
 
-  union_all <- unique(unlist(sets, use.names = FALSE))
+  if (sum(is.na(union_all)) > 0) {
+    message("NA values present in union of all sets. NA values will be dropped in final matrix")
+    union_all <- union_all[!is.na(union_all)]
+  }
 
   mat <- matrix(
     data = 0,
@@ -26,10 +30,9 @@ list_to_matrix <- function(sets) {
   )
   colnames(mat) <- names(sets)
   rownames(mat) <- union_all
-  
-  for(i in seq_along(sets)) {
-    mat[unique(sets[[i]]), i] <- 1
+
+  for (i in seq_along(sets)) {
+    mat[unique(sets[[i]][!is.na(sets[[i]])]), i] <- 1
   }
-  
   mat
 }
