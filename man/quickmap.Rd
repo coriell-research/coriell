@@ -4,10 +4,13 @@
 \alias{quickmap}
 \title{Quick Heatmap with Sensible Defaults for RNA-seq}
 \usage{
-quickmap(mat, ...)
+quickmap(mat, diverging_palette = TRUE, ...)
 }
 \arguments{
 \item{mat}{numeric matrix to be passed onto pheatmap function}
+
+\item{diverging_palette}{logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
+color to a continuous color palette (viridis::magma), useful for un-scaled expression data.}
 
 \item{...}{args to be passed to pheatmap function}
 }
