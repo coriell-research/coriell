@@ -19,17 +19,17 @@ devtools::install_github("coriell-research/coriell")
 
 ## Examples
 
-- [Correlate methylation data with age](https://github.com/coriell-research/coriell#perform-correlation-permutation-test-using-multiple-cores)
-- [Create a null distribution of correlations](https://github.com/coriell-research/coriell#extract-random-correlations-from-a-dataframe)
-- [Convert edgeR results into tidy dataframes](https://github.com/coriell-research/coriell#convert-edger-results-into-a-tidy-dataframe)
-- [Summarize results from differential expression analysis](https://github.com/coriell-research/coriell#summarize-results-from-differential-expression-test)
-- [Create volcano plot from differential expression results](https://github.com/coriell-research/coriell#create-volcano-plot-from-differential-expression-results)
-- [Create md plot from differential expression results](https://github.com/coriell-research/coriell#create-md-plot-from-differential-expression-results)
-- [Heatmap with sensible defaults](https://github.com/coriell-research/coriell#heatmap-with-sensible-defaults)
-- [Z-score a dataframe](https://github.com/coriell-research/coriell#z-score-a-dataframe)
-- [Convert a list of sets into a binary matrix](https://github.com/coriell-research/coriell#convert-a-list-of-sets-into-a-binary-matrix)
-- [Get statistics for all pairwise combinations of a list of sets](https://github.com/coriell-research/coriell#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets)
-- [Perform Gene Ontology Analysis with PANTHER](https://github.com/coriell-research/coriell#perform-gene-ontology-analysis-with-panther)
+- [Correlate methylation data with age](https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores)
+- [Create a null distribution of correlations](https://coriell-research.github.io/coriell/#extract-random-correlations-from-a-dataframe)
+- [Convert edgeR results into tidy dataframes](https://coriell-research.github.io/coriell/#convert-edger-results-into-a-tidy-dataframe)
+- [Summarize results from differential expression analysis](https://coriell-research.github.io/coriell/#summarize-results-from-differential-expression-test)
+- [Create volcano plot from differential expression results](https://coriell-research.github.io/coriell/#create-volcano-plot-from-differential-expression-results)
+- [Create md plot from differential expression results](https://coriell-research.github.io/coriell/#create-md-plot-from-differential-expression-results)
+- [Heatmap with sensible defaults](https://coriell-research.github.io/coriell/#heatmap-with-sensible-defaults)
+- [Z-score a dataframe](https://coriell-research.github.io/coriell/#z-score-a-dataframe)
+- [Convert a list of sets into a binary matrix](https://coriell-research.github.io/coriell/#convert-a-list-of-sets-into-a-binary-matrix)
+- [Get statistics for all pairwise combinations of a list of sets](https://coriell-research.github.io/coriell/#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets)
+- [Perform Gene Ontology Analysis with PANTHER](https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther)
 
 ### Perform correlation permutation test using multiple cores
 
