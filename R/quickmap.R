@@ -8,9 +8,6 @@
 #' be overridden and/or any additional arguments can be passed to the pheatmap
 #' function via ...
 #'
-#' @importFrom pheatmap pheatmap
-#' @importFrom grDevices colorRampPalette
-#' @importFrom viridisLite magma
 #' @param mat numeric matrix to be passed onto pheatmap function
 #' @param diverging_palette logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
 #' color to a continuous color palette (viridis::magma), useful for un-scaled expression data.

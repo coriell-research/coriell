@@ -23,6 +23,7 @@ Imports:
     viridisLite,
     jsonlite,
     purrr,
-    tidyr
+    tidyr,
+    httr
 Suggests: 
     testthat

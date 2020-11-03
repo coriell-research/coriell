@@ -14,7 +14,6 @@
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.
 #' @return ggplot volcano plot
 #' @export
-#' @importFrom rlang .data
 #' @examples
 #' \dontrun{
 #' library(edgeR)

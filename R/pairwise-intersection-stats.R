@@ -3,7 +3,6 @@
 #' Given a list of sets, compute all pairwise intersections and return
 #' statistics about the intersections.
 #' @param sets lists of sets to perform pairwise comparisons on.
-#' @importFrom utils combn
 #' @return list with elements representing the statistics on intersections of the elements of sets.
 #' @details The function returns a single list with several elements: intersection_size, size_A, size_B,
 #' size_AB, prop_A, prop_B, prop_AB. Each of the elements contains a named vector with the given statistic.

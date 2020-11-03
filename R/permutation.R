@@ -9,7 +9,6 @@
 #' @param y numeric vector
 #' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman": can be abbreviated.
-#' @importFrom stats cor
 #' @return numeric vector. Correlations from permutations of x with y
 #' @keywords internal
 exact_cor_test <- function(x, y, cor_method) {
@@ -40,7 +39,6 @@ exact_cor_test <- function(x, y, cor_method) {
 #' @param n_perm numeric. The number of permutations to perform
 #' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
 #'   One of "pearson", "kendall", or "spearman": can be abbreviated.
-#' @importFrom stats cor
 #' @return numeric. empirical p-value from permutation test.
 #' @keywords internal
 perm_cor <- function(x, y, n_perm, cor_method) {
@@ -81,9 +79,6 @@ perm_cor <- function(x, y, n_perm, cor_method) {
 #'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
 #' @param p_adjust_method a character string indicating which of the p.adjust.methods to use for correction. Default "fdr".
 #' @return df with additional columns for correlations, empirical p-values, and fdr adjusted p-values.
-#' @importFrom stats cor p.adjust
-#' @importFrom foreach %dopar%
-#' @importFrom parallel detectCores
 #' @examples
 #' \dontrun{
 #' library(coriell)
@@ -153,7 +148,6 @@ permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_
 #'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
 #' @return named numeric vector of correlation values and row indeces. Vector can contain NAs if row variance == 0.
 #' @export
-#' @importFrom stats cor
 #' @examples
 #' \dontrun{
 #' library(methylKit)

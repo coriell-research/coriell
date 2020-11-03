@@ -44,6 +44,9 @@ in this case, PANTHER will use all of the genes of the given organism as the
 reference list.
 }
 \examples{
+library(coriell)
+
+
 genes <- c("CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1", 
            "CUL1", "DKK1", "DKK4", "DLL1", "DVL2", "FRAT1", "FZD1", "FZD8", 
            "GNAI1", "HDAC11", "HDAC2", "HDAC5", "HEY1", "HEY2", "JAG1", 
@@ -51,5 +54,5 @@ genes <- c("CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
            "NKD1", "NOTCH1", "NOTCH4", "NUMB", "PPARD", "PSEN2", "PTCH1", 
            "RBPJ", "SKP2", "TCF7", "TP53", "WNT1", "WNT5B", "WNT6")
 
-go_results <- panther_go(genes, organism = "9606", annot_dataset = "biological_process")
+go_results <- coriell::panther_go(genes, organism = "9606", annot_dataset = "biological_process")
 }
