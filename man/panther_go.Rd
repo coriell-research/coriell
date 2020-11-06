@@ -33,12 +33,11 @@ Default "fisher"}
 Default "fdr"}
 }
 \value{
-tibble of results from PANTHER GO analysis. See PANTHER user manual 
+list with results of GO analysis and input information. See PANTHER user manual 
 \url{http://www.pantherdb.org/help/PANTHER_user_manual.pdf} for details
 }
 \description{
-Sends a request to PANTHER GO db to perform over representation analysis. This
-function returns the parsed json response from the PANTHER db. This function 
+Sends a request to PANTHER GO db to perform over representation analysis. This function 
 excludes the option to import a reference list and reference organism. By default,
 in this case, PANTHER will use all of the genes of the given organism as the 
 reference list.
@@ -54,5 +53,8 @@ genes <- c("CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
            "NKD1", "NOTCH1", "NOTCH4", "NUMB", "PPARD", "PSEN2", "PTCH1", 
            "RBPJ", "SKP2", "TCF7", "TP53", "WNT1", "WNT5B", "WNT6")
 
-go_results <- coriell::panther_go(genes, organism = "9606", annot_dataset = "biological_process")
+go_results <- panther_go(genes, organism = "9606", annot_dataset = "biological_process")
+
+# to view results access the 'results' item
+head(go_results$results)
 }

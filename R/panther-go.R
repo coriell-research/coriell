@@ -1,7 +1,6 @@
 #' Perform GO Analysis with PANTHER
 #'
-#' Sends a request to PANTHER GO db to perform over representation analysis. This
-#' function returns the parsed json response from the PANTHER db. This function 
+#' Sends a request to PANTHER GO db to perform over representation analysis. This function 
 #' excludes the option to import a reference list and reference organism. By default,
 #' in this case, PANTHER will use all of the genes of the given organism as the 
 #' reference list.
@@ -19,7 +18,7 @@
 #'Default "fisher"
 #'@param correction character string. One of c("fdr", "bonferroni", "none").
 #'Default "fdr"
-#'@return tibble of results from PANTHER GO analysis. See PANTHER user manual 
+#'@return list with results of GO analysis and input information. See PANTHER user manual 
 #'\url{http://www.pantherdb.org/help/PANTHER_user_manual.pdf} for details
 #'@export
 #'@examples
@@ -33,7 +32,10 @@
 #'            "NKD1", "NOTCH1", "NOTCH4", "NUMB", "PPARD", "PSEN2", "PTCH1", 
 #'            "RBPJ", "SKP2", "TCF7", "TP53", "WNT1", "WNT5B", "WNT6")
 #'
-#' go_results <- coriell::panther_go(genes, organism = "9606", annot_dataset = "biological_process")
+#' go_results <- panther_go(genes, organism = "9606", annot_dataset = "biological_process")
+#' 
+#' # to view results access the 'results' item
+#' head(go_results$results)
 panther_go <- function(
                        gene_list,
                        organism,
@@ -67,11 +69,18 @@ panther_go <- function(
   
   parsed <- jsonlite::fromJSON(httr::content(r, "text"), simplifyVector = FALSE)
   
-  purrr::pluck(parsed, "results", "result") %>% 
+  results <- purrr::pluck(parsed, "results", "result") %>% 
     purrr::map(dplyr::as_tibble) %>% 
     dplyr::bind_rows(.id = "result_number") %>% 
     tidyr::unnest(term) %>%
     dplyr::group_by(result_number) %>% 
     dplyr::mutate(ind = rep(c("GO_term", "description"), length.out = dplyr::n())) %>% 
     tidyr::pivot_wider(names_from = ind, values_from = term)
+  
+  list("results" = results,
+       "gene_query" = gene_list,
+       "organism_query" = organism,
+       "test_type" = tests[enrichment_test_type],
+       "correction" = corrections[correction],
+       "request_url" = req_url)
 }
