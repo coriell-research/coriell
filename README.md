@@ -19,6 +19,9 @@ devtools::install_github("coriell-research/coriell")
 
 ## Examples
 
+For an overview of how to use some of these functions in a typical 
+analysis check out the RNA-seq vignette (more vignettes to come)
+
 - [Correlate methylation data with age](https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores)
 - [Create a null distribution of correlations](https://coriell-research.github.io/coriell/#extract-random-correlations-from-a-dataframe)
 - [Convert edgeR results into tidy dataframes](https://coriell-research.github.io/coriell/#convert-edger-results-into-a-tidy-dataframe)

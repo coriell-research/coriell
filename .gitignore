@@ -4,3 +4,4 @@
 .Ruserdata
 .Rbuildignore
 *.Rproj
+inst/doc

@@ -26,4 +26,7 @@ Imports:
     tidyr,
     httr
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
