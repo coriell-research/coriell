@@ -79,7 +79,7 @@ head(count_df)
 
 All software dealing with RNA-seq data expects the data to be in the shape where
 columns represent samples and rows represent genes. To acheive this we will pivot 
-the count_df longer into a count mat. Additionally, we will turn the gene column
+the count_df wider into a count matrix. Additionally, we will turn the gene column
 into rownames.
 
 ```{r}
@@ -410,8 +410,8 @@ panther_up <- panther_go(up_ids, "9606", "biological_process")
 # perform GO analysis with PANTHER on down-genes
 panther_down <- panther_go(down_ids, "9606", "biological_process")
 
-head(panther_up)
-head(panther_down)
+head(panther_up$results)
+head(panther_down$results)
 ```
 
 The function can also work with the gene names.
@@ -424,7 +424,7 @@ up_genes <- res_df %>%
   pull(gene_name)
   
 panther_up2 <- panther_go(up_genes, "9606", "biological_process")
-head(panther_up2)
+head(panther_up2$results)
 ```
 
 
