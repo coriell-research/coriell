@@ -1,15 +1,9 @@
 #' Perform GO Analysis with PANTHER
 #'
-#' Sends a request to PANTHER GO db to perform over representation analysis. This function
-#' excludes the option to import a reference list and reference organism. By default,
-#' in this case, PANTHER will use all of the genes of the given organism as the
-#' reference list.
-#'
-#' <http://pantherdb.org/services/tryItOut.jsp?url=%2Fservices%2Fapi%2Fpanther> states
-#' that 100,000 identifiers can be submitted to the service however some very
-#' large requests (> 1,000 genes) have been returning a 400 error from the PANTHER API
-#' stating that the request url is too long. If you encounter an error with this
-#' function, first try reducing the size of your input list.
+#' Sends a request to PANTHER GO db to perform over representation analysis.
+#' This function excludes the option to import a reference list and reference
+#' organism. By default, in this case, PANTHER will use all of the genes of the
+#' given organism as the reference list.
 #'
 #' @param gene_list character vector. Maximum of 100,000 identifiers. Can be any
 #' of the following: Ensemble gene identifier, Ensemble protein identifier,
@@ -46,8 +40,14 @@
 #'
 #' go_results <- panther_go(genes, organism = "9606", annot_dataset = "biological_process")
 #'
-#' # to view results access the 'results' item
-#' head(go_results$results)
+#' # to view results access the 'table' item
+#' head(go_results$table)
+#'
+#' # to view the actual request (which allows you to parse results yourself) use
+#' req <- go_results$request
+#'
+#' # view the parsed json
+#' jsonlite::fromJSON(httr::content(req, "text"), simplifyVector = FALSE)
 panther_go <- function(
                        gene_list,
                        organism,
@@ -81,7 +81,7 @@ panther_go <- function(
   annot_input <- datasets[annot_dataset]
   test_input <- tests[enrichment_test_type]
   correction_input <- corrections[correction]
-  req_url <- httr::modify_url(
+  r <- httr::POST(
     base_url,
     query = list(
       geneInputList = gene_input,
@@ -89,13 +89,12 @@ panther_go <- function(
       annotDataSet = annot_input,
       enrichmentTestType = test_input,
       correction = correction_input
-    )
+    ),
+    httr::accept_json()
   )
 
-  r <- httr::GET(req_url, httr::accept_json())
   httr::stop_for_status(r, "ERROR: failed to execute request")
   httr::warn_for_status(r, "WARNING: request produced a warning response")
-
   parsed <- jsonlite::fromJSON(httr::content(r, "text"), simplifyVector = FALSE)
   results <- purrr::pluck(parsed, "results", "result") %>%
     purrr::map(dplyr::as_tibble) %>%
@@ -107,11 +106,7 @@ panther_go <- function(
     tidyr::pivot_wider(names_from = ind, values_from = term)
 
   list(
-    "results" = results,
-    "gene_query" = gene_list,
-    "organism_query" = organism,
-    "test_type" = tests[enrichment_test_type],
-    "correction" = corrections[correction],
-    "request_url" = req_url
+    "table" = results,
+    "request" = r
   )
 }

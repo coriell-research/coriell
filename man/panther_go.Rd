@@ -7,24 +7,27 @@
 panther_go(
   gene_list,
   organism,
-  annot_dataset = "biological_process",
+  annot_dataset,
   enrichment_test_type = "fisher",
   correction = "fdr"
 )
 }
 \arguments{
-\item{gene_list}{character vector. Maximum of 100,000 Identifiers. Can be any 
-of the following: Ensemble gene identifier, Ensemble protein identifier, 
-Ensemble transcript identifier, Entrez gene id, gene symbol, NCBI GI, HGNC Id, 
-International protein index id, NCBI UniGene id, UniProt accession and 
+\item{gene_list}{character vector. Maximum of 100,000 identifiers. Can be any
+of the following: Ensemble gene identifier, Ensemble protein identifier,
+Ensemble transcript identifier, Entrez gene id, gene symbol, NCBI GI, HGNC Id,
+International protein index id, NCBI UniGene id, UniProt accession and
 UniProt id}
 
-\item{organism}{character string. Taxon ID (e.g. "9606" for HUMAN, "10090" for 
+\item{organism}{character string. Taxon ID (e.g. "9606" for HUMAN, "10090" for
 MOUSE, "10116" for RAT). To get list of available taxon IDs see:
 `curl -X GET "http://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"`}
 
-\item{annot_dataset}{character string. One of c("biological_process", 
-"molecular_function", "cellular_component").}
+\item{annot_dataset}{character string. One of c("biological_process",
+"molecular_function", "cellular_component", "panther_go_slim_mf", "panther_go_slim_bp",
+"panther_go_slim_cc", "panther_pc", "panther_pathway", "panther_reactome_pathway"). see:
+`curl -X POST "http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"`
+for full descriptions.}
 
 \item{enrichment_test_type}{character string. One of c("fisher", "binomial").
 Default "fisher"}
@@ -33,28 +36,36 @@ Default "fisher"}
 Default "fdr"}
 }
 \value{
-list with results of GO analysis and input information. See PANTHER user manual 
-\url{http://www.pantherdb.org/help/PANTHER_user_manual.pdf} for details
+list with results of GO analysis and input information. See PANTHER user manual
+\url{http://www.pantherdb.org/help/PANTHER_user_manual.pdf} for details.
 }
 \description{
-Sends a request to PANTHER GO db to perform over representation analysis. This function 
-excludes the option to import a reference list and reference organism. By default,
-in this case, PANTHER will use all of the genes of the given organism as the 
-reference list.
+Sends a request to PANTHER GO db to perform over representation analysis.
+This function excludes the option to import a reference list and reference
+organism. By default, in this case, PANTHER will use all of the genes of the
+given organism as the reference list.
 }
 \examples{
 library(coriell)
 
 
-genes <- c("CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1", 
-           "CUL1", "DKK1", "DKK4", "DLL1", "DVL2", "FRAT1", "FZD1", "FZD8", 
-           "GNAI1", "HDAC11", "HDAC2", "HDAC5", "HEY1", "HEY2", "JAG1", 
-           "JAG2", "KAT2A", "LEF1", "MAML1", "MYC", "NCOR2", "NCSTN", 
-           "NKD1", "NOTCH1", "NOTCH4", "NUMB", "PPARD", "PSEN2", "PTCH1", 
-           "RBPJ", "SKP2", "TCF7", "TP53", "WNT1", "WNT5B", "WNT6")
+genes <- c(
+  "CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
+  "CUL1", "DKK1", "DKK4", "DLL1", "DVL2", "FRAT1", "FZD1", "FZD8",
+  "GNAI1", "HDAC11", "HDAC2", "HDAC5", "HEY1", "HEY2", "JAG1",
+  "JAG2", "KAT2A", "LEF1", "MAML1", "MYC", "NCOR2", "NCSTN",
+  "NKD1", "NOTCH1", "NOTCH4", "NUMB", "PPARD", "PSEN2", "PTCH1",
+  "RBPJ", "SKP2", "TCF7", "TP53", "WNT1", "WNT5B", "WNT6"
+)
 
 go_results <- panther_go(genes, organism = "9606", annot_dataset = "biological_process")
 
-# to view results access the 'results' item
-head(go_results$results)
+# to view results access the 'table' item
+head(go_results$table)
+
+# to view the actual request (which allows you to parse results yourself) use
+req <- go_results$request
+
+# view the parsed json
+jsonlite::fromJSON(httr::content(req, "text"), simplifyVector = FALSE)
 }
