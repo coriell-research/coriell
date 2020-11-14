@@ -457,17 +457,17 @@ go_results <- coriell::panther_go(
                                 organism = "9606", 
                                 annot_dataset = "biological_process")
 
-head(go_results, n = 10)
+head(go_results$table, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term    description                            
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>      <chr>                                  
-> 1                         32            6.29 3.63e-17    5.09                 2525 2.28e-21 +          GO:0007166 cell surface receptor signaling pathway
+> 1                         32           6.29  3.63e-17    5.09                 2525 2.28e-21 +          GO:0007166 cell surface receptor signaling pathway
 > 2                         24           10.6  5.46e-16    2.27                 1129 6.87e-20 +          GO:0060429 epithelium development                 
 > 3                         17           24.3  8.23e-16    0.701                 348 1.55e-19 +          GO:0198738 cell-cell signaling by wnt             
 > 4                         17           24.3  6.18e-16    0.701                 348 1.55e-19 +          GO:0016055 Wnt signaling pathway                  
-> 5                         34            4.72 9.14e-16    7.20                 3576 2.87e-19 +          GO:0010646 regulation of cell communication       
-> 6                         33            5.00 9.16e-16    6.60                 3277 3.46e-19 +          GO:0048513 animal organ development               
+> 5                         34           4.72  9.14e-16    7.20                 3576 2.87e-19 +          GO:0010646 regulation of cell communication       
+> 6                         33           5.00  9.16e-16    6.60                 3277 3.46e-19 +          GO:0048513 animal organ development               
 > 7                         19           17.0  9.19e-16    1.12                  555 4.04e-19 +          GO:0048729 tissue morphogenesis                   
-> 8                         34            4.67 8.11e-16    7.28                 3615 4.08e-19 +          GO:0023051 regulation of signaling                
+> 8                         34           4.67  8.11e-16    7.28                 3615 4.08e-19 +          GO:0023051 regulation of signaling                
 > 9                         12           70.9  7.58e-16    0.169                  84 4.29e-19 +          GO:0060070 canonical Wnt signaling pathway        
 > 10                        13           52.5  7.24e-16    0.248                 123 4.55e-19 +          GO:0007219 Notch signaling pathway
 
@@ -493,19 +493,19 @@ ensembl_ids <- c("ENSG00000162736", "ENSG00000143801", "ENSG00000177283",
 
 ensembl_results <- panther_go(ensembl_ids, "9606", "biological_process")
 
-head(ensembl_results, n = 10)
+head(ensembl_results$table, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term   description                                               
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>     <chr>                                                     
 > 1                         12           78.4  1.70e-15    0.153                  84 1.07e-19 +          GO:00600… canonical Wnt signaling pathway                           
-> 2                         29            6.30 1.25e-15    4.60                 2525 1.57e-19 +          GO:00071… cell surface receptor signaling pathway                   
+> 2                         29           6.30  1.25e-15    4.60                 2525 1.57e-19 +          GO:00071… cell surface receptor signaling pathway                   
 > 3                         16           25.2  4.33e-15    0.634                 348 8.17e-19 +          GO:01987… cell-cell signaling by wnt                                
 > 4                         16           25.2  3.25e-15    0.634                 348 8.17e-19 +          GO:00160… Wnt signaling pathway                                     
 > 5                         16           20.9  4.76e-14    0.767                 421 1.50e-17 +          GO:19051… cell surface receptor signaling pathway involved in cell-…
 > 6                         21           10.2  9.38e-14    2.06                 1129 3.54e-17 +          GO:00604… epithelium development                                    
-> 7                         29            5.01 1.92e-13    5.78                 3174 8.46e-17 +          GO:00099… regulation of signal transduction                         
-> 8                         30            4.60 2.68e-13    6.52                 3576 1.35e-16 +          GO:00106… regulation of cell communication                          
-> 9                         30            4.55 3.23e-13    6.59                 3615 1.83e-16 +          GO:00230… regulation of signaling                                   
-> 10                        29            4.86 3.22e-13    5.97                 3277 2.02e-16 +          GO:00485… animal organ development 
+> 7                         29           5.01  1.92e-13    5.78                 3174 8.46e-17 +          GO:00099… regulation of signal transduction                         
+> 8                         30           4.60  2.68e-13    6.52                 3576 1.35e-16 +          GO:00106… regulation of cell communication                          
+> 9                         30           4.55  3.23e-13    6.59                 3615 1.83e-16 +          GO:00230… regulation of signaling                                   
+> 10                        29           4.86  3.22e-13    5.97                 3277 2.02e-16 +          GO:00485… animal organ development 
 
 # using mouse genes ------------------------------------------------------------
 mouse_genes <- c("Adam17", "Axin1", "Axin2", "Ccnd2", "Csnk1e", "Ctnnb1", 
@@ -520,17 +520,17 @@ mouse_results <- panther_go(
                             organism = "10090", 
                             annot_dataset = "biological_process")
 
-head(mouse_results, n = 10)
+head(mouse_results$table, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term    description                                                     
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>      <chr>                                                           
 > 1                         13           97.8  2.50e-18    0.133                  80 1.58e-22 +          GO:0060070 canonical Wnt signaling pathway                                 
 > 2                         16           40.5  4.10e-18    0.396                 238 5.18e-22 +          GO:0198738 cell-cell signaling by wnt                                      
 > 3                         16           40.5  2.73e-18    0.396                 238 5.18e-22 +          GO:0016055 Wnt signaling pathway                                           
 > 4                         23           13.3  3.77e-18    1.72                 1037 9.53e-22 +          GO:0060429 epithelium development                                          
-> 5                         27            8.52 8.41e-18    3.17                 1907 2.66e-21 +          GO:0007166 cell surface receptor signaling pathway                         
+> 5                         27           8.52  8.41e-18    3.17                 1907 2.66e-21 +          GO:0007166 cell surface receptor signaling pathway                         
 > 6                         16           33.0  3.10e-17    0.485                 292 1.18e-20 +          GO:1905114 cell surface receptor signaling pathway involved in cell-cell s…
-> 7                         25            9.04 1.39e-16    2.77                 1664 6.17e-20 +          GO:0009888 tissue development                                              
-> 8                         27            7.21 3.95e-16    3.75                 2254 2.00e-19 +          GO:0009653 anatomical structure morphogenesis                              
-> 9                         29            6.06 4.50e-16    4.78                 2878 2.56e-19 +          GO:0009966 regulation of signal transduction                               
+> 7                         25           9.04  1.39e-16    2.77                 1664 6.17e-20 +          GO:0009888 tissue development                                              
+> 8                         27           7.21  3.95e-16    3.75                 2254 2.00e-19 +          GO:0009653 anatomical structure morphogenesis                              
+> 9                         29           6.06  4.50e-16    4.78                 2878 2.56e-19 +          GO:0009966 regulation of signal transduction                               
 > 10                        21           12.3  1.04e-15    1.71                 1026 6.57e-19 +          GO:0009887 animal organ morphogenesis 
 ```
