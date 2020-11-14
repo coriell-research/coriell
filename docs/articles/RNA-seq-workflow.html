@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RNA-seq-workflow • coriell</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -97,12 +97,12 @@
 <span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"*.ReadsPerGene.out.tab"</span><span class="op">)</span>
 
 <span class="va">files</span>
-<span class="co">#&gt; [1] "/tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5ad/coriell/extdata/DMSO_4day_1_S1.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [2] "/tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5ad/coriell/extdata/DMSO_4day_2_S2.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [3] "/tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5ad/coriell/extdata/DMSO_4day_3_S3.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [4] "/tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5ad/coriell/extdata/HH1_10uM_4day_1_S4.ReadsPerGene.out.tab"</span>
-<span class="co">#&gt; [5] "/tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5ad/coriell/extdata/HH1_10uM_4day_2_S5.ReadsPerGene.out.tab"</span>
-<span class="co">#&gt; [6] "/tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5ad/coriell/extdata/HH1_10uM_4day_3_S1.ReadsPerGene.out.tab"</span></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/DMSO_4day_1_S1.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [2] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/DMSO_4day_2_S2.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [3] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/DMSO_4day_3_S3.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [4] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/HH1_10uM_4day_1_S4.ReadsPerGene.out.tab"</span>
+<span class="co">#&gt; [5] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/HH1_10uM_4day_2_S5.ReadsPerGene.out.tab"</span>
+<span class="co">#&gt; [6] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/HH1_10uM_4day_3_S1.ReadsPerGene.out.tab"</span></pre></div>
 <p>Read the files into a single dataframe with <code>vroom</code>. Since the sequencing prep was an Illumina Truseq kit we want to select the unstranded counts for our analysis.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="va">count_df</span> <span class="op">&lt;-</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom.html">vroom</a></span><span class="op">(</span><span class="va">files</span>,
@@ -123,12 +123,12 @@
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;   fpath                                    gene       unstranded forward reverse</span>
 <span class="co">#&gt;   &lt;chr&gt;                                    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 /tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5… N_unmapped     418254  4.18e5  418254</span>
-<span class="co">#&gt; 2 /tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5… N_multima…    5553623  5.55e6 5553623</span>
-<span class="co">#&gt; 3 /tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5… N_noFeatu…    1296232  1.42e7 1360388</span>
-<span class="co">#&gt; 4 /tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5… N_ambiguo…    1828686  1.39e4 1312715</span>
-<span class="co">#&gt; 5 /tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5… ENSG00000…          0  0.           0</span>
-<span class="co">#&gt; 6 /tmp/Rtmp6CuEDF/temp_libpath12ffd7b98f5… ENSG00000…          0  0.           0</span></pre></div>
+<span class="co">#&gt; 1 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_unmapped     418254  4.18e5  418254</span>
+<span class="co">#&gt; 2 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_multima…    5553623  5.55e6 5553623</span>
+<span class="co">#&gt; 3 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_noFeatu…    1296232  1.42e7 1360388</span>
+<span class="co">#&gt; 4 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_ambiguo…    1828686  1.39e4 1312715</span>
+<span class="co">#&gt; 5 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… ENSG00000…          0  0.           0</span>
+<span class="co">#&gt; 6 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… ENSG00000…          0  0.           0</span></pre></div>
 <p>We can now clean up the dataframe by extracting the sample names from the fpath column, removing the gene rows that begin with “N_”, and selecting the unstranded counts. To make the resulting dataset a little smaller we can also filter out rows with zero counts.</p>
 <p><em>Note the use of the <code><a href="https://rdrr.io/pkg/magrittr/man/compound.html">%&lt;&gt;%</a></code> pipe below which reassigns the results of filtering to the <code>count_df</code> variable</em></p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
@@ -515,7 +515,7 @@
 <span class="co"># perform GO analysis with PANTHER on down-genes</span>
 <span class="va">panther_down</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/panther_go.html">panther_go</a></span><span class="op">(</span><span class="va">down_ids</span>, <span class="st">"9606"</span>, <span class="st">"biological_process"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">panther_up</span><span class="op">$</span><span class="va">results</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">panther_up</span><span class="op">$</span><span class="va">table</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   result_number number_in_list fold_enrichment     fdr expected number_in_refer…</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;           &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;            &lt;int&gt;</span>
@@ -527,7 +527,7 @@
 <span class="co">#&gt; 6 6                          8            5.21 0.416    1.54                 478</span>
 <span class="co">#&gt; # … with 4 more variables: pValue &lt;dbl&gt;, plus_minus &lt;chr&gt;, GO_term &lt;chr&gt;,</span>
 <span class="co">#&gt; #   description &lt;chr&gt;</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">panther_down</span><span class="op">$</span><span class="va">results</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">panther_down</span><span class="op">$</span><span class="va">table</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   result_number number_in_list fold_enrichment     fdr expected number_in_refer…</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;           &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;            &lt;int&gt;</span>
@@ -548,7 +548,7 @@
   <span class="fu">pull</span><span class="op">(</span><span class="va">gene_name</span><span class="op">)</span>
   
 <span class="va">panther_up2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/panther_go.html">panther_go</a></span><span class="op">(</span><span class="va">up_genes</span>, <span class="st">"9606"</span>, <span class="st">"biological_process"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">panther_up2</span><span class="op">$</span><span class="va">results</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">panther_up2</span><span class="op">$</span><span class="va">table</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   result_number number_in_list fold_enrichment    fdr expected number_in_refer…</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;           &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;            &lt;int&gt;</span>

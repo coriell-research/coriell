@@ -410,8 +410,8 @@ panther_up <- panther_go(up_ids, "9606", "biological_process")
 # perform GO analysis with PANTHER on down-genes
 panther_down <- panther_go(down_ids, "9606", "biological_process")
 
-head(panther_up$results)
-head(panther_down$results)
+head(panther_up$table)
+head(panther_down$table)
 ```
 
 The function can also work with the gene names.
@@ -424,10 +424,5 @@ up_genes <- res_df %>%
   pull(gene_name)
   
 panther_up2 <- panther_go(up_genes, "9606", "biological_process")
-head(panther_up2$results)
+head(panther_up2$table)
 ```
-
-
-
-
-
