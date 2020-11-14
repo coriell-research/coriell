@@ -45,9 +45,6 @@
 #'
 #' # to view the actual request (which allows you to parse results yourself) use
 #' req <- go_results$request
-#'
-#' # view the parsed json
-#' jsonlite::fromJSON(httr::content(req, "text"), simplifyVector = FALSE)
 panther_go <- function(
                        gene_list,
                        organism,
