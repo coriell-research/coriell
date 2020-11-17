@@ -21,7 +21,7 @@ quickmap <- function(mat, diverging_palette = TRUE, ...) {
 
   default_args <- list(
     scale = "row", show_rownames = FALSE, border_color = NA, cluster_rows = TRUE,
-    cluster_cols = TRUE, color = col_code, cellWidth = 20, treeheight_row = 0, clustering_distance_rows = "euclidean",
+    cluster_cols = TRUE, color = col_code, cellwidth = 20, treeheight_row = 0, clustering_distance_rows = "euclidean",
     clustering_distance_cols = "correlation", clustering_method = "complete", fontsize_col = 8, angle_col = 45
   )
   user_args <- list(...)
