@@ -33,6 +33,7 @@ analysis check out the RNA-seq vignette (more vignettes to come)
 - [Convert a list of sets into a binary matrix](https://coriell-research.github.io/coriell/#convert-a-list-of-sets-into-a-binary-matrix)
 - [Get statistics for all pairwise combinations of a list of sets](https://coriell-research.github.io/coriell/#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets)
 - [Perform Gene Ontology Analysis with PANTHER](https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther)
+- [Subsample a count matrix](https://coriell-research.github.io/coriell/#subsample-a-count-matrix)
 
 ### Perform correlation permutation test using multiple cores
 
@@ -533,4 +534,33 @@ head(mouse_results$table, n = 10)
 > 8                         27           7.21  3.95e-16    3.75                 2254 2.00e-19 +          GO:0009653 anatomical structure morphogenesis                              
 > 9                         29           6.06  4.50e-16    4.78                 2878 2.56e-19 +          GO:0009966 regulation of signal transduction                               
 > 10                        21           12.3  1.04e-15    1.71                 1026 6.57e-19 +          GO:0009887 animal organ morphogenesis 
+```
+
+### Subsample a count matrix
+
+Sub-sample a count matrix so that all columns have a library size equivalent
+to the smallest library in the input matrix.
+
+```{r}
+library(coriell)
+
+
+# simulate a count matrix
+mat <- simulate_counts()$table
+
+# scale the counts so that the libraries are different sizes
+offset <- c(0.5, 0.75, 1.0, 1.25, 1.5, 1.75)
+scaled <- round(mat %*% diag(offset))
+dimnames(scaled) <- dimnames(mat)
+
+colSums(scaled)
+> ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3 
+>  4966  7586  9961 12745 15260 17805
+
+# Subsample the matrix to the smallest library size
+ss <- subsample_counts(scaled)
+
+colSums(ss)
+> ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3 
+>  4966  4966  4966  4966  4966  4966
 ```

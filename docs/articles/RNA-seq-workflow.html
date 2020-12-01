@@ -97,12 +97,12 @@
 <span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"*.ReadsPerGene.out.tab"</span><span class="op">)</span>
 
 <span class="va">files</span>
-<span class="co">#&gt; [1] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/DMSO_4day_1_S1.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [2] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/DMSO_4day_2_S2.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [3] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/DMSO_4day_3_S3.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [4] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/HH1_10uM_4day_1_S4.ReadsPerGene.out.tab"</span>
-<span class="co">#&gt; [5] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/HH1_10uM_4day_2_S5.ReadsPerGene.out.tab"</span>
-<span class="co">#&gt; [6] "/tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3ecf/coriell/extdata/HH1_10uM_4day_3_S1.ReadsPerGene.out.tab"</span></pre></div>
+<span class="co">#&gt; [1] "/tmp/RtmpyV2jvT/temp_libpath8c306dfa8912/coriell/extdata/DMSO_4day_1_S1.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [2] "/tmp/RtmpyV2jvT/temp_libpath8c306dfa8912/coriell/extdata/DMSO_4day_2_S2.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [3] "/tmp/RtmpyV2jvT/temp_libpath8c306dfa8912/coriell/extdata/DMSO_4day_3_S3.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [4] "/tmp/RtmpyV2jvT/temp_libpath8c306dfa8912/coriell/extdata/HH1_10uM_4day_1_S4.ReadsPerGene.out.tab"</span>
+<span class="co">#&gt; [5] "/tmp/RtmpyV2jvT/temp_libpath8c306dfa8912/coriell/extdata/HH1_10uM_4day_2_S5.ReadsPerGene.out.tab"</span>
+<span class="co">#&gt; [6] "/tmp/RtmpyV2jvT/temp_libpath8c306dfa8912/coriell/extdata/HH1_10uM_4day_3_S1.ReadsPerGene.out.tab"</span></pre></div>
 <p>Read the files into a single dataframe with <code>vroom</code>. Since the sequencing prep was an Illumina Truseq kit we want to select the unstranded counts for our analysis.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="va">count_df</span> <span class="op">&lt;-</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom.html">vroom</a></span><span class="op">(</span><span class="va">files</span>,
@@ -123,12 +123,12 @@
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;   fpath                                    gene       unstranded forward reverse</span>
 <span class="co">#&gt;   &lt;chr&gt;                                    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_unmapped     418254  4.18e5  418254</span>
-<span class="co">#&gt; 2 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_multima…    5553623  5.55e6 5553623</span>
-<span class="co">#&gt; 3 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_noFeatu…    1296232  1.42e7 1360388</span>
-<span class="co">#&gt; 4 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… N_ambiguo…    1828686  1.39e4 1312715</span>
-<span class="co">#&gt; 5 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… ENSG00000…          0  0.           0</span>
-<span class="co">#&gt; 6 /tmp/RtmpYC9mD7/temp_libpath1b5ea7f7a3e… ENSG00000…          0  0.           0</span></pre></div>
+<span class="co">#&gt; 1 /tmp/RtmpyV2jvT/temp_libpath8c306dfa891… N_unmapped     418254  4.18e5  418254</span>
+<span class="co">#&gt; 2 /tmp/RtmpyV2jvT/temp_libpath8c306dfa891… N_multima…    5553623  5.55e6 5553623</span>
+<span class="co">#&gt; 3 /tmp/RtmpyV2jvT/temp_libpath8c306dfa891… N_noFeatu…    1296232  1.42e7 1360388</span>
+<span class="co">#&gt; 4 /tmp/RtmpyV2jvT/temp_libpath8c306dfa891… N_ambiguo…    1828686  1.39e4 1312715</span>
+<span class="co">#&gt; 5 /tmp/RtmpyV2jvT/temp_libpath8c306dfa891… ENSG00000…          0  0.           0</span>
+<span class="co">#&gt; 6 /tmp/RtmpyV2jvT/temp_libpath8c306dfa891… ENSG00000…          0  0.           0</span></pre></div>
 <p>We can now clean up the dataframe by extracting the sample names from the fpath column, removing the gene rows that begin with “N_”, and selecting the unstranded counts. To make the resulting dataset a little smaller we can also filter out rows with zero counts.</p>
 <p><em>Note the use of the <code><a href="https://rdrr.io/pkg/magrittr/man/compound.html">%&lt;&gt;%</a></code> pipe below which reassigns the results of filtering to the <code>count_df</code> variable</em></p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
