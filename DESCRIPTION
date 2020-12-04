@@ -16,8 +16,6 @@ Imports:
     edgeR,
     magrittr,
     rlang,
-    doParallel,
-    foreach,
     parallel,
     pheatmap,
     viridisLite,
