@@ -37,11 +37,16 @@ analysis check out the [RNA-seq vignette](https://coriell-research.github.io/cor
 
 ### Perform correlation permutation test using multiple cores
 
-Note: if the number of possible permutations of your data is less than the desired number
-of permutations given by the parameter `n_perm` then an exact test on all of the real permutations
-will be performed instead of random sampling. For example, if you only have 6 samples (720 possible permutations)
-but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be tested.
-The `permutation_correlation_test` function will display a message if this occurs.
+Note: if the number of possible permutations of your data is less than the 
+desired number of permutations given by the parameter `n_perm` then an exact 
+test on all of the real permutations will be performed instead of random 
+sampling. For example, if you only have 6 samples (720 possible permutations)
+but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be 
+tested. The `permutation_correlation_test` function will display a message if 
+this occurs. The function accepts a numeric matrix as input or a data.frame that
+can be converted to a numeric matrix. In the case a data.frame is passed to
+argument `X`, the function call will display a message confirming the conversion.
+In most cases this conversion is inconsequential.
 
 ```R
 library(coriell)
@@ -77,11 +82,11 @@ res <- permutation_correlation_test(perc_meth,
                                     y = ages$age, 
                                     n_cores = 4, 
                                     n_perm = 10000,
-                                    cor_method = "spearman", 
-                                    p_adjust_method = "fdr")
+                                    method = "spearman", 
+                                    )
 
 head(res)
->       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4   spearman empirical_p       fdr
+>       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr
 > 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231 -0.3437200      0.1925 0.4812073
 > 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000         NA          NA        NA
 > 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329 -0.3559957      0.1903 0.4812073
@@ -98,7 +103,7 @@ head(res)
 cors <- sample_n_random_cor(df = perc_meth, 
                             y = ages$age,
                             n = 1000000,
-                            cor_method = "spearman")
+                            method = "spearman")
 
 # simple histogram of correlation values -- drop NAs if present
 hist(cors[!is.na(cors)])
