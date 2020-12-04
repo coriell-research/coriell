@@ -108,7 +108,7 @@
 <div id="perform-correlation-permutation-test-using-multiple-cores" class="section level3">
 <h3 class="hasAnchor">
 <a href="#perform-correlation-permutation-test-using-multiple-cores" class="anchor"></a>Perform correlation permutation test using multiple cores</h3>
-<p>Note: if the number of possible permutations of your data is less than the desired number of permutations given by the parameter <code>n_perm</code> then an exact test on all of the real permutations will be performed instead of random sampling. For example, if you only have 6 samples (720 possible permutations) but set <code>n_perm = 1000</code> only 720 permutations (i.e. the exact test) will be tested. The <code>permutation_correlation_test</code> function will display a message if this occurs.</p>
+<p>Note: if the number of possible permutations of your data is less than the desired number of permutations given by the parameter <code>n_perm</code> then an exact test on all of the real permutations will be performed instead of random sampling. For example, if you only have 6 samples (720 possible permutations) but set <code>n_perm = 1000</code> only 720 permutations (i.e. the exact test) will be tested. The <code>permutation_correlation_test</code> function will display a message if this occurs. The function accepts a numeric matrix as input or a data.frame that can be converted to a numeric matrix. In the case a data.frame is passed to argument <code>X</code>, the function call will display a message confirming the conversion. In most cases this conversion is inconsequential.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(coriell)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(methylKit)</span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
@@ -142,11 +142,11 @@
 <span id="cb2-31"><a href="#cb2-31"></a>                                    <span class="dt">y =</span> ages<span class="op">$</span>age, </span>
 <span id="cb2-32"><a href="#cb2-32"></a>                                    <span class="dt">n_cores =</span> <span class="dv">4</span>, </span>
 <span id="cb2-33"><a href="#cb2-33"></a>                                    <span class="dt">n_perm =</span> <span class="dv">10000</span>,</span>
-<span id="cb2-34"><a href="#cb2-34"></a>                                    <span class="dt">cor_method =</span> <span class="st">"spearman"</span>, </span>
-<span id="cb2-35"><a href="#cb2-35"></a>                                    <span class="dt">p_adjust_method =</span> <span class="st">"fdr"</span>)</span>
+<span id="cb2-34"><a href="#cb2-34"></a>                                    <span class="dt">method =</span> <span class="st">"spearman"</span>, </span>
+<span id="cb2-35"><a href="#cb2-35"></a>                                    )</span>
 <span id="cb2-36"><a href="#cb2-36"></a></span>
 <span id="cb2-37"><a href="#cb2-37"></a><span class="kw">head</span>(res)</span>
-<span id="cb2-38"><a href="#cb2-38"></a><span class="op">&gt;</span><span class="st">       </span>test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4   spearman empirical_p       fdr</span>
+<span id="cb2-38"><a href="#cb2-38"></a><span class="op">&gt;</span><span class="st">       </span>test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr</span>
 <span id="cb2-39"><a href="#cb2-39"></a><span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>  <span class="fl">48.14815</span>  <span class="fl">54.05405</span>  <span class="fl">45.45455</span>  <span class="fl">57.89474</span> <span class="fl">32.46753</span> <span class="fl">24.418605</span>  <span class="fl">4.687500</span>  <span class="fl">30.769231</span> <span class="fl">-0.3437200</span>      <span class="fl">0.1925</span> <span class="fl">0.4812073</span></span>
 <span id="cb2-40"><a href="#cb2-40"></a><span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>  <span class="fl">0.00000</span>  <span class="fl">0.000000</span>  <span class="fl">0.000000</span>   <span class="fl">0.000000</span>         <span class="ot">NA</span>          <span class="ot">NA</span>        <span class="ot">NA</span></span>
 <span id="cb2-41"><a href="#cb2-41"></a><span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span>  <span class="fl">38.20598</span>  <span class="fl">16.34615</span>  <span class="fl">12.50000</span>  <span class="fl">60.00000</span> <span class="fl">25.42373</span>  <span class="fl">3.636364</span> <span class="fl">18.421053</span>  <span class="fl">32.335329</span> <span class="fl">-0.3559957</span>      <span class="fl">0.1903</span> <span class="fl">0.4812073</span></span>
@@ -163,7 +163,7 @@
 <span class="va">cors</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sample_n_random_cor.html">sample_n_random_cor</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">perc_meth</span>, 
                             y <span class="op">=</span> <span class="va">ages</span><span class="op">$</span><span class="va">age</span>,
                             n <span class="op">=</span> <span class="fl">1000000</span>,
-                            cor_method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span>
+                            method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span>
 
 <span class="co"># simple histogram of correlation values -- drop NAs if present</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">cors</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">cors</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></pre></div>

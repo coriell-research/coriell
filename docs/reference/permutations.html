@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a null distribution of correlation values — sample_n_random_cor • coriell</title>
+<title>Generate all permutations of a vector — permutations • coriell</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,10 @@
 
 
 
-<meta property="og:title" content="Generate a null distribution of correlation values — sample_n_random_cor" />
-<meta property="og:description" content="Selects n random rows from a numeric matrix with replacement. For each random 
-row, permute vector y and perform correlation." />
+<meta property="og:title" content="Generate all permutations of a vector — permutations" />
+<meta property="og:description" content="Given the input vector, generate a matrix of permutations where each row
+represents a permutation of the data. Stolen from:
+https://stackoverflow.com/a/34287541" />
 
 
 
@@ -116,51 +117,59 @@ row, permute vector y and perform correlation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a null distribution of correlation values</h1>
+    <h1>Generate all permutations of a vector</h1>
     
-    <div class="hidden name"><code>sample_n_random_cor.Rd</code></div>
+    <div class="hidden name"><code>permutations.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Selects n random rows from a numeric matrix with replacement. For each random 
-row, permute vector y and perform correlation.</p>
+    <p>Given the input vector, generate a matrix of permutations where each row
+represents a permutation of the data. Stolen from:
+https://stackoverflow.com/a/34287541</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sample_n_random_cor</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>y</span>, n <span class='op'>=</span> <span class='fl'>10000</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>permutations</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>X</th>
-      <td><p>numeric matrix or data.frame that can be converted to numeric matrix.</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>numeric vector. Numeric vector of values used to correlate with each row of df</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>integer. Number of random correlations to return. Default (1e4)</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed to `cor` function</p></td>
+      <th>x</th>
+      <td><p>vector</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric vector of correlation values. Vector can contain NAs if row variance == 0.</p>
+    <p>factorial(x) x length(x) matrix</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='op'>{</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>1e3</span> <span class='op'>*</span> <span class='fl'>6</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='fl'>1e3</span>, ncol <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>6</span>
-
-<span class='va'>null_dist</span> <span class='op'>&lt;-</span> <span class='fu'>coriell</span><span class='fu'>::</span><span class='fu'>sample_n_random_cor</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>y</span>, n <span class='op'>=</span> <span class='fl'>1e3</span>, method <span class='op'>=</span> <span class='st'>"spearman"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='op'>{</span> <span class='fu'>coriell</span><span class='fu'>::</span><span class='fu'>permutations</span><span class='op'>(</span><span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>}</span>
+</div><div class='output co'>#&gt;       [,1] [,2] [,3] [,4]
+#&gt;  [1,] "a"  "b"  "c"  "d" 
+#&gt;  [2,] "a"  "b"  "d"  "c" 
+#&gt;  [3,] "a"  "c"  "b"  "d" 
+#&gt;  [4,] "a"  "c"  "d"  "b" 
+#&gt;  [5,] "a"  "d"  "b"  "c" 
+#&gt;  [6,] "a"  "d"  "c"  "b" 
+#&gt;  [7,] "b"  "a"  "c"  "d" 
+#&gt;  [8,] "b"  "a"  "d"  "c" 
+#&gt;  [9,] "b"  "c"  "a"  "d" 
+#&gt; [10,] "b"  "c"  "d"  "a" 
+#&gt; [11,] "b"  "d"  "a"  "c" 
+#&gt; [12,] "b"  "d"  "c"  "a" 
+#&gt; [13,] "c"  "a"  "b"  "d" 
+#&gt; [14,] "c"  "a"  "d"  "b" 
+#&gt; [15,] "c"  "b"  "a"  "d" 
+#&gt; [16,] "c"  "b"  "d"  "a" 
+#&gt; [17,] "c"  "d"  "a"  "b" 
+#&gt; [18,] "c"  "d"  "b"  "a" 
+#&gt; [19,] "d"  "a"  "b"  "c" 
+#&gt; [20,] "d"  "a"  "c"  "b" 
+#&gt; [21,] "d"  "b"  "a"  "c" 
+#&gt; [22,] "d"  "b"  "c"  "a" 
+#&gt; [23,] "d"  "c"  "a"  "b" 
+#&gt; [24,] "d"  "c"  "b"  "a" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

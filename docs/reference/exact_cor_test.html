@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Exact Permutation Test — exact_cor_test • coriell</title>
+<title>Perform and exact correlation test on every row of a matrix — exact_cor_test • coriell</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="Exact Permutation Test — exact_cor_test" />
-<meta property="og:description" content="In the case where the number of number of permutations chosen is greater
-than the actual number of permutations, perform an exact test instead.
-The code for getting all distinct permutations was stolen from:
-https://stackoverflow.com/a/34287541" />
+<meta property="og:title" content="Perform and exact correlation test on every row of a matrix — exact_cor_test" />
+<meta property="og:description" content="Perform an exact correlation permutation test. Computes correlation value for
+every row of matrix X against all permutations of vector y." />
 
 
 
@@ -118,41 +116,40 @@ https://stackoverflow.com/a/34287541" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Exact Permutation Test</h1>
+    <h1>Perform and exact correlation test on every row of a matrix</h1>
     
     <div class="hidden name"><code>exact_cor_test.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>In the case where the number of number of permutations chosen is greater
-than the actual number of permutations, perform an exact test instead.
-The code for getting all distinct permutations was stolen from:
-https://stackoverflow.com/a/34287541</p>
+    <p>Perform an exact correlation permutation test. Computes correlation value for
+every row of matrix X against all permutations of vector y.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>exact_cor_test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>cor_method</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>exact_cor_test</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>y</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>numeric vector</p></td>
+      <th>X</th>
+      <td><p>numeric matrix or data.frame that can be converted to a numeric matrix</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>numeric vector</p></td>
+      <td><p>numeric vector of data to correlate</p></td>
     </tr>
     <tr>
-      <th>cor_method</th>
-      <td><p>a character string indicating which correlation coefficient (or covariance) is to be computed.
-One of "pearson", "kendall", or "spearman": can be abbreviated.</p></td>
+      <th>...</th>
+      <td><p>arguments passed to the `cor` function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric vector. Correlations from permutations of x with y</p>
+    <p>data.frame containing the original values in X along with columns 
+containing the correlation of Xi and Y, the empirical p-value of the 
+permutation test, and the FDR corrected empirical p-value</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
