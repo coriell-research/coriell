@@ -1,188 +1,149 @@
-#' Exact Permutation Test
-#'
-#' In the case where the number of number of permutations chosen is greater
-#' than the actual number of permutations, perform an exact test instead.
-#' The code for getting all distinct permutations was stolen from:
+#' Generate all permutations of a vector
+#' 
+#' Given the input vector, generate a matrix of permutations where each row
+#' represents a permutation of the data. Stolen from:
 #' https://stackoverflow.com/a/34287541
-#'
-#' @param x numeric vector
-#' @param y numeric vector
-#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
-#'   One of "pearson", "kendall", or "spearman": can be abbreviated.
-#' @return numeric vector. Correlations from permutations of x with y
-#' @keywords internal
-exact_cor_test <- function(x, y, cor_method) {
-  permutations <- function(x) {
-    if (length(x) == 1) {
-      return(x)
-    }
-    else {
-      res <- matrix(nrow = 0, ncol = length(x))
-      for (i in seq_along(x)) {
-        res <- rbind(res, cbind(x[i], Recall(x[-i])))
-      }
-      return(res)
-    }
-  }
-
-  perms <- permutations(x)
-  res <- apply(X = perms, MARGIN = 1, FUN = cor, y, method = cor_method)
-  res
-}
-
-
-#' Correlation Permutation Test Function
-#'
-#' Internal function for performing a correlation permutation test
-#' @param x numeric vector
-#' @param y numeric vector
-#' @param n_perm numeric. The number of permutations to perform
-#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
-#'   One of "pearson", "kendall", or "spearman": can be abbreviated.
-#' @return numeric. empirical p-value from permutation test.
-#' @keywords internal
-perm_cor <- function(x, y, n_perm, cor_method) {
-  test_stat <- cor(x, y, method = cor_method)
-
-  # test_stat will be NA for rows without variance
-  if (is.na(test_stat)) {
-    return(NA)
-  }
-
-  # perform exact test if real perms less than n_perms
-  if (factorial(length(x)) < n_perm) {
-    cor_results <- exact_cor_test(x, y, cor_method)
-  } else {
-    cor_results <- vector("double", length = n_perm)
-    for (i in 1:n_perm) {
-      perm_vec <- sample(x)
-      cor_results[[i]] <- cor(perm_vec, y, method = cor_method)
-    }
-  }
-
-  # calculate and return the empirical p-value
-  if (test_stat < 0) {
-    mean(cor_results <= test_stat)
-  } else {
-    mean(cor_results >= test_stat)
-  }
-}
-
-#' Parallel Implementation of a Correlation Permutation Test
-#'
-#' Performs a correlation permutation test over all rows of a data.frame using multiple cores
-#' @param df data.frame. Site by Samples data.frame
-#' @param y numeric vector. Numeric vector of values used to correlate with each row of df
-#' @param n_cores numeric. Number of cores to use for parallel processing.  Default 1.
-#' @param n_perm numeric. Number of permutations to perform on each row. Default 1000.
-#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
-#'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
-#' @param p_adjust_method a character string indicating which of the p.adjust.methods to use for correction. Default "fdr".
-#' @return df with additional columns for correlations, empirical p-values, and fdr adjusted p-values.
-#' @examples
-#' \dontrun{
-#' library(coriell)
-#' library(methylKit)
-#'
-#' # define age dataframe -- ages matching column order
-#' ages <- data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
-#'
-#' # simulate a methylation dataset
-#' sim_meth <- dataSim(
-#'   replicates = 8,
-#'   sites = 1000,
-#'   treatment = c(rep(1, 4), rep(0, 4)),
-#'   covariates = ages,
-#'   sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4))
-#' )
-#'
-#' # extract the methylation as percentages and coerce to data.frame
-#' perc_meth <- as.data.frame(percMethylation(sim_meth))
-#'
-#' # perform permutation testing using 4 cores and 10000 permutations
-#' res <- permutation_correlation_test(perc_meth,
-#'   y = ages$age,
-#'   n_cores = 4,
-#'   n_perm = 10000,
-#'   cor_method = "spearman",
-#'   p_adjust_method = "fdr"
-#' )
-#' }
+#' @param x vector
+#' @return factorial(x) x length(x) matrix
+#' @examples{ coriell::permutations(letters[1:4]) }
 #' @export
-permutation_correlation_test <- function(df, y, n_cores = 1, n_perm = 1000, cor_method = "spearman", p_adjust_method = "fdr") {
-  # Simple error checking
-  stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
-  stopifnot("n_cores exceeds number of cores detected" = n_cores <= parallel::detectCores())
-  stopifnot("Incorrect p.adjust method specified" = p_adjust_method %in% c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"))
+permutations <- function(x) {
+  if (length(x) == 1) {
+    return(x)
+  }
+  else {
+    res <- matrix(nrow = 0, ncol = length(x))
+    for (i in seq_along(x)) {
+      res <- rbind(res, cbind(x[i], Recall(x[-i])))
+    }
+    return(res)
+  }
+}
 
+#' Perform and exact correlation test on every row of a matrix
+#' 
+#' Perform an exact correlation permutation test. Computes correlation value for
+#' every row of matrix X against all permutations of vector y.
+#' @param X numeric matrix or data.frame that can be converted to a numeric matrix
+#' @param y numeric vector of data to correlate
+#' @param ... arguments passed to the `cor` function
+#' @return data.frame containing the original values in X along with columns 
+#' containing the correlation of Xi and Y, the empirical p-value of the 
+#' permutation test, and the FDR corrected empirical p-value
+#' @keywords internal
+exact_cor_test <- function(X, y, ...) {
+  test_stat <- cor(t(X), y, ...)
+  Y_perms <- coriell::permutations(y)
+  cors <- apply(Y_perms, 1, cor, x = t(X), ...)
+  empirical_p <- vector("numeric", length = nrow(X))
+  for (i in seq_along(test_stat)) {
+    if (is.na(test_stat[[i]])) {
+      empirical_p[[i]] <- NA
+    } else if (test_stat[[i]] > 0) {
+      empirical_p[[i]] <- mean(cors[i, ] > test_stat[[i]])
+    } else if (test_stat[[i]] < 0) {
+      empirical_p[[i]] <- mean(cors[i, ] < 0)
+    } else {
+      empirical_p[[i]] <- 0
+    }
+  }
+  fdr <- p.adjust(empirical_p, method = 'BH')
+  df <- as.data.frame(X)
+  df$cor <- test_stat
+  df$empirical.p <- empirical_p
+  df$FDR <- fdr
+  df
+}
+
+#' Perform a permutation correlation test on every row of a matrix
+#' 
+#' Compute a correlation value for every row of X against the vector y and n 
+#' random permutations of y. If the number of possible permutations is less than
+#' the the argument n_perm then an exact test is performed instead. In both 
+#' cases the function returns a data.frame of the original data with additional
+#' columns for the test statistic, empirical p-value, and FDR corrected empirical
+#' p-value.
+#' @param X numeric matrix or data.frame that can be converted to a numeric matrix
+#' @param y numeric vector of values to correlate with rows of X
+#' @param n_perm integer. The desired number of permutations to sample from. Default (10,000)
+#' @param n_core integer. The number of cores to use for processing. Default (1)
+#' @param ... Additional arguments to pass to `cor` function
+#' @export
+#' @examples{
+#' # generate example data
+#' X <- matrix(runif(1e3 * 10), nrow = 1e3, ncol = 10)
+#' y <- 1:10
+#' 
+#' # correlate rows of X with 1,000 random permutations of vector y
+#' res <- coriell::permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
+#' }
+permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
+  if (is.data.frame(X)) {
+    message("Input X is a data.frame. X will be converted to matrix")
+    X <- as.matrix(X)
+  }
+  
   if (factorial(length(y)) < n_perm) {
-    message(paste0("The number of permutations (", factorial(length(y)), ") is less than n_perm (", n_perm, "). Performing exact test on all permutations."))
+    message(paste0("The number of permutations of y (", factorial(length(y)), ") is less than n_perm (", n_perm, "). Performing exact test on all permutations."))
+    df <- coriell::exact_cor_test(X, y, ...)
+    return(df)
   }
-
-  doParallel::registerDoParallel(cores = n_cores)
-
-  # compute the empirical p.values in parallel
-  empirical_p <- foreach::foreach(i = 1:nrow(df), .combine = rbind, .inorder = TRUE) %dopar%
-    (perm_cor(x = as.numeric(df[i, ]), y = y, n_perm = n_perm, cor_method = cor_method))
-
-  p_cor <- apply(df, 1, function(x) cor(as.numeric(x), y = y, method = cor_method))
-  p_res_df <- cbind(df, p_cor, empirical_p)
-  p_res_df[p_adjust_method] <- p.adjust(p_res_df$empirical_p, method = p_adjust_method)
-
-  # clean up column and rownames
-  names(p_res_df)[names(p_res_df) == "p_cor"] <- cor_method
-  rownames(p_res_df) <- rownames(df)
-
-  p_res_df
+  
+  test_stat <- cor(t(X), y, ...)
+  y_perms <- replicate(n_perm, sample(y), simplify = FALSE) 
+  perm_cors <- parallel::mclapply(y_perms, FUN = function(y) {cor(t(X), y, ...)}, mc.cores = n_core)
+  perm_cors <- do.call(cbind, perm_cors)
+  empirical_p <- vector("numeric", length = nrow(X))
+  for (i in seq_along(test_stat)) {
+    if (is.na(test_stat[[i]])) {
+      empirical_p[[i]] <- NA
+    } else if (test_stat[[i]] > 0) {
+      empirical_p[[i]] <- mean(perm_cors[i, ] > test_stat[[i]])
+    } else if (test_stat[[i]] < 0) {
+      empirical_p[[i]] <- mean(perm_cors[i, ] < 0)
+    } else {
+      empirical_p[[i]] <- 0
+    }
+  }
+  fdr <- p.adjust(empirical_p, method = 'BH')
+  df <- as.data.frame(X)
+  df$cor <- test_stat
+  df$empirical.p <- empirical_p
+  df$FDR <- fdr
+  df
 }
 
-
-#' Sample Random Correlations from a dataframe
+#' Generate a null distribution of correlation values
 #'
-#' Selects n random rows from a dataframe with replacement. For each random row,
-#' permute vector y and perform correlation with the given cor_method.
-#' @param df data.frame. Site by Samples data.frame
+#' Selects n random rows from a numeric matrix with replacement. For each random 
+#' row, permute vector y and perform correlation.
+#' @param X numeric matrix or data.frame that can be converted to numeric matrix.
 #' @param y numeric vector. Numeric vector of values used to correlate with each row of df
-#' @param n integer. Number of random correlations to return. Default (10000)
-#' @param cor_method a character string indicating which correlation coefficient (or covariance) is to be computed.
-#'   One of "pearson", "kendall", or "spearman" (default): can be abbreviated.
-#' @return named numeric vector of correlation values and row indeces. Vector can contain NAs if row variance == 0.
-#' @export
-#' @examples
-#' \dontrun{
-#' library(methylKit)
-#'
-#' ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
-#'
-#' sim_meth <- dataSim(
-#'   replicates = 6,
-#'   sites = 1000,
-#'   treatment = c(rep(1, 3), rep(0, 3)),
-#'   covariates = ages,
-#'   sample.ids = c(paste0("test", 1:3), paste0("ctrl", 1:3))
-#' )
-#'
-#' # extract the methylation as percentages and coerce to data.frame
-#' perc_meth <- as.data.frame(percMethylation(sim_meth))
-#'
-#' # Get 1_000_000 random correlations from perc_meth data.frame
-#' cors <- sample_n_random_cor(perc_meth, y = ages$age)
-#'
-#' # histogram of distribution -- filter NAs if present
-#' hist(cors[!is.na(cors)])
+#' @param n integer. Number of random correlations to return. Default (1e4)
+#' @param ... Additional arguments passed to `cor` function
+#' @return numeric vector of correlation values. Vector can contain NAs if row variance == 0.
+#' @examples{
+#' X <- matrix(runif(1e3 * 6), nrow = 1e3, ncol = 6)
+#' y <- 1:6
+#' 
+#' null_dist <- coriell::sample_n_random_cor(X, y, n = 1e3, method = "spearman")
 #' }
-sample_n_random_cor <- function(df, y, n = 1e+06, cor_method = "spearman") {
-  stopifnot("Number of columns is not equal to length of vector y" = length(colnames(df)) == length(y))
-  random_rows <- sample(1:nrow(df), n, replace = TRUE)
-  cor_results <- apply(df[random_rows, ],
+#' @export
+sample_n_random_cor <- function(X, y, n = 1e4, ...) {
+  if (is.data.frame(X)) {
+    message("Input X is a data.frame. X will be converted to matrix")
+    X <- as.matrix(X)
+  }
+  random_rows <- sample.int(nrow(X), n, replace = TRUE)
+  cor_results <- apply(X[random_rows, ],
     MARGIN = 1,
     FUN = function(x) {
       cor(
         as.numeric(x),
         y = sample(y),
-        method = cor_method
+        ...
       )
     }
   )
-  return(cor_results)
+  cor_results
 }

@@ -2,48 +2,31 @@
 % Please edit documentation in R/permutation.R
 \name{sample_n_random_cor}
 \alias{sample_n_random_cor}
-\title{Sample Random Correlations from a dataframe}
+\title{Generate a null distribution of correlation values}
 \usage{
-sample_n_random_cor(df, y, n = 1e+06, cor_method = "spearman")
+sample_n_random_cor(X, y, n = 10000, ...)
 }
 \arguments{
-\item{df}{data.frame. Site by Samples data.frame}
+\item{X}{numeric matrix or data.frame that can be converted to numeric matrix.}
 
 \item{y}{numeric vector. Numeric vector of values used to correlate with each row of df}
 
-\item{n}{integer. Number of random correlations to return. Default (10000)}
+\item{n}{integer. Number of random correlations to return. Default (1e4)}
 
-\item{cor_method}{a character string indicating which correlation coefficient (or covariance) is to be computed.
-One of "pearson", "kendall", or "spearman" (default): can be abbreviated.}
+\item{...}{Additional arguments passed to `cor` function}
 }
 \value{
-named numeric vector of correlation values and row indeces. Vector can contain NAs if row variance == 0.
+numeric vector of correlation values. Vector can contain NAs if row variance == 0.
 }
 \description{
-Selects n random rows from a dataframe with replacement. For each random row,
-permute vector y and perform correlation with the given cor_method.
+Selects n random rows from a numeric matrix with replacement. For each random 
+row, permute vector y and perform correlation.
 }
 \examples{
-\dontrun{
-library(methylKit)
+{
+X <- matrix(runif(1e3 * 6), nrow = 1e3, ncol = 6)
+y <- 1:6
 
-ages <- data.frame(age = c(30, 80, 34, 30, 80, 40))
-
-sim_meth <- dataSim(
-  replicates = 6,
-  sites = 1000,
-  treatment = c(rep(1, 3), rep(0, 3)),
-  covariates = ages,
-  sample.ids = c(paste0("test", 1:3), paste0("ctrl", 1:3))
-)
-
-# extract the methylation as percentages and coerce to data.frame
-perc_meth <- as.data.frame(percMethylation(sim_meth))
-
-# Get 1_000_000 random correlations from perc_meth data.frame
-cors <- sample_n_random_cor(perc_meth, y = ages$age)
-
-# histogram of distribution -- filter NAs if present
-hist(cors[!is.na(cors)])
+null_dist <- coriell::sample_n_random_cor(X, y, n = 1e3, method = "spearman")
 }
 }

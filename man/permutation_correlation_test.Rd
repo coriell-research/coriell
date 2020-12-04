@@ -2,64 +2,36 @@
 % Please edit documentation in R/permutation.R
 \name{permutation_correlation_test}
 \alias{permutation_correlation_test}
-\title{Parallel Implementation of a Correlation Permutation Test}
+\title{Perform a permutation correlation test on every row of a matrix}
 \usage{
-permutation_correlation_test(
-  df,
-  y,
-  n_cores = 1,
-  n_perm = 1000,
-  cor_method = "spearman",
-  p_adjust_method = "fdr"
-)
+permutation_correlation_test(X, y, n_perm = 10000, n_core = 1, ...)
 }
 \arguments{
-\item{df}{data.frame. Site by Samples data.frame}
+\item{X}{numeric matrix or data.frame that can be converted to a numeric matrix}
 
-\item{y}{numeric vector. Numeric vector of values used to correlate with each row of df}
+\item{y}{numeric vector of values to correlate with rows of X}
 
-\item{n_cores}{numeric. Number of cores to use for parallel processing.  Default 1.}
+\item{n_perm}{integer. The desired number of permutations to sample from. Default (10,000)}
 
-\item{n_perm}{numeric. Number of permutations to perform on each row. Default 1000.}
+\item{n_core}{integer. The number of cores to use for processing. Default (1)}
 
-\item{cor_method}{a character string indicating which correlation coefficient (or covariance) is to be computed.
-One of "pearson", "kendall", or "spearman" (default): can be abbreviated.}
-
-\item{p_adjust_method}{a character string indicating which of the p.adjust.methods to use for correction. Default "fdr".}
-}
-\value{
-df with additional columns for correlations, empirical p-values, and fdr adjusted p-values.
+\item{...}{Additional arguments to pass to `cor` function}
 }
 \description{
-Performs a correlation permutation test over all rows of a data.frame using multiple cores
+Compute a correlation value for every row of X against the vector y and n 
+random permutations of y. If the number of possible permutations is less than
+the the argument n_perm then an exact test is performed instead. In both 
+cases the function returns a data.frame of the original data with additional
+columns for the test statistic, empirical p-value, and FDR corrected empirical
+p-value.
 }
 \examples{
-\dontrun{
-library(coriell)
-library(methylKit)
+{
+# generate example data
+X <- matrix(runif(1e3 * 10), nrow = 1e3, ncol = 10)
+y <- 1:10
 
-# define age dataframe -- ages matching column order
-ages <- data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
-
-# simulate a methylation dataset
-sim_meth <- dataSim(
-  replicates = 8,
-  sites = 1000,
-  treatment = c(rep(1, 4), rep(0, 4)),
-  covariates = ages,
-  sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4))
-)
-
-# extract the methylation as percentages and coerce to data.frame
-perc_meth <- as.data.frame(percMethylation(sim_meth))
-
-# perform permutation testing using 4 cores and 10000 permutations
-res <- permutation_correlation_test(perc_meth,
-  y = ages$age,
-  n_cores = 4,
-  n_perm = 10000,
-  cor_method = "spearman",
-  p_adjust_method = "fdr"
-)
+# correlate rows of X with 1,000 random permutations of vector y
+res <- coriell::permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
 }
 }
