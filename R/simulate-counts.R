@@ -1,4 +1,4 @@
-#' Simulate RNASeq Count Data
+#' Generate simulated RNA-seq data for testing purposes
 #'
 #' Simulate an RNASeq count matrix. Adapted from edgeR documentation.
 #' This function is not meant for any serious modelling. It's really used mostly for testing

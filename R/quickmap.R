@@ -1,4 +1,4 @@
-#' Quick Heatmap with Sensible Defaults for RNA-seq
+#' Heatmap with sensible defaults for RNA-seq expression data
 #'
 #' Generate a heatmap using pheatmap with sensible defaults for RNA-seq.
 #' Utilizes a default blue to red diverging color palette, removes rownames

@@ -1,4 +1,4 @@
-#' Volcano Plot Function
+#' Create a volcano plot from expression data
 #'
 #' Create a volcano plot from the given dataframe
 #' @param df dataframe containing columns with gene names, p-values, and log-fold changes.

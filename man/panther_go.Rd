@@ -2,7 +2,7 @@
 % Please edit documentation in R/panther-go.R
 \name{panther_go}
 \alias{panther_go}
-\title{Perform GO Analysis with PANTHER}
+\title{Perform GO analysis with PANTHER}
 \usage{
 panther_go(
   gene_list,

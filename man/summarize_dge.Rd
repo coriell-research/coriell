@@ -2,7 +2,7 @@
 % Please edit documentation in R/summarize-dge.R
 \name{summarize_dge}
 \alias{summarize_dge}
-\title{Summarize Results}
+\title{Summarize RNA-seq expression results}
 \usage{
 summarize_dge(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0)
 }

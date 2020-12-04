@@ -1,4 +1,4 @@
-#' Summarize Results
+#' Summarize RNA-seq expression results
 #'
 #' Summarize a results dataframe. Return dataframe of counts of up/down/non-DE genes based on
 #' log-fold-change and significance values.

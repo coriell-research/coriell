@@ -1,4 +1,4 @@
-#' MD Plot Function
+#' Create an MD plot from expression data
 #'
 #' Create an MD plot from the given dataframe
 #' @param df dataframe containing log-fold-change, p-value, and logCPM columns.

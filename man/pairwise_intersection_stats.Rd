@@ -2,7 +2,7 @@
 % Please edit documentation in R/pairwise-intersection-stats.R
 \name{pairwise_intersection_stats}
 \alias{pairwise_intersection_stats}
-\title{Compute Pairwise intersection Statistics}
+\title{Compute pairwise intersection statistics between all elements of a list}
 \usage{
 pairwise_intersection_stats(sets)
 }

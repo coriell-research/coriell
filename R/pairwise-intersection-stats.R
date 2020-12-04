@@ -1,4 +1,4 @@
-#' Compute Pairwise intersection Statistics
+#' Compute pairwise intersection statistics between all elements of a list
 #'
 #' Given a list of sets, compute all pairwise intersections and return
 #' statistics about the intersections.

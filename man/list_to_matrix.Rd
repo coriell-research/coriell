@@ -2,7 +2,7 @@
 % Please edit documentation in R/list-to-matrix.R
 \name{list_to_matrix}
 \alias{list_to_matrix}
-\title{List to Matrix}
+\title{Convert a list of vectors to a binary matrix}
 \usage{
 list_to_matrix(sets)
 }

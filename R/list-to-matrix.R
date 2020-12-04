@@ -1,4 +1,4 @@
-#' List to Matrix
+#' Convert a list of vectors to a binary matrix
 #'
 #' Convert a list of sets into a binary matrix.
 #'

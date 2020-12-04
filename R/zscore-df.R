@@ -1,7 +1,6 @@
 #' Z-score a dataframe
 #'
 #' Convenience function for scaling a dataframe by rows or columns.
-#'
 #' @param df data.frame or matrix of numeric columns
 #' @param by a character string indicating which axis to scale by. Either "row" or "column". Default ("row")
 #' @return data.frame with scaled values

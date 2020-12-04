@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate-counts.R
 \name{simulate_counts}
 \alias{simulate_counts}
-\title{Simulate RNASeq Count Data}
+\title{Generate simulated RNA-seq data for testing purposes}
 \usage{
 simulate_counts(
   n_genes = 1000,

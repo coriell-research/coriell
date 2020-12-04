@@ -2,7 +2,7 @@
 % Please edit documentation in R/quickmap.R
 \name{quickmap}
 \alias{quickmap}
-\title{Quick Heatmap with Sensible Defaults for RNA-seq}
+\title{Heatmap with sensible defaults for RNA-seq expression data}
 \usage{
 quickmap(mat, diverging_palette = TRUE, ...)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-md.R
 \name{plot_md}
 \alias{plot_md}
-\title{MD Plot Function}
+\title{Create an MD plot from expression data}
 \usage{
 plot_md(
   df,

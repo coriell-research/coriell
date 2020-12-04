@@ -2,25 +2,24 @@
 % Please edit documentation in R/permutation.R
 \name{exact_cor_test}
 \alias{exact_cor_test}
-\title{Exact Permutation Test}
+\title{Perform and exact correlation test on every row of a matrix}
 \usage{
-exact_cor_test(x, y, cor_method)
+exact_cor_test(X, y, ...)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{X}{numeric matrix or data.frame that can be converted to a numeric matrix}
 
-\item{y}{numeric vector}
+\item{y}{numeric vector of data to correlate}
 
-\item{cor_method}{a character string indicating which correlation coefficient (or covariance) is to be computed.
-One of "pearson", "kendall", or "spearman": can be abbreviated.}
+\item{...}{arguments passed to the `cor` function}
 }
 \value{
-numeric vector. Correlations from permutations of x with y
+data.frame containing the original values in X along with columns 
+containing the correlation of Xi and Y, the empirical p-value of the 
+permutation test, and the FDR corrected empirical p-value
 }
 \description{
-In the case where the number of number of permutations chosen is greater
-than the actual number of permutations, perform an exact test instead.
-The code for getting all distinct permutations was stolen from:
-https://stackoverflow.com/a/34287541
+Perform an exact correlation permutation test. Computes correlation value for
+every row of matrix X against all permutations of vector y.
 }
 \keyword{internal}

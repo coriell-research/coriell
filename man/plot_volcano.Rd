@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-volcano.R
 \name{plot_volcano}
 \alias{plot_volcano}
-\title{Volcano Plot Function}
+\title{Create a volcano plot from expression data}
 \usage{
 plot_volcano(
   df,

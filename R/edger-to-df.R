@@ -1,7 +1,9 @@
-#' edgeR result to dataframe
+#' Convert EdgeR results object to a tidy data.frame
 #'
-#' Create a dataframe from an edger results object. The function can also be used to filter the results object by the FDR and/or log-fold-change values by
-#' supplying fdr and lfc arguments. By default the function returns all rows of the results object.
+#' Create a dataframe from an edger results object. The function can also be 
+#' used to filter the results object by the FDR and/or log-fold-change values by
+#' supplying fdr and lfc arguments. By default the function returns all rows of 
+#' the results object.
 #'
 #' @param res_obj edgeR results object to be converted
 #' @param fdr numeric. FDR adjusted p-value used as a filter. Return only records with this value or less.

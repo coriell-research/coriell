@@ -1,4 +1,4 @@
-#' Perform GO Analysis with PANTHER
+#' Perform GO analysis with PANTHER
 #'
 #' Sends a request to PANTHER GO db to perform over representation analysis.
 #' This function excludes the option to import a reference list and reference

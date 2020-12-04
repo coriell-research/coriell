@@ -2,7 +2,7 @@
 % Please edit documentation in R/get-axis-limits.R
 \name{get_axis_limits}
 \alias{get_axis_limits}
-\title{Get Plot Limits}
+\title{Get the axis limits of a ggplot2 object}
 \usage{
 get_axis_limits(p)
 }
