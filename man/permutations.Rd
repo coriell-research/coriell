@@ -18,5 +18,7 @@ represents a permutation of the data. Stolen from:
 https://stackoverflow.com/a/34287541
 }
 \examples{
-{ coriell::permutations(letters[1:4]) }
+v <- letters[1:4]
+p <- permutations(v)
+p
 }

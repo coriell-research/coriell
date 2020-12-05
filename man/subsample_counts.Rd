@@ -20,12 +20,11 @@ to the library size of the smallest sample (column). Returns a numeric matrix
 of subsampled counts with the same dimensions as the input matrix.
 }
 \examples{
-library(coriell)
-
 # generate simulated count data
 mat <- simulate_counts()$table
 colSums(mat)
 
+# subsample the count matrix
 ss <- subsample_counts(mat)
 colSums(ss)
 }

@@ -9,12 +9,11 @@
 #' @return numeric matrix of sub-sampled counts.
 #' @export
 #' @examples
-#' library(coriell)
-#'
 #' # generate simulated count data
 #' mat <- simulate_counts()$table
 #' colSums(mat)
 #'
+#' # subsample the count matrix
 #' ss <- subsample_counts(mat)
 #' colSums(ss)
 subsample_counts <- function(counts, seed = 123) {

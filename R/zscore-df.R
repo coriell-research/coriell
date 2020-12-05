@@ -5,6 +5,7 @@
 #' @param by a character string indicating which axis to scale by. Either "row" or "column". Default ("row")
 #' @return data.frame with scaled values
 #' @examples
+#' # generate example data
 #' df <- data.frame(
 #'   a = runif(10),
 #'   b = runif(10),
@@ -12,6 +13,7 @@
 #' )
 #' rownames(df) <- paste0("row", rownames(df))
 #'
+#' # z-score each row of the data.frame
 #' zscore_df(df, by = "row")
 #' @export
 zscore_df <- function(df, by = "row") {

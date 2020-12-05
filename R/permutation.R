@@ -5,7 +5,10 @@
 #' https://stackoverflow.com/a/34287541
 #' @param x vector
 #' @return factorial(x) x length(x) matrix
-#' @examples{ coriell::permutations(letters[1:4]) }
+#' @examples
+#' v <- letters[1:4]
+#' p <- permutations(v)
+#' p
 #' @export
 permutations <- function(x) {
   if (length(x) == 1) {
@@ -69,14 +72,16 @@ exact_cor_test <- function(X, y, ...) {
 #' @param n_core integer. The number of cores to use for processing. Default (1)
 #' @param ... Additional arguments to pass to `cor` function
 #' @export
-#' @examples{
+#' @examples
 #' # generate example data
 #' X <- matrix(runif(1e3 * 10), nrow = 1e3, ncol = 10)
 #' y <- 1:10
+#' dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:10, sep = "."))
 #' 
-#' # correlate rows of X with 1,000 random permutations of vector y
-#' res <- coriell::permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
-#' }
+#' # correlate each row of X with 1,000 random permutations of vector y
+#' res <- permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
+#' 
+#' head(res)
 permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
   X <- if (is.data.frame(X)) as.matrix(X) else X
   if (factorial(length(y)) < n_perm) {
@@ -118,12 +123,16 @@ permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
 #' @param n integer. Number of random correlations to return. Default (1e4)
 #' @param ... Additional arguments passed to `cor` function
 #' @return numeric vector of correlation values. Vector can contain NAs if row variance == 0.
-#' @examples{
+#' @examples
+#' # generate example data
 #' X <- matrix(runif(1e3 * 6), nrow = 1e3, ncol = 6)
 #' y <- 1:6
+#' dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:6, sep = "."))
 #' 
-#' null_dist <- coriell::sample_n_random_cor(X, y, n = 1e3, method = "spearman")
-#' }
+#' # sample random correlations from permuted data
+#' null_dist <- sample_n_random_cor(X, y, n = 1e3, method = "spearman")
+#' 
+#' head(null_dist)
 #' @export
 sample_n_random_cor <- function(X, y, n = 1e4, ...) {
   X <- if (is.data.frame(X)) as.matrix(X) else X

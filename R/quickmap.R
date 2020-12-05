@@ -13,6 +13,12 @@
 #' color to a continuous color palette (viridis::magma), useful for un-scaled expression data.
 #' @param ... args to be passed to pheatmap function
 #' @return pheatmap object. See ?pheatmap::pheatmap for details
+#' @examples
+#' # generate fake count data
+#' X <- coriell::simulate_counts(n_genes = 100)$table
+#' 
+#' # display heatmap of scaled count data and add title to the plot
+#' quickmap(X, main = "Control vs Treatment")
 #' @export
 quickmap <- function(mat, diverging_palette = TRUE, ...) {
   diverging_pal <- grDevices::colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(50)

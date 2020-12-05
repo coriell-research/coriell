@@ -12,7 +12,7 @@
 #'   "set2" = letters[2:6],
 #'   "set3" = letters[1:7]
 #' )
-#'
+#' 
 #' list_to_matrix(sets)
 list_to_matrix <- function(sets) {
   stopifnot("List of vectors must be supplied" = class(sets) == "list")

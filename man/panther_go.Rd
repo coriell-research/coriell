@@ -46,9 +46,6 @@ organism. By default, in this case, PANTHER will use all of the genes of the
 given organism as the reference list.
 }
 \examples{
-library(coriell)
-
-
 genes <- c(
   "CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
   "CUL1", "DKK1", "DKK4", "DLL1", "DVL2", "FRAT1", "FZD1", "FZD8",

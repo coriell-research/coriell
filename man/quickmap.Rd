@@ -26,3 +26,10 @@ Display font size is reduced and column labels are set to an angle. Defaults can
 be overridden and/or any additional arguments can be passed to the pheatmap
 function via ...
 }
+\examples{
+# generate fake count data
+X <- coriell::simulate_counts(n_genes = 100)$table
+
+# display heatmap of scaled count data and add title to the plot
+quickmap(X, main = "Control vs Treatment")
+}

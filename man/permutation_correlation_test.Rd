@@ -26,12 +26,13 @@ columns for the test statistic, empirical p-value, and FDR corrected empirical
 p-value.
 }
 \examples{
-{
 # generate example data
 X <- matrix(runif(1e3 * 10), nrow = 1e3, ncol = 10)
 y <- 1:10
+dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:10, sep = "."))
 
-# correlate rows of X with 1,000 random permutations of vector y
-res <- coriell::permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
-}
+# correlate each row of X with 1,000 random permutations of vector y
+res <- permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
+
+head(res)
 }

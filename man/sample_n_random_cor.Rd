@@ -23,10 +23,13 @@ Selects n random rows from a numeric matrix with replacement. For each random
 row, permute vector y and perform correlation.
 }
 \examples{
-{
+# generate example data
 X <- matrix(runif(1e3 * 6), nrow = 1e3, ncol = 6)
 y <- 1:6
+dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:6, sep = "."))
 
-null_dist <- coriell::sample_n_random_cor(X, y, n = 1e3, method = "spearman")
-}
+# sample random correlations from permuted data
+null_dist <- sample_n_random_cor(X, y, n = 1e3, method = "spearman")
+
+head(null_dist)
 }
