@@ -78,11 +78,7 @@ exact_cor_test <- function(X, y, ...) {
 #' res <- coriell::permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
 #' }
 permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
-  if (is.data.frame(X)) {
-    message("Input X is a data.frame. X will be converted to matrix")
-    X <- as.matrix(X)
-  }
-  
+  X <- if (is.data.frame(X)) as.matrix(X) else X
   if (factorial(length(y)) < n_perm) {
     message(paste0("The number of permutations of y (", factorial(length(y)), ") is less than n_perm (", n_perm, "). Performing exact test on all permutations."))
     df <- coriell::exact_cor_test(X, y, ...)
@@ -130,10 +126,7 @@ permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
 #' }
 #' @export
 sample_n_random_cor <- function(X, y, n = 1e4, ...) {
-  if (is.data.frame(X)) {
-    message("Input X is a data.frame. X will be converted to matrix")
-    X <- as.matrix(X)
-  }
+  X <- if (is.data.frame(X)) as.matrix(X) else X
   random_rows <- sample.int(nrow(X), n, replace = TRUE)
   cor_results <- apply(X[random_rows, ],
     MARGIN = 1,
