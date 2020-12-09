@@ -3,6 +3,7 @@
 #' Internal helper function used to get the axis limits of a plot
 #' @param p ggplot plot object
 #' @keywords internal
+#' @export
 #' @return list with elements for x and y limits
 get_axis_limits <- function(p) {
   b <- ggplot2::ggplot_build(p)
