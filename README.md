@@ -131,7 +131,7 @@ qlf <- glmQLFTest(fit, coef = 2)
 
 # -----------------------------------------------------------------------------
 # convert to tidy dataframe
-res_df <- edger_to_df(qlf, fdr = 1, lfc = 0)
+res_df <- edger_to_df(qlf)
 
 head(res_df)
 > # A tibble: 6 x 6
@@ -223,7 +223,9 @@ plot_volcano(res_df,
 ![](man/figures/volcano4.png)
 
 Text labels can also be added for the DE genes by setting `label_sig = TRUE`. Caution, if there are many
-DE genes this will be overplotted
+DE genes this will be overplotted. By default the function uses the `feature_id`
+column created by `edger_to_df()`. If your labels are in a different column then
+you must pass the label column to the `lab` argument.
 
 ```R
 plot_volcano(res_df,

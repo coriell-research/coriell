@@ -40,10 +40,7 @@
 
 
 <meta property="og:title" content="Convert EdgeR results object to a tidy data.frame — edger_to_df" />
-<meta property="og:description" content="Create a dataframe from an edger results object. The function can also be 
-used to filter the results object by the FDR and/or log-fold-change values by
-supplying fdr and lfc arguments. By default the function returns all rows of 
-the results object." />
+<meta property="og:description" content="Create a tibble from an edgeR results object." />
 
 
 
@@ -124,13 +121,10 @@ the results object." />
     </div>
 
     <div class="ref-description">
-    <p>Create a dataframe from an edger results object. The function can also be 
-used to filter the results object by the FDR and/or log-fold-change values by
-supplying fdr and lfc arguments. By default the function returns all rows of 
-the results object.</p>
+    <p>Create a tibble from an edgeR results object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>edger_to_df</span><span class='op'>(</span><span class='va'>res_obj</span>, fdr <span class='op'>=</span> <span class='fl'>1</span>, lfc <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>edger_to_df</span><span class='op'>(</span><span class='va'>res_obj</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,14 +132,6 @@ the results object.</p>
     <tr>
       <th>res_obj</th>
       <td><p>edgeR results object to be converted</p></td>
-    </tr>
-    <tr>
-      <th>fdr</th>
-      <td><p>numeric. FDR adjusted p-value used as a filter. Return only records with this value or less.</p></td>
-    </tr>
-    <tr>
-      <th>lfc</th>
-      <td><p>numeric. Log-fold-change used as filter. Return only records where abs(logFC) &gt; lfc.</p></td>
     </tr>
     </table>
 

@@ -4,23 +4,16 @@
 \alias{edger_to_df}
 \title{Convert EdgeR results object to a tidy data.frame}
 \usage{
-edger_to_df(res_obj, fdr = 1, lfc = 0)
+edger_to_df(res_obj)
 }
 \arguments{
 \item{res_obj}{edgeR results object to be converted}
-
-\item{fdr}{numeric. FDR adjusted p-value used as a filter. Return only records with this value or less.}
-
-\item{lfc}{numeric. Log-fold-change used as filter. Return only records where abs(logFC) > lfc.}
 }
 \value{
 tibble
 }
 \description{
-Create a dataframe from an edger results object. The function can also be 
-used to filter the results object by the FDR and/or log-fold-change values by
-supplying fdr and lfc arguments. By default the function returns all rows of 
-the results object.
+Create a tibble from an edgeR results object.
 }
 \examples{
 \dontrun{

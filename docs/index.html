@@ -190,7 +190,7 @@
 <span id="cb4-17"><a href="#cb4-17"></a></span>
 <span id="cb4-18"><a href="#cb4-18"></a><span class="co"># -----------------------------------------------------------------------------</span></span>
 <span id="cb4-19"><a href="#cb4-19"></a><span class="co"># convert to tidy dataframe</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a>res_df &lt;-<span class="st"> </span><span class="kw">edger_to_df</span>(qlf, <span class="dt">fdr =</span> <span class="dv">1</span>, <span class="dt">lfc =</span> <span class="dv">0</span>)</span>
+<span id="cb4-20"><a href="#cb4-20"></a>res_df &lt;-<span class="st"> </span><span class="kw">edger_to_df</span>(qlf)</span>
 <span id="cb4-21"><a href="#cb4-21"></a></span>
 <span id="cb4-22"><a href="#cb4-22"></a><span class="kw">head</span>(res_df)</span>
 <span id="cb4-23"><a href="#cb4-23"></a><span class="op">&gt;</span><span class="st"> </span><span class="co"># A tibble: 6 x 6</span></span>
@@ -260,7 +260,7 @@
              ymax_label_offset <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></pre></div>
 <p><img src="reference/figures/volcano4.png"></p>
-<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. Caution, if there are many DE genes this will be overplotted</p>
+<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. Caution, if there are many DE genes this will be overplotted. By default the function uses the <code>feature_id</code> column created by <code><a href="reference/edger_to_df.html">edger_to_df()</a></code>. If your labels are in a different column then you must pass the label column to the <code>lab</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,
              fdr <span class="op">=</span> <span class="fl">1e-4</span>,
