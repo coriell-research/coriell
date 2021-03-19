@@ -4,12 +4,14 @@
 \alias{zscore_df}
 \title{Z-score a dataframe}
 \usage{
-zscore_df(df, by = "row")
+zscore_df(df, by = c("row", "column"), ...)
 }
 \arguments{
 \item{df}{data.frame or matrix of numeric columns}
 
 \item{by}{a character string indicating which axis to scale by. Either "row" or "column". Default ("row")}
+
+\item{...}{Additional arguments passed to `scale`}
 }
 \value{
 data.frame with scaled values
