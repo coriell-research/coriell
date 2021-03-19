@@ -27,8 +27,8 @@ quickmap <- function(mat, diverging_palette = TRUE, ...) {
 
   default_args <- list(
     scale = "row", show_rownames = FALSE, border_color = NA, cluster_rows = TRUE,
-    cluster_cols = TRUE, color = col_code, cellwidth = 20, treeheight_row = 0, clustering_distance_rows = "euclidean",
-    clustering_distance_cols = "correlation", clustering_method = "complete", fontsize_col = 8, angle_col = 45
+    cluster_cols = TRUE, color = col_code, treeheight_row = 0, clustering_distance_rows = "euclidean",
+    clustering_distance_cols = "correlation", clustering_method = "ward.D2", angle_col = 315
   )
   user_args <- list(...)
   default_args[names(user_args)] <- user_args
