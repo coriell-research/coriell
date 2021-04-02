@@ -78,7 +78,7 @@ head(perc_meth)
 
 # permutation testing -----------------------------------------------------------
 # perform permutation testing using 4 cores and 10000 permutations
-res <- permutation_correlation_test(perc_meth, 
+res <- permutation_correlation_test(X = perc_meth, 
                                     y = ages$age, 
                                     n_cores = 4, 
                                     n_perm = 10000,
