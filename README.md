@@ -100,7 +100,7 @@ head(res)
 ```R
 # using the same perc_meth data.frame and ages as defined above
 # get 1,000,000 random correlations from the dataset
-cors <- sample_n_random_cor(df = perc_meth, 
+cors <- sample_n_random_cor(X = perc_meth, 
                             y = ages$age,
                             n = 1000000,
                             method = "spearman")
