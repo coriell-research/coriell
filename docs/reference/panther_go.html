@@ -40,10 +40,10 @@
 
 
 <meta property="og:title" content="Perform GO analysis with PANTHER — panther_go" />
-<meta property="og:description" content="Sends a request to PANTHER GO db to perform over representation analysis.
-This function excludes the option to import a reference list and reference
-organism. By default, in this case, PANTHER will use all of the genes of the
-given organism as the reference list." />
+<meta property="og:description" content="Sends a request to PANTHER db  to perform over 
+representation analysis. This function excludes the option to import a reference 
+list and reference organism. By default, in this case, PANTHER will use all 
+of the genes of the given organism as the reference list." />
 
 
 
@@ -127,10 +127,10 @@ given organism as the reference list." />
     </div>
 
     <div class="ref-description">
-    <p>Sends a request to PANTHER GO db to perform over representation analysis.
-This function excludes the option to import a reference list and reference
-organism. By default, in this case, PANTHER will use all of the genes of the
-given organism as the reference list.</p>
+    <p>Sends a request to <a href='http://pantherdb.org/'>PANTHER db</a>  to perform over 
+representation analysis. This function excludes the option to import a reference 
+list and reference organism. By default, in this case, PANTHER will use all 
+of the genes of the given organism as the reference list.</p>
     </div>
 
     <pre class="usage"><span class='fu'>panther_go</span><span class='op'>(</span>
@@ -155,16 +155,13 @@ UniProt id</p></td>
     <tr>
       <th>organism</th>
       <td><p>character string. Taxon ID (e.g. "9606" for HUMAN, "10090" for
-MOUSE, "10116" for RAT). To get list of available taxon IDs see:
-`curl -X GET "http://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"`</p></td>
+MOUSE, "10116" for RAT). To get list of available taxon IDs see:</p><pre>curl -X GET "http://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"</pre></td>
     </tr>
     <tr>
       <th>annot_dataset</th>
       <td><p>character string. One of c("biological_process",
 "molecular_function", "cellular_component", "panther_go_slim_mf", "panther_go_slim_bp",
-"panther_go_slim_cc", "panther_pc", "panther_pathway", "panther_reactome_pathway"). see:
-`curl -X POST "http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"`
-for full descriptions.</p></td>
+"panther_go_slim_cc", "panther_pc", "panther_pathway", "panther_reactome_pathway"). see:</p><pre>curl -X POST "http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"</pre><p>for full descriptions.</p></td>
     </tr>
     <tr>
       <th>enrichment_test_type</th>
@@ -180,8 +177,9 @@ Default "fdr"</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list with results of GO analysis and input information. See PANTHER user manual
-<a href='http://www.pantherdb.org/help/PANTHER_user_manual.pdf'>http://www.pantherdb.org/help/PANTHER_user_manual.pdf</a> for details.</p>
+    <p>list with results of GO analysis and input information. 
+See <a href='http://www.pantherdb.org/help/PANTHER_user_manual.pdf'>PANTHER user manual</a> 
+for details.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>genes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
@@ -197,17 +195,17 @@ Default "fdr"</p></td>
 
 <span class='co'># to view results access the 'table' item</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>go_results</span><span class='op'>$</span><span class='va'>table</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 10</span><span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 10</span><span>
 #&gt;   result_number number_in_list fold_enrichment      fdr expected
-#&gt;   </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span> 1                         32            6.31 3.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-17</span><span>    5.07 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span> 2                         17           23.9  1.57</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.712
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span> 3                         17           23.9  1.05</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.712
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span> 4                         13           54.0  1.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.241
-#&gt; </span><span style='color: #BCBCBC;'>5</span><span> 5                         12           70.1  1.57</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.171
-#&gt; </span><span style='color: #BCBCBC;'>6</span><span> 6                         17           19.9  1.01</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-14</span><span>    0.854
-#&gt; </span><span style='color: #949494;'># … with 5 more variables: number_in_reference </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span style='color: #949494;'>, pValue </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   plus_minus </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, GO_term </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span style='color: #949494;'>, description </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                  </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 1                         32            6.31 3.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-17</span><span>    5.07 
+#&gt; </span><span style='color: #555555;'>2</span><span> 2                         17           23.9  1.57</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.712
+#&gt; </span><span style='color: #555555;'>3</span><span> 3                         17           23.9  1.05</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.712
+#&gt; </span><span style='color: #555555;'>4</span><span> 4                         13           54.0  1.27</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.241
+#&gt; </span><span style='color: #555555;'>5</span><span> 5                         12           70.1  1.57</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-15</span><span>    0.171
+#&gt; </span><span style='color: #555555;'>6</span><span> 6                         17           19.9  1.01</span><span style='color: #555555;'>e</span><span style='color: #BB0000;'>-14</span><span>    0.854
+#&gt; </span><span style='color: #555555;'># … with 5 more variables: number_in_reference </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, pValue </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   plus_minus </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, GO_term </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, description </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='co'># to view the actual request (which allows you to parse results yourself) use</span>
 <span class='va'>req</span> <span class='op'>&lt;-</span> <span class='va'>go_results</span><span class='op'>$</span><span class='va'>request</span>
 </div></span></pre>
