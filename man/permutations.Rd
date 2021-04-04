@@ -15,7 +15,7 @@ factorial(x) x length(x) matrix
 \description{
 Given the input vector, generate a matrix of permutations where each row
 represents a permutation of the data. Stolen from:
-https://stackoverflow.com/a/34287541
+\url{https://stackoverflow.com/a/34287541}
 }
 \examples{
 v <- letters[1:4]

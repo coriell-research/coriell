@@ -1,9 +1,9 @@
 #' Perform GO analysis with PANTHER
 #'
-#' Sends a request to PANTHER GO db to perform over representation analysis.
-#' This function excludes the option to import a reference list and reference
-#' organism. By default, in this case, PANTHER will use all of the genes of the
-#' given organism as the reference list.
+#' Sends a request to \href{http://pantherdb.org/}{PANTHER db}  to perform over 
+#' representation analysis. This function excludes the option to import a reference 
+#' list and reference organism. By default, in this case, PANTHER will use all 
+#' of the genes of the given organism as the reference list.
 #'
 #' @param gene_list character vector. Maximum of 100,000 identifiers. Can be any
 #' of the following: Ensemble gene identifier, Ensemble protein identifier,
@@ -12,18 +12,19 @@
 #' UniProt id
 #' @param organism character string. Taxon ID (e.g. "9606" for HUMAN, "10090" for
 #' MOUSE, "10116" for RAT). To get list of available taxon IDs see:
-#' `curl -X GET "http://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"`
+#' \preformatted{curl -X GET "http://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"}
 #' @param annot_dataset character string. One of c("biological_process",
 #' "molecular_function", "cellular_component", "panther_go_slim_mf", "panther_go_slim_bp",
 #' "panther_go_slim_cc", "panther_pc", "panther_pathway", "panther_reactome_pathway"). see:
-#' `curl -X POST "http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"`
+#' \preformatted{curl -X POST "http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"}
 #' for full descriptions.
 #' @param enrichment_test_type character string. One of c("fisher", "binomial").
 #' Default "fisher"
 #' @param correction character string. One of c("fdr", "bonferroni", "none").
 #' Default "fdr"
-#' @return list with results of GO analysis and input information. See PANTHER user manual
-#' \url{http://www.pantherdb.org/help/PANTHER_user_manual.pdf} for details.
+#' @return list with results of GO analysis and input information. 
+#' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
+#' for details.
 #' @export
 #' @examples
 #' genes <- c(

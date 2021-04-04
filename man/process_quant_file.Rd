@@ -17,10 +17,10 @@ process_quant_file(quant_file, gene_annot, rmsk_annot)
 list containing two data.tables. One for the gene counts ("gene") and the other for repeat counts ("re")
 }
 \description{
-Specialty function for processing quants files produced by the REdiscoverTE
+Specialty function for processing quants files produced by the \href{https://www.nature.com/articles/s41467-019-13035-2}{REdiscoverTE}
 pipeline. The function takes a quant file as input and calculates the counts
 per gene and per repetitive element subfamily and returns both count data.frames
-in a list. The user must provide the pre-processed gene and repeatmasker
+in a list. The user must provide the pre-processed gene and RepeatMasker
 annotations.
 }
 \examples{
