@@ -45,7 +45,7 @@ exact_cor_test <- function(X, y, ...) {
     } else if (test_stat[[i]] > 0) {
       empirical_p[[i]] <- mean(cors[i, ] > test_stat[[i]])
     } else if (test_stat[[i]] < 0) {
-      empirical_p[[i]] <- mean(cors[i, ] < 0)
+      empirical_p[[i]] <- mean(cors[i, ] < test_stat[[i]])
     } else {
       empirical_p[[i]] <- 0
     }
@@ -101,7 +101,7 @@ permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
     } else if (test_stat[[i]] > 0) {
       empirical_p[[i]] <- mean(perm_cors[i, ] > test_stat[[i]])
     } else if (test_stat[[i]] < 0) {
-      empirical_p[[i]] <- mean(perm_cors[i, ] < 0)
+      empirical_p[[i]] <- mean(perm_cors[i, ] < test_stat[[i]])
     } else {
       empirical_p[[i]] <- 0
     }
