@@ -4,7 +4,13 @@
 \alias{process_quant_file}
 \title{Process a quant file from REdiscoverTE pipeline}
 \usage{
-process_quant_file(quant_file, gene_annot, rmsk_annot)
+process_quant_file(
+  quant_file,
+  gene_annot,
+  exon_annot,
+  intron_annot,
+  intergenic_annot
+)
 }
 \arguments{
 \item{quant_file}{path to the quant file to be processed}
@@ -14,25 +20,28 @@ process_quant_file(quant_file, gene_annot, rmsk_annot)
 \item{rmsk_annot}{REdiscoverTE RepeatMasker annotation data.frame}
 }
 \value{
-list containing two data.tables. One for the gene counts ("gene") and the other for repeat counts ("re")
+list containing five data.tables. One for the gene counts ("gene"), 
+exonic RE counts ("exon"), intron RE counts ("intron"), intergenic RE counts ("intergenic"),
+and intronic + intergenic RE counts ("re").
 }
 \description{
 Specialty function for processing quants files produced by the \href{https://www.nature.com/articles/s41467-019-13035-2}{REdiscoverTE}
 pipeline. The function takes a quant file as input and calculates the counts
-per gene and per repetitive element subfamily and returns both count data.frames
-in a list. The user must provide the pre-processed gene and RepeatMasker
-annotations.
+per gene and per repetitive element subfamily counts in a list. The user must 
+provide the pre-processed gene and RepeatMasker annotations as data.tables.
 }
 \examples{
 \dontrun{
 # read in annotation files
-gencode <- as.data.table(readRDS("/mnt/data/gdata/human/REdiscoverTE_hg38/REdiscoverTE_hg38_GFP/GENCODE.V26.Basic_Gene_Annotation_md5_GFP.rds"))
-rmsk <- as.data.table(readRDS("/mnt/data/gdata/human/REdiscoverTE_hg38/rmsk_annotation.RDS"))
+genes <- readRDS("path/to/gene-annotation.rds")
+exonREs <- readRDS("path/to/exonRE-annotation.rds")
+intronREs <- readRDS("path/to/intronRE-annotation.rds")
+intergenicREs <- readRDS("path/to/intergenicRE-annotation.rds")
 
 # specify path to quant file
 my_quant_file <- "/path/to/quant.sf"
 
-result <- process_quant_file(my_quant_file, gencode, rmsk)
+result <- process_quant_file(my_quant_file, genes, exonREs, intronREs, intergenicREs)
 
 # If you have a list of quant files, you can apply over all with multiple cores
 my_quants <- list.files("path/to/quants_dir", pattern = "quant.sf", full.names = TRUE)
@@ -40,8 +49,10 @@ my_quants <- list.files("path/to/quants_dir", pattern = "quant.sf", full.names =
 processed <- parallel::mclapply(
   X = my_quants,
   FUN = process_quant_file,
-  gene_annot = gencode,
-  rmsk_annot = rmsk,
+  gene_annot = genes,
+  exon_annot = exonREs,
+  intron_annot = intronREs,
+  intergenic_annot = intergenicREs,
   mc.cores = 12
 )
 }
