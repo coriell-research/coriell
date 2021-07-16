@@ -72,7 +72,7 @@
 
       
 
-      </header><script src="RNA-seq-workflow_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="RNA-seq-workflow_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>RNA-seq-workflow</h1>
@@ -100,12 +100,12 @@
 <span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"*.ReadsPerGene.out.tab"</span><span class="op">)</span>
 
 <span class="va">files</span>
-<span class="co">#&gt; [1] "/tmp/RtmpCn4pep/temp_libpath2dadb6284a2/coriell/extdata/DMSO_4day_1_S1.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [2] "/tmp/RtmpCn4pep/temp_libpath2dadb6284a2/coriell/extdata/DMSO_4day_2_S2.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [3] "/tmp/RtmpCn4pep/temp_libpath2dadb6284a2/coriell/extdata/DMSO_4day_3_S3.ReadsPerGene.out.tab"    </span>
-<span class="co">#&gt; [4] "/tmp/RtmpCn4pep/temp_libpath2dadb6284a2/coriell/extdata/HH1_10uM_4day_1_S4.ReadsPerGene.out.tab"</span>
-<span class="co">#&gt; [5] "/tmp/RtmpCn4pep/temp_libpath2dadb6284a2/coriell/extdata/HH1_10uM_4day_2_S5.ReadsPerGene.out.tab"</span>
-<span class="co">#&gt; [6] "/tmp/RtmpCn4pep/temp_libpath2dadb6284a2/coriell/extdata/HH1_10uM_4day_3_S1.ReadsPerGene.out.tab"</span></code></pre></div>
+<span class="co">#&gt; [1] "/tmp/Rtmp5EmHWZ/temp_libpath1a4b185b1818/coriell/extdata/DMSO_4day_1_S1.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [2] "/tmp/Rtmp5EmHWZ/temp_libpath1a4b185b1818/coriell/extdata/DMSO_4day_2_S2.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [3] "/tmp/Rtmp5EmHWZ/temp_libpath1a4b185b1818/coriell/extdata/DMSO_4day_3_S3.ReadsPerGene.out.tab"    </span>
+<span class="co">#&gt; [4] "/tmp/Rtmp5EmHWZ/temp_libpath1a4b185b1818/coriell/extdata/HH1_10uM_4day_1_S4.ReadsPerGene.out.tab"</span>
+<span class="co">#&gt; [5] "/tmp/Rtmp5EmHWZ/temp_libpath1a4b185b1818/coriell/extdata/HH1_10uM_4day_2_S5.ReadsPerGene.out.tab"</span>
+<span class="co">#&gt; [6] "/tmp/Rtmp5EmHWZ/temp_libpath1a4b185b1818/coriell/extdata/HH1_10uM_4day_3_S1.ReadsPerGene.out.tab"</span></code></pre></div>
 <p>Read the files into a single dataframe with <code>vroom</code>. Since the sequencing prep was an Illumina Truseq kit we want to select the unstranded counts for our analysis.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">count_df</span> <span class="op">&lt;-</span> <span class="fu">vroom</span><span class="fu">::</span><span class="fu"><a href="https://vroom.r-lib.org/reference/vroom.html">vroom</a></span><span class="op">(</span><span class="va">files</span>,
@@ -113,29 +113,29 @@
   delim <span class="op">=</span> <span class="st">"\t"</span>,
   col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="st">"unstranded"</span>, <span class="st">"forward"</span>, <span class="st">"reverse"</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; Rows: 364,122</span>
-<span class="co">#&gt; Columns: 5</span>
+<span class="co">#&gt; Rows: 364122 Columns: 5</span>
+<span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Delimiter: "\t"</span>
-<span class="co">#&gt; chr [1]: gene</span>
-<span class="co">#&gt; dbl [3]: unstranded, forward, reverse</span>
+<span class="co">#&gt; chr (1): gene</span>
+<span class="co">#&gt; dbl (3): unstranded, forward, reverse</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Use `spec()` to retrieve the guessed column specification</span>
-<span class="co">#&gt; Pass a specification to the `col_types` argument to quiet this message</span>
+<span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">count_df</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;   fpath                                    gene       unstranded forward reverse</span>
 <span class="co">#&gt;   &lt;chr&gt;                                    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 /tmp/RtmpCn4pep/temp_libpath2dadb6284a2… N_unmapped     418254  4.18e5  418254</span>
-<span class="co">#&gt; 2 /tmp/RtmpCn4pep/temp_libpath2dadb6284a2… N_multima…    5553623  5.55e6 5553623</span>
-<span class="co">#&gt; 3 /tmp/RtmpCn4pep/temp_libpath2dadb6284a2… N_noFeatu…    1296232  1.42e7 1360388</span>
-<span class="co">#&gt; 4 /tmp/RtmpCn4pep/temp_libpath2dadb6284a2… N_ambiguo…    1828686  1.39e4 1312715</span>
-<span class="co">#&gt; 5 /tmp/RtmpCn4pep/temp_libpath2dadb6284a2… ENSG00000…          0  0.           0</span>
-<span class="co">#&gt; 6 /tmp/RtmpCn4pep/temp_libpath2dadb6284a2… ENSG00000…          0  0.           0</span></code></pre></div>
+<span class="co">#&gt; 1 /tmp/Rtmp5EmHWZ/temp_libpath1a4b185b181… N_unmapped     418254  4.18e5  418254</span>
+<span class="co">#&gt; 2 /tmp/Rtmp5EmHWZ/temp_libpath1a4b185b181… N_multima…    5553623  5.55e6 5553623</span>
+<span class="co">#&gt; 3 /tmp/Rtmp5EmHWZ/temp_libpath1a4b185b181… N_noFeatu…    1296232  1.42e7 1360388</span>
+<span class="co">#&gt; 4 /tmp/Rtmp5EmHWZ/temp_libpath1a4b185b181… N_ambiguo…    1828686  1.39e4 1312715</span>
+<span class="co">#&gt; 5 /tmp/Rtmp5EmHWZ/temp_libpath1a4b185b181… ENSG00000…          0  0            0</span>
+<span class="co">#&gt; 6 /tmp/Rtmp5EmHWZ/temp_libpath1a4b185b181… ENSG00000…          0  0            0</span></code></pre></div>
 <p>We can now clean up the dataframe by extracting the sample names from the fpath column, removing the gene rows that begin with “N_”, and selecting the unstranded counts. To make the resulting dataset a little smaller we can also filter out rows with zero counts.</p>
 <p><em>Note the use of the <code><a href="https://magrittr.tidyverse.org/reference/compound.html">%&lt;&gt;%</a></code> pipe below which reassigns the results of filtering to the <code>count_df</code> variable</em></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tools</span><span class="op">)</span>
 
@@ -230,7 +230,7 @@
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="va">gtf_file</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span><span class="va">url</span>, <span class="va">gtf_file</span><span class="op">)</span>
 
 <span class="co"># load the gtf file as a dataframe</span>
-<span class="va">gtf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rtracklayer/man/export.html">import</a></span><span class="op">(</span><span class="va">gtf_file</span><span class="op">)</span><span class="op">)</span>
+<span class="va">gtf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">gtf_file</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gtf_df</span><span class="op">)</span>
 <span class="co">#&gt;   seqnames start   end width strand source       type score phase</span>
@@ -433,14 +433,14 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 13</span>
-<span class="co">#&gt;   feature_id chr    start    end length strand gene_name gene_biotype logFC</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;fct&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt; &lt;fct&gt;  &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 ENSG00000… 1     1.46e8 1.46e8   4145 -      TXNIP     protein_cod…  4.91</span>
-<span class="co">#&gt; 2 ENSG00000… 3     4.86e7 4.86e7  31195 -      COL7A1    protein_cod…  3.22</span>
-<span class="co">#&gt; 3 ENSG00000… 12    5.37e7 5.37e7  19229 -      CALCOCO1  protein_cod…  2.43</span>
-<span class="co">#&gt; 4 ENSG00000… 9     1.15e8 1.15e8  98683 -      TNC       protein_cod…  3.23</span>
-<span class="co">#&gt; 5 ENSG00000… 17    1.97e7 1.97e7  10960 -      ALDH3A1   protein_cod…  2.36</span>
-<span class="co">#&gt; 6 ENSG00000… 11    6.39e6 6.39e6   4559 +      SMPD1     protein_cod…  2.80</span>
+<span class="co">#&gt;   feature_id   chr      start     end length strand gene_name gene_biotype logFC</span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;fct&gt;    &lt;int&gt;   &lt;int&gt;  &lt;int&gt; &lt;fct&gt;  &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ENSG0000026… 1       1.46e8  1.46e8   4145 -      TXNIP     protein_cod…  4.91</span>
+<span class="co">#&gt; 2 ENSG0000011… 3       4.86e7  4.86e7  31195 -      COL7A1    protein_cod…  3.22</span>
+<span class="co">#&gt; 3 ENSG0000001… 12      5.37e7  5.37e7  19229 -      CALCOCO1  protein_cod…  2.43</span>
+<span class="co">#&gt; 4 ENSG0000004… 9       1.15e8  1.15e8  98683 -      TNC       protein_cod…  3.23</span>
+<span class="co">#&gt; 5 ENSG0000010… 17      1.97e7  1.97e7  10960 -      ALDH3A1   protein_cod…  2.36</span>
+<span class="co">#&gt; 6 ENSG0000016… 11      6.39e6  6.39e6   4559 +      SMPD1     protein_cod…  2.80</span>
 <span class="co">#&gt; # … with 4 more variables: unshrunk.logFC &lt;dbl&gt;, logCPM &lt;dbl&gt;, PValue &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   FDR &lt;dbl&gt;</span></code></pre></div>
 </div>
@@ -454,7 +454,7 @@
 <span class="fu"><a href="../reference/summarize_dge.html">summarize_dge</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.1</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">1.2</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 3 x 3</span>
 <span class="co">#&gt;   dge         n  perc</span>
-<span class="co">#&gt; * &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;fct&gt;   &lt;int&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 up       4857  28.8</span>
 <span class="co">#&gt; 2 down     3845  22.8</span>
 <span class="co">#&gt; 3 non-dge  8139  48.3</span>
@@ -522,11 +522,11 @@
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   result_number number_in_list fold_enrichment     fdr expected number_in_refer…</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;           &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;            &lt;int&gt;</span>
-<span class="co">#&gt; 1 1                         11            8.83 8.21e-4  1.25                 383</span>
-<span class="co">#&gt; 2 2                         10            8.05 4.02e-3  1.24                 382</span>
-<span class="co">#&gt; 3 3                         10            7.98 2.88e-3  1.25                 385</span>
-<span class="co">#&gt; 4 4                          6           17.9  5.69e-3  0.335                103</span>
-<span class="co">#&gt; 5 5                         44            1.59 2.73e-1 27.6                 8496</span>
+<span class="co">#&gt; 1 1                         11            8.81 8.44e-4  1.25                 384</span>
+<span class="co">#&gt; 2 2                         10            8.03 4.13e-3  1.25                 383</span>
+<span class="co">#&gt; 3 3                         10            7.96 2.95e-3  1.26                 386</span>
+<span class="co">#&gt; 4 4                          6           17.9  5.70e-3  0.335                103</span>
+<span class="co">#&gt; 5 5                         44            1.58 2.82e-1 27.8                 8540</span>
 <span class="co">#&gt; 6 6                          2          205.   2.71e-1  0.00976                3</span>
 <span class="co">#&gt; # … with 4 more variables: pValue &lt;dbl&gt;, plus_minus &lt;chr&gt;, GO_term &lt;chr&gt;,</span>
 <span class="co">#&gt; #   description &lt;chr&gt;</span>
@@ -534,12 +534,12 @@
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   result_number number_in_list fold_enrichment     fdr expected number_in_refer…</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;           &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;            &lt;int&gt;</span>
-<span class="co">#&gt; 1 1                         12            16.0 3.38e-7    0.751              201</span>
+<span class="co">#&gt; 1 1                         12            15.9 3.58e-7    0.755              202</span>
 <span class="co">#&gt; 2 2                         10            22.9 3.27e-7    0.437              117</span>
-<span class="co">#&gt; 3 3                         13            11.1 1.15e-6    1.17               313</span>
-<span class="co">#&gt; 4 4                         10            18.0 1.52e-6    0.557              149</span>
+<span class="co">#&gt; 3 3                         13            11.1 1.11e-6    1.17               312</span>
+<span class="co">#&gt; 4 4                         10            17.8 1.61e-6    0.561              150</span>
 <span class="co">#&gt; 5 5                         10            17.1 1.85e-6    0.583              156</span>
-<span class="co">#&gt; 6 6                         10            15.8 3.22e-6    0.632              169</span>
+<span class="co">#&gt; 6 6                         10            15.7 3.40e-6    0.636              170</span>
 <span class="co">#&gt; # … with 4 more variables: pValue &lt;dbl&gt;, plus_minus &lt;chr&gt;, GO_term &lt;chr&gt;,</span>
 <span class="co">#&gt; #   description &lt;chr&gt;</span></code></pre></div>
 <p>The function can also work with the gene names.</p>
@@ -555,12 +555,12 @@
 <span class="co">#&gt; # A tibble: 6 x 10</span>
 <span class="co">#&gt;   result_number number_in_list fold_enrichment     fdr expected number_in_refer…</span>
 <span class="co">#&gt;   &lt;chr&gt;                  &lt;int&gt;           &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;            &lt;int&gt;</span>
-<span class="co">#&gt; 1 1                         11            7.58 0.00410   1.45                383</span>
-<span class="co">#&gt; 2 2                         10            6.91 0.0169    1.45                382</span>
-<span class="co">#&gt; 3 3                         10            6.86 0.0120    1.46                385</span>
+<span class="co">#&gt; 1 1                         11            7.56 0.00421   1.45                384</span>
+<span class="co">#&gt; 2 2                         10            6.89 0.0173    1.45                383</span>
+<span class="co">#&gt; 3 3                         10            6.84 0.0123    1.46                386</span>
 <span class="co">#&gt; 4 4                          6           15.4  0.0139    0.390               103</span>
-<span class="co">#&gt; 5 5                         51            1.58 0.0762   32.2                8496</span>
-<span class="co">#&gt; 6 6                          2          176.   0.367     0.0114                3</span>
+<span class="co">#&gt; 5 5                         51            1.58 0.0810   32.3                8540</span>
+<span class="co">#&gt; 6 6                          2          176.   0.368     0.0114                3</span>
 <span class="co">#&gt; # … with 4 more variables: pValue &lt;dbl&gt;, plus_minus &lt;chr&gt;, GO_term &lt;chr&gt;,</span>
 <span class="co">#&gt; #   description &lt;chr&gt;</span></code></pre></div>
 </div>

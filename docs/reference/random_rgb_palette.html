@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Process a quant file from REdiscoverTE pipeline — process_quant_file • coriell</title>
+<title>Generate Random RGB Color Palette — random_rgb_palette • coriell</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,9 @@
 
 
 
-<meta property="og:title" content="Process a quant file from REdiscoverTE pipeline — process_quant_file" />
-<meta property="og:description" content="Specialty function for processing quants files produced by the REdiscoverTE
-pipeline. The function takes a quant file as input and calculates the counts
-per gene and per repetitive element subfamily counts in a list. The user must 
-provide the pre-processed gene and RepeatMasker annotations as data.tables." />
+<meta property="og:title" content="Generate Random RGB Color Palette — random_rgb_palette" />
+<meta property="og:description" content="This function will randomly generate N colors from the rgb colorspace. It 
+makes no attempt at ensuring the colors are distinct or well separated." />
 
 
 
@@ -121,76 +119,35 @@ provide the pre-processed gene and RepeatMasker annotations as data.tables." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Process a quant file from REdiscoverTE pipeline</h1>
+    <h1>Generate Random RGB Color Palette</h1>
     
-    <div class="hidden name"><code>process_quant_file.Rd</code></div>
+    <div class="hidden name"><code>random_rgb_palette.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Specialty function for processing quants files produced by the <a href='https://www.nature.com/articles/s41467-019-13035-2'>REdiscoverTE</a>
-pipeline. The function takes a quant file as input and calculates the counts
-per gene and per repetitive element subfamily counts in a list. The user must 
-provide the pre-processed gene and RepeatMasker annotations as data.tables.</p>
+    <p>This function will randomly generate N colors from the rgb colorspace. It 
+makes no attempt at ensuring the colors are distinct or well separated.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>process_quant_file</span><span class='op'>(</span>
-  <span class='va'>quant_file</span>,
-  <span class='va'>gene_annot</span>,
-  <span class='va'>exon_annot</span>,
-  <span class='va'>intron_annot</span>,
-  <span class='va'>intergenic_annot</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>random_rgb_palette</span><span class='op'>(</span><span class='va'>n</span>, alpha <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>quant_file</th>
-      <td><p>path to the quant file to be processed</p></td>
+      <th>n</th>
+      <td><p>numeric. Number of random colors to generate</p></td>
     </tr>
     <tr>
-      <th>gene_annot</th>
-      <td><p>REdiscoverTE gene annotation data.frame</p></td>
-    </tr>
-    <tr>
-      <th>rmsk_annot</th>
-      <td><p>REdiscoverTE RepeatMasker annotation data.frame</p></td>
+      <th>alpha</th>
+      <td><p>numeric. Transparency level of color palette (0-1). Default 1.0</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list containing five data.tables. One for the gene counts ("gene"), 
-exonic RE counts ("exon"), intron RE counts ("intron"), intergenic RE counts ("intergenic"),
-and intronic + intergenic RE counts ("re").</p>
+    <p>vector of hex values for RGB colors of length n</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># read in annotation files</span>
-<span class='va'>genes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"path/to/gene-annotation.rds"</span><span class='op'>)</span>
-<span class='va'>exonREs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"path/to/exonRE-annotation.rds"</span><span class='op'>)</span>
-<span class='va'>intronREs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"path/to/intronRE-annotation.rds"</span><span class='op'>)</span>
-<span class='va'>intergenicREs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"path/to/intergenicRE-annotation.rds"</span><span class='op'>)</span>
-
-<span class='co'># specify path to quant file</span>
-<span class='va'>my_quant_file</span> <span class='op'>&lt;-</span> <span class='st'>"/path/to/quant.sf"</span>
-
-<span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>process_quant_file</span><span class='op'>(</span><span class='va'>my_quant_file</span>, <span class='va'>genes</span>, <span class='va'>exonREs</span>, <span class='va'>intronREs</span>, <span class='va'>intergenicREs</span><span class='op'>)</span>
-
-<span class='co'># If you have a list of quant files, you can apply over all with multiple cores</span>
-<span class='va'>my_quants</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='st'>"path/to/quants_dir"</span>, pattern <span class='op'>=</span> <span class='st'>"quant.sf"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>processed</span> <span class='op'>&lt;-</span> <span class='fu'>parallel</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/parallel/mclapply.html'>mclapply</a></span><span class='op'>(</span>
-  X <span class='op'>=</span> <span class='va'>my_quants</span>,
-  FUN <span class='op'>=</span> <span class='va'>process_quant_file</span>,
-  gene_annot <span class='op'>=</span> <span class='va'>genes</span>,
-  exon_annot <span class='op'>=</span> <span class='va'>exonREs</span>,
-  intron_annot <span class='op'>=</span> <span class='va'>intronREs</span>,
-  intergenic_annot <span class='op'>=</span> <span class='va'>intergenicREs</span>,
-  mc.cores <span class='op'>=</span> <span class='fl'>12</span>
-<span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
