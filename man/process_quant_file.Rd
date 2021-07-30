@@ -15,7 +15,13 @@ process_quant_file(
 \arguments{
 \item{quant_file}{path to the quant file to be processed}
 
-\item{gene_annot}{REdiscoverTE gene annotation data.frame}
+\item{gene_annot}{REdiscoverTE gene annotation data.table}
+
+\item{exon_annot}{REdiscoverTE RE exon annotation data.table}
+
+\item{intron_annot}{REdiscoverTE RE intron annotation data.table}
+
+\item{intergenic_annot}{REdiscoverTE RE intergenic annotation data.table}
 
 \item{rmsk_annot}{REdiscoverTE RepeatMasker annotation data.frame}
 }
@@ -32,7 +38,7 @@ provide the pre-processed gene and RepeatMasker annotations as data.tables.
 }
 \examples{
 \dontrun{
-# read in annotation files
+# read in annotation files (data.tables)
 genes <- readRDS("path/to/gene-annotation.rds")
 exonREs <- readRDS("path/to/exonRE-annotation.rds")
 intronREs <- readRDS("path/to/intronRE-annotation.rds")

@@ -6,7 +6,10 @@
 #' provide the pre-processed gene and RepeatMasker annotations as data.tables.
 #'
 #' @param quant_file path to the quant file to be processed
-#' @param gene_annot REdiscoverTE gene annotation data.frame
+#' @param gene_annot REdiscoverTE gene annotation data.table
+#' @param exon_annot REdiscoverTE RE exon annotation data.table
+#' @param intron_annot REdiscoverTE RE intron annotation data.table
+#' @param intergenic_annot REdiscoverTE RE intergenic annotation data.table
 #' @param rmsk_annot REdiscoverTE RepeatMasker annotation data.frame
 #' @return list containing five data.tables. One for the gene counts ("gene"), 
 #' exonic RE counts ("exon"), intron RE counts ("intron"), intergenic RE counts ("intergenic"),
@@ -15,7 +18,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' # read in annotation files
+#' # read in annotation files (data.tables)
 #' genes <- readRDS("path/to/gene-annotation.rds")
 #' exonREs <- readRDS("path/to/exonRE-annotation.rds")
 #' intronREs <- readRDS("path/to/intronRE-annotation.rds")
