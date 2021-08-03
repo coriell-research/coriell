@@ -36,6 +36,11 @@
 #' abline(v = unimodal_threshold(x4, y4)[1])
 #'
 unimodal_threshold <- function(x, y) {
+  stopifnot("x and y must be same length" = length(x) == length(y))
+  stopifnot("Duplicated values in x" = !anyDuplicated(x))
+  stopifnot("NA values in x" = all(!is.na(x)))
+  stopifnot("NA values in y" = all(!is.na(y)))
+  
   # check in which direction the distribution lies
   test_m <- coef(lm(y ~ x))[[2]]
   
