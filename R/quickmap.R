@@ -1,18 +1,18 @@
 #' Heatmap with sensible defaults for RNA-seq expression data
 #'
-#' Generate a heatmap using pheatmap with sensible defaults for RNA-seq.
+#' Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
 #' Utilizes a default blue to red diverging color palette, removes rownames
-#' and borders, clusters rows and columns, sets row-wise clustering is euclidean
-#' column-wise clustering is correlation with clustering method set to complete.
+#' and borders, clusters rows and columns, sets row-wise clustering to correlation
+#' column-wise clustering to correlation with clustering method set to Ward.D2.
 #' Display font size is reduced and column labels are set to an angle. Defaults can
-#' be overridden and/or any additional arguments can be passed to the pheatmap
+#' be overridden and/or any additional arguments can be passed to the \code{pheatmap}
 #' function via ...
 #'
 #' @param mat numeric matrix to be passed onto pheatmap function
 #' @param diverging_palette logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
-#' color to a continuous color palette (viridis::magma), useful for un-scaled expression data.
-#' @param ... args to be passed to pheatmap function
-#' @return pheatmap object. See ?pheatmap::pheatmap for details
+#' color to a continuous color palette \code{viridis::magma}, useful for un-scaled expression data.
+#' @param ... args to be passed to \code{pheatmap} function
+#' @return pheatmap object. See \code{?pheatmap::pheatmap} for details
 #' @examples
 #' # generate fake count data
 #' X <- coriell::simulate_counts(n_genes = 100)$table
@@ -27,7 +27,7 @@ quickmap <- function(mat, diverging_palette = TRUE, ...) {
 
   default_args <- list(
     scale = "row", show_rownames = FALSE, border_color = NA, cluster_rows = TRUE,
-    cluster_cols = TRUE, color = col_code, treeheight_row = 0, clustering_distance_rows = "euclidean",
+    cluster_cols = TRUE, color = col_code, treeheight_row = 0, clustering_distance_rows = "correlation",
     clustering_distance_cols = "correlation", clustering_method = "ward.D2", angle_col = 315
   )
   user_args <- list(...)

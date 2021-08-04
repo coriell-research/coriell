@@ -42,8 +42,8 @@
 <meta property="og:title" content="Heatmap with sensible defaults for RNA-seq expression data — quickmap" />
 <meta property="og:description" content="Generate a heatmap using pheatmap with sensible defaults for RNA-seq.
 Utilizes a default blue to red diverging color palette, removes rownames
-and borders, clusters rows and columns, sets row-wise clustering is euclidean
-column-wise clustering is correlation with clustering method set to complete.
+and borders, clusters rows and columns, sets row-wise clustering to correlation
+column-wise clustering to correlation with clustering method set to Ward.D2.
 Display font size is reduced and column labels are set to an angle. Defaults can
 be overridden and/or any additional arguments can be passed to the pheatmap
 function via ..." />
@@ -130,12 +130,12 @@ function via ..." />
     </div>
 
     <div class="ref-description">
-    <p>Generate a heatmap using pheatmap with sensible defaults for RNA-seq.
+    <p>Generate a heatmap using <code>pheatmap</code> with sensible defaults for RNA-seq.
 Utilizes a default blue to red diverging color palette, removes rownames
-and borders, clusters rows and columns, sets row-wise clustering is euclidean
-column-wise clustering is correlation with clustering method set to complete.
+and borders, clusters rows and columns, sets row-wise clustering to correlation
+column-wise clustering to correlation with clustering method set to Ward.D2.
 Display font size is reduced and column labels are set to an angle. Defaults can
-be overridden and/or any additional arguments can be passed to the pheatmap
+be overridden and/or any additional arguments can be passed to the <code>pheatmap</code>
 function via ...</p>
     </div>
 
@@ -151,17 +151,17 @@ function via ...</p>
     <tr>
       <th>diverging_palette</th>
       <td><p>logical. Default(TRUE). Sets the color scale to a diverging palette (blue -&gt; white -&gt; red). If FALSE, set the
-color to a continuous color palette (viridis::magma), useful for un-scaled expression data.</p></td>
+color to a continuous color palette <code>viridis::magma</code>, useful for un-scaled expression data.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>args to be passed to pheatmap function</p></td>
+      <td><p>args to be passed to <code>pheatmap</code> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>pheatmap object. See ?pheatmap::pheatmap for details</p>
+    <p>pheatmap object. See <code><a href='https://rdrr.io/pkg/pheatmap/man/pheatmap.html'>?pheatmap::pheatmap</a></code> for details</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># generate fake count data</span>
@@ -169,7 +169,7 @@ color to a continuous color palette (viridis::magma), useful for un-scaled expre
 
 <span class='co'># display heatmap of scaled count data and add title to the plot</span>
 <span class='fu'>quickmap</span><span class='op'>(</span><span class='va'>X</span>, main <span class='op'>=</span> <span class='st'>"Control vs Treatment"</span><span class='op'>)</span>
-</div><div class='img'><img src='quickmap-1.png' alt='' width='700' height='433' /></div></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

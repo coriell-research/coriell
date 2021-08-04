@@ -10,20 +10,20 @@ quickmap(mat, diverging_palette = TRUE, ...)
 \item{mat}{numeric matrix to be passed onto pheatmap function}
 
 \item{diverging_palette}{logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
-color to a continuous color palette (viridis::magma), useful for un-scaled expression data.}
+color to a continuous color palette \code{viridis::magma}, useful for un-scaled expression data.}
 
-\item{...}{args to be passed to pheatmap function}
+\item{...}{args to be passed to \code{pheatmap} function}
 }
 \value{
-pheatmap object. See ?pheatmap::pheatmap for details
+pheatmap object. See \code{?pheatmap::pheatmap} for details
 }
 \description{
-Generate a heatmap using pheatmap with sensible defaults for RNA-seq.
+Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
 Utilizes a default blue to red diverging color palette, removes rownames
-and borders, clusters rows and columns, sets row-wise clustering is euclidean
-column-wise clustering is correlation with clustering method set to complete.
+and borders, clusters rows and columns, sets row-wise clustering to correlation
+column-wise clustering to correlation with clustering method set to Ward.D2.
 Display font size is reduced and column labels are set to an angle. Defaults can
-be overridden and/or any additional arguments can be passed to the pheatmap
+be overridden and/or any additional arguments can be passed to the \code{pheatmap}
 function via ...
 }
 \examples{
