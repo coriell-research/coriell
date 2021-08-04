@@ -11,17 +11,22 @@ distinct_rgb_palette(n, alpha = 1, ...)
 
 \item{alpha}{numeric. Transparency level of the color palette (0-1). Default 1.0}
 
-\item{...}{arguments passed to `kmeans()`}
+\item{...}{arguments passed to \code{kmeans()}}
 }
 \value{
 vector of distinct RGB colors
 }
 \description{
-This function uses `kmeans()` over the RGB colorspace to generate N distinct
-RGB colors. It's usually not a problem if `kmeans()` does not converge (colors
-are distinct enough for most purposes). If you get warnings, you can modify
-the default settings of the `kmeans()` function by passing in additional
-arguments. For example, increasing iterations can be done by passing
-`iter.max = 100`. Changing the kmeans algorithm can be done by specifying
-`algorithm = "Lloyd"`. Changing these arguments may eliminate warnings.
+This function uses \code{kmeans()} over the RGB colorspace to generate N distinct
+RGB colors.
+}
+\details{
+This function uses \emph{very} inaccurate defaults for the \code{kmeans()} function in
+the interest of speed. It's usually not a problem if \code{kmeans()} does not
+converge (colors are distinct enough for most purposes). If you get warnings,
+or you don't like the colors produced, you can modify the default arguments to the
+\code{kmeans()} function by passing in additional arguments to \code{...}. For example,
+increasing iterations can be done by passing \code{iter.max = 100}. Changing the
+kmeans algorithm can be done by specifying \code{algorithm = "MacQueen"}. Changing
+these arguments may eliminate warnings or produce more distinct colors.
 }

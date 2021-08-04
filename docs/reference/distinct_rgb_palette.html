@@ -40,13 +40,8 @@
 
 
 <meta property="og:title" content="Generate a distinct RGB color palette — distinct_rgb_palette" />
-<meta property="og:description" content="This function uses `kmeans()` over the RGB colorspace to generate N distinct
-RGB colors. It's usually not a problem if `kmeans()` does not converge (colors
-are distinct enough for most purposes). If you get warnings, you can modify
-the default settings of the `kmeans()` function by passing in additional
-arguments. For example, increasing iterations can be done by passing
-`iter.max = 100`. Changing the kmeans algorithm can be done by specifying
-`algorithm = &quot;Lloyd&quot;`. Changing these arguments may eliminate warnings." />
+<meta property="og:description" content="This function uses kmeans() over the RGB colorspace to generate N distinct
+RGB colors." />
 
 
 
@@ -130,13 +125,8 @@ arguments. For example, increasing iterations can be done by passing
     </div>
 
     <div class="ref-description">
-    <p>This function uses `kmeans()` over the RGB colorspace to generate N distinct
-RGB colors. It's usually not a problem if `kmeans()` does not converge (colors
-are distinct enough for most purposes). If you get warnings, you can modify
-the default settings of the `kmeans()` function by passing in additional
-arguments. For example, increasing iterations can be done by passing
-`iter.max = 100`. Changing the kmeans algorithm can be done by specifying
-`algorithm = "Lloyd"`. Changing these arguments may eliminate warnings.</p>
+    <p>This function uses <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans()</a></code> over the RGB colorspace to generate N distinct
+RGB colors.</p>
     </div>
 
     <pre class="usage"><span class='fu'>distinct_rgb_palette</span><span class='op'>(</span><span class='va'>n</span>, alpha <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
@@ -154,13 +144,23 @@ arguments. For example, increasing iterations can be done by passing
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed to `kmeans()`</p></td>
+      <td><p>arguments passed to <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>vector of distinct RGB colors</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function uses <em>very</em> inaccurate defaults for the <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans()</a></code> function in
+the interest of speed. It's usually not a problem if <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans()</a></code> does not
+converge (colors are distinct enough for most purposes). If you get warnings,
+or you don't like the colors produced, you can modify the default arguments to the
+<code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans()</a></code> function by passing in additional arguments to <code>...</code>. For example,
+increasing iterations can be done by passing <code>iter.max = 100</code>. Changing the
+kmeans algorithm can be done by specifying <code>algorithm = "MacQueen"</code>. Changing
+these arguments may eliminate warnings or produce more distinct colors.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
