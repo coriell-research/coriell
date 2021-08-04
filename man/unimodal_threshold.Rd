@@ -4,12 +4,12 @@
 \alias{unimodal_threshold}
 \title{Calculate threshold value for unimodal distribution}
 \usage{
-unimodal_threshold(x, y)
+unimodal_threshold(x, show = FALSE)
 }
 \arguments{
-\item{x}{numeric vector of x-coordinates}
+\item{x}{numeric vector of values.}
 
-\item{y}{numeric vector of y-coordinates}
+\item{show_plot}{logical. default (FALSE). Show the scatter plot for the given distribution.}
 }
 \value{
 named vector containing "x" and "y" position of calculated threshold
@@ -19,37 +19,16 @@ Calculate a threshold value of a unimodal distribution based on the method
 described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"}{Rosin 2001} 
 for image thresholding. Conceptually, the method attempts to draw a line from 
 the peak of the distribution to the tail and calculates the maximum distance
-from a point to that line. The point where the distance is maximixed is the
+from a point to that line. The point where the distance is maximized is the
 threshold.
 }
+\details{
+The function takes a numeric vector and ranks the values using `data.table::frank`.
+with `ties.method = "first"`. The returned values for the threshold "x" and "y", 
+indicate the rank of the data point and the value at that rank, respectively.
+}
 \examples{
-# increasing exponential
-x <- 1:100
-y <- x^exp(3)
-plot(x, y)
-abline(v = unimodal_threshold(x, y)["x"])
-
-# decreasing exponential
-x2 <- 1:100
-y2 <- rev(x2)^exp(3)
-plot(x2, y2)
-abline(v = unimodal_threshold(x2, y2)["x"])
-
-# with bump at right side
-x3 <- 1:10
-y3 <- c(1, 1, 1, 1, 2, 3, 5, 6, 4, 1)
-plot(x3, y3)
-abline(v = unimodal_threshold(x3, y3)["x"])
-
-# with bump on left
-x4 <- 1:10
-y4 <- rev(y3)
-plot(x4, y4)
-abline(v = unimodal_threshold(x4, y4)["x"])
-
-# If you only have y values, use `rank(y)` to create x values
-y5 <- (1:100)^exp(3)
-x5 <- rank(y5)
-plot(x5, y5)
-abline(v = unimodal_threshold(x5, y5)["x"])
+# simulate exponential counts
+x <- (1:100)^exp(3)
+unimodal_threshold(x, show = TRUE)
 }
