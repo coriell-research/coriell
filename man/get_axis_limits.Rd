@@ -7,7 +7,7 @@
 get_axis_limits(p)
 }
 \arguments{
-\item{p}{ggplot plot object}
+\item{p}{\code{ggplot} plot object}
 }
 \value{
 list with elements for x and y limits

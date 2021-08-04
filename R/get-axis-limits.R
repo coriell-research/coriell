@@ -1,7 +1,7 @@
 #' Get the axis limits of a ggplot2 object
 #'
 #' Internal helper function used to get the axis limits of a plot
-#' @param p ggplot plot object
+#' @param p \code{ggplot} plot object
 #' @keywords internal
 #' @export
 #' @return list with elements for x and y limits

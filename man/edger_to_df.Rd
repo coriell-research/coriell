@@ -7,13 +7,13 @@
 edger_to_df(res_obj)
 }
 \arguments{
-\item{res_obj}{edgeR results object to be converted}
+\item{res_obj}{\code{edgeR} results object to be converted}
 }
 \value{
 tibble
 }
 \description{
-Create a tibble from an edgeR results object.
+Create a tibble from an \code{edgeR} results object.
 }
 \examples{
 \dontrun{

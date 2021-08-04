@@ -1,8 +1,8 @@
 #' Convert EdgeR results object to a tidy data.frame
 #'
-#' Create a tibble from an edgeR results object. 
+#' Create a tibble from an \code{edgeR} results object. 
 #'
-#' @param res_obj edgeR results object to be converted
+#' @param res_obj \code{edgeR} results object to be converted
 #' @export
 #' @return tibble
 #' @examples
