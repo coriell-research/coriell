@@ -2,7 +2,7 @@
 % Please edit documentation in R/colors.R
 \name{random_rgb_palette}
 \alias{random_rgb_palette}
-\title{Generate Random RGB Color Palette}
+\title{Generate random RGB color palette}
 \usage{
 random_rgb_palette(n, alpha = 1)
 }
@@ -15,6 +15,6 @@ random_rgb_palette(n, alpha = 1)
 vector of hex values for RGB colors of length n
 }
 \description{
-This function will randomly generate N colors from the rgb colorspace. It 
+This function will randomly generate N colors from the rgb colorspace. It
 makes no attempt at ensuring the colors are distinct or well separated.
 }

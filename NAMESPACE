@@ -2,6 +2,7 @@
 
 export("%>%")
 export(clr)
+export(distinct_rgb_palette)
 export(edger_to_df)
 export(geometric_mean)
 export(get_axis_limits)

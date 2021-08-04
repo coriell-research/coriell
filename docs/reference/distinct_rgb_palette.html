@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • coriell</title>
+<title>Generate a distinct RGB color palette — distinct_rgb_palette • coriell</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,14 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Generate a distinct RGB color palette — distinct_rgb_palette" />
+<meta property="og:description" content="This function uses `kmeans()` over the RGB colorspace to generate N distinct
+RGB colors. It's usually not a problem if `kmeans()` does not converge (colors
+are distinct enough for most purposes). If you get warnings, you can modify
+the default settings of the `kmeans()` function by passing in additional
+arguments. For example, increasing iterations can be done by passing
+`iter.max = 100`. Changing the kmeans algorithm can be done by specifying
+`algorithm = &quot;Lloyd&quot;`. Changing these arguments may eliminate warnings." />
 
 
 
@@ -58,7 +65,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -115,156 +122,47 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Generate a distinct RGB color palette</h1>
+    
+    <div class="hidden name"><code>distinct_rgb_palette.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>This function uses `kmeans()` over the RGB colorspace to generate N distinct
+RGB colors. It's usually not a problem if `kmeans()` does not converge (colors
+are distinct enough for most purposes). If you get warnings, you can modify
+the default settings of the `kmeans()` function by passing in additional
+arguments. For example, increasing iterations can be done by passing
+`iter.max = 100`. Changing the kmeans algorithm can be done by specifying
+`algorithm = "Lloyd"`. Changing these arguments may eliminate warnings.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>distinct_rgb_palette</span><span class='op'>(</span><span class='va'>n</span>, alpha <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="clr.html">clr()</a></code> </p>
-        </td>
-        <td><p>Centered Log-ratio transformation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="distinct_rgb_palette.html">distinct_rgb_palette()</a></code> </p>
-        </td>
-        <td><p>Generate a distinct RGB color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="edger_to_df.html">edger_to_df()</a></code> </p>
-        </td>
-        <td><p>Convert EdgeR results object to a tidy data.frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geometric_mean.html">geometric_mean()</a></code> </p>
-        </td>
-        <td><p>Geometric mean of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="list_to_matrix.html">list_to_matrix()</a></code> </p>
-        </td>
-        <td><p>Convert a list of vectors to a binary matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pairwise_intersection_stats.html">pairwise_intersection_stats()</a></code> </p>
-        </td>
-        <td><p>Compute pairwise intersection statistics between all elements of a list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="panther_go.html">panther_go()</a></code> </p>
-        </td>
-        <td><p>Perform GO analysis with PANTHER</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="permutation_correlation_test.html">permutation_correlation_test()</a></code> </p>
-        </td>
-        <td><p>Perform a permutation correlation test on every row of a matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="permutations.html">permutations()</a></code> </p>
-        </td>
-        <td><p>Generate all permutations of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_md.html">plot_md()</a></code> </p>
-        </td>
-        <td><p>Create an MD plot from expression data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_volcano.html">plot_volcano()</a></code> </p>
-        </td>
-        <td><p>Create a volcano plot from expression data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="process_quant_file.html">process_quant_file()</a></code> </p>
-        </td>
-        <td><p>Process a quant file from REdiscoverTE pipeline</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="quickmap.html">quickmap()</a></code> </p>
-        </td>
-        <td><p>Heatmap with sensible defaults for RNA-seq expression data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="random_rgb_palette.html">random_rgb_palette()</a></code> </p>
-        </td>
-        <td><p>Generate random RGB color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_n_random_cor.html">sample_n_random_cor()</a></code> </p>
-        </td>
-        <td><p>Generate a null distribution of correlation values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="simulate_counts.html">simulate_counts()</a></code> </p>
-        </td>
-        <td><p>Generate simulated RNA-seq data for testing purposes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="subsample_counts.html">subsample_counts()</a></code> </p>
-        </td>
-        <td><p>Sub-sample a count matrix to the smallest library size</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarize_dge.html">summarize_dge()</a></code> </p>
-        </td>
-        <td><p>Summarize RNA-seq expression results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="unimodal_threshold.html">unimodal_threshold()</a></code> </p>
-        </td>
-        <td><p>Calculate threshold value for unimodal distribution</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zscore_df.html">zscore_df()</a></code> </p>
-        </td>
-        <td><p>Z-score a dataframe</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>n</th>
+      <td><p>numeric. Number of colors to generate</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>numeric. Transparency level of the color palette (0-1). Default 1.0</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments passed to `kmeans()`</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>vector of distinct RGB colors</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
