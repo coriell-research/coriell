@@ -23,8 +23,8 @@ from a point to that line. The point where the distance is maximized is the
 threshold.
 }
 \details{
-The function takes a numeric vector and ranks the values using `data.table::frank`.
-with `ties.method = "first"`. The returned values for the threshold "x" and "y", 
+The function takes a numeric vector and ranks the values using \code{data.table::frank}.
+with \code{ties.method = "first"}. The returned values for the threshold "x" and "y", 
 indicate the rank of the data point and the value at that rank, respectively.
 }
 \examples{
