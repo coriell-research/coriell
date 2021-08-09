@@ -33,6 +33,8 @@
 #'
 #' # convert the results object to a dataframe -- do not filter the results
 #' res_df <- edger_to_df(qlf)
+#' 
+#' head(res_df)
 #'
 edger_to_df <- function(res_obj) {
   df <- edgeR::topTags(res_obj, n = nrow(res_obj[["table"]]))[["table"]]

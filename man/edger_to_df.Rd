@@ -44,4 +44,6 @@ qlf <- glmQLFTest(fit, coef = 2)
 # convert the results object to a dataframe -- do not filter the results
 res_df <- edger_to_df(qlf)
 
+head(res_df)
+
 }

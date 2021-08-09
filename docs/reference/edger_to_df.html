@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert EdgeR results object to a tidy data.frame — edger_to_df • coriell</title>
+<title>Convert EdgeR results object to a data.frame — edger_to_df • coriell</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Convert EdgeR results object to a tidy data.frame — edger_to_df" />
-<meta property="og:description" content="Create a tibble from an edgeR results object." />
+<meta property="og:title" content="Convert EdgeR results object to a data.frame — edger_to_df" />
+<meta property="og:description" content="Create a data.frame from an edgeR results object. This function calls
+edgeR::topTags() on the object and extracts the table data.frame
+with all features." />
 
 
 
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -118,13 +120,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert EdgeR results object to a tidy data.frame</h1>
+    <h1>Convert EdgeR results object to a data.frame</h1>
     
     <div class="hidden name"><code>edger_to_df.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a tibble from an <code>edgeR</code> results object.</p>
+    <p>Create a data.frame from an <code>edgeR</code> results object. This function calls
+<code><a href='https://rdrr.io/pkg/edgeR/man/topTags.html'>edgeR::topTags()</a></code> on the object and extracts the <code>table</code> data.frame
+with all features.</p>
     </div>
 
     <pre class="usage"><span class='fu'>edger_to_df</span><span class='op'>(</span><span class='va'>res_obj</span><span class='op'>)</span></pre>
@@ -140,11 +144,10 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tibble</p>
+    <p>data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://bioinf.wehi.edu.au/edgeR'>edgeR</a></span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://bioinf.wehi.edu.au/edgeR'>edgeR</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>coriell</span><span class='op'>)</span>
 
 <span class='co'># create some fake data</span>
@@ -169,8 +172,15 @@
 
 <span class='co'># convert the results object to a dataframe -- do not filter the results</span>
 <span class='va'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'>edger_to_df</span><span class='op'>(</span><span class='va'>qlf</span><span class='op'>)</span>
-<span class='op'>}</span>
 
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>res_df</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   feature_id      logFC    logCPM        F      PValue       FDR
+#&gt; 1    gene125 -12.036244  9.408800 7.561795 0.006015512 0.9735339
+#&gt; 2    gene945  10.888447 10.836561 7.393049 0.006604218 0.9735339
+#&gt; 3      gene9 -11.735412  8.776109 7.165946 0.007490752 0.9735339
+#&gt; 4    gene239   9.875593 10.972145 6.607583 0.010226304 0.9735339
+#&gt; 5    gene247   9.988596 10.716576 6.603512 0.010249637 0.9735339
+#&gt; 6    gene744   9.934091 10.059976 6.359734 0.011750994 0.9735339</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
