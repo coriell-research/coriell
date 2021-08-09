@@ -36,12 +36,12 @@ et_single_contrast <- exactTest(y)
 
 # tests -------------------------------------------------------------------
 
-test_that("Convert results to tibble", {
-  expect_is(edger_to_df(glmqlf_single_contrast), "tbl_df", label = "glmQLF test with single coef")
-  expect_is(edger_to_df(glmqlf_anova), "tbl_df", label = "glmQLF with multiple coefs")
-  expect_is(edger_to_df(glmlrt_single_contrast), "tbl_df", label = "glmLRT with single coef")
-  expect_is(edger_to_df(glmlrt_anova), "tbl_df", label = "glmLRT with multiple coefs")
-  expect_is(edger_to_df(glmtreat_single_contrast), "tbl_df", label = "glmTreat with single coef")
-  expect_is(edger_to_df(et_single_contrast), "tbl_df", label = "exactTest")
+test_that("Convert results to data.frame", {
+  expect_is(edger_to_df(glmqlf_single_contrast), "data.frame", label = "glmQLF test with single coef")
+  expect_is(edger_to_df(glmqlf_anova), "data.frame", label = "glmQLF with multiple coefs")
+  expect_is(edger_to_df(glmlrt_single_contrast), "data.frame", label = "glmLRT with single coef")
+  expect_is(edger_to_df(glmlrt_anova), "data.frame", label = "glmLRT with multiple coefs")
+  expect_is(edger_to_df(glmtreat_single_contrast), "data.frame", label = "glmTreat with single coef")
+  expect_is(edger_to_df(et_single_contrast), "data.frame", label = "exactTest")
   }
 )

@@ -2,7 +2,7 @@
 % Please edit documentation in R/edger-to-df.R
 \name{edger_to_df}
 \alias{edger_to_df}
-\title{Convert EdgeR results object to a tidy data.frame}
+\title{Convert EdgeR results object to a data.frame}
 \usage{
 edger_to_df(res_obj)
 }
@@ -10,13 +10,14 @@ edger_to_df(res_obj)
 \item{res_obj}{\code{edgeR} results object to be converted}
 }
 \value{
-tibble
+data.frame
 }
 \description{
-Create a tibble from an \code{edgeR} results object.
+Create a data.frame from an \code{edgeR} results object. This function calls
+\code{edgeR::topTags()} on the object and extracts the \code{table} data.frame
+with all features.
 }
 \examples{
-\dontrun{
 library(edgeR)
 library(coriell)
 
@@ -42,6 +43,5 @@ qlf <- glmQLFTest(fit, coef = 2)
 
 # convert the results object to a dataframe -- do not filter the results
 res_df <- edger_to_df(qlf)
-}
 
 }

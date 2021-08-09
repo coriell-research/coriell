@@ -1,12 +1,13 @@
-#' Convert EdgeR results object to a tidy data.frame
+#' Convert EdgeR results object to a data.frame
 #'
-#' Create a tibble from an \code{edgeR} results object. 
-#'
+#' Create a data.frame from an \code{edgeR} results object. This function calls
+#' \code{edgeR::topTags()} on the object and extracts the \code{table} data.frame
+#' with all features.
+#' 
 #' @param res_obj \code{edgeR} results object to be converted
 #' @export
-#' @return tibble
+#' @return data.frame
 #' @examples
-#' \dontrun{
 #' library(edgeR)
 #' library(coriell)
 #'
@@ -32,9 +33,11 @@
 #'
 #' # convert the results object to a dataframe -- do not filter the results
 #' res_df <- edger_to_df(qlf)
-#' }
 #'
 edger_to_df <- function(res_obj) {
-  edgeR::topTags(res_obj, n = nrow(res_obj[["table"]]))[["table"]] %>%
-    dplyr::as_tibble(rownames = "feature_id")
+  df <- edgeR::topTags(res_obj, n = nrow(res_obj[["table"]]))[["table"]]
+  df <- cbind(feature_id = rownames(df), df)
+  rownames(df) <- NULL
+  
+  return(df)
 }
