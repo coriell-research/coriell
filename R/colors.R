@@ -12,12 +12,14 @@ random_rgb_palette <- function(n, alpha = 1.0) {
   stopifnot("length(n) must be equal to 1" = length(n) == 1)
   stopifnot("alpha must be between 0 and 1" = alpha >= 0 & alpha <= 1)
 
-  grDevices::rgb(
+  pal <- grDevices::rgb(
     red = stats::runif(n),
     green = stats::runif(n),
     blue = stats::runif(n),
     alpha = alpha
-  )
+    )
+  
+  return(pal)
 }
 
 #' Generate a distinct RGB color palette
