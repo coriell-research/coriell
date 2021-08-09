@@ -2,6 +2,7 @@
 #'
 #' Summarize a results dataframe. Return dataframe of counts of up/down/non-DE genes based on
 #' log-fold-change and significance values.
+#' 
 #' @param df dataframe of results. Must have columns containing significance values and log-fold changes.
 #' @param fdr_col dataframe column. Column of dataframe containing the significance level values.
 #' @param lfc_col dataframe column. Column of dataframe containing the lof-fold change values.
