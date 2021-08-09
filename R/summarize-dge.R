@@ -1,44 +1,39 @@
 #' Summarize RNA-seq expression results
 #'
-#' Summarize a results dataframe. Return dataframe of counts of up/down/non-DE genes based on
-#' log-fold-change and significance values.
+#' Summarize a results data.frame. Return data.frame of counts of up/down/non-DE 
+#' genes based on log-fold-change and significance values.
 #' 
 #' @param df dataframe of results. Must have columns containing significance values and log-fold changes.
-#' @param fdr_col dataframe column. Column of dataframe containing the significance level values.
-#' @param lfc_col dataframe column. Column of dataframe containing the lof-fold change values.
+#' @param fdr_col dataframe column (unquoted). Column of dataframe containing the significance level values.
+#' @param lfc_col dataframe column (unquoted). Column of dataframe containing the lof-fold change values.
 #' @param fdr numeric. FDR or significance value below which genes are considered significant.
 #' @param lfc numeric. abs(log-fold change) value above which genes are considered significant.
 #' @export
-#' @return tibble
+#' @return tibble of summarized results
 #' @examples
-#' \dontrun{
-#' library(edgeR)
 #' library(coriell)
-#'
-#' # create some fake data
-#' x <- data.frame(
-#'   ctl1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'   ctl2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'   trt1 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'   trt2 = rnbinom(1000, size = 0.4, prob = 1e-5),
-#'   row.names = paste0("gene", 1:1000)
+#' 
+#' 
+#' # Create a simulated results data.frame
+#' # 50 will have logFC > 0
+#' # 50 will have logFC < 0
+#' # 25 of the up-regulated will have significant FDR values (< 0.0001)
+#' # 25 of the down-regulated will have significant FDR values (< 0.0001)
+#' df <- data.frame(feature_id = paste("gene", 1:100,sep = "."),
+#'                  logFC = c(runif(50, min = -8, max = -0.01), 
+#'                            runif(50, min = 0.01, max = 8)),
+#'                  FDR = c(runif(25, min = 1e-12, max = 1e-4),
+#'                          runif(25, min = 0.06, max = 1),
+#'                          runif(25, min = 1e-12, max = 1e-4),
+#'                          runif(25, min = 0.06, max = 1))
 #' )
-#'
-#' # run edger pipeline
-#' group <- factor(c(1, 1, 2, 2))
-#' y <- DGEList(counts = x, group = group)
-#' y <- calcNormFactors(y)
-#' design <- model.matrix(~group)
-#' y <- estimateDisp(y, design)
-#'
-#' # To perform quasi-likelihood F-tests:
-#' fit <- glmQLFit(y, design)
-#' qlf <- glmQLFTest(fit, coef = 2)
-#'
-#' # convert the results object to a dataframe and summarize
-#' edger_to_df(qlf) %>%
-#'   summarize_dge()
-#' }
+#' 
+#' # view the results data.frame
+#' head(df)
+#' 
+#' # summarize results
+#' summarize_dge(df)
+#' 
 summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0) {
   df %>%
     dplyr::mutate(dge = dplyr::case_when(
