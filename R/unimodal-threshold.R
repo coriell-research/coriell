@@ -22,6 +22,7 @@
 #' unimodal_threshold(x, show = TRUE)
 unimodal_threshold <- function(x, show = FALSE) {
   stopifnot("NA values present in x" = all(!is.na(x)))
+  stopifnot("x must be numeric" = is.numeric(x))
   rnk <- data.table::frank(x, ties.method = "first")
   
   # find the min and max points
