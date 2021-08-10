@@ -1,6 +1,6 @@
 #' Perform GO analysis with PANTHER
 #'
-#' Sends a request to \href{http://pantherdb.org/}{PANTHER db}  to perform over 
+#' Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over 
 #' representation analysis. This function excludes the option to import a reference 
 #' list and reference organism. By default, in this case, PANTHER will use all 
 #' of the genes of the given organism as the reference list.
@@ -22,9 +22,10 @@
 #' Default "fisher"
 #' @param correction character string. One of c("fdr", "bonferroni", "none").
 #' Default "fdr"
-#' @return list with results of GO analysis and input information. 
+#' @return list with results of GO analysis as data.table ("table") and the raw request sent to PANTHER DB ("request"). 
 #' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
-#' for details.
+#' for column descriptions in "table".
+#' @import data.table
 #' @export
 #' @examples
 #' genes <- c(
@@ -91,17 +92,8 @@ panther_go <- function(
   httr::stop_for_status(r, "ERROR: failed to execute request")
   httr::warn_for_status(r, "WARNING: request produced a warning response")
   parsed <- jsonlite::fromJSON(httr::content(r, "text"), simplifyVector = FALSE)
-  results <- purrr::pluck(parsed, "results", "result") %>%
-    purrr::map(dplyr::as_tibble) %>%
-    dplyr::bind_rows(.id = "result_number") %>%
-    tidyr::unnest(term) %>%
-    dplyr::group_by(result_number) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(ind = rep(c("GO_term", "description"), length.out = dplyr::n())) %>%
-    tidyr::pivot_wider(names_from = ind, values_from = term)
+  dt <- rbindlist(parsed$results$result)
+  
+  return(list("table" = dt, "request" = r))
 
-  list(
-    "table" = results,
-    "request" = r
-  )
 }

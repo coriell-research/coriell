@@ -36,12 +36,12 @@ Default "fisher"}
 Default "fdr"}
 }
 \value{
-list with results of GO analysis and input information. 
+list with results of GO analysis as data.table ("table") and the raw request sent to PANTHER DB ("request"). 
 See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
-for details.
+for column descriptions in "table".
 }
 \description{
-Sends a request to \href{http://pantherdb.org/}{PANTHER db}  to perform over 
+Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over 
 representation analysis. This function excludes the option to import a reference 
 list and reference organism. By default, in this case, PANTHER will use all 
 of the genes of the given organism as the reference list.

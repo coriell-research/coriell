@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Perform GO analysis with PANTHER — panther_go" />
-<meta property="og:description" content="Sends a request to PANTHER db  to perform over 
+<meta property="og:description" content="Sends a request to PANTHER db to perform over 
 representation analysis. This function excludes the option to import a reference 
 list and reference organism. By default, in this case, PANTHER will use all 
 of the genes of the given organism as the reference list." />
@@ -75,7 +75,7 @@ of the genes of the given organism as the reference list." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -127,7 +127,7 @@ of the genes of the given organism as the reference list." />
     </div>
 
     <div class="ref-description">
-    <p>Sends a request to <a href='http://pantherdb.org/'>PANTHER db</a>  to perform over 
+    <p>Sends a request to <a href='http://pantherdb.org/'>PANTHER db</a> to perform over 
 representation analysis. This function excludes the option to import a reference 
 list and reference organism. By default, in this case, PANTHER will use all 
 of the genes of the given organism as the reference list.</p>
@@ -177,9 +177,9 @@ Default "fdr"</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list with results of GO analysis and input information. 
+    <p>list with results of GO analysis as data.table ("table") and the raw request sent to PANTHER DB ("request"). 
 See <a href='http://www.pantherdb.org/help/PANTHER_user_manual.pdf'>PANTHER user manual</a> 
-for details.</p>
+for column descriptions in "table".</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>genes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
@@ -195,17 +195,20 @@ for details.</p>
 
 <span class='co'># to view results access the 'table' item</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>go_results</span><span class='op'>$</span><span class='va'>table</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 x 10</span>
-#&gt;   result_number number_in_list fold_enrichment      fdr expected
-#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'>1</span> 1                         30            7.25 4.04<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-17</span>    4.14 
-#&gt; <span style='color: #BCBCBC;'>2</span> 2                         16           30.2  6.50<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-16</span>    0.530
-#&gt; <span style='color: #BCBCBC;'>3</span> 3                         16           30.2  4.33<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-16</span>    0.530
-#&gt; <span style='color: #BCBCBC;'>4</span> 4                         16           23.7  1.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-14</span>    0.675
-#&gt; <span style='color: #BCBCBC;'>5</span> 5                         12           55.5  2.07<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-14</span>    0.216
-#&gt; <span style='color: #BCBCBC;'>6</span> 6                         11           68.3  5.80<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-14</span>    0.161
-#&gt; <span style='color: #949494;'># … with 5 more variables: number_in_reference &lt;int&gt;, pValue &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   plus_minus &lt;chr&gt;, GO_term &lt;chr&gt;, description &lt;chr&gt;</span></div><div class='input'>
+</div><div class='output co'>#&gt;    number_in_list fold_enrichment          fdr  expected number_in_reference
+#&gt; 1:             30        7.250229 4.038800e-17 4.1378004                2029
+#&gt; 2:             30        7.250229 4.038800e-17 4.1378004                2029
+#&gt; 3:             16       30.175824 6.499026e-16 0.5302258                 260
+#&gt; 4:             16       30.175824 6.499026e-16 0.5302258                 260
+#&gt; 5:             16       30.175824 4.332684e-16 0.5302258                 260
+#&gt; 6:             16       30.175824 4.332684e-16 0.5302258                 260
+#&gt;          pValue                                    term plus_minus
+#&gt; 1: 2.566110e-21                              GO:0007166          +
+#&gt; 2: 2.566110e-21 cell surface receptor signaling pathway          +
+#&gt; 3: 8.258499e-20                              GO:0198738          +
+#&gt; 4: 8.258499e-20              cell-cell signaling by wnt          +
+#&gt; 5: 8.258499e-20                              GO:0016055          +
+#&gt; 6: 8.258499e-20                   Wnt signaling pathway          +</div><div class='input'>
 <span class='co'># to view the actual request (which allows you to parse results yourself) use</span>
 <span class='va'>req</span> <span class='op'>&lt;-</span> <span class='va'>go_results</span><span class='op'>$</span><span class='va'>request</span>
 </div></pre>
