@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -121,17 +121,27 @@
       
     </div>
 
-    <div id="coriell-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#coriell-010" class="anchor"></a>coriell 0.1.0</h1>
-<div id="major-changes" class="section level2">
+    <div id="coriell-020" class="section level2">
 <h2 class="hasAnchor">
-<a href="#major-changes" class="anchor"></a>Major Changes</h2>
+<a href="#coriell-020" class="anchor"></a>coriell 0.2.0</h2>
+<ul>
+<li>
+<code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> returns a data.frame instead of a tibble</li>
+<li>New functions for generating random color palettes: <code><a href="../reference/distinct_rgb_palette.html">distinct_rgb_palette()</a></code> and <code><a href="../reference/random_rgb_palette.html">random_rgb_palette()</a></code>
+</li>
+<li>Function for defining threshold based on ranked data: <code><a href="../reference/unimodal_threshold.html">unimodal_threshold()</a></code>. Inspired by unimodal thresholding algorithm from image analysis. Function name might change in later version to something more descriptive (i.e. <code>rank_threshold()</code>)</li>
+<li>
+<code><a href="../reference/panther_go.html">panther_go()</a></code> now returns a <code>data.table</code> of the raw, unlisted data returned from the request. The original version pivoted the table wider using columns for the GO term and the description of the GO term. This result gave inaccurate results when using a different pathway in the function call.</li>
+<li>General move towards reducing the number of dependencies in functions by either removing outside packages and switching to base R or moving to <code>data.table()</code>.</li>
+</ul>
+</div>
+    <div id="coriell-010" class="section level2">
+<h2 class="hasAnchor">
+<a href="#coriell-010" class="anchor"></a>coriell 0.1.0</h2>
 <ul>
 <li>Updated internals for <code><a href="../reference/permutation_correlation_test.html">permutation_correlation_test()</a></code> that applies permuted vector in a vectorized fashion over the entire matrix.</li>
 <li>Removed filtering capability from <code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> to allow for any <code>EdgeR</code> results objects to be used as input.</li>
 </ul>
-</div>
 </div>
   </div>
 
