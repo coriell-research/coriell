@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Centered Log-ratio transformation — clr • coriell</title>
+<title>Limit values to a given range — clamp • coriell</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Centered Log-ratio transformation — clr" />
-<meta property="og:description" content="Calculate the centered log-ratio transformation of a vector" />
+<meta property="og:title" content="Limit values to a given range — clamp" />
+<meta property="og:description" content="This function is useful for input validation. If the value of x is in the given
+range then the function returns x. If the value is outside of the range then
+the function returns either the max or the min value of the range." />
 
 
 
@@ -118,36 +120,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Centered Log-ratio transformation</h1>
+    <h1>Limit values to a given range</h1>
     
-    <div class="hidden name"><code>clr.Rd</code></div>
+    <div class="hidden name"><code>clamp.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Calculate the centered log-ratio transformation of a vector</p>
+    <p>This function is useful for input validation. If the value of x is in the given
+range then the function returns x. If the value is outside of the range then
+the function returns either the max or the min value of the range.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>clr</span><span class='op'>(</span><span class='va'>x</span>, base <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>clamp</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>min</span>, <span class='va'>max</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>numeric vector</p></td>
+      <td><p>numeric. Value to validate</p></td>
     </tr>
     <tr>
-      <th>base</th>
-      <td><p>integer base of the log function. Default 2.</p></td>
+      <th>min</th>
+      <td><p>numeric. Minimum value of range.</p></td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td><p>numeric. Maximum value of range.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The clamped value.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>1500</span><span class='op'>)</span>
-
-<span class='va'>clr_transformed</span> <span class='op'>&lt;-</span> <span class='fu'>clr</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># Value in range -- returns value</span>
+<span class='fu'>clamp</span><span class='op'>(</span><span class='fl'>10</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 10</div><div class='input'>
+<span class='co'># value less than range -- returns min</span>
+<span class='fu'>clamp</span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='co'># value greater than range -- returns max</span>
+<span class='fu'>clamp</span><span class='op'>(</span><span class='fl'>110</span>, min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 100</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
