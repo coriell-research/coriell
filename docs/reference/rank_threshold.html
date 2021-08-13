@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • coriell</title>
+<title>Calculate threshold value on ranked input — rank_threshold • coriell</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,13 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Calculate threshold value on ranked input — rank_threshold" />
+<meta property="og:description" content="Calculate a threshold value of a vector based on the unimodal threshold method
+described by Rosin 2001 
+for image thresholding. Conceptually, the method attempts to draw a line from 
+the peak of the distribution to the tail and calculates the maximum distance
+from a point to that line. The point where the distance is maximized is the
+threshold." />
 
 
 
@@ -58,7 +64,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -115,156 +121,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Calculate threshold value on ranked input</h1>
+    
+    <div class="hidden name"><code>rank_threshold.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Calculate a threshold value of a vector based on the unimodal threshold method
+described by <a href='https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"'>Rosin 2001</a> 
+for image thresholding. Conceptually, the method attempts to draw a line from 
+the peak of the distribution to the tail and calculates the maximum distance
+from a point to that line. The point where the distance is maximized is the
+threshold.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>rank_threshold</span><span class='op'>(</span><span class='va'>x</span>, show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="clr.html">clr()</a></code> </p>
-        </td>
-        <td><p>Centered Log-ratio transformation</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="distinct_rgb_palette.html">distinct_rgb_palette()</a></code> </p>
-        </td>
-        <td><p>Generate a distinct RGB color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="edger_to_df.html">edger_to_df()</a></code> </p>
-        </td>
-        <td><p>Convert EdgeR results object to a data.frame</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="geometric_mean.html">geometric_mean()</a></code> </p>
-        </td>
-        <td><p>Geometric mean of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="list_to_matrix.html">list_to_matrix()</a></code> </p>
-        </td>
-        <td><p>Convert a list of vectors to a binary matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pairwise_intersection_stats.html">pairwise_intersection_stats()</a></code> </p>
-        </td>
-        <td><p>Compute pairwise intersection statistics between all elements of a list</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="panther_go.html">panther_go()</a></code> </p>
-        </td>
-        <td><p>Perform GO analysis with PANTHER</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="permutation_correlation_test.html">permutation_correlation_test()</a></code> </p>
-        </td>
-        <td><p>Perform a permutation correlation test on every row of a matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="permutations.html">permutations()</a></code> </p>
-        </td>
-        <td><p>Generate all permutations of a vector</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_md.html">plot_md()</a></code> </p>
-        </td>
-        <td><p>Create an MD plot from expression data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_volcano.html">plot_volcano()</a></code> </p>
-        </td>
-        <td><p>Create a volcano plot from expression data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="process_quant_file.html">process_quant_file()</a></code> </p>
-        </td>
-        <td><p>Process a quant file from REdiscoverTE pipeline</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="quickmap.html">quickmap()</a></code> </p>
-        </td>
-        <td><p>Heatmap with sensible defaults for RNA-seq expression data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="random_rgb_palette.html">random_rgb_palette()</a></code> </p>
-        </td>
-        <td><p>Generate random RGB color palette</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rank_threshold.html">rank_threshold()</a></code> </p>
-        </td>
-        <td><p>Calculate threshold value on ranked input</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sample_n_random_cor.html">sample_n_random_cor()</a></code> </p>
-        </td>
-        <td><p>Generate a null distribution of correlation values</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="simulate_counts.html">simulate_counts()</a></code> </p>
-        </td>
-        <td><p>Generate simulated RNA-seq data for testing purposes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="subsample_counts.html">subsample_counts()</a></code> </p>
-        </td>
-        <td><p>Sub-sample a count matrix to the smallest library size</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summarize_dge.html">summarize_dge()</a></code> </p>
-        </td>
-        <td><p>Summarize RNA-seq expression results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="zscore_df.html">zscore_df()</a></code> </p>
-        </td>
-        <td><p>Z-score a dataframe</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>numeric vector of values.</p></td>
+    </tr>
+    <tr>
+      <th>show_plot</th>
+      <td><p>logical. default (FALSE). Show the scatter plot for the given distribution.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>named vector containing "x" and "y" position of calculated threshold</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function takes a numeric vector and ranks the values using <code><a href='https://Rdatatable.gitlab.io/data.table/reference/frank.html'>data.table::frank</a></code>.
+with <code>ties.method = "first"</code>. The returned values for the threshold "x" and "y", 
+indicate the rank of the data point and the value at that rank, respectively.</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># simulate exponential counts</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>100</span><span class='op'>)</span><span class='op'>^</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fl'>3</span><span class='op'>)</span>
+<span class='fu'>rank_threshold</span><span class='op'>(</span><span class='va'>x</span>, show <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='img'><img src='rank_threshold-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;            x            y 
+#&gt; 8.500000e+01 5.667807e+38 </div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

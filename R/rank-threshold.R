@@ -1,6 +1,6 @@
-#' Calculate threshold value for unimodal distribution
+#' Calculate threshold value on ranked input
 #' 
-#' Calculate a threshold value of a unimodal distribution based on the method
+#' Calculate a threshold value of a vector based on the unimodal threshold method
 #' described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"}{Rosin 2001} 
 #' for image thresholding. Conceptually, the method attempts to draw a line from 
 #' the peak of the distribution to the tail and calculates the maximum distance
@@ -19,8 +19,8 @@
 #' @examples
 #' # simulate exponential counts
 #' x <- (1:100)^exp(3)
-#' unimodal_threshold(x, show = TRUE)
-unimodal_threshold <- function(x, show = FALSE) {
+#' rank_threshold(x, show = TRUE)
+rank_threshold <- function(x, show = FALSE) {
   stopifnot("NA values present in x" = all(!is.na(x)))
   stopifnot("x must be numeric" = is.numeric(x))
   rnk <- data.table::frank(x, ties.method = "first")
