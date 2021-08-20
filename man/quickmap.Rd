@@ -19,12 +19,26 @@ pheatmap object. See \code{?pheatmap::pheatmap} for details
 }
 \description{
 Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
-Utilizes a default blue to red diverging color palette, removes rownames
-and borders, clusters rows and columns, sets row-wise clustering to correlation
-column-wise clustering to correlation with clustering method set to Ward.D2.
-Display font size is reduced and column labels are set to an angle. Defaults can
-be overridden and/or any additional arguments can be passed to the \code{pheatmap}
-function via ...
+}
+\details{
+The default arguments to \code{pheatmap::pheatmap()} are:
+\itemize{
+\itemize{
+\item \code{scale = "row"}
+\item \code{show_rownames = FALSE}
+\item \code{border_col = NA}
+\item \code{cluster_rows = TRUE}
+\item \code{cluster_cols = TRUE}
+\item \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(50)} for diverging_palette = TRUE
+\item \code{color = rev(viridisLite::magma(n = 50))} for diverging_palette = FALSE
+\item \code{treeheight_row = 0}
+\item \code{clustering_distance_rows = "correlation"}
+\item \code{clustering_distance_cols = "euclidean"}
+\item \code{clustering_method = "ward.D2"}
+\item \code{angle_col = 315}
+}
+You can pass in additional arguments or simply override the defaults as well.
+}
 }
 \examples{
 # generate fake count data

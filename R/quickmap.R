@@ -1,13 +1,25 @@
 #' Heatmap with sensible defaults for RNA-seq expression data
 #'
 #' Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
-#' Utilizes a default blue to red diverging color palette, removes rownames
-#' and borders, clusters rows and columns, sets row-wise clustering to correlation
-#' column-wise clustering to correlation with clustering method set to Ward.D2.
-#' Display font size is reduced and column labels are set to an angle. Defaults can
-#' be overridden and/or any additional arguments can be passed to the \code{pheatmap}
-#' function via ...
+#' 
+#' @details The default arguments to \code{pheatmap::pheatmap()} are:
+#' \itemize{
+#'   * \code{scale = "row"}
+#'   * \code{show_rownames = FALSE}
+#'   * \code{border_col = NA}
+#'   * \code{cluster_rows = TRUE}
+#'   * \code{cluster_cols = TRUE}
+#'   * \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(50)} for diverging_palette = TRUE
+#'   * \code{color = rev(viridisLite::magma(n = 50))} for diverging_palette = FALSE
+#'   * \code{treeheight_row = 0}
+#'   * \code{clustering_distance_rows = "correlation"}
+#'   * \code{clustering_distance_cols = "euclidean"}
+#'   * \code{clustering_method = "ward.D2"}
+#'   * \code{angle_col = 315}
+#' }
+#' You can pass in additional arguments or simply override the defaults as well.
 #'
+#' @md
 #' @param mat numeric matrix to be passed onto pheatmap function
 #' @param diverging_palette logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
 #' color to a continuous color palette \code{viridis::magma}, useful for un-scaled expression data.
@@ -28,7 +40,7 @@ quickmap <- function(mat, diverging_palette = TRUE, ...) {
   default_args <- list(
     scale = "row", show_rownames = FALSE, border_color = NA, cluster_rows = TRUE,
     cluster_cols = TRUE, color = col_code, treeheight_row = 0, clustering_distance_rows = "correlation",
-    clustering_distance_cols = "correlation", clustering_method = "ward.D2", angle_col = 315
+    clustering_distance_cols = "euclidean", clustering_method = "ward.D2", angle_col = 315
   )
   user_args <- list(...)
   default_args[names(user_args)] <- user_args
