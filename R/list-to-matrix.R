@@ -15,7 +15,7 @@
 #' 
 #' list_to_matrix(sets)
 list_to_matrix <- function(sets) {
-  stopifnot("List of vectors must be supplied" = class(sets) == "list")
+  stopifnot("List of vectors must be supplied" = is(sets, "list"))
   union_all <- Reduce(union, sets)
 
   if (sum(is.na(union_all)) > 0) {
