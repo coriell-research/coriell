@@ -35,7 +35,7 @@ permutations <- function(x) {
 #' permutation test, and the FDR corrected empirical p-value
 #' @keywords internal
 exact_cor_test <- function(X, y, ...) {
-  test_stat <- cor(t(X), y, ...)
+  test_stat <- as.numeric(cor(t(X), y, ...))
   Y_perms <- coriell::permutations(y)
   cors <- apply(Y_perms, 1, cor, x = t(X), ...)
   empirical_p <- vector("numeric", length = nrow(X))
@@ -90,7 +90,7 @@ permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
     return(df)
   }
   
-  test_stat <- cor(t(X), y, ...)
+  test_stat <- as.numeric(cor(t(X), y, ...))
   y_perms <- replicate(n_perm, sample(y), simplify = FALSE) 
   perm_cors <- parallel::mclapply(y_perms, FUN = function(y) {cor(t(X), y, ...)}, mc.cores = n_core)
   perm_cors <- do.call(cbind, perm_cors)
