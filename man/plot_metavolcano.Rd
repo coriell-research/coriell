@@ -4,10 +4,12 @@
 \alias{plot_metavolcano}
 \title{Create Meta-volcano plot}
 \usage{
-plot_metavolcano(meta_df, label_col)
+plot_metavolcano(meta_df, label_col = "feature_id")
 }
 \arguments{
 \item{meta_df}{data.table of meta_vote results.}
+
+\item{label_col}{character string of column with gene ids}
 }
 \value{
 ggplot2 object

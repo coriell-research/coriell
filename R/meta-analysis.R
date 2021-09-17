@@ -85,8 +85,10 @@ meta_vote <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
 #' Specialty function for creating metavolcano plots.
 #' 
 #' @param meta_df data.table of meta_vote results.
+#' @param label_col character string of column with gene ids
+#' @export
 #' @return ggplot2 object
-plot_metavolcano <- function(meta_df, label_col) {
+plot_metavolcano <- function(meta_df, label_col = "feature_id") {
   ggplot2::ggplot(meta_df, ggplot2::aes_string(x = "sign_consistency", y = "n_de", color = "vote", label = label_col)) +
     ggplot2::geom_jitter(alpha = 0.8) +
     ggplot2::scale_color_manual(values = c("up" = "firebrick", "down" = "steelblue", "unperturbed" = "grey80")) +
