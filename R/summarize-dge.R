@@ -9,6 +9,7 @@
 #' @param fdr numeric. FDR or significance value below which genes are considered significant.
 #' @param lfc numeric. abs(log-fold change) value above which genes are considered significant.
 #' @export
+#' @importFrom magrittr %>%
 #' @return tibble of summarized results
 #' @examples
 #' library(coriell)

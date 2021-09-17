@@ -13,6 +13,7 @@
 #' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
 #' @return ggplot MD plot
 #' @export
+#' @importFrom magrittr %>%
 #' @examples
 #' \dontrun{
 #' library(edgeR)
