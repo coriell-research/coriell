@@ -98,3 +98,135 @@ plot_metavolcano <- function(meta_df, label_col = "feature_id") {
                   color = "Vote") +
     ggplot2::theme(legend.position = "bottom")
 }
+
+#' Perform p-value combination on differential expression results
+#' 
+#' @param exp_list list() of data.frames of differential expression results.
+#' @param lfc_col Column name in the expression data.frames that contains log fold-change values. default = "logFC".
+#' @param pval_col Column name in expression data.frames that contains the significance values. default = "FDR".
+#' @param gene_col Column name in the expression data.frames that contains the gene IDs. default = "feature_id".
+#' @param all_common Logical. Use only genes present in all experiments. default = FALSE.
+#' @param lfc_fun Function for summarizing logFC values across studies. 
+#' @param method Method for combining p-values. One of c("fisher", "pearson", "stouffer", "tippet", "wilkinson"). default "fisher".
+#' @param plot Logical. Display a volcano plot using the combined values. default = FALSE
+#' @param plot_lfc Numeric. LogFC cutoff used when plotting. default = 0
+#' @param plot_pval Numeric. P-value cutoff used when plotting. default = 0.05.
+#' @param plot_labels Logical. Display labels for significant genes on plot. default = FALSE
+#' @param plot_count Logical. Display count of up/down genes on plot. default = TRUE
+#' @param ... Additional arguments passed to lfc_fun. 
+#' @import data.table
+#' @export
+#' @return data.table with columns containing the combined logFC and p-values.
+meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR", 
+                          gene_col = "feature_id", all_common = FALSE, 
+                          lfc_fun = mean, method = c("fisher", "pearson", "stouffer", "tippet", "wilkinson"),
+                          plot = FALSE, plot_lfc = 0, plot_pval = 0.05, plot_labels = FALSE, plot_count = TRUE,
+                          ...) {
+  exp_dt <- data.table::rbindlist(exp_list, idcol = "experiment")
+  
+  pval_mat <- as.matrix(
+    data.table::dcast(
+      data = exp_dt[, .(experiment, id = get(gene_col), pval = get(pval_col))],
+      formula = id ~ experiment,
+      value.var = "pval",
+      fill = NA), 
+    rownames = "id")
+  
+  lfc_mat <- as.matrix(
+    data.table::dcast(
+      data = exp_dt[, .(experiment, id = get(gene_col), lfc = get(lfc_col))],
+      formula = id ~ experiment,
+      value.var = "lfc",
+      fill = NA),
+    rownames = "id"
+  )
+  
+  if (all_common) {
+    pval_mat <- na.omit(pval_mat)
+    lfc_mat <- na.omit(lfc_mat)
+  }
+  
+  p_method <- match.arg(method)
+  P_FUN <- switch(p_method,
+    fisher = meta_fisher,
+    pearson = meta_pearson,
+    stouffer = stop("stouffer method not yet implemented"),
+    tippet = meta_tippet,
+    wilkinson = meta_wilkinson
+  )
+  meta_p <- apply(pval_mat, 1, P_FUN, simplify = TRUE)
+  meta_lfc <- apply(lfc_mat, 1, lfc_fun, ... = ..., simplify = TRUE)
+  
+  result_dt <- data.table::as.data.table(
+    data.frame(meta_lfc, meta_p), 
+    keep.rownames = gene_col)
+  
+  if (plot) {
+    print(coriell::plot_volcano(
+      result_dt, x = meta_lfc, y = meta_p, fdr = plot_pval, lab = get(gene_col), 
+      lfc = plot_lfc, label_sig = plot_labels, annotate_counts = plot_count) +
+        ggplot2::labs(x = "Combined logFC",
+                      y = paste0("-log10(meta p-value) [", method, "]"),
+                      subtitle = NULL,
+                      caption = paste("Meta p-value cutoff:", plot_pval, "\nMeta logFC cutoff:", plot_lfc)) +
+        ggplot2::theme(legend.position = "bottom")
+      )
+  }
+  return(result_dt)
+}
+
+#' Fisher's method for combining p-values
+#' 
+#' @param x Numeric vector of p-values
+#' @noRd
+#' @return Probability of the Fisher test statistic under the chisq distribution
+meta_fisher <- function(x) {
+  test_stat <- -2 * (sum(log(x), na.rm  = TRUE))
+  pval <- pchisq(q = test_stat, df = 2 * length(x), lower.tail = FALSE)
+  return(pval)
+}
+
+#' Pearson's method for combining p-values
+#' 
+#' @param x Numeric vector of p-values
+#' @noRd
+#' @return Probability of the Pearson test statistic under the chisq distribution
+meta_pearson <- function(x) {
+  test_stat <- -2 * (sum(log(1 - x), na.rm = TRUE))
+  pval <- pchisq(q = test_stat, df = 2 * length(x), lower.tail = FALSE)
+  return(pval)
+}
+
+#' Tippet's method for combining p-values
+#' 
+#' @param x Numeric vector of p-values
+#' @noRd
+#' @return Probability of the Tippet test statistic under the beta distribution
+meta_tippet <- function(x) {
+  test_stat <- min(x, na.rm = TRUE)
+  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x), lower.tail = FALSE)
+  return(pval)
+}
+
+#' Wilkinson's method for combining p-values
+#' 
+#' @param x Numeric vector of p-values
+#' @noRd
+#' @return Probability of the Wilkinson test statistic under the beta distribution
+meta_wilkinson <- function(x) {
+  test_stat <- max(x, na.rm = TRUE)
+  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x), lower.tail = FALSE)
+  return(pval)
+}
+
+#' Stouffer's method for combining p-values
+#' 
+#' Still need to check the math on this one...
+#' @param x Numeric vector of p-values
+#' @noRd
+#' @return Probability of the Stouffer test statistic under the normal distribution
+meta_stouffer <- function(x) {
+  test_stat <- sum(1 / pnorm(x), na.rm = TRUE) / sqrt(length(x))
+  pval <- pnorm(q = test_stat, mean = 0, sd = 1, lower.tail = TRUE)
+  return(pval)
+}
