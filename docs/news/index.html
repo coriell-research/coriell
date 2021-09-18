@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -121,6 +121,19 @@
       
     </div>
 
+    <div id="coriell-030" class="section level2">
+<h2 class="hasAnchor">
+<a href="#coriell-030" class="anchor"></a>coriell 0.3.0</h2>
+<ul>
+<li>Added meta-analysis functions that rip off <code>MetaVolcanoR</code> but are much faster.
+<ul>
+<li>The <code><a href="../reference/meta_vote.html">meta_vote()</a></code> function implements a vote-counting strategy for determining common differentially expressed genes</li>
+<li>The <code><a href="../reference/plot_metavolcano.html">plot_metavolcano()</a></code> function provides a plotting function specific to the <code><a href="../reference/meta_vote.html">meta_vote()</a></code> results.</li>
+</ul>
+</li>
+<li>Eliminated export of <code>magittr</code> pipe. Now <code>coriell</code> doesn’t export the pipe.</li>
+</ul>
+</div>
     <div id="coriell-020" class="section level2">
 <h2 class="hasAnchor">
 <a href="#coriell-020" class="anchor"></a>coriell 0.2.0</h2>
@@ -129,10 +142,11 @@
 <code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> returns a data.frame instead of a tibble</li>
 <li>New functions for generating random color palettes: <code><a href="../reference/distinct_rgb_palette.html">distinct_rgb_palette()</a></code> and <code><a href="../reference/random_rgb_palette.html">random_rgb_palette()</a></code>
 </li>
-<li>Function for defining threshold based on ranked data: <code><a href="../reference/unimodal_threshold.html">unimodal_threshold()</a></code>. Inspired by unimodal thresholding algorithm from image analysis. Function name might change in later version to something more descriptive (i.e. <code>rank_threshold()</code>)</li>
+<li>Added function for defining threshold based on ranked data: <code><a href="../reference/rank_threshold.html">rank_threshold()</a></code>. Inspired by unimodal thresholding algorithm from image analysis.</li>
 <li>
 <code><a href="../reference/panther_go.html">panther_go()</a></code> now returns a <code>data.table</code> of the raw, unlisted data returned from the request. The original version pivoted the table wider using columns for the GO term and the description of the GO term. This result gave inaccurate results when using a different pathway in the function call.</li>
 <li>General move towards reducing the number of dependencies in functions by either removing outside packages and switching to base R or moving to <code>data.table()</code>.</li>
+<li>Added utility functions for transforming numeric values.</li>
 </ul>
 </div>
     <div id="coriell-010" class="section level2">

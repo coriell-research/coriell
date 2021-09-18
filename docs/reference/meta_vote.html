@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sub-sample a count matrix to the smallest library size — subsample_counts • coriell</title>
+<title>Perform vote counting on differential expression results — meta_vote • coriell</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,12 @@
 
 
 
-<meta property="og:title" content="Sub-sample a count matrix to the smallest library size — subsample_counts" />
-<meta property="og:description" content="Randomly sub-sample a count matrix so that the column sums are equivalent
-to the library size of the smallest sample (column). Returns a numeric matrix
-of subsampled counts with the same dimensions as the input matrix." />
+<meta property="og:title" content="Perform vote counting on differential expression results — meta_vote" />
+<meta property="og:description" content="Perform vote-counting on a list of differential expression results. This method 
+uses user defined p-value and log fold-change cutoffs to determine the number
+of times a gene is differentially expressed across multiple studies. A gene is
+then considered 'meta-differentially expressed' if it is differentially expressed
+in the user defined proportion of studies." />
 
 
 
@@ -74,7 +76,7 @@ of subsampled counts with the same dimensions as the input matrix." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -120,47 +122,92 @@ of subsampled counts with the same dimensions as the input matrix." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sub-sample a count matrix to the smallest library size</h1>
+    <h1>Perform vote counting on differential expression results</h1>
     
-    <div class="hidden name"><code>subsample_counts.Rd</code></div>
+    <div class="hidden name"><code>meta_vote.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Randomly sub-sample a count matrix so that the column sums are equivalent
-to the library size of the smallest sample (column). Returns a numeric matrix
-of subsampled counts with the same dimensions as the input matrix.</p>
+    <p>Perform vote-counting on a list of differential expression results. This method 
+uses user defined p-value and log fold-change cutoffs to determine the number
+of times a gene is differentially expressed across multiple studies. A gene is
+then considered 'meta-differentially expressed' if it is differentially expressed
+in the user defined proportion of studies.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>subsample_counts</span><span class='op'>(</span><span class='va'>counts</span>, seed <span class='op'>=</span> <span class='fl'>123</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>meta_vote</span><span class='op'>(</span>
+  <span class='va'>exp_list</span>,
+  lfc_col <span class='op'>=</span> <span class='st'>"logFC"</span>,
+  pval_col <span class='op'>=</span> <span class='st'>"FDR"</span>,
+  gene_col <span class='op'>=</span> <span class='st'>"feature_id"</span>,
+  lfc <span class='op'>=</span> <span class='fl'>0</span>,
+  pval <span class='op'>=</span> <span class='fl'>0.05</span>,
+  meta_prop <span class='op'>=</span> <span class='fl'>0.5</span>,
+  all_common <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  plot <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>counts</th>
-      <td><p>numeric matrix of integer counts.</p></td>
+      <th>exp_list</th>
+      <td><p>list() of data.frames of differential expression results.</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>integer. Seed for random number generator. Default (123)</p></td>
+      <th>lfc_col</th>
+      <td><p>Column name in expression data.frames that contains the log fold-change estimates. default = "logFC".</p></td>
+    </tr>
+    <tr>
+      <th>pval_col</th>
+      <td><p>Column name in expression data.frames that contains the significance values. default = "FDR".</p></td>
+    </tr>
+    <tr>
+      <th>gene_col</th>
+      <td><p>Column name in the expression data.frames that contains the gene IDs. default = "feature_id".</p></td>
+    </tr>
+    <tr>
+      <th>lfc</th>
+      <td><p>Numeric. Log fold-change value used as cutoff for determining differential expression in each study. default = 0.</p></td>
+    </tr>
+    <tr>
+      <th>pval</th>
+      <td><p>Numeric. Significance value used as cutoff for determining differential expression in each study</p></td>
+    </tr>
+    <tr>
+      <th>meta_prop</th>
+      <td><p>Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.</p></td>
+    </tr>
+    <tr>
+      <th>all_common</th>
+      <td><p>Logical. Use only genes present in all experiments. default = FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>plot</th>
+      <td><p>Logical. Display a metavolcano ggplot2 plot of the results. default = FALSE.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric matrix of sub-sampled counts.</p>
+    <p>data.table of meta-expression results with the following columns:</p><ul>
+<li><p>gene_col: Genes</p></li>
+<li><p>Experiment name(s): Differential expression calls for each experiment according to the user supplied cutoffs. 1 = "up-regulated", -1 = "down-regulated", and 0 = "unperturbed".</p></li>
+<li><p>n_de: The total number of studies in which the gene was differentially expressed.</p></li>
+<li><p>prop_de: The proportion of studies in which the gene was differentially expressed.</p></li>
+<li><p>sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.</p></li>
+<li><p>vote: The final vote for the gene. Based on sign_consistency and meta_prop.</p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># generate simulated count data</span>
-<span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_counts.html'>simulate_counts</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>table</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3 
-#&gt;  9907 10001  9727 10109  9902 10290 </div><div class='input'>
-<span class='co'># subsample the count matrix</span>
-<span class='va'>ss</span> <span class='op'>&lt;-</span> <span class='fu'>subsample_counts</span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span><span class='op'>(</span><span class='va'>ss</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3 
-#&gt;  9727  9727  9727  9727  9727  9727 </div></pre>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>There are certain caveats to consider when using the vote counting method. 1.
+combining FDR and logFC cutoffs after the fact destroys FDR correction. See
+<a href='https://academic.oup.com/bioinformatics/article/25/6/765/251641'>McCarthy &amp; Smyth, 2009</a> for more details. 
+2. The direction of expression is not considered when the final vote is cast. For example, if 
+geneA is up-regulated in 4 studies but down-regulated in 1 then the final vote for 
+geneA will be 'up-regulated'.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

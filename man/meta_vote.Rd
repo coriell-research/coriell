@@ -2,7 +2,7 @@
 % Please edit documentation in R/meta-analysis.R
 \name{meta_vote}
 \alias{meta_vote}
-\title{Perform Vote Counting on Differential Expression Results}
+\title{Perform vote counting on differential expression results}
 \usage{
 meta_vote(
   exp_list,
@@ -11,7 +11,7 @@ meta_vote(
   gene_col = "feature_id",
   lfc = 0,
   pval = 0.05,
-  top_meta = 0.5,
+  meta_prop = 0.5,
   all_common = FALSE,
   plot = FALSE
 )
@@ -29,7 +29,7 @@ meta_vote(
 
 \item{pval}{Numeric. Significance value used as cutoff for determining differential expression in each study}
 
-\item{top_meta}{Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.}
+\item{meta_prop}{Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.}
 
 \item{all_common}{Logical. Use only genes present in all experiments. default = FALSE.}
 
@@ -43,7 +43,7 @@ data.table of meta-expression results with the following columns:
   \item n_de: The total number of studies in which the gene was differentially expressed.
   \item prop_de: The proportion of studies in which the gene was differentially expressed.
   \item sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.
-  \item vote: The final vote for the gene. Based on sign_consistency and top_meta.  
+  \item vote: The final vote for the gene. Based on sign_consistency and meta_prop.  
 }
 }
 \description{

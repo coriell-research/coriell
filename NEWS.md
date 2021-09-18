@@ -1,3 +1,12 @@
+## coriell 0.3.0
+
+- Added meta-analysis functions that rip off `MetaVolcanoR` but are much faster. 
+  - The `meta_vote()` function implements a vote-counting strategy for determining 
+  common differentially expressed genes
+  - The `plot_metavolcano()` function provides a plotting function specific to the 
+  `meta_vote()` results.
+- Eliminated export of `magittr` pipe. Now `coriell` doesn't export the pipe.
+
 ## coriell 0.2.0
 
 - `edger_to_df()` returns a data.frame instead of a tibble

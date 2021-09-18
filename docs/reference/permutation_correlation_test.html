@@ -77,7 +77,7 @@ p-value." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -175,27 +175,27 @@ p-value.</p>
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>permutation_correlation_test</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>y</span>, n_perm <span class='op'>=</span> <span class='fl'>1e3</span>, n_core <span class='op'>=</span> <span class='fl'>8</span>, method <span class='op'>=</span> <span class='st'>"spearman"</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              sample.1  sample.2  sample.3   sample.4  sample.5  sample.6
-#&gt; feature.1 0.080750138 0.2383798 0.3681659 0.28145490 0.4339816 0.6502498
-#&gt; feature.2 0.834333037 0.4116800 0.6117696 0.53045091 0.3954608 0.9099010
-#&gt; feature.3 0.600760886 0.7460717 0.4145562 0.43285543 0.5478450 0.2007788
-#&gt; feature.4 0.157208442 0.7234506 0.2123919 0.91717922 0.7618364 0.9831965
-#&gt; feature.5 0.007399441 0.6145241 0.7327437 0.02747746 0.2540708 0.2980464
-#&gt; feature.6 0.466393497 0.4739806 0.4595849 0.82490547 0.5392890 0.7684814
-#&gt;            sample.7    sample.8  sample.9  sample.10         cor empirical.p
-#&gt; feature.1 0.8687742 0.001840843 0.2196684 0.75355350  0.28484848       0.207
-#&gt; feature.2 0.9243132 0.765659131 0.3728954 0.48601704 -0.13939394       0.333
-#&gt; feature.3 0.6553841 0.631946311 0.9997498 0.05772175 -0.05454545       0.441
-#&gt; feature.4 0.2126957 0.760505739 0.4179180 0.37563486  0.17575758       0.327
-#&gt; feature.5 0.1624281 0.777718500 0.2684782 0.14935525  0.10303030       0.398
-#&gt; feature.6 0.4733979 0.837271664 0.1775263 0.60446293  0.21212121       0.282
+</div><div class='output co'>#&gt;            sample.1    sample.2   sample.3  sample.4  sample.5  sample.6
+#&gt; feature.1 0.4250915 0.317255655 0.95068810 0.1320049 0.2311153 0.2025191
+#&gt; feature.2 0.6494543 0.480898274 0.82278898 0.2116591 0.9115859 0.5900253
+#&gt; feature.3 0.1010948 0.306155272 0.07322219 0.4193117 0.5564470 0.4480192
+#&gt; feature.4 0.7942241 0.002179572 0.05246251 0.6645289 0.2907057 0.6109989
+#&gt; feature.5 0.7925411 0.911908104 0.58865616 0.9881507 0.5871362 0.4362855
+#&gt; feature.6 0.7326144 0.442248390 0.29841096 0.7442068 0.5055164 0.7512962
+#&gt;             sample.7   sample.8  sample.9 sample.10          cor empirical.p
+#&gt; feature.1 0.09381644 0.69755122 0.7567052 0.1181995 -0.248484848       0.217
+#&gt; feature.2 0.14177546 0.37434826 0.8033095 0.8115017  0.006060606       0.505
+#&gt; feature.3 0.69939071 0.81707889 0.4928809 0.8332423  0.866666667       0.001
+#&gt; feature.4 0.04673134 0.03060915 0.8069986 0.4487471  0.078787879       0.397
+#&gt; feature.5 0.80862167 0.79165509 0.2006797 0.1929895 -0.636363636       0.020
+#&gt; feature.6 0.06345900 0.57620590 0.9729349 0.1154842 -0.030303030       0.458
 #&gt;                 FDR
-#&gt; feature.1 0.4610245
-#&gt; feature.2 0.4833091
-#&gt; feature.3 0.4921875
-#&gt; feature.4 0.4825073
-#&gt; feature.5 0.4894118
-#&gt; feature.6 0.4715719</div></pre>
+#&gt; feature.1 0.4781705
+#&gt; feature.2 0.5065196
+#&gt; feature.3 0.1666667
+#&gt; feature.4 0.4927361
+#&gt; feature.5 0.4367816
+#&gt; feature.6 0.4942408</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
