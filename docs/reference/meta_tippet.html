@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • coriell</title>
+<title>Tippet's method for combining p-values — meta_tippet • coriell</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Tippet's method for combining p-values — meta_tippet" />
+<meta property="og:description" content="Tippet's method for combining p-values" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -117,55 +118,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      
+    <h1>Tippet's method for combining p-values</h1>
+    
+    <div class="hidden name"><code>meta_tippet.Rd</code></div>
     </div>
 
-    <div id="coriell-030" class="section level2">
-<h2 class="hasAnchor">
-<a href="#coriell-030" class="anchor"></a>coriell 0.3.0</h2>
-<ul>
-<li>Added meta-analysis functions that rip off <code>MetaVolcanoR</code> but are much faster.
-<ul>
-<li>The <code><a href="../reference/meta_vote.html">meta_vote()</a></code> function implements a vote-counting strategy for determining common differentially expressed genes</li>
-<li>The <code><a href="../reference/meta_pcombine.html">meta_pcombine()</a></code> function combines p-values and logFCs across studies.</li>
-<li>The <code><a href="../reference/plot_metavolcano.html">plot_metavolcano()</a></code> function provides a plotting function specific to the <code><a href="../reference/meta_vote.html">meta_vote()</a></code> results.</li>
-</ul>
-</li>
-<li>Eliminated export of <code>magittr</code> pipe. Now <code>coriell</code> doesn’t export the pipe.</li>
-</ul>
-</div>
-    <div id="coriell-020" class="section level2">
-<h2 class="hasAnchor">
-<a href="#coriell-020" class="anchor"></a>coriell 0.2.0</h2>
-<ul>
-<li>
-<code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> returns a data.frame instead of a tibble</li>
-<li>New functions for generating random color palettes: <code><a href="../reference/distinct_rgb_palette.html">distinct_rgb_palette()</a></code> and <code><a href="../reference/random_rgb_palette.html">random_rgb_palette()</a></code>
-</li>
-<li>Added function for defining threshold based on ranked data: <code><a href="../reference/rank_threshold.html">rank_threshold()</a></code>. Inspired by unimodal thresholding algorithm from image analysis.</li>
-<li>
-<code><a href="../reference/panther_go.html">panther_go()</a></code> now returns a <code>data.table</code> of the raw, unlisted data returned from the request. The original version pivoted the table wider using columns for the GO term and the description of the GO term. This result gave inaccurate results when using a different pathway in the function call.</li>
-<li>General move towards reducing the number of dependencies in functions by either removing outside packages and switching to base R or moving to <code>data.table()</code>.</li>
-<li>Added utility functions for transforming numeric values.</li>
-</ul>
-</div>
-    <div id="coriell-010" class="section level2">
-<h2 class="hasAnchor">
-<a href="#coriell-010" class="anchor"></a>coriell 0.1.0</h2>
-<ul>
-<li>Updated internals for <code><a href="../reference/permutation_correlation_test.html">permutation_correlation_test()</a></code> that applies permuted vector in a vectorized fashion over the entire matrix.</li>
-<li>Removed filtering capability from <code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> to allow for any <code>EdgeR</code> results objects to be used as input.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Tippet's method for combining p-values</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>meta_tippet</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>Numeric vector of p-values</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Probability of the Tippet test statistic under the beta distribution</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
