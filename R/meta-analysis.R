@@ -64,8 +64,8 @@ meta_vote <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
   n_de <- rowSums(abs(exp_mat), na.rm = TRUE)
   prop_de <- n_de / N_studies
   vote <- data.table::fcase(
-    (prop_de >= (1 - top_meta)) & (sign_consistency < 0), "down",
-    (prop_de >= (1 - top_meta)) & (sign_consistency > 0), "up",
+    (prop_de >= top_meta) & (sign_consistency < 0), "down",
+    (prop_de >= top_meta) & (sign_consistency > 0), "up",
     default = "unperturbed")
   
   # coerce to data.table
