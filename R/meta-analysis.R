@@ -1,4 +1,4 @@
-#' Perform Vote Counting on Differential Expression Results
+#' Perform vote counting on differential expression results
 #'
 #' Perform vote-counting on a list of differential expression results. This method 
 #' uses user defined p-value and log fold-change cutoffs to determine the number
@@ -18,7 +18,7 @@
 #' @param gene_col Column name in the expression data.frames that contains the gene IDs. default = "feature_id".
 #' @param lfc Numeric. Log fold-change value used as cutoff for determining differential expression in each study. default = 0. 
 #' @param pval Numeric. Significance value used as cutoff for determining differential expression in each study
-#' @param top_meta Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.
+#' @param meta_prop Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.
 #' @param plot Logical. Display a metavolcano ggplot2 plot of the results. default = FALSE.
 #' @param all_common Logical. Use only genes present in all experiments. default = FALSE.
 #' @return data.table of meta-expression results with the following columns:
@@ -28,13 +28,13 @@
 #'   \item n_de: The total number of studies in which the gene was differentially expressed.
 #'   \item prop_de: The proportion of studies in which the gene was differentially expressed.
 #'   \item sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.
-#'   \item vote: The final vote for the gene. Based on sign_consistency and top_meta.  
+#'   \item vote: The final vote for the gene. Based on sign_consistency and meta_prop.  
 #' }
 #' @import data.table
 #' @export
 meta_vote <- function(exp_list, lfc_col = "logFC", pval_col = "FDR", 
                       gene_col = "feature_id", lfc = 0, pval = 0.05, 
-                      top_meta = 0.5, all_common = FALSE, plot = FALSE) {
+                      meta_prop = 0.5, all_common = FALSE, plot = FALSE) {
   N_studies <- length(exp_list)
   names(exp_list) <- if (is.null(names(exp_list))) paste0("Experiment_", 1:N_studies) else names(exp_list)
   exp_dt <- data.table::rbindlist(exp_list, idcol = "experiment")
@@ -64,8 +64,8 @@ meta_vote <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
   n_de <- rowSums(abs(exp_mat), na.rm = TRUE)
   prop_de <- n_de / N_studies
   vote <- data.table::fcase(
-    (prop_de >= top_meta) & (sign_consistency < 0), "down",
-    (prop_de >= top_meta) & (sign_consistency > 0), "up",
+    (prop_de >= meta_prop) & (sign_consistency < 0), "down",
+    (prop_de >= meta_prop) & (sign_consistency > 0), "up",
     default = "unperturbed")
   
   # coerce to data.table
