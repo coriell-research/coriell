@@ -107,7 +107,7 @@ plot_metavolcano <- function(meta_df, label_col = "feature_id") {
 #' @param gene_col Column name in the expression data.frames that contains the gene IDs. default = "feature_id".
 #' @param all_common Logical. Use only genes present in all experiments. default = FALSE.
 #' @param lfc_fun Function for summarizing logFC values across studies. 
-#' @param method Method for combining p-values. One of c("fisher", "pearson", "stouffer", "tippet", "wilkinson"). default "fisher".
+#' @param method Method for combining p-values. One of c("fisher", "pearson", "tippet", "wilkinson"). default "fisher".
 #' @param plot Logical. Display a volcano plot using the combined values. default = FALSE
 #' @param plot_lfc Numeric. LogFC cutoff used when plotting. default = 0
 #' @param plot_pval Numeric. P-value cutoff used when plotting. default = 0.05.
@@ -119,7 +119,7 @@ plot_metavolcano <- function(meta_df, label_col = "feature_id") {
 #' @return data.table with columns containing the combined logFC and p-values.
 meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR", 
                           gene_col = "feature_id", all_common = FALSE, 
-                          lfc_fun = mean, method = c("fisher", "pearson", "stouffer", "tippet", "wilkinson"),
+                          lfc_fun = mean, method = c("fisher", "pearson", "tippet", "wilkinson"),
                           plot = FALSE, plot_lfc = 0, plot_pval = 0.05, plot_labels = FALSE, plot_count = TRUE,
                           ...) {
   exp_dt <- data.table::rbindlist(exp_list, idcol = "experiment")
@@ -150,7 +150,6 @@ meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
   P_FUN <- switch(p_method,
     fisher = meta_fisher,
     pearson = meta_pearson,
-    stouffer = stop("stouffer method not yet implemented"),
     tippet = meta_tippet,
     wilkinson = meta_wilkinson
   )
@@ -158,7 +157,7 @@ meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
   meta_lfc <- apply(lfc_mat, 1, lfc_fun, ... = ..., simplify = TRUE)
   
   result_dt <- data.table::as.data.table(
-    data.frame(meta_lfc, meta_p), 
+    data.frame(pval_mat, meta_lfc, meta_p), 
     keep.rownames = gene_col)
   
   if (plot) {
@@ -204,7 +203,7 @@ meta_pearson <- function(x) {
 #' @return Probability of the Tippet test statistic under the beta distribution
 meta_tippet <- function(x) {
   test_stat <- min(x, na.rm = TRUE)
-  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x), lower.tail = FALSE)
+  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x))
   return(pval)
 }
 
@@ -215,18 +214,6 @@ meta_tippet <- function(x) {
 #' @return Probability of the Wilkinson test statistic under the beta distribution
 meta_wilkinson <- function(x) {
   test_stat <- max(x, na.rm = TRUE)
-  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x), lower.tail = FALSE)
-  return(pval)
-}
-
-#' Stouffer's method for combining p-values
-#' 
-#' Still need to check the math on this one...
-#' @param x Numeric vector of p-values
-#' @noRd
-#' @return Probability of the Stouffer test statistic under the normal distribution
-meta_stouffer <- function(x) {
-  test_stat <- sum(1 / pnorm(x), na.rm = TRUE) / sqrt(length(x))
-  pval <- pnorm(q = test_stat, mean = 0, sd = 1, lower.tail = TRUE)
+  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x))
   return(pval)
 }

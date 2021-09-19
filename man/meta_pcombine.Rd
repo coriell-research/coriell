@@ -11,7 +11,7 @@ meta_pcombine(
   gene_col = "feature_id",
   all_common = FALSE,
   lfc_fun = mean,
-  method = c("fisher", "pearson", "stouffer", "tippet", "wilkinson"),
+  method = c("fisher", "pearson", "tippet", "wilkinson"),
   plot = FALSE,
   plot_lfc = 0,
   plot_pval = 0.05,
@@ -33,7 +33,7 @@ meta_pcombine(
 
 \item{lfc_fun}{Function for summarizing logFC values across studies.}
 
-\item{method}{Method for combining p-values. One of c("fisher", "pearson", "stouffer", "tippet", "wilkinson"). default "fisher".}
+\item{method}{Method for combining p-values. One of c("fisher", "pearson", "tippet", "wilkinson"). default "fisher".}
 
 \item{plot}{Logical. Display a volcano plot using the combined values. default = FALSE}
 
