@@ -65,7 +65,7 @@ plot_volcano <- function(df,
   plot_df <- df %>%
     dplyr::mutate(signif = dplyr::if_else({{ y }} < fdr & abs({{ x }}) > lfc, "yes", "no"))
 
-  vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = -log10({{ y }}))) +
+  vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = -log10({{ y }}), label = {{ lab }})) +
     ggplot2::geom_point(ggplot2::aes(color = .data$signif)) +
     ggplot2::scale_colour_manual(values = c("no" = "gray40", "yes" = "red2")) +
     ggplot2::geom_vline(xintercept = 0, linetype = 2) +
