@@ -83,7 +83,8 @@ plot_md <- function(df,
       x = "Average logCPM",
       y = "Log-fold change"
     ) +
-    ggplot2::theme_classic()
+    ggplot2::theme_classic() +
+    ggplot2::theme(legend.position = "bottom")
 
 
   if (annotate_counts) {

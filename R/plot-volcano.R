@@ -78,7 +78,8 @@ plot_volcano <- function(df,
       x = "logFC",
       y = "-log10(FDR)"
     ) +
-    ggplot2::theme_classic()
+    ggplot2::theme_classic() +
+    ggplot2::theme(legend.position = "bottom")
 
   # add text labels to significant genes
   if (label_sig) {
