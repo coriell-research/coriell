@@ -74,7 +74,7 @@ plot_volcano <- function(df,
     ggplot2::geom_hline(yintercept = -log10(fdr), linetype = 3) +
     ggplot2::labs(color = "Significant") +
     ggplot2::labs(
-      subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", round(lfc, digits = 2)),
+      caption = paste("FDR = ", fdr, "\nlfc cutoff = ", round(lfc, digits = 2)),
       x = "logFC",
       y = "-log10(FDR)"
     ) +
