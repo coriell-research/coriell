@@ -11,7 +11,7 @@ meta_pcombine(
   gene_col = "feature_id",
   all_common = FALSE,
   lfc_fun = mean,
-  method = c("fisher", "pearson", "tippet", "wilkinson"),
+  method = c("fisher", "pearson", "stouffer", "tippet", "wilkinson"),
   plot = FALSE,
   plot_lfc = 0,
   plot_pval = 0.05,
@@ -33,7 +33,7 @@ meta_pcombine(
 
 \item{lfc_fun}{Function for summarizing logFC values across studies.}
 
-\item{method}{Method for combining p-values. One of c("fisher", "pearson", "tippet", "wilkinson"). default "fisher".}
+\item{method}{Method for combining p-values. One of c("fisher", "pearson", "stouffer", "tippet", "wilkinson"). default "fisher".}
 
 \item{plot}{Logical. Display a volcano plot using the combined values. default = FALSE}
 
@@ -51,5 +51,18 @@ meta_pcombine(
 data.table with columns containing the combined logFC and p-values.
 }
 \description{
-Perform p-value combination on differential expression results
+This function aims to combine p-values and log fold-change values into a single
+combined p-value and logFC value for each gene across all studies. Several methods 
+for combining p-values are included. The useer can also pass an arbitrary function
+to the \code{lfc_fun} argument used to summarize the logFC values across studies.
+}
+\details{
+The following p-value combination techniques are available:
+\itemize{
+ \item fisher: Uses the sum of the logarithms for the p-values. Sensitive to very small p-values therefore a single significant study can lead to a very small combined p-value.
+ \item pearson: Similar to Fisher's method but sensitive to large p-values; therefore more false negatives are obtained.
+ \item tippet: Uses the minimum of the p-values across all studies. Recommended when the aim is to discard genes.
+ \item wilkinson: Uses the maximum of the p-values across all studies. Recommended when the aim is to identify the most robust genes.
+ \item stouffer: (not yet implemented) Recommended when weights for each study can be calculated. 
+}
 }
