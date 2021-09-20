@@ -109,9 +109,9 @@ plot_metavolcano <- function(meta_df, label_col = "feature_id") {
 #' \itemize{
 #'  \item fisher: Uses the sum of the logarithms for the p-values. Sensitive to very small p-values therefore a single significant study can lead to a very small combined p-value.
 #'  \item pearson: Similar to Fisher's method but sensitive to large p-values; therefore more false negatives are obtained.
+#'  \item stouffer: (not yet implemented) Recommended when weights for each study can be calculated. 
 #'  \item tippet: Uses the minimum of the p-values across all studies. Recommended when the aim is to discard genes.
 #'  \item wilkinson: Uses the maximum of the p-values across all studies. Recommended when the aim is to identify the most robust genes.
-#'  \item stouffer: (not yet implemented) Recommended when weights for each study can be calculated. 
 #' }
 #'
 #' @param exp_list list() of data.frames of differential expression results.
