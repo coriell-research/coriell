@@ -64,8 +64,8 @@ meta_vote <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
   n_de <- rowSums(abs(exp_mat), na.rm = TRUE)
   prop_de <- n_de / N_studies
   vote <- data.table::fcase(
-    (prop_de >= meta_prop) & (sign_consistency < 0), "down",
-    (prop_de >= meta_prop) & (sign_consistency > 0), "up",
+    (prop_de >= meta_prop) & (abs(sign_consistency) >= meta_prop * N_studies) & (sign_consistency < 0), "down",
+    (prop_de >= meta_prop) & (abs(sign_consistency) >= meta_prop * N_studies) & (sign_consistency > 0), "up",
     default = "unperturbed")
   
   # coerce to data.table
@@ -146,6 +146,7 @@ meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
     lfc_mat <- na.omit(lfc_mat)
   }
   
+  # Combine p-values and logFCs
   p_method <- match.arg(method)
   P_FUN <- switch(p_method,
     fisher = meta_fisher,
@@ -153,8 +154,8 @@ meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
     tippet = meta_tippet,
     wilkinson = meta_wilkinson
   )
-  meta_p <- apply(pval_mat, 1, P_FUN, simplify = TRUE)
-  meta_lfc <- apply(lfc_mat, 1, lfc_fun, ... = ..., simplify = TRUE)
+  meta_p <- apply(pval_mat, 1, P_FUN)
+  meta_lfc <- apply(lfc_mat, 1, lfc_fun, ... = ...)
   
   result_dt <- data.table::as.data.table(
     data.frame(pval_mat, meta_lfc, meta_p), 
