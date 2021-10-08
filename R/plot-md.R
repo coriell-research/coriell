@@ -79,11 +79,12 @@ plot_md <- function(df,
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
     ggplot2::labs(
-      subtitle = paste0("FDR = ", fdr, "; lfc cutoff = ", round(lfc, digits = 2)),
+      caption = paste0("FDR = ", fdr, "\nlfc cutoff = ", round(lfc, digits = 2)),
       x = "Average logCPM",
       y = "Log-fold change"
     ) +
-    ggplot2::theme_classic()
+    ggplot2::theme_classic() +
+    ggplot2::theme(legend.position = "bottom")
 
 
   if (annotate_counts) {

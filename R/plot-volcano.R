@@ -65,7 +65,7 @@ plot_volcano <- function(df,
   plot_df <- df %>%
     dplyr::mutate(signif = dplyr::if_else({{ y }} < fdr & abs({{ x }}) > lfc, "yes", "no"))
 
-  vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = -log10({{ y }}))) +
+  vplot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = -log10({{ y }}), label = {{ lab }})) +
     ggplot2::geom_point(ggplot2::aes(color = .data$signif)) +
     ggplot2::scale_colour_manual(values = c("no" = "gray40", "yes" = "red2")) +
     ggplot2::geom_vline(xintercept = 0, linetype = 2) +
@@ -74,11 +74,12 @@ plot_volcano <- function(df,
     ggplot2::geom_hline(yintercept = -log10(fdr), linetype = 3) +
     ggplot2::labs(color = "Significant") +
     ggplot2::labs(
-      subtitle = paste("FDR = ", fdr, "; lfc cutoff = ", round(lfc, digits = 2)),
+      caption = paste("FDR = ", fdr, "\nlfc cutoff = ", round(lfc, digits = 2)),
       x = "logFC",
       y = "-log10(FDR)"
     ) +
-    ggplot2::theme_classic()
+    ggplot2::theme_classic() +
+    ggplot2::theme(legend.position = "bottom")
 
   # add text labels to significant genes
   if (label_sig) {

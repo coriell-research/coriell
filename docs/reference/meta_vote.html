@@ -191,12 +191,11 @@ in the user defined proportion of studies.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data.table of meta-expression results with the following columns:</p><ul>
-<li><p>gene_col: Genes</p></li>
-<li><p>Experiment name(s): Differential expression calls for each experiment according to the user supplied cutoffs. 1 = "up-regulated", -1 = "down-regulated", and 0 = "unperturbed".</p></li>
-<li><p>n_de: The total number of studies in which the gene was differentially expressed.</p></li>
-<li><p>prop_de: The proportion of studies in which the gene was differentially expressed.</p></li>
+<li><p>gene_col: Genes included in the final voting procedure.</p></li>
+<li><p>n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated).</p></li>
+<li><p>prop_de: The proportion of studies in which the gene was differentially expressed (either up or down-regulated).</p></li>
 <li><p>sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.</p></li>
-<li><p>vote: The final vote for the gene. Based on sign_consistency and meta_prop.</p></li>
+<li><p>vote: The final vote for the gene. based on <code>sign(sign consistency) &amp; abs(sign consistency) &gt;= meta_prop * N studies</code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>

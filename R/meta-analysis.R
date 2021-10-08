@@ -23,12 +23,11 @@
 #' @param all_common Logical. Use only genes present in all experiments. default = FALSE.
 #' @return data.table of meta-expression results with the following columns:
 #' \itemize{
-#'   \item gene_col: Genes
-#'   \item Experiment name(s): Differential expression calls for each experiment according to the user supplied cutoffs. 1 = "up-regulated", -1 = "down-regulated", and 0 = "unperturbed".
-#'   \item n_de: The total number of studies in which the gene was differentially expressed.
-#'   \item prop_de: The proportion of studies in which the gene was differentially expressed.
+#'   \item gene_col: Genes included in the final voting procedure. 
+#'   \item n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated). 
+#'   \item prop_de: The proportion of studies in which the gene was differentially expressed (either up or down-regulated).
 #'   \item sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.
-#'   \item vote: The final vote for the gene. Based on sign_consistency and meta_prop.  
+#'   \item vote: The final vote for the gene. based on \code{sign(sign consistency) & abs(sign consistency) >= meta_prop * N studies}.
 #' }
 #' @import data.table
 #' @export
@@ -64,13 +63,13 @@ meta_vote <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
   n_de <- rowSums(abs(exp_mat), na.rm = TRUE)
   prop_de <- n_de / N_studies
   vote <- data.table::fcase(
-    (prop_de >= meta_prop) & (sign_consistency < 0), "down",
-    (prop_de >= meta_prop) & (sign_consistency > 0), "up",
+    (abs(sign_consistency) >= meta_prop * N_studies) & (sign_consistency < 0), "down",
+    (abs(sign_consistency) >= meta_prop * N_studies) & (sign_consistency > 0), "up",
     default = "unperturbed")
   
   # coerce to data.table
   result_dt <- data.table::as.data.table(
-    data.frame(exp_mat, "n_de" = n_de, "prop_de" = prop_de, "sign_consistency" = sign_consistency, "vote" = vote),
+    data.frame("n_de" = n_de, "prop_de" = prop_de, "sign_consistency" = sign_consistency, "vote" = vote),
     keep.rownames = gene_col)
   
   if (plot) {
@@ -101,13 +100,27 @@ plot_metavolcano <- function(meta_df, label_col = "feature_id") {
 
 #' Perform p-value combination on differential expression results
 #' 
+#' This function aims to combine p-values and log fold-change values into a single
+#' combined p-value and logFC value for each gene across all studies. Several methods 
+#' for combining p-values are included. The useer can also pass an arbitrary function
+#' to the \code{lfc_fun} argument used to summarize the logFC values across studies. 
+#' 
+#' The following p-value combination methods are available:
+#' \itemize{
+#'  \item fisher: Uses the sum of the logarithms for the p-values. Sensitive to very small p-values therefore a single significant study can lead to a very small combined p-value.
+#'  \item pearson: Similar to Fisher's method but sensitive to large p-values; therefore more false negatives are obtained.
+#'  \item stouffer: (not yet implemented) Recommended when weights for each study can be calculated. 
+#'  \item tippet: Uses the minimum of the p-values across all studies. Recommended when the aim is to discard genes.
+#'  \item wilkinson: Uses the maximum of the p-values across all studies. Recommended when the aim is to identify the most robust genes.
+#' }
+#'
 #' @param exp_list list() of data.frames of differential expression results.
 #' @param lfc_col Column name in the expression data.frames that contains log fold-change values. default = "logFC".
 #' @param pval_col Column name in expression data.frames that contains the significance values. default = "FDR".
 #' @param gene_col Column name in the expression data.frames that contains the gene IDs. default = "feature_id".
 #' @param all_common Logical. Use only genes present in all experiments. default = FALSE.
 #' @param lfc_fun Function for summarizing logFC values across studies. 
-#' @param method Method for combining p-values. One of c("fisher", "pearson", "tippet", "wilkinson"). default "fisher".
+#' @param method Method for combining p-values. One of c("fisher", "pearson", "stouffer", "tippet", "wilkinson"). default "fisher".
 #' @param plot Logical. Display a volcano plot using the combined values. default = FALSE
 #' @param plot_lfc Numeric. LogFC cutoff used when plotting. default = 0
 #' @param plot_pval Numeric. P-value cutoff used when plotting. default = 0.05.
@@ -119,7 +132,7 @@ plot_metavolcano <- function(meta_df, label_col = "feature_id") {
 #' @return data.table with columns containing the combined logFC and p-values.
 meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR", 
                           gene_col = "feature_id", all_common = FALSE, 
-                          lfc_fun = mean, method = c("fisher", "pearson", "tippet", "wilkinson"),
+                          lfc_fun = mean, method = c("fisher", "pearson", "stouffer", "tippet", "wilkinson"),
                           plot = FALSE, plot_lfc = 0, plot_pval = 0.05, plot_labels = FALSE, plot_count = TRUE,
                           ...) {
   exp_dt <- data.table::rbindlist(exp_list, idcol = "experiment")
@@ -146,18 +159,20 @@ meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
     lfc_mat <- na.omit(lfc_mat)
   }
   
+  # Combine p-values and logFCs
   p_method <- match.arg(method)
   P_FUN <- switch(p_method,
     fisher = meta_fisher,
     pearson = meta_pearson,
+    stouffer = stop("Not yet implemented"),
     tippet = meta_tippet,
     wilkinson = meta_wilkinson
   )
-  meta_p <- apply(pval_mat, 1, P_FUN, simplify = TRUE)
-  meta_lfc <- apply(lfc_mat, 1, lfc_fun, ... = ..., simplify = TRUE)
+  meta_p <- apply(pval_mat, 1, P_FUN)
+  meta_lfc <- apply(lfc_mat, 1, lfc_fun, ... = ...)
   
   result_dt <- data.table::as.data.table(
-    data.frame(pval_mat, meta_lfc, meta_p), 
+    data.frame(meta_lfc, meta_p), 
     keep.rownames = gene_col)
   
   if (plot) {

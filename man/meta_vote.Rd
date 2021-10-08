@@ -38,12 +38,11 @@ meta_vote(
 \value{
 data.table of meta-expression results with the following columns:
 \itemize{
-  \item gene_col: Genes
-  \item Experiment name(s): Differential expression calls for each experiment according to the user supplied cutoffs. 1 = "up-regulated", -1 = "down-regulated", and 0 = "unperturbed".
-  \item n_de: The total number of studies in which the gene was differentially expressed.
-  \item prop_de: The proportion of studies in which the gene was differentially expressed.
+  \item gene_col: Genes included in the final voting procedure. 
+  \item n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated). 
+  \item prop_de: The proportion of studies in which the gene was differentially expressed (either up or down-regulated).
   \item sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.
-  \item vote: The final vote for the gene. Based on sign_consistency and meta_prop.  
+  \item vote: The final vote for the gene. based on \code{sign(sign consistency) & abs(sign consistency) >= meta_prop * N studies}.
 }
 }
 \description{
