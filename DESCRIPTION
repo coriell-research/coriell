@@ -23,7 +23,10 @@ Imports:
     purrr,
     tidyr,
     httr,
-    data.table
+    data.table,
+    DESeq2,
+    SummarizedExperiment,
+    qsmooth
 Suggests: 
     testthat,
     knitr,
