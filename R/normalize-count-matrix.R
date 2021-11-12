@@ -12,6 +12,7 @@
 #'  \item{"VST"}{ Variance Stabalizing Transformation computed by \code{DESeq2::vst}}
 #'  \item{"RLog"}{ Regularized Log transformation computed by \code{DESeq2::rlog}}
 #'  \item{"QSmooth"}{ Smoothed Quantile Normalization computed by \code{qsmooth::qsmooth}}
+#'  \item{"RUVg"}{ Remove Unwanted Variation using control genes by \code{RUVseq::RUVg}}
 #'  \item{"Total Count"}{ Library Size Normalization only}
 #' }
 #' 
@@ -63,8 +64,49 @@
 #' @param norm_factors optional normalization scaling factors. Used by \code{qsmooth::qsmooth}
 #' @param window window size for running median which is a fraction of the 
 #' number of rows in object. Default is 0.05. Used by \code{qsmooth::qsmooth}
-#' @return List object with items containing matrices of normalized log count per million values
-#' for each normalization method along with the original counts.
+#' @param control_genes A character, logical, or numeric vector indicating the 
+#' subset of genes to be used as negative controls in the estimation of the 
+#' factors of unwanted variation. Used by \code{RUVseq::RUVg}. Default = NULL.
+#' @param k The number of factors of unwanted variation to be estimated from the data.
+#' Used by \code{RUVseq::RUVg}. Default = 2.
+#' @param drop The number of singular values to drop in the estimation of the 
+#' factors of unwanted variation. This number is usually zero, but might be set 
+#' to one if the first singular value captures the effect of interest. It must 
+#' be less than k. Used by \code{RUVseq::RUVg}. Default = 0.
+#' @param center 	If TRUE, the counts are centered, for each gene, to have mean 
+#' zero across samples. This is important to ensure that the first singular 
+#' value does not capture the average gene expression. Used by \code{RUVseq::RUVg}.
+#' Default = TRUE.
+#' @param epsilon A small constant (usually no larger than one) to be added to 
+#' the counts prior to the log transformation to avoid problems with log(0). Used by 
+#' \code{RUVseq::RUVg}. Default = 1.
+#' @param tolerance Tolerance in the selection of the number of positive singular 
+#' values, i.e., a singular value must be larger than tolerance to be considered 
+#' positive. Used by \code{RUVseq::RUVg}. Default = 1e-08.
+#' @param round If TRUE, the normalized measures are rounded to form pseudo-counts.
+#' Used by \code{RUVseq::RUVg}. Default = TRUE.
+#' @export
+#' @return List with items containing matrices of normalized log count per million
+#'  values for each normalization method along with the log-scaled original counts.
+#' @examples
+#' library(coriell)
+#' 
+#' 
+#' # Simulate count matrix with differential expression
+#' sim <- simulate_counts(n_genes = 10000, n_up = 5000, n_down = 500, count_offset = 25)
+#' 
+#' # Extract 1000 non-DE control genes for RUVg method
+#' controls <- setdiff(rownames(sim$table), union(sim$up_genes, sim$down_genes))
+#' controls <- sample(controls, 1000, replace = FALSE)
+#' 
+#' # Define grouping factor
+#' Group <- factor(rep(c("Control", "Treatment"), each = 3))
+#' 
+#' # Run all normalization methods
+#' normed <- normalize_count_matrix(x = sim$table, groups = Group, control_genes = controls)
+#' 
+#' # View the normalized distributions for each
+#' for (method in names(normed)) boxplot(normed[[method]], main = method)
 normalize_count_matrix <- function(
   x, 
   groups,
@@ -83,7 +125,14 @@ normalize_count_matrix <- function(
   fit_type = c("parametric", "local", "mean", "glmGamPoi"),
   batch = NULL,
   norm_factors = NULL,
-  window = 0.05
+  window = 0.05,
+  control_genes = NULL,
+  k = 1,
+  drop = 0,
+  center = TRUE,
+  round = TRUE,
+  epsilon = TRUE,
+  tolerance = 1e-08
   ) {
   if (is(x, "SummarizedExperiment")) {
     stopifnot("Could not find 'counts' in assays of x" = "counts" %in% SummarizedExperiment::assayNames(x))
@@ -128,12 +177,22 @@ normalize_count_matrix <- function(
   tc <- apply(counts, MARGIN = 2, FUN = function(x) x / sum(x) * 1e06)
   lcpm.tc <- log2(tc + 2)
   
+  # RUVseq normalization
+  lcpm.ruv <- NULL
+  if (!is.null(control_genes)) {
+    filtered_controls <- intersect(rownames(counts), control_genes)
+    if (length(filtered_controls) != length(control_genes)) message("Some control genes have been dropped in the filtering step. Using the set of control genes present after filtering")
+    ruvg <- RUVSeq::RUVg(x = counts, cIdx = filtered_controls, k = k, drop = drop, center = center, round = round, epsilon = epsilon, tolerance = tolerance)
+    lcpm.ruv <- edgeR::cpm(ruvg$normalizedCounts, log = TRUE)
+  }
+  
   return(list(logcounts.tmm = lcpm.tmm,
               logcounts.rle = lcpm.rle,
               logcounts.uq = lcpm.uq,
               logcounts.vst = lcpm.vst,
               logcounts.rlog = lcpm.rlog,
               logcounts.qs = lcpm.qs,
+              logcounts.ruv = lcpm.ruv,
               logcounts.tc = lcpm.tc,
               logcounts.orig = log2(counts + 2)))
 }

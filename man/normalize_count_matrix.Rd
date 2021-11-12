@@ -22,7 +22,14 @@ normalize_count_matrix(
   fit_type = c("parametric", "local", "mean", "glmGamPoi"),
   batch = NULL,
   norm_factors = NULL,
-  window = 0.05
+  window = 0.05,
+  control_genes = NULL,
+  k = 1,
+  drop = 0,
+  center = TRUE,
+  round = TRUE,
+  epsilon = TRUE,
+  tolerance = 1e-08
 )
 }
 \arguments{
@@ -82,14 +89,42 @@ Default = "parametric"}
 \item{window}{window size for running median which is a fraction of the 
 number of rows in object. Default is 0.05. Used by \code{qsmooth::qsmooth}}
 
+\item{control_genes}{A character, logical, or numeric vector indicating the 
+subset of genes to be used as negative controls in the estimation of the 
+factors of unwanted variation. Used by \code{RUVseq::RUVg}. Default = NULL.}
+
+\item{k}{The number of factors of unwanted variation to be estimated from the data.
+Used by \code{RUVseq::RUVg}. Default = 2.}
+
+\item{drop}{The number of singular values to drop in the estimation of the 
+factors of unwanted variation. This number is usually zero, but might be set 
+to one if the first singular value captures the effect of interest. It must 
+be less than k. Used by \code{RUVseq::RUVg}. Default = 0.}
+
+\item{center}{If TRUE, the counts are centered, for each gene, to have mean 
+zero across samples. This is important to ensure that the first singular 
+value does not capture the average gene expression. Used by \code{RUVseq::RUVg}.
+Default = TRUE.}
+
+\item{round}{If TRUE, the normalized measures are rounded to form pseudo-counts.
+Used by \code{RUVseq::RUVg}. Default = TRUE.}
+
+\item{epsilon}{A small constant (usually no larger than one) to be added to 
+the counts prior to the log transformation to avoid problems with log(0). Used by 
+\code{RUVseq::RUVg}. Default = 1.}
+
+\item{tolerance}{Tolerance in the selection of the number of positive singular 
+values, i.e., a singular value must be larger than tolerance to be considered 
+positive. Used by \code{RUVseq::RUVg}. Default = 1e-08.}
+
 \item{batch.}{(Optional) batch covariate (multiple batches are not allowed). 
 If batch covariate is provided, Combat() from sva is used prior to qsmooth 
 normalization to remove batch effects. See Combat() for more details. Used by
 \code{qsmooth::qsmooth}}
 }
 \value{
-List object with items containing matrices of normalized log count per million values
-for each normalization method along with the original counts.
+List with items containing matrices of normalized log count per million
+ values for each normalization method along with the log-scaled original counts.
 }
 \description{
 Given a matrix of gene counts and a grouping factor identifying the group
@@ -105,6 +140,7 @@ The following normalization methods are computed
  \item{"VST"}{ Variance Stabalizing Transformation computed by \code{DESeq2::vst}}
  \item{"RLog"}{ Regularized Log transformation computed by \code{DESeq2::rlog}}
  \item{"QSmooth"}{ Smoothed Quantile Normalization computed by \code{qsmooth::qsmooth}}
+ \item{"RUVg"}{ Remove Unwanted Variation using control genes by \code{RUVseq::RUVg}}
  \item{"Total Count"}{ Library Size Normalization only}
 }
 
@@ -112,4 +148,24 @@ The function returns a list with the log count per million normalized values
 for each of the above methods. The log2 scaled original counts are also returned.
 For all methods except \code{vst} and \code{rlog} a pseudocount of 2 is added
 to avoid taking logs of 0.
+}
+\examples{
+library(coriell)
+
+
+# Simulate count matrix with differential expression
+sim <- simulate_counts(n_genes = 10000, n_up = 5000, n_down = 500, count_offset = 25)
+
+# Extract 1000 non-DE control genes for RUVg method
+controls <- setdiff(rownames(sim$table), union(sim$up_genes, sim$down_genes))
+controls <- sample(controls, 1000, replace = FALSE)
+
+# Define grouping factor
+Group <- factor(rep(c("Control", "Treatment"), each = 3))
+
+# Run all normalization methods
+normed <- normalize_count_matrix(x = sim$table, groups = Group, control_genes = controls)
+
+# View the normalized distributions for each
+for (method in names(normed)) boxplot(normed[[method]], main = method)
 }
