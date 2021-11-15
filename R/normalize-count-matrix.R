@@ -10,7 +10,6 @@
 #'  \item{"RLE"}{ Relative log expression computed by \code{edgeR::calcNormFactors}}
 #'  \item{"UQ"}{ Upper Quartile normalization computed by \code{edgeR::calcNormFactors}}
 #'  \item{"VST"}{ Variance Stabalizing Transformation computed by \code{DESeq2::vst}}
-#'  \item{"RLog"}{ Regularized Log transformation computed by \code{DESeq2::rlog}}
 #'  \item{"QSmooth"}{ Smoothed Quantile Normalization computed by \code{qsmooth::qsmooth}}
 #'  \item{"RUVg"}{ Remove Unwanted Variation using control genes by \code{RUVseq::RUVg}}
 #'  \item{"Total Count"}{ Library Size Normalization only}
@@ -18,17 +17,16 @@
 #' 
 #' The function returns a list with the log count per million normalized values 
 #' for each of the above methods. The log2 scaled original counts are also returned.
-#' For all methods except \code{vst} and \code{rlog} a pseudocount of 2 is added
-#' to avoid taking logs of 0.
+#' For all methods except \code{vst}, a pseudocount of 2 is added to avoid taking
+#' logs of 0.
 #' 
 #' @param x \code{SummarizedExperiment} object containing a counts assay with 
 #' raw counts or a matrix with features as rows and samples as columns.
 #' @param groups a group level continuous or categorial covariate associated 
 #' with each sample or column in the object. The order of \code{groups} 
 #' must match the order of the columns in object.
-#' @param filter bool. Default = TRUE. Should the lowly expressed genes be removed
-#' prior to normalization? Uses the \code{filterByExpr} function in the \code{edgeR}
-#' package.
+#' @param filter Should the lowly expressed genes be removed prior to normalization? 
+#' Uses the \code{filterByExpr} function in the \code{edgeR} package. Default = TRUE.
 #' @param min_count Passed to \code{edgeR::filterByExpr} the minimum count required
 #'  for at least some samples. Default 10.
 #' @param min_total_count Passed to \code{edgeR::filterByExpr} the minimum total count
@@ -39,21 +37,21 @@
 #' in the smallest group that express the gene. Default 0.7.
 #' @param ref_column Column to use as reference for method = "TMM". Can be a column 
 #' number or a numeric vector of length nrow(object). Default = NULL. Used by \code{edgeR::calcNormFactors}
-#' @param log_ratio_trim the fraction (0 to 0.5) of observations to be trimmed from 
+#' @param log_ratio_trim The fraction (0 to 0.5) of observations to be trimmed from 
 #' each tail of the distribution of log-ratios (M-values) before computing the mean. 
 #' Used by method="TMM" for each pair of samples. Default = 0.3. Used by \code{edgeR::calcNormFactors}
-#' @param sum_trim the fraction (0 to 0.5) of observations to be trimmed from 
+#' @param sum_trim The fraction (0 to 0.5) of observations to be trimmed from 
 #' each tail of the distribution of A-values before computing the mean. 
 #' Used by method="TMM" for each pair of samples. Default = 0.05. Used by \code{edgeR::calcNormFactors}
-#' @param do_weighting logical, whether to use (asymptotic binomial precision) 
+#' @param do_weighting Logical, whether to use (asymptotic binomial precision) 
 #' weights when computing the mean M-values. Used by method="TMM" for each pair 
 #' of samples. Default = TRUE. Used by \code{edgeR::calcNormFactors}
-#' @param acutoff minimum cutoff applied to A-values. Count pairs with lower 
+#' @param acutoff Minimum cutoff applied to A-values. Count pairs with lower 
 #' A-values are ignored. Used by method="TMM" for each pair of samples. Default = -1e10.
 #' Used by \code{edgeR::calcNormFactors}
-#' @param p numeric value between 0 and 1 specifying which quantile of the counts 
+#' @param p Numeric value between 0 and 1 specifying which quantile of the counts 
 #' should be used by method="upperquartile". Default = 0.75. Used by \code{edgeR::calcNormFactors}
-#' @param n_sub the number of genes to subset. Default = 1000. Used by \code{DESeq2::vst}
+#' @param n_sub The number of genes to subset. Default = 1000. Used by \code{DESeq2::vst}
 #' @param fit_type either "parametric", "local", "mean", or "glmGamPoi" for the 
 #' type of fitting of dispersions to the mean intensity. Used by \code{DESeq2::vst}. 
 #' Default = "parametric"
@@ -61,7 +59,7 @@
 #' If batch covariate is provided, Combat() from sva is used prior to qsmooth 
 #' normalization to remove batch effects. See Combat() for more details. Used by
 #' \code{qsmooth::qsmooth}
-#' @param norm_factors optional normalization scaling factors. Used by \code{qsmooth::qsmooth}
+#' @param norm_factors Optional normalization scaling factors. Used by \code{qsmooth::qsmooth}
 #' @param window window size for running median which is a fraction of the 
 #' number of rows in object. Default is 0.05. Used by \code{qsmooth::qsmooth}
 #' @param control_genes A character, logical, or numeric vector indicating the 
@@ -110,7 +108,7 @@
 normalize_count_matrix <- function(
   x, 
   groups,
-  filter = TRUE, 
+  filter = TRUE,
   min_count = 10,
   min_total_count = 15, 
   large_n = 10,
@@ -165,9 +163,7 @@ normalize_count_matrix <- function(
   rownames(coldata) <- colnames(counts)
   dds <- DESeq2::DESeqDataSetFromMatrix(counts, colData = coldata, design = ~0 + Group)
   vsd <- DESeq2::vst(dds, blind = FALSE, nsub = n_sub, fitType = fit_type)
-  rl <- DESeq2:::rlog(dds, blind = FALSE, fitType = fit_type)
   lcpm.vst <- SummarizedExperiment::assay(vsd)
-  lcpm.rlog <- SummarizedExperiment::assay(rl)
   
   # QSmooth normalization
   qs <- qsmooth::qsmooth(object = counts, group_factor = groups, batch = batch, norm_factors = norm_factors, window = window)
@@ -190,7 +186,6 @@ normalize_count_matrix <- function(
               logcounts.rle = lcpm.rle,
               logcounts.uq = lcpm.uq,
               logcounts.vst = lcpm.vst,
-              logcounts.rlog = lcpm.rlog,
               logcounts.qs = lcpm.qs,
               logcounts.ruv = lcpm.ruv,
               logcounts.tc = lcpm.tc,

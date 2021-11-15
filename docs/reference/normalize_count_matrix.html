@@ -175,9 +175,8 @@ must match the order of the columns in object.</p></td>
     </tr>
     <tr>
       <th>filter</th>
-      <td><p>bool. Default = TRUE. Should the lowly expressed genes be removed
-prior to normalization? Uses the <code>filterByExpr</code> function in the <code>edgeR</code>
-package.</p></td>
+      <td><p>Should the lowly expressed genes be removed prior to normalization? 
+Uses the <code>filterByExpr</code> function in the <code>edgeR</code> package. Default = TRUE.</p></td>
     </tr>
     <tr>
       <th>min_count</th>
@@ -206,36 +205,36 @@ number or a numeric vector of length nrow(object). Default = NULL. Used by <code
     </tr>
     <tr>
       <th>log_ratio_trim</th>
-      <td><p>the fraction (0 to 0.5) of observations to be trimmed from 
+      <td><p>The fraction (0 to 0.5) of observations to be trimmed from 
 each tail of the distribution of log-ratios (M-values) before computing the mean. 
 Used by method="TMM" for each pair of samples. Default = 0.3. Used by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></td>
     </tr>
     <tr>
       <th>sum_trim</th>
-      <td><p>the fraction (0 to 0.5) of observations to be trimmed from 
+      <td><p>The fraction (0 to 0.5) of observations to be trimmed from 
 each tail of the distribution of A-values before computing the mean. 
 Used by method="TMM" for each pair of samples. Default = 0.05. Used by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></td>
     </tr>
     <tr>
       <th>do_weighting</th>
-      <td><p>logical, whether to use (asymptotic binomial precision) 
+      <td><p>Logical, whether to use (asymptotic binomial precision) 
 weights when computing the mean M-values. Used by method="TMM" for each pair 
 of samples. Default = TRUE. Used by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></td>
     </tr>
     <tr>
       <th>acutoff</th>
-      <td><p>minimum cutoff applied to A-values. Count pairs with lower 
+      <td><p>Minimum cutoff applied to A-values. Count pairs with lower 
 A-values are ignored. Used by method="TMM" for each pair of samples. Default = -1e10.
 Used by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></td>
     </tr>
     <tr>
       <th>p</th>
-      <td><p>numeric value between 0 and 1 specifying which quantile of the counts 
+      <td><p>Numeric value between 0 and 1 specifying which quantile of the counts 
 should be used by method="upperquartile". Default = 0.75. Used by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></td>
     </tr>
     <tr>
       <th>n_sub</th>
-      <td><p>the number of genes to subset. Default = 1000. Used by <code><a href='https://rdrr.io/pkg/DESeq2/man/vst.html'>DESeq2::vst</a></code></p></td>
+      <td><p>The number of genes to subset. Default = 1000. Used by <code><a href='https://rdrr.io/pkg/DESeq2/man/vst.html'>DESeq2::vst</a></code></p></td>
     </tr>
     <tr>
       <th>fit_type</th>
@@ -245,7 +244,7 @@ Default = "parametric"</p></td>
     </tr>
     <tr>
       <th>norm_factors</th>
-      <td><p>optional normalization scaling factors. Used by <code><a href='https://rdrr.io/pkg/qsmooth/man/qsmooth.html'>qsmooth::qsmooth</a></code></p></td>
+      <td><p>Optional normalization scaling factors. Used by <code><a href='https://rdrr.io/pkg/qsmooth/man/qsmooth.html'>qsmooth::qsmooth</a></code></p></td>
     </tr>
     <tr>
       <th>window</th>
@@ -314,7 +313,6 @@ normalization to remove batch effects. See Combat() for more details. Used by
 <li><p>"RLE" Relative log expression computed by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></li>
 <li><p>"UQ" Upper Quartile normalization computed by <code><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>edgeR::calcNormFactors</a></code></p></li>
 <li><p>"VST" Variance Stabalizing Transformation computed by <code><a href='https://rdrr.io/pkg/DESeq2/man/vst.html'>DESeq2::vst</a></code></p></li>
-<li><p>"RLog" Regularized Log transformation computed by <code><a href='https://rdrr.io/pkg/DESeq2/man/rlog.html'>DESeq2::rlog</a></code></p></li>
 <li><p>"QSmooth" Smoothed Quantile Normalization computed by <code><a href='https://rdrr.io/pkg/qsmooth/man/qsmooth.html'>qsmooth::qsmooth</a></code></p></li>
 <li><p>"RUVg" Remove Unwanted Variation using control genes by <code>RUVseq::RUVg</code></p></li>
 <li><p>"Total Count" Library Size Normalization only</p></li>
@@ -345,9 +343,6 @@ to avoid taking logs of 0.</p>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> -- note: fitType='parametric', but the dispersion trend was not well captured by the</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>    function: y = a/x + b, and a local regression fit was automatically substituted.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>    specify fitType='local' or 'mean' to avoid this message next time.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span> -- note: fitType='parametric', but the dispersion trend was not well captured by the</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span>    function: y = a/x + b, and a local regression fit was automatically substituted.</span>
-<span class='r-msg co'><span class='r-pr'>#&gt;</span>    specify fitType='local' or 'mean' to avoid this message next time.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> Some control genes have been dropped in the filtering step. Using the set of control genes present after filtering</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># View the normalized distributions for each</span></span>
@@ -360,7 +355,6 @@ to avoid taking logs of 0.</p>
 <span class='r-plt img'><img src='normalize_count_matrix-6.png' alt='' width='700' height='433' /></span>
 <span class='r-plt img'><img src='normalize_count_matrix-7.png' alt='' width='700' height='433' /></span>
 <span class='r-plt img'><img src='normalize_count_matrix-8.png' alt='' width='700' height='433' /></span>
-<span class='r-plt img'><img src='normalize_count_matrix-9.png' alt='' width='700' height='433' /></span>
 </pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
