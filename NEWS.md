@@ -1,3 +1,10 @@
+## coriell 0.4.0
+
+- Added a function for calling outlier values in columns of a numeric matric by 
+the IQR method
+- Removed `process_quant_file` function. Switched to using `tximport` in all 
+pipelines.
+
 ## coriell 0.3.0
 
 - Added meta-analysis functions that rip off `MetaVolcanoR` but are much faster. 

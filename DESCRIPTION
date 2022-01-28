@@ -1,7 +1,7 @@
 Package: coriell
 Type: Package
 Title: Convenience functions for bioinformatics
-Version: 0.3.0
+Version: 0.4.0
 Author: Gennaro Calendo
 Maintainer: Gennaro Calendo <gcalendo@coriell.org>
 Description: Functions for plotting and transforming data.
@@ -27,7 +27,8 @@ Imports:
     DESeq2,
     SummarizedExperiment,
     qsmooth,
-    RUVSeq
+    RUVSeq,
+    matrixStats
 Suggests: 
     testthat,
     knitr,
