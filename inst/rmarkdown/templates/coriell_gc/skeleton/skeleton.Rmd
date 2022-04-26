@@ -20,10 +20,18 @@ knitr::opts_chunk$set(echo = TRUE,
 ## Load Libraries
 
 ```{r}
-library(tidyverse)
 library(here)
+library(data.table)
+library(ggplot2)
 
 
+theme_set(
+  theme_light() +
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(size = 16, face = "bold"),
+        strip.text = element_text(size = 12, face = "bold"))
+)
 ```
 
 
