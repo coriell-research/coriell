@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Create an MD plot from expression data — plot_md" />
-<meta property="og:description" content="Create an MD plot from the given dataframe" />
+<meta property="og:description" content="Create an MD (MA) plot from a data.frame containing differential expression results." />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -124,17 +124,27 @@
     </div>
 
     <div class="ref-description">
-    <p>Create an MD plot from the given dataframe</p>
+    <p>Create an MD (MA) plot from a data.frame containing differential expression results.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_md</span><span class='op'>(</span>
   <span class='va'>df</span>,
-  x <span class='op'>=</span> <span class='va'>logCPM</span>,
-  y <span class='op'>=</span> <span class='va'>logFC</span>,
-  sig_col <span class='op'>=</span> <span class='va'>FDR</span>,
-  fdr <span class='op'>=</span> <span class='fl'>0.05</span>,
+  x <span class='op'>=</span> <span class='st'>"logCPM"</span>,
+  y <span class='op'>=</span> <span class='st'>"logFC"</span>,
+  sig_col <span class='op'>=</span> <span class='st'>"FDR"</span>,
+  feature_col <span class='op'>=</span> <span class='st'>"feature_id"</span>,
+  fdr <span class='op'>=</span> <span class='fl'>0.1</span>,
   lfc <span class='op'>=</span> <span class='fl'>0</span>,
   annotate_counts <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  up_color <span class='op'>=</span> <span class='st'>"red"</span>,
+  down_color <span class='op'>=</span> <span class='st'>"blue"</span>,
+  nonde_color <span class='op'>=</span> <span class='st'>"black"</span>,
+  up_alpha <span class='op'>=</span> <span class='fl'>1</span>,
+  down_alpha <span class='op'>=</span> <span class='fl'>1</span>,
+  nonde_alpha <span class='op'>=</span> <span class='fl'>1</span>,
+  up_size <span class='op'>=</span> <span class='fl'>1</span>,
+  down_size <span class='op'>=</span> <span class='fl'>1</span>,
+  nonde_size <span class='op'>=</span> <span class='fl'>1</span>,
   xmax_label_offset <span class='op'>=</span> <span class='fl'>0.8</span>,
   ymax_label_offset <span class='op'>=</span> <span class='fl'>0.5</span>,
   ymin_label_offset <span class='op'>=</span> <span class='fl'>0.5</span>
@@ -149,15 +159,19 @@
     </tr>
     <tr>
       <th>x</th>
-      <td><p>column in dataframe containing the logCPM data. Default (logCPM)</p></td>
+      <td><p>column in dataframe containing the logCPM data. Default ("logCPM")</p></td>
     </tr>
     <tr>
       <th>y</th>
-      <td><p>column in dataframe containing the log-fold-change values. Default (logFC)</p></td>
+      <td><p>column in dataframe containing the log-fold-change values. Default ("logFC")</p></td>
     </tr>
     <tr>
       <th>sig_col</th>
-      <td><p>column in dataframe containing the results from significance testing. Default (FDR)</p></td>
+      <td><p>column in dataframe containing the results from significance testing. Default ("FDR")</p></td>
+    </tr>
+    <tr>
+      <th>feature_col</th>
+      <td><p>column in dataframe containing the feature names. Default ("feature_id")</p></td>
     </tr>
     <tr>
       <th>fdr</th>
@@ -170,6 +184,42 @@
     <tr>
       <th>annotate_counts</th>
       <td><p>TRUE/FALSE. Annotate the plot with the summarized gene counts</p></td>
+    </tr>
+    <tr>
+      <th>up_color</th>
+      <td><p>Point color of the up-regulated features. Default ("red")</p></td>
+    </tr>
+    <tr>
+      <th>down_color</th>
+      <td><p>Point color of the down-regulated features. Default ("blue")</p></td>
+    </tr>
+    <tr>
+      <th>nonde_color</th>
+      <td><p>Point color of the unperturbed features. Default ("black")</p></td>
+    </tr>
+    <tr>
+      <th>up_alpha</th>
+      <td><p>Point alpha value of the up-regulated features. Default (1)</p></td>
+    </tr>
+    <tr>
+      <th>down_alpha</th>
+      <td><p>Point alpha value of the down-regulated features. Default (1)</p></td>
+    </tr>
+    <tr>
+      <th>nonde_alpha</th>
+      <td><p>Point alpha value of the unperturbed features. Default (1)</p></td>
+    </tr>
+    <tr>
+      <th>up_size</th>
+      <td><p>Point size of the up-regulated features. Default (1)</p></td>
+    </tr>
+    <tr>
+      <th>down_size</th>
+      <td><p>Point size of the down-regulated features. Default (1)</p></td>
+    </tr>
+    <tr>
+      <th>nonde_size</th>
+      <td><p>Point size of the unperturbed features. Default (1)</p></td>
     </tr>
     <tr>
       <th>xmax_label_offset</th>
@@ -190,38 +240,38 @@
     <p>ggplot MD plot</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://bioinf.wehi.edu.au/edgeR'>edgeR</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>coriell</span><span class='op'>)</span>
-
-<span class='co'># create some fake data</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-  ctl1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,
-  ctl2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,
-  trt1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,
-  trt2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,
-  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"gene"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span>
-<span class='op'>)</span>
-
-<span class='co'># run edger pipeline</span>
-<span class='va'>group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/DGEList.html'>DGEList</a></span><span class='op'>(</span>counts <span class='op'>=</span> <span class='va'>x</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>calcNormFactors</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span>
-<span class='va'>design</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>group</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/estimateDisp.html'>estimateDisp</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>design</span><span class='op'>)</span>
-
-<span class='co'># To perform quasi-likelihood F-tests:</span>
-<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/glmQLFTest.html'>glmQLFit</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>design</span><span class='op'>)</span>
-<span class='va'>qlf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/glmQLFTest.html'>glmQLFTest</a></span><span class='op'>(</span><span class='va'>fit</span>, coef <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-
-<span class='co'># convert the results object to a dataframe</span>
-<span class='va'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='edger_to_df.html'>edger_to_df</a></span><span class='op'>(</span><span class='va'>qlf</span><span class='op'>)</span>
-
-<span class='co'># Create md plot</span>
-<span class='fu'>plot_md</span><span class='op'>(</span><span class='va'>res_df</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://bioinf.wehi.edu.au/edgeR'>edgeR</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>coriell</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># create some fake data</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
+<span class='r-in'>  ctl1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,</span>
+<span class='r-in'>  ctl2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,</span>
+<span class='r-in'>  trt1 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,</span>
+<span class='r-in'>  trt2 <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/NegBinomial.html'>rnbinom</a></span><span class='op'>(</span><span class='fl'>1000</span>, size <span class='op'>=</span> <span class='fl'>0.4</span>, prob <span class='op'>=</span> <span class='fl'>1e-5</span><span class='op'>)</span>,</span>
+<span class='r-in'>  row.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"gene"</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># run edger pipeline</span></span>
+<span class='r-in'><span class='va'>group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/DGEList.html'>DGEList</a></span><span class='op'>(</span>counts <span class='op'>=</span> <span class='va'>x</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/calcNormFactors.html'>calcNormFactors</a></span><span class='op'>(</span><span class='va'>y</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>design</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/model.matrix.html'>model.matrix</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>group</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/estimateDisp.html'>estimateDisp</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>design</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># To perform quasi-likelihood F-tests:</span></span>
+<span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/glmQLFTest.html'>glmQLFit</a></span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>design</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>qlf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/edgeR/man/glmQLFTest.html'>glmQLFTest</a></span><span class='op'>(</span><span class='va'>fit</span>, coef <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># convert the results object to a dataframe</span></span>
+<span class='r-in'><span class='va'>res_df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='edger_to_df.html'>edger_to_df</a></span><span class='op'>(</span><span class='va'>qlf</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Create md plot</span></span>
+<span class='r-in'><span class='fu'>plot_md</span><span class='op'>(</span><span class='va'>res_df</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

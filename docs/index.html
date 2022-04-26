@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
       </span>
     </div>
 
@@ -141,21 +141,22 @@
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># permutation testing -----------------------------------------------------------</span></span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># perform permutation testing using 4 cores and 10000 permutations</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">permutation_correlation_test</span>(<span class="at">X =</span> perc_meth, </span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">y =</span> ages<span class="sc">$</span>age, </span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">n_cores =</span> <span class="dv">4</span>, </span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">n_perm =</span> <span class="dv">10000</span>,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">method =</span> <span class="st">"spearman"</span>, </span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                                    )</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res)</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">1</span>  <span class="fl">48.14815</span>  <span class="fl">54.05405</span>  <span class="fl">45.45455</span>  <span class="fl">57.89474</span> <span class="fl">32.46753</span> <span class="fl">24.418605</span>  <span class="fl">4.687500</span>  <span class="fl">30.769231</span> <span class="sc">-</span><span class="fl">0.3437200</span>      <span class="fl">0.1925</span> <span class="fl">0.4812073</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>  <span class="fl">0.00000</span>  <span class="fl">0.000000</span>  <span class="fl">0.000000</span>   <span class="fl">0.000000</span>         <span class="cn">NA</span>          <span class="cn">NA</span>        <span class="cn">NA</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span>  <span class="fl">38.20598</span>  <span class="fl">16.34615</span>  <span class="fl">12.50000</span>  <span class="fl">60.00000</span> <span class="fl">25.42373</span>  <span class="fl">3.636364</span> <span class="fl">18.421053</span>  <span class="fl">32.335329</span> <span class="sc">-</span><span class="fl">0.3559957</span>      <span class="fl">0.1903</span> <span class="fl">0.4812073</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">4</span> <span class="fl">100.00000</span> <span class="fl">100.00000</span> <span class="fl">100.00000</span> <span class="fl">100.00000</span> <span class="fl">86.15385</span> <span class="fl">72.340426</span> <span class="fl">86.666667</span> <span class="fl">100.000000</span> <span class="sc">-</span><span class="fl">0.3093992</span>      <span class="fl">0.2195</span> <span class="fl">0.4812073</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">5</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>  <span class="fl">0.00000</span>  <span class="fl">0.000000</span>  <span class="fl">0.000000</span>  <span class="fl">10.526316</span>  <span class="fl">0.4252433</span>      <span class="fl">0.3769</span> <span class="fl">0.4812073</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">6</span>  <span class="fl">26.98413</span>  <span class="fl">12.63158</span>  <span class="fl">23.07692</span>  <span class="fl">10.00000</span> <span class="fl">22.22222</span>  <span class="fl">0.000000</span>  <span class="fl">3.174603</span>   <span class="fl">4.166667</span> <span class="sc">-</span><span class="fl">0.2946172</span>      <span class="fl">0.2334</span> <span class="fl">0.4812073</span></span></code></pre></div>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">permutation_correlation_test</span>(</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> perc_meth, </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> ages<span class="sc">$</span>age, </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_cores =</span> <span class="dv">4</span>, </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_perm =</span> <span class="dv">10000</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span> </span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">1</span>  <span class="fl">48.14815</span>  <span class="fl">54.05405</span>  <span class="fl">45.45455</span>  <span class="fl">57.89474</span> <span class="fl">32.46753</span> <span class="fl">24.418605</span>  <span class="fl">4.687500</span>  <span class="fl">30.769231</span> <span class="sc">-</span><span class="fl">0.3437200</span>      <span class="fl">0.1925</span> <span class="fl">0.4812073</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>  <span class="fl">0.00000</span>  <span class="fl">0.000000</span>  <span class="fl">0.000000</span>   <span class="fl">0.000000</span>         <span class="cn">NA</span>          <span class="cn">NA</span>        <span class="cn">NA</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span>  <span class="fl">38.20598</span>  <span class="fl">16.34615</span>  <span class="fl">12.50000</span>  <span class="fl">60.00000</span> <span class="fl">25.42373</span>  <span class="fl">3.636364</span> <span class="fl">18.421053</span>  <span class="fl">32.335329</span> <span class="sc">-</span><span class="fl">0.3559957</span>      <span class="fl">0.1903</span> <span class="fl">0.4812073</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">4</span> <span class="fl">100.00000</span> <span class="fl">100.00000</span> <span class="fl">100.00000</span> <span class="fl">100.00000</span> <span class="fl">86.15385</span> <span class="fl">72.340426</span> <span class="fl">86.666667</span> <span class="fl">100.000000</span> <span class="sc">-</span><span class="fl">0.3093992</span>      <span class="fl">0.2195</span> <span class="fl">0.4812073</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">5</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>  <span class="fl">0.00000</span>  <span class="fl">0.000000</span>  <span class="fl">0.000000</span>  <span class="fl">10.526316</span>  <span class="fl">0.4252433</span>      <span class="fl">0.3769</span> <span class="fl">0.4812073</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">6</span>  <span class="fl">26.98413</span>  <span class="fl">12.63158</span>  <span class="fl">23.07692</span>  <span class="fl">10.00000</span> <span class="fl">22.22222</span>  <span class="fl">0.000000</span>  <span class="fl">3.174603</span>   <span class="fl">4.166667</span> <span class="sc">-</span><span class="fl">0.2946172</span>      <span class="fl">0.2334</span> <span class="fl">0.4812073</span></span></code></pre></div>
 </div>
 <div id="extract-random-correlations-from-a-dataframe" class="section level3">
 <h3 class="hasAnchor">
@@ -163,10 +164,12 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># using the same perc_meth data.frame and ages as defined above</span>
 <span class="co"># get 1,000,000 random correlations from the dataset</span>
-<span class="va">cors</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sample_n_random_cor.html">sample_n_random_cor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">perc_meth</span>, 
-                            y <span class="op">=</span> <span class="va">ages</span><span class="op">$</span><span class="va">age</span>,
-                            n <span class="op">=</span> <span class="fl">1000000</span>,
-                            method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span>
+<span class="va">cors</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sample_n_random_cor.html">sample_n_random_cor</a></span><span class="op">(</span>
+  X <span class="op">=</span> <span class="va">perc_meth</span>, 
+  y <span class="op">=</span> <span class="va">ages</span><span class="op">$</span><span class="va">age</span>,
+  n <span class="op">=</span> <span class="fl">1000000</span>,
+  method <span class="op">=</span> <span class="st">"spearman"</span>
+  <span class="op">)</span>
 
 <span class="co"># simple histogram of correlation values -- drop NAs if present</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">cors</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">cors</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
@@ -196,15 +199,14 @@
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">edger_to_df</span>(qlf)</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res_df)</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="co"># A tibble: 6 x 6</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span>   feature_id logFC unshrunk.logFC logCPM   PValue        FDR</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>          <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>    <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="dv">1</span> gene<span class="fl">.51</span>    <span class="sc">-</span><span class="fl">4.43</span>          <span class="sc">-</span><span class="fl">4.43</span>   <span class="fl">6.37</span> <span class="fl">2.93e-10</span> <span class="fl">0.00000561</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span> gene<span class="fl">.26</span>    <span class="sc">-</span><span class="fl">6.63</span>          <span class="sc">-</span><span class="fl">6.68</span>   <span class="fl">3.45</span> <span class="fl">8.37e-9</span>   <span class="fl">0.0000801</span> </span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span> gene<span class="fl">.19</span>    <span class="sc">-</span><span class="fl">7.01</span>          <span class="sc">-</span><span class="fl">7.05</span>   <span class="fl">3.41</span> <span class="fl">1.51e-8</span>   <span class="fl">0.0000962</span> </span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">4</span> gene<span class="fl">.100</span>   <span class="sc">-</span><span class="fl">4.62</span>          <span class="sc">-</span><span class="fl">4.63</span>   <span class="fl">4.40</span> <span class="fl">3.24e-8</span>    <span class="fl">0.000132</span>  </span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">5</span> gene<span class="fl">.74</span>    <span class="sc">-</span><span class="fl">6.05</span>          <span class="sc">-</span><span class="fl">6.07</span>   <span class="fl">7.04</span> <span class="fl">4.06e-8</span>    <span class="fl">0.000132</span>  </span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">6</span> gene<span class="fl">.53</span>    <span class="sc">-</span><span class="fl">4.67</span>          <span class="sc">-</span><span class="fl">4.68</span>   <span class="fl">3.91</span> <span class="fl">4.14e-8</span>    <span class="fl">0.000132</span> </span></code></pre></div>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>   feature_id logFC unshrunk.logFC logCPM   PValue        FDR</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>          <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>    <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>      <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="dv">1</span> gene<span class="fl">.51</span>    <span class="sc">-</span><span class="fl">4.43</span>          <span class="sc">-</span><span class="fl">4.43</span>   <span class="fl">6.37</span> <span class="fl">2.93e-10</span> <span class="fl">0.00000561</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span> gene<span class="fl">.26</span>    <span class="sc">-</span><span class="fl">6.63</span>          <span class="sc">-</span><span class="fl">6.68</span>   <span class="fl">3.45</span> <span class="fl">8.37e-9</span>   <span class="fl">0.0000801</span> </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span> gene<span class="fl">.19</span>    <span class="sc">-</span><span class="fl">7.01</span>          <span class="sc">-</span><span class="fl">7.05</span>   <span class="fl">3.41</span> <span class="fl">1.51e-8</span>   <span class="fl">0.0000962</span> </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">4</span> gene<span class="fl">.100</span>   <span class="sc">-</span><span class="fl">4.62</span>          <span class="sc">-</span><span class="fl">4.63</span>   <span class="fl">4.40</span> <span class="fl">3.24e-8</span>    <span class="fl">0.000132</span>  </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">5</span> gene<span class="fl">.74</span>    <span class="sc">-</span><span class="fl">6.05</span>          <span class="sc">-</span><span class="fl">6.07</span>   <span class="fl">7.04</span> <span class="fl">4.06e-8</span>    <span class="fl">0.000132</span>  </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">6</span> gene<span class="fl">.53</span>    <span class="sc">-</span><span class="fl">4.67</span>          <span class="sc">-</span><span class="fl">4.68</span>   <span class="fl">3.91</span> <span class="fl">4.14e-8</span>    <span class="fl">0.000132</span> </span></code></pre></div>
 </div>
 <div id="summarize-results-from-differential-expression-test" class="section level3">
 <h3 class="hasAnchor">
@@ -214,43 +216,36 @@
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">edger_to_df</span>(qlf)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_dge</span>(res_df, <span class="at">fdr =</span> <span class="fl">0.05</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="co"># A tibble: 3 x 3</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span>   dge         n   perc</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>   <span class="er">&lt;</span>fct<span class="sc">&gt;</span>   <span class="er">&lt;</span>int<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="er">&gt;</span> <span class="dv">1</span> up        <span class="dv">162</span>  <span class="fl">0.847</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span> down      <span class="dv">266</span>   <span class="fl">1.39</span> </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span> non<span class="sc">-</span>dge <span class="dv">18709</span>   <span class="fl">97.8</span>  </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># For DESeq2 results you must specify the column names</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_dge</span>(deseq_res_df, </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">fdr_col =</span> padj,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">lfc_col =</span> log2FoldChange,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">fdr =</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>   Direction   N   Percent</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">1</span> up        <span class="dv">162</span>     <span class="fl">0.847</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span> down      <span class="dv">266</span>      <span class="fl">1.39</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span> non<span class="sc">-</span>dge <span class="dv">18709</span>      <span class="fl">97.8</span>  </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For DESeq2 results you must specify the column names</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize_dge</span>(</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  deseq_res_df, </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr_col =</span> <span class="st">"padj"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">lfc_col =</span> <span class="st">"log2FoldChange"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr =</span> <span class="fl">0.05</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
 <div id="create-volcano-plot-from-differential-expression-results" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-volcano-plot-from-differential-expression-results" class="anchor"></a>Create volcano plot from differential expression results</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For edgeR results default values can be used</span>
-<span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
+<span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
 
 <span class="co"># For DESeq2 results you must specify the column names</span>
-<span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">deseq_res_df</span>,
-             x <span class="op">=</span> <span class="va">log2FoldChange</span>,
-             y <span class="op">=</span> <span class="va">padj</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">deseq_res_df</span>, x <span class="op">=</span> <span class="st">"log2FoldChange"</span>, y <span class="op">=</span> <span class="st">"padj"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/volcano1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/volcano2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, 
-             fdr <span class="op">=</span> <span class="fl">0.01</span>, 
-             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, 
-             annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>  <span class="op">+</span>
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/volcano3.png"></p>
 <p>Positions of the count labels can be adjusted by setting the <code>xmax_label_offset</code>, <code>xmin_label_offset</code> and <code>ymax_label_offset</code> values. Setting the values closer to 1 moves the labels away from the origin. <code>xmax_label_offset</code> controls the ‘up’ gene label whereas <code>xmin_label_offset</code> controls the ‘down’ genes label. <code>ymax_label_offset</code> controls the vertical position of the labels.</p>
@@ -278,21 +273,18 @@
 <a href="#create-md-plot-from-differential-expression-results" class="anchor"></a>Create md plot from differential expression results</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For edgeR results default values can be used</span>
-<span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
+<span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
 
 <span class="co"># For DESeq2 results you must specify the column names</span>
 <span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">deseq_res_df</span>,
-        x <span class="op">=</span> <span class="va">baseMean</span>,
-        y <span class="op">=</span> <span class="va">log2FoldChange</span>,
-        sig_col <span class="op">=</span> <span class="va">padj</span><span class="op">)</span></code></pre></div>
+        x <span class="op">=</span> <span class="st">"baseMean"</span>,
+        y <span class="op">=</span> <span class="st">"log2FoldChange"</span>,
+        sig_col <span class="op">=</span> <span class="st">"padj"</span>
+        <span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/md1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, 
-        fdr <span class="op">=</span> <span class="fl">0.01</span>, 
-        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/md2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">

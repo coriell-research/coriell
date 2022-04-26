@@ -82,12 +82,13 @@ head(perc_meth)
 
 # permutation testing -----------------------------------------------------------
 # perform permutation testing using 4 cores and 10000 permutations
-res <- permutation_correlation_test(X = perc_meth, 
-                                    y = ages$age, 
-                                    n_cores = 4, 
-                                    n_perm = 10000,
-                                    method = "spearman", 
-                                    )
+res <- permutation_correlation_test(
+  X = perc_meth, 
+  y = ages$age, 
+  n_cores = 4, 
+  n_perm = 10000,
+  method = "spearman" 
+  )
 
 head(res)
 >       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr
@@ -104,10 +105,12 @@ head(res)
 ```R
 # using the same perc_meth data.frame and ages as defined above
 # get 1,000,000 random correlations from the dataset
-cors <- sample_n_random_cor(X = perc_meth, 
-                            y = ages$age,
-                            n = 1000000,
-                            method = "spearman")
+cors <- sample_n_random_cor(
+  X = perc_meth, 
+  y = ages$age,
+  n = 1000000,
+  method = "spearman"
+  )
 
 # simple histogram of correlation values -- drop NAs if present
 hist(cors[!is.na(cors)])
@@ -138,7 +141,6 @@ qlf <- glmQLFTest(fit, coef = 2)
 res_df <- edger_to_df(qlf)
 
 head(res_df)
-> # A tibble: 6 x 6
 >   feature_id logFC unshrunk.logFC logCPM   PValue        FDR
 >   <chr>      <dbl>          <dbl>  <dbl>    <dbl>      <dbl>
 > 1 gene.51    -4.43          -4.43   6.37 2.93e-10 0.00000561
@@ -158,31 +160,28 @@ Return a table of up/down/non-de counts and their percentages.
 res_df <- edger_to_df(qlf)
 
 summarize_dge(res_df, fdr = 0.05)
-> # A tibble: 3 x 3
->   dge         n   perc
->   <fct>   <int>  <dbl>
-> 1 up        162  0.847
-> 2 down      266   1.39 
-> 3 non-dge 18709   97.8  
+>   Direction   N   Percent
+> 1 up        162     0.847
+> 2 down      266      1.39 
+> 3 non-dge 18709      97.8  
 
 # For DESeq2 results you must specify the column names
-summarize_dge(deseq_res_df, 
-              fdr_col = padj,
-              lfc_col = log2FoldChange,
-              fdr = 0.05)
+summarize_dge(
+  deseq_res_df, 
+  fdr_col = "padj",
+  lfc_col = "log2FoldChange",
+  fdr = 0.05
+  )
 ```
 
 ### Create volcano plot from differential expression results
 
 ```R
 # For edgeR results default values can be used
-plot_volcano(res_df) +
-  ggtitle("Treatment vs Control")
+plot_volcano(res_df) + ggtitle("Treatment vs Control")
 
 # For DESeq2 results you must specify the column names
-plot_volcano(deseq_res_df,
-             x = log2FoldChange,
-             y = padj)
+plot_volcano(deseq_res_df, x = "log2FoldChange", y = "padj")
 ```
 
 ![](man/figures/volcano1.png)
@@ -191,8 +190,7 @@ Different significance levels can be used to filter the plotted points. For exam
 significance levels can be set by specifying the `fdr` and `lfc` values.
 
 ```R
-plot_volcano(res_df, fdr = 0.01, lfc = log2(2))  +
-  ggtitle("Treatment vs Control")
+plot_volcano(res_df, fdr = 0.01, lfc = log2(2)) + ggtitle("Treatment vs Control")
 ```
 
 ![](man/figures/volcano2.png)
@@ -200,10 +198,7 @@ plot_volcano(res_df, fdr = 0.01, lfc = log2(2))  +
 Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
 
 ```R
-plot_volcano(res_df, 
-             fdr = 0.01, 
-             lfc = log2(2), 
-             annotate_counts = FALSE)  +
+plot_volcano(res_df, fdr = 0.01, lfc = log2(2), annotate_counts = FALSE) +
   ggtitle("Treatment vs Control")
 ```
 
@@ -246,14 +241,14 @@ plot_volcano(res_df,
 
 ```R
 # For edgeR results default values can be used
-plot_md(res_df) +
-  ggtitle("Treatment vs Control")
+plot_md(res_df) + ggtitle("Treatment vs Control")
 
 # For DESeq2 results you must specify the column names
 plot_md(deseq_res_df,
-        x = baseMean,
-        y = log2FoldChange,
-        sig_col = padj)
+        x = "baseMean",
+        y = "log2FoldChange",
+        sig_col = "padj"
+        )
 ```
 
 ![](man/figures/md1.png)
@@ -262,10 +257,7 @@ Different significance levels can be used to filter the plotted points. For exam
 significance levels can be set by specifying the `fdr` and `lfc` values.
 
 ```R
-plot_md(res_df, 
-        fdr = 0.01, 
-        lfc = log2(2)) +
-  ggtitle("Treatment vs Control")
+plot_md(res_df, fdr = 0.01, lfc = log2(2)) + ggtitle("Treatment vs Control")
 ```
 
 ![](man/figures/md2.png)

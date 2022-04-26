@@ -4,21 +4,21 @@
 \alias{summarize_dge}
 \title{Summarize RNA-seq expression results}
 \usage{
-summarize_dge(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0)
+summarize_dge(df, fdr_col = "FDR", lfc_col = "logFC", fdr = 0.05, lfc = 0)
 }
 \arguments{
 \item{df}{dataframe of results. Must have columns containing significance values and log-fold changes.}
 
-\item{fdr_col}{dataframe column (unquoted). Column of dataframe containing the significance level values.}
+\item{fdr_col}{Column name of the data.frame containing the significance level values.}
 
-\item{lfc_col}{dataframe column (unquoted). Column of dataframe containing the lof-fold change values.}
+\item{lfc_col}{Column name of data.frame containing the log-fold change values.}
 
 \item{fdr}{numeric. FDR or significance value below which genes are considered significant.}
 
 \item{lfc}{numeric. abs(log-fold change) value above which genes are considered significant.}
 }
 \value{
-tibble of summarized results
+data.frame with columns describing the count and percentages of up/down/unperturbed genes
 }
 \description{
 Summarize a results data.frame. Return data.frame of counts of up/down/non-DE 

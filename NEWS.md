@@ -1,3 +1,10 @@
+## coriell 0.5.0
+
+- Updated `plot_md`, `plot_volcano`, and `summarize_dge` to remove `dplyr` dependency. 
+**The changes to these functions are breaking**. Arguments for column names must now be quoted.
+- `plot_volcano` and `plot_md` now support additional arguments for modifying the point
+size, shape, and color. See function documentation.
+
 ## coriell 0.4.0
 
 - Added a function for calling outlier values in columns of a numeric matric by 

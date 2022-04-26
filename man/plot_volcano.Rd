@@ -6,16 +6,26 @@
 \usage{
 plot_volcano(
   df,
-  x = logFC,
-  y = FDR,
-  lab = feature_id,
-  fdr = 0.05,
+  x = "logFC",
+  y = "FDR",
+  lab = "feature_id",
+  fdr = 0.1,
   lfc = 0,
   label_sig = FALSE,
   annotate_counts = TRUE,
+  up_color = "red2",
+  down_color = "red2",
+  nonde_color = "grey40",
+  up_alpha = 1,
+  down_alpha = 1,
+  nonde_alpha = 1,
+  up_size = 1,
+  down_size = 1,
+  nonde_size = 1,
   xmin_label_offset = 0.5,
   xmax_label_offset = 0.5,
-  ymax_label_offset = 0.8
+  ymax_label_offset = 0.8,
+  ...
 )
 }
 \arguments{
@@ -35,17 +45,37 @@ plot_volcano(
 
 \item{annotate_counts}{TRUE/FALSE. Annotate the plot with the summarized gene counts}
 
+\item{up_color}{Point color of the up-regulated features}
+
+\item{down_color}{Point color of the down-regulated features}
+
+\item{nonde_color}{Point color of the unperturbed features}
+
+\item{up_alpha}{Point alpha of the up-regulated features}
+
+\item{down_alpha}{Point alpha of the down-regulated features}
+
+\item{nonde_alpha}{Point alpha of the unperturbed features}
+
+\item{up_size}{Point size of the up-regulated features}
+
+\item{down_size}{Point size of the down-regulated features}
+
+\item{nonde_size}{Point size of the unperturbed features}
+
 \item{xmin_label_offset}{numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'down' counts}
 
 \item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'up' counts}
 
 \item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.}
+
+\item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel}}
 }
 \value{
 ggplot volcano plot
 }
 \description{
-Create a volcano plot from the given dataframe
+Create a volcano plot from a data.frame containing differential expression results.
 }
 \examples{
 \dontrun{

@@ -6,12 +6,22 @@
 \usage{
 plot_md(
   df,
-  x = logCPM,
-  y = logFC,
-  sig_col = FDR,
-  fdr = 0.05,
+  x = "logCPM",
+  y = "logFC",
+  sig_col = "FDR",
+  feature_col = "feature_id",
+  fdr = 0.1,
   lfc = 0,
   annotate_counts = TRUE,
+  up_color = "red",
+  down_color = "blue",
+  nonde_color = "black",
+  up_alpha = 1,
+  down_alpha = 1,
+  nonde_alpha = 1,
+  up_size = 1,
+  down_size = 1,
+  nonde_size = 1,
   xmax_label_offset = 0.8,
   ymax_label_offset = 0.5,
   ymin_label_offset = 0.5
@@ -20,17 +30,37 @@ plot_md(
 \arguments{
 \item{df}{dataframe containing log-fold-change, p-value, and logCPM columns.}
 
-\item{x}{column in dataframe containing the logCPM data. Default (logCPM)}
+\item{x}{column in dataframe containing the logCPM data. Default ("logCPM")}
 
-\item{y}{column in dataframe containing the log-fold-change values. Default (logFC)}
+\item{y}{column in dataframe containing the log-fold-change values. Default ("logFC")}
 
-\item{sig_col}{column in dataframe containing the results from significance testing. Default (FDR)}
+\item{sig_col}{column in dataframe containing the results from significance testing. Default ("FDR")}
+
+\item{feature_col}{column in dataframe containing the feature names. Default ("feature_id")}
 
 \item{fdr}{numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)}
 
 \item{lfc}{numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)}
 
 \item{annotate_counts}{TRUE/FALSE. Annotate the plot with the summarized gene counts}
+
+\item{up_color}{Point color of the up-regulated features. Default ("red")}
+
+\item{down_color}{Point color of the down-regulated features. Default ("blue")}
+
+\item{nonde_color}{Point color of the unperturbed features. Default ("black")}
+
+\item{up_alpha}{Point alpha value of the up-regulated features. Default (1)}
+
+\item{down_alpha}{Point alpha value of the down-regulated features. Default (1)}
+
+\item{nonde_alpha}{Point alpha value of the unperturbed features. Default (1)}
+
+\item{up_size}{Point size of the up-regulated features. Default (1)}
+
+\item{down_size}{Point size of the down-regulated features. Default (1)}
+
+\item{nonde_size}{Point size of the unperturbed features. Default (1)}
 
 \item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels}
 
@@ -42,7 +72,7 @@ plot_md(
 ggplot MD plot
 }
 \description{
-Create an MD plot from the given dataframe
+Create an MD (MA) plot from a data.frame containing differential expression results.
 }
 \examples{
 \dontrun{

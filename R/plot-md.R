@@ -1,19 +1,30 @@
 #' Create an MD plot from expression data
 #'
-#' Create an MD plot from the given dataframe
+#' Create an MD (MA) plot from a data.frame containing differential expression results.
+#'
 #' @param df dataframe containing log-fold-change, p-value, and logCPM columns.
-#' @param x column in dataframe containing the logCPM data. Default (logCPM)
-#' @param y column in dataframe containing the log-fold-change values. Default (logFC)
-#' @param sig_col column in dataframe containing the results from significance testing. Default (FDR)
+#' @param x column in dataframe containing the logCPM data. Default ("logCPM")
+#' @param y column in dataframe containing the log-fold-change values. Default ("logFC")
+#' @param sig_col column in dataframe containing the results from significance testing. Default ("FDR")
+#' @param feature_col column in dataframe containing the feature names. Default ("feature_id")
 #' @param fdr numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)
 #' @param annotate_counts TRUE/FALSE. Annotate the plot with the summarized gene counts
+#' @param up_color Point color of the up-regulated features. Default ("red")
+#' @param down_color Point color of the down-regulated features. Default ("blue")
+#' @param nonde_color Point color of the unperturbed features. Default ("black")
+#' @param up_alpha Point alpha value of the up-regulated features. Default (1)
+#' @param down_alpha Point alpha value of the down-regulated features. Default (1)
+#' @param nonde_alpha Point alpha value of the unperturbed features. Default (1)
+#' @param up_size Point size of the up-regulated features. Default (1)
+#' @param down_size Point size of the down-regulated features. Default (1)
+#' @param nonde_size Point size of the unperturbed features. Default (1)
 #' @param xmax_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label
 #' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
 #' @return ggplot MD plot
+#' @import data.table
 #' @export
-#' @importFrom magrittr %>%
 #' @examples
 #' \dontrun{
 #' library(edgeR)
@@ -46,35 +57,24 @@
 #' plot_md(res_df)
 #' }
 #'
-plot_md <- function(df,
-                    x = logCPM,
-                    y = logFC,
-                    sig_col = FDR,
-                    fdr = 0.05,
-                    lfc = 0,
-                    annotate_counts = TRUE,
-                    xmax_label_offset = 0.8,
-                    ymax_label_offset = 0.5,
-                    ymin_label_offset = 0.5) {
-  stopifnot("xmax_label_offset must be between 0 and 1" = xmax_label_offset >= 0 & xmax_label_offset <= 1)
-  stopifnot("ymax_label_offset must be between 0 and 1" = ymax_label_offset >= 0 & ymax_label_offset <= 1)
-  stopifnot("ymin_label_offset must be between 0 and 1" = ymin_label_offset >= 0 & ymin_label_offset <= 1)
+plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", feature_col = "feature_id",
+                    fdr = 0.1, lfc = 0, annotate_counts = TRUE, up_color = "red", down_color = "blue",
+                    nonde_color = "black", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
+                    up_size = 1, down_size = 1, nonde_size = 1, xmax_label_offset = 0.8,
+                    ymax_label_offset = 0.5, ymin_label_offset = 0.5) {
 
-  plot_df <- df %>%
-    dplyr::mutate(
-      DE = dplyr::case_when(
-        {{ sig_col }} < fdr & {{ y }} < -lfc ~ "Down",
-        {{ sig_col }} < fdr & {{ y }} > lfc ~ "Up",
-        TRUE ~ "Non-DE"
-      ),
-      DE = factor(.data$DE, levels = c("Up", "Non-DE", "Down"))
-    )
+  # Add new label for Up, Down and Non-DE genes
+  dt <- as.data.table(df)
+  dt[, direction := fcase(
+    get(sig_col) < fdr & abs(get(y)) > lfc & get(y) > 0, "Up",
+    get(sig_col) < fdr & abs(get(y)) > lfc & get(y) < 0, "Down",
+    default = "Unperturbed"
+  )]
 
-  md_plot <- ggplot2::ggplot(data = plot_df, ggplot2::aes(x = {{ x }}, y = {{ y }})) +
-    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Non-DE"), ggplot2::aes(color = .data$DE)) +
-    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Up"), ggplot2::aes(color = .data$DE)) +
-    ggplot2::geom_point(data = dplyr::filter(plot_df, DE == "Down"), ggplot2::aes(color = .data$DE)) +
-    ggplot2::scale_color_manual(values = c("Up" = "red", "Non-DE" = "black", "Down" = "blue")) +
+  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = y, label = feature_col)) +
+    ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, size = nonde_size, alpha = nonde_alpha) +
+    ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, size = down_size, alpha = down_alpha) +
+    ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, size = up_size, alpha = up_alpha) +
     ggplot2::geom_hline(yintercept = 0, linetype = 1) +
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
@@ -86,17 +86,15 @@ plot_md <- function(df,
     ggplot2::theme_classic() +
     ggplot2::theme(legend.position = "bottom")
 
-
   if (annotate_counts) {
-    d <- coriell::summarize_dge(df, fdr_col = {{ sig_col }}, lfc_col = {{ y }}, fdr = fdr, lfc = lfc)
-    plot_lims <- coriell::get_axis_limits(md_plot)
+    d <- coriell::summarize_dge(df, fdr_col = sig_col, lfc_col = y, fdr = fdr, lfc = lfc)
+    plot_lims <- coriell::get_axis_limits(p)
+    up_count <- d[d$Direction == "Up", "N", drop = TRUE]
+    down_count <- d[d$Direction == "Down", "N", drop = TRUE]
+    up_pct <- round(d[d$Direction == "Up", "Percent", drop = TRUE], digits = 2)
+    down_pct <- round(d[d$Direction == "Down", "Percent", drop = TRUE], digits = 2)
 
-    up_count <- d[d$dge == "up", "n", drop = TRUE]
-    down_count <- d[d$dge == "down", "n", drop = TRUE]
-    up_pct <- round(d[d$dge == "up", "perc", drop = TRUE], digits = 2)
-    down_pct <- round(d[d$dge == "down", "perc", drop = TRUE], digits = 2)
-
-    md_plot <- md_plot +
+    p <- p +
       ggplot2::annotate(
         geom = "label",
         x = xmax_label_offset * plot_lims$x_max,
@@ -110,5 +108,5 @@ plot_md <- function(df,
         label = paste0(down_count, "\n", down_pct, "%")
       )
   }
-  md_plot
+  p
 }

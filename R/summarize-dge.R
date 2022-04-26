@@ -4,13 +4,12 @@
 #' genes based on log-fold-change and significance values.
 #' 
 #' @param df dataframe of results. Must have columns containing significance values and log-fold changes.
-#' @param fdr_col dataframe column (unquoted). Column of dataframe containing the significance level values.
-#' @param lfc_col dataframe column (unquoted). Column of dataframe containing the lof-fold change values.
+#' @param fdr_col Column name of the data.frame containing the significance level values.
+#' @param lfc_col Column name of data.frame containing the log-fold change values.
 #' @param fdr numeric. FDR or significance value below which genes are considered significant.
 #' @param lfc numeric. abs(log-fold change) value above which genes are considered significant.
 #' @export
-#' @importFrom magrittr %>%
-#' @return tibble of summarized results
+#' @return data.frame with columns describing the count and percentages of up/down/unperturbed genes
 #' @examples
 #' library(coriell)
 #' 
@@ -35,15 +34,15 @@
 #' # summarize results
 #' summarize_dge(df)
 #' 
-summarize_dge <- function(df, fdr_col = FDR, lfc_col = logFC, fdr = 0.05, lfc = 0) {
-  df %>%
-    dplyr::mutate(dge = dplyr::case_when(
-      ({{ fdr_col }} < fdr) & (abs({{ lfc_col }}) > lfc) & ({{ lfc_col }} < 0) ~ "down",
-      ({{ fdr_col }} < fdr) & (abs({{ lfc_col }}) > lfc) & ({{ lfc_col }} > 0) ~ "up",
-      TRUE ~ "non-dge"
-    )) %>%
-    dplyr::mutate(dge = factor(dge, levels = c("up", "down", "non-dge"))) %>%
-    dplyr::group_by(dge, .drop = FALSE) %>%
-    dplyr::summarize(n = dplyr::n()) %>%
-    dplyr::mutate(perc = n / sum(n) * 100)
+summarize_dge <- function(df, fdr_col = "FDR", lfc_col = "logFC", fdr = 0.05, lfc = 0) {
+  up <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] > 0)
+  down <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] < 0)
+  unperturbed <- nrow(df) - (up + down)
+  total <- up + down + unperturbed
+    
+  data.frame(
+    Direction = factor(c("Up", "Down", "Unperturbed"), levels = c("Up", "Down", "Unperturbed")),
+    N = c(up, down, unperturbed),
+    Percent = c(up / total * 100, down / total * 100, unperturbed / total * 100)
+    )
 }
