@@ -81,7 +81,7 @@ associate_components <- function(x, metadata, N = 10, ...) {
 #' @return data.frame of values in the original units after removing components
 #' @examples 
 #' # Remove first two components from dataset
-#' trunc <- remove_components(USArrests, components = 1:2)
+#' trunc <- remove_components(USArrests, components = 1:2, scale. = TRUE, center = TRUE)
 #' 
 #' # original data
 #' head(USArrests)

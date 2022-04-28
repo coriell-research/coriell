@@ -24,7 +24,7 @@ stolen from \href{https://stats.stackexchange.com/questions/57467/how-to-perform
 }
 \examples{
 # Remove first two components from dataset
-trunc <- remove_components(USArrests, components = 1:2)
+trunc <- remove_components(USArrests, components = 1:2, scale. = TRUE, center = TRUE)
 
 # original data
 head(USArrests)
