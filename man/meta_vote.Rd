@@ -38,15 +38,15 @@ meta_vote(
 \value{
 data.table of meta-expression results with the following columns:
 \itemize{
-  \item gene_col: Genes included in the final voting procedure. 
-  \item n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated). 
+  \item gene_col: Genes included in the final voting procedure.
+  \item n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated).
   \item prop_de: The proportion of studies in which the gene was differentially expressed (either up or down-regulated).
   \item sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.
   \item vote: The final vote for the gene. based on \code{sign(sign consistency) & abs(sign consistency) >= meta_prop * N studies}.
 }
 }
 \description{
-Perform vote-counting on a list of differential expression results. This method 
+Perform vote-counting on a list of differential expression results. This method
 uses user defined p-value and log fold-change cutoffs to determine the number
 of times a gene is differentially expressed across multiple studies. A gene is
 then considered 'meta-differentially expressed' if it is differentially expressed
@@ -55,8 +55,8 @@ in the user defined proportion of studies.
 \details{
 There are certain caveats to consider when using the vote counting method. 1.
 combining FDR and logFC cutoffs after the fact destroys FDR correction. See
-\href{https://academic.oup.com/bioinformatics/article/25/6/765/251641}{McCarthy & Smyth, 2009} for more details. 
-2. The direction of expression is not considered when the final vote is cast. For example, if 
-geneA is up-regulated in 4 studies but down-regulated in 1 then the final vote for 
+\href{https://academic.oup.com/bioinformatics/article/25/6/765/251641}{McCarthy & Smyth, 2009} for more details.
+2. The direction of expression is not considered when the final vote is cast. For example, if
+geneA is up-regulated in 4 studies but down-regulated in 1 then the final vote for
 geneA will be 'up-regulated'.
 }

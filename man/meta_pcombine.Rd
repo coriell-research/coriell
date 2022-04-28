@@ -52,7 +52,7 @@ data.table with columns containing the combined logFC and p-values.
 }
 \description{
 This function aims to combine p-values and log fold-change values into a single
-combined p-value and logFC value for each gene across all studies. Several methods 
+combined p-value and logFC value for each gene across all studies. Several methods
 for combining p-values are included. The useer can also pass an arbitrary function
 to the \code{lfc_fun} argument used to summarize the logFC values across studies.
 }
@@ -61,7 +61,7 @@ The following p-value combination methods are available:
 \itemize{
  \item fisher: Uses the sum of the logarithms for the p-values. Sensitive to very small p-values therefore a single significant study can lead to a very small combined p-value.
  \item pearson: Similar to Fisher's method but sensitive to large p-values; therefore more false negatives are obtained.
- \item stouffer: (not yet implemented) Recommended when weights for each study can be calculated. 
+ \item stouffer: (not yet implemented) Recommended when weights for each study can be calculated.
  \item tippet: Uses the minimum of the p-values across all studies. Recommended when the aim is to discard genes.
  \item wilkinson: Uses the maximum of the p-values across all studies. Recommended when the aim is to identify the most robust genes.
 }
