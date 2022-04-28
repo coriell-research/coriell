@@ -89,14 +89,16 @@ associate_components <- function(x, metadata, N = 10, ...) {
 #' # reconstructed data
 #' head(trunc)
 remove_components <- function(x, components = 1, ...) {
-  stopifnot("Cannot remove more components than columns in data" = length(components) < ncol(x))
-  res <- prcomp(x, ...)
-  trunc <- res$x[ , components] %*% t(res$rotation[, components])
+  stopifnot("Cannot remove more components than columns in data" = max(components) < ncol(x))
   
-  if (length(res$scale) > 1) {
+  res <- prcomp(x, ...)
+  keep <- setdiff(1:ncol(res$x), components)
+  trunc <- res$x[ , keep] %*% t(res$rotation[, keep])
+  
+  if (res$scale[[1]] != FALSE & length(res$scale) > 1) {
     trunc <- scale(trunc, center = FALSE , scale = 1 / res$scale)
   }
-  if (length(res$center) > 1) {
+  if (res$center[[1]] != FALSE & length(res$center) > 1) {
     trunc <- scale(trunc, center = -1 * res$center, scale = FALSE)
   }
   data.frame(trunc)
