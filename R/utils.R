@@ -6,7 +6,7 @@
 #' @return Normalized value (0-1) of x in the range given by min, max.
 #' @export
 #' @examples
-#' normalize(10, min = 100, max = 1000)
+#' normalize(10, min = 0, max = 100)
 normalize <- function(x, min, max) {
   return((x - min) / (max - min))
 }
