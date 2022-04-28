@@ -34,7 +34,7 @@
 #' # Show results
 #' head(res)
 associate_components <- function(x, metadata, N = 10, ...) {
-  stopifnot("colnames of x and rownames of metadata do no match." = all(colnames(x) == rownames(metadata)))
+  stopifnot("colnames of x and rownames of metadata do not match." = all(colnames(x) == rownames(metadata)))
   stopifnot("No metadata columns present" = ncol(metadata) >= 1)
   stopifnot("NA values detected in metadata" = all(sapply(metadata, anyNA) == FALSE))
   
