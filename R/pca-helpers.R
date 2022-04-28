@@ -67,3 +67,37 @@ associate_components <- function(x, metadata, N = 10, ...) {
   colnames(results) <- colnames(rotation)
   as.data.frame(results)
 }
+
+#' Remove principle components from data
+#' 
+#' Reconstruct data after removing principle components. This function will 
+#' reconstruct a truncated version of the original data matrix after removing
+#' the specified principle components. The source code for this function was 
+#' stolen from \href{https://stats.stackexchange.com/questions/57467/how-to-perform-dimensionality-reduction-with-pca-in-r/57478#57478}{stack exchange}
+#' @param x data.frame or matrix of original data.
+#' @param components numeric vector of components to remove from original data. Default (1)
+#' @param ... Additional arguments passed to \code{prcomp()}
+#' @export
+#' @return data.frame of values in the original units after removing components
+#' @examples 
+#' # Remove first two components from dataset
+#' trunc <- remove_components(USArrests, components = 1:2)
+#' 
+#' # original data
+#' head(USArrests)
+#' 
+#' # reconstructed data
+#' head(trunc)
+remove_components <- function(x, components = 1, ...) {
+  stopifnot("Cannot remove more components than columns in data" = length(components) < ncol(x))
+  res <- prcomp(x, ...)
+  trunc <- res$x[ , components] %*% t(res$rotation[, components])
+  
+  if (length(res$scale) > 1) {
+    trunc <- scale(trunc, center = FALSE , scale = 1 / res$scale)
+  }
+  if (length(res$center) > 1) {
+    trunc <- scale(trunc, center = -1 * res$center, scale = FALSE)
+  }
+  data.frame(trunc)
+}

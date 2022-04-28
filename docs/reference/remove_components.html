@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Perform vote counting on differential expression results — meta_vote • coriell</title>
+<title>Remove components from data — remove_components • coriell</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,11 @@
 
 
 
-<meta property="og:title" content="Perform vote counting on differential expression results — meta_vote" />
-<meta property="og:description" content="Perform vote-counting on a list of differential expression results. This method
-uses user defined p-value and log fold-change cutoffs to determine the number
-of times a gene is differentially expressed across multiple studies. A gene is
-then considered 'meta-differentially expressed' if it is differentially expressed
-in the user defined proportion of studies." />
+<meta property="og:title" content="Remove components from data — remove_components" />
+<meta property="og:description" content="Reconstruct data after removing principle components. This function will 
+reconstruct a truncated version of the original data matrix after removing
+the specified principle components. The source code for this function was 
+stolen from stack exchange" />
 
 
 
@@ -122,91 +121,65 @@ in the user defined proportion of studies." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Perform vote counting on differential expression results</h1>
+    <h1>Remove components from data</h1>
     
-    <div class="hidden name"><code>meta_vote.Rd</code></div>
+    <div class="hidden name"><code>remove_components.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Perform vote-counting on a list of differential expression results. This method
-uses user defined p-value and log fold-change cutoffs to determine the number
-of times a gene is differentially expressed across multiple studies. A gene is
-then considered 'meta-differentially expressed' if it is differentially expressed
-in the user defined proportion of studies.</p>
+    <p>Reconstruct data after removing principle components. This function will 
+reconstruct a truncated version of the original data matrix after removing
+the specified principle components. The source code for this function was 
+stolen from <a href='https://stats.stackexchange.com/questions/57467/how-to-perform-dimensionality-reduction-with-pca-in-r/57478#57478'>stack exchange</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>meta_vote</span><span class='op'>(</span>
-  <span class='va'>exp_list</span>,
-  lfc_col <span class='op'>=</span> <span class='st'>"logFC"</span>,
-  pval_col <span class='op'>=</span> <span class='st'>"FDR"</span>,
-  gene_col <span class='op'>=</span> <span class='st'>"feature_id"</span>,
-  lfc <span class='op'>=</span> <span class='fl'>0</span>,
-  pval <span class='op'>=</span> <span class='fl'>0.05</span>,
-  meta_prop <span class='op'>=</span> <span class='fl'>0.5</span>,
-  all_common <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  plot <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>remove_components</span><span class='op'>(</span><span class='va'>x</span>, components <span class='op'>=</span> <span class='fl'>1</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>exp_list</th>
-      <td><p>list() of data.frames of differential expression results.</p></td>
+      <th>x</th>
+      <td><p>data.frame or matrix of original data.</p></td>
     </tr>
     <tr>
-      <th>lfc_col</th>
-      <td><p>Column name in expression data.frames that contains the log fold-change estimates. default = "logFC".</p></td>
+      <th>components</th>
+      <td><p>numeric vector of components to remove from original data. Default (1)</p></td>
     </tr>
     <tr>
-      <th>pval_col</th>
-      <td><p>Column name in expression data.frames that contains the significance values. default = "FDR".</p></td>
-    </tr>
-    <tr>
-      <th>gene_col</th>
-      <td><p>Column name in the expression data.frames that contains the gene IDs. default = "feature_id".</p></td>
-    </tr>
-    <tr>
-      <th>lfc</th>
-      <td><p>Numeric. Log fold-change value used as cutoff for determining differential expression in each study. default = 0.</p></td>
-    </tr>
-    <tr>
-      <th>pval</th>
-      <td><p>Numeric. Significance value used as cutoff for determining differential expression in each study</p></td>
-    </tr>
-    <tr>
-      <th>meta_prop</th>
-      <td><p>Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.</p></td>
-    </tr>
-    <tr>
-      <th>all_common</th>
-      <td><p>Logical. Use only genes present in all experiments. default = FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>plot</th>
-      <td><p>Logical. Display a metavolcano ggplot2 plot of the results. default = FALSE.</p></td>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code><a href='https://rdrr.io/r/stats/prcomp.html'>prcomp()</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.table of meta-expression results with the following columns:</p><ul>
-<li><p>gene_col: Genes included in the final voting procedure.</p></li>
-<li><p>n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated).</p></li>
-<li><p>prop_de: The proportion of studies in which the gene was differentially expressed (either up or down-regulated).</p></li>
-<li><p>sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.</p></li>
-<li><p>vote: The final vote for the gene. based on <code>sign(sign consistency) &amp; abs(sign consistency) &gt;= meta_prop * N studies</code>.</p></li>
-</ul>
+    <p>data.frame of values in the original units after removing components</p>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>There are certain caveats to consider when using the vote counting method. 1.
-combining FDR and logFC cutoffs after the fact destroys FDR correction. See
-<a href='https://academic.oup.com/bioinformatics/article/25/6/765/251641'>McCarthy &amp; Smyth, 2009</a> for more details.
-2. The direction of expression is not considered when the final vote is cast. For example, if
-geneA is up-regulated in 4 studies but down-regulated in 1 then the final vote for
-geneA will be 'up-regulated'.</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='r-in'><span class='co'># Remove first two components from dataset</span></span>
+<span class='r-in'><span class='va'>trunc</span> <span class='op'>&lt;-</span> <span class='fu'>remove_components</span><span class='op'>(</span><span class='va'>USArrests</span>, components <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># original data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>USArrests</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Murder Assault UrbanPop Rape</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Alabama      13.2     236       58 21.2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Alaska       10.0     263       48 44.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Arizona       8.1     294       80 31.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Arkansas      8.8     190       50 19.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> California    9.0     276       91 40.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Colorado      7.9     204       78 38.7</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># reconstructed data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>trunc</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               Murder  Assault UrbanPop     Rape</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Alabama    11.003649 235.9252 57.35958 23.80442</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Alaska     12.465331 264.2005 52.27446 24.59899</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Arizona    12.566387 293.7165 79.91484 32.32883</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Arkansas    9.301556 189.9939 50.07246 19.25758</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> California 11.258614 276.3463 92.51642 33.82561</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Colorado    8.631715 204.7627 80.56272 26.61441</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
