@@ -2,7 +2,7 @@
 % Please edit documentation in R/pca-helpers.R
 \name{remove_components}
 \alias{remove_components}
-\title{Remove principle components from data}
+\title{Remove principal components from data}
 \usage{
 remove_components(x, components = 1, ...)
 }
@@ -17,9 +17,9 @@ remove_components(x, components = 1, ...)
 data.frame of values in the original units after removing components
 }
 \description{
-Reconstruct data after removing principle components. This function will 
+Reconstruct data after removing principal components. This function will 
 reconstruct a truncated version of the original data matrix after removing
-the specified principle components. The source code for this function was 
+the specified principal components. The source code for this function was 
 stolen from \href{https://stats.stackexchange.com/questions/57467/how-to-perform-dimensionality-reduction-with-pca-in-r/57478#57478}{stack exchange}
 }
 \examples{

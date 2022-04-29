@@ -1,4 +1,4 @@
-#' Calculate associations between variables and principle components
+#' Calculate associations between variables and principal components
 #' 
 #' Calculate associations between metadata variables and PCA rotations. This 
 #' function is inspired by \code{methylKit::assocComp} but is designed to work
@@ -68,11 +68,11 @@ associate_components <- function(x, metadata, N = 10, ...) {
   as.data.frame(results)
 }
 
-#' Remove principle components from data
+#' Remove principal components from data
 #' 
-#' Reconstruct data after removing principle components. This function will 
+#' Reconstruct data after removing principal components. This function will 
 #' reconstruct a truncated version of the original data matrix after removing
-#' the specified principle components. The source code for this function was 
+#' the specified principal components. The source code for this function was 
 #' stolen from \href{https://stats.stackexchange.com/questions/57467/how-to-perform-dimensionality-reduction-with-pca-in-r/57478#57478}{stack exchange}
 #' @param x data.frame or matrix of original data.
 #' @param components numeric vector of components to remove from original data. Default (1)

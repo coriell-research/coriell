@@ -2,7 +2,7 @@
 % Please edit documentation in R/pca-helpers.R
 \name{associate_components}
 \alias{associate_components}
-\title{Calculate associations between variables and principle components}
+\title{Calculate associations between variables and principal components}
 \usage{
 associate_components(x, metadata, N = 10, ...)
 }
