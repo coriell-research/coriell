@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -74,43 +70,43 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="coriell" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#coriell" class="anchor"></a>coriell</h1></div>
-<p>Helper functions for common bioinformatics tasks. If you find yourself reusing old code over and over, let me know and we’ll create a function and put it in this package. Check out the <a href="https://coriell-research.github.io/coriell/">package website</a> for examples and documentation.</p>
+<div class="section level1">
+<div class="page-header"><h1 id="coriell">coriell<a class="anchor" aria-label="anchor" href="#coriell"></a>
+</h1></div>
+<p>Helper functions for common bioinformatics tasks. If you find yourself reusing old code over and over, let me know and we’ll create a function and put it in this package.</p>
 <p>I will be adding tests, however, <strong>please test functions and let me know when things are broken</strong> by either raising an issue on Github or contacting me.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Since this package will be constantly changing be sure to install the latest version from Github using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Make sure you have devtools installed</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 
 <span class="co"># Then install using devtools::install_github</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"coriell-research/coriell"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"coriell-research/coriell"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<p>For an overview of how to use some of these functions in a typical analysis check out the <a href="https://coriell-research.github.io/coriell/articles/RNA-seq-workflow.html">RNA-seq vignette</a> (more vignettes to come)</p>
+<div class="section level2">
+<h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h2>
+<p>For an overview of how to use some of these functions in a typical analysis check out the <a href="https://coriell-research.github.io/coriell/articles/RNA-seq-workflow.html" class="external-link">RNA-seq vignette</a> (more vignettes to come)</p>
 <ul>
-<li><a href="https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores">Correlate methylation data with age</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#extract-random-correlations-from-a-dataframe">Create a null distribution of correlations</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#convert-edger-results-into-a-tidy-dataframe">Convert edgeR results into tidy dataframes</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#summarize-results-from-differential-expression-test">Summarize results from differential expression analysis</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#create-volcano-plot-from-differential-expression-results">Create volcano plot from differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#create-md-plot-from-differential-expression-results">Create md plot from differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#heatmap-with-sensible-defaults">Heatmap with sensible defaults</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#z-score-a-dataframe">Z-score a dataframe</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#convert-a-list-of-sets-into-a-binary-matrix">Convert a list of sets into a binary matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets">Get statistics for all pairwise combinations of a list of sets</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther">Perform Gene Ontology Analysis with PANTHER</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#subsample-a-count-matrix">Subsample a count matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores" class="external-link">Correlate methylation data with age</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#extract-random-correlations-from-a-dataframe" class="external-link">Create a null distribution of correlations</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#convert-edger-results-into-a-tidy-dataframe" class="external-link">Convert edgeR results into tidy dataframes</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#summarize-results-from-differential-expression-test" class="external-link">Summarize results from differential expression analysis</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#create-volcano-plot-from-differential-expression-results" class="external-link">Create volcano plot from differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#create-md-plot-from-differential-expression-results" class="external-link">Create md plot from differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#heatmap-with-sensible-defaults" class="external-link">Heatmap with sensible defaults</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#z-score-a-dataframe" class="external-link">Z-score a dataframe</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#convert-a-list-of-sets-into-a-binary-matrix" class="external-link">Convert a list of sets into a binary matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets" class="external-link">Get statistics for all pairwise combinations of a list of sets</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther" class="external-link">Perform Gene Ontology Analysis with PANTHER</a></li>
+<li><a href="https://coriell-research.github.io/coriell/#subsample-a-count-matrix" class="external-link">Subsample a count matrix</a></li>
 </ul>
-<div id="perform-correlation-permutation-test-using-multiple-cores" class="section level3">
-<h3 class="hasAnchor">
-<a href="#perform-correlation-permutation-test-using-multiple-cores" class="anchor"></a>Perform correlation permutation test using multiple cores</h3>
+<div class="section level3">
+<h3 id="perform-correlation-permutation-test-using-multiple-cores">Perform correlation permutation test using multiple cores<a class="anchor" aria-label="anchor" href="#perform-correlation-permutation-test-using-multiple-cores"></a>
+</h3>
 <p>Note: if the number of possible permutations of your data is less than the desired number of permutations given by the parameter <code>n_perm</code> then an exact test on all of the real permutations will be performed instead of random sampling. For example, if you only have 6 samples (720 possible permutations) but set <code>n_perm = 1000</code> only 720 permutations (i.e. the exact test) will be tested. The <code>permutation_correlation_test</code> function will display a message if this occurs. The function accepts a numeric matrix as input or a data.frame that can be converted to a numeric matrix. In the case a data.frame is passed to argument <code>X</code>, the function call will display a message confirming the conversion. In most cases this conversion is inconsequential.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coriell)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methylKit)</span>
@@ -158,9 +154,9 @@
 <span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">5</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>   <span class="fl">0.00000</span>  <span class="fl">0.00000</span>  <span class="fl">0.000000</span>  <span class="fl">0.000000</span>  <span class="fl">10.526316</span>  <span class="fl">0.4252433</span>      <span class="fl">0.3769</span> <span class="fl">0.4812073</span></span>
 <span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">6</span>  <span class="fl">26.98413</span>  <span class="fl">12.63158</span>  <span class="fl">23.07692</span>  <span class="fl">10.00000</span> <span class="fl">22.22222</span>  <span class="fl">0.000000</span>  <span class="fl">3.174603</span>   <span class="fl">4.166667</span> <span class="sc">-</span><span class="fl">0.2946172</span>      <span class="fl">0.2334</span> <span class="fl">0.4812073</span></span></code></pre></div>
 </div>
-<div id="extract-random-correlations-from-a-dataframe" class="section level3">
-<h3 class="hasAnchor">
-<a href="#extract-random-correlations-from-a-dataframe" class="anchor"></a>Extract random correlations from a data.frame</h3>
+<div class="section level3">
+<h3 id="extract-random-correlations-from-a-dataframe">Extract random correlations from a data.frame<a class="anchor" aria-label="anchor" href="#extract-random-correlations-from-a-dataframe"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># using the same perc_meth data.frame and ages as defined above</span>
 <span class="co"># get 1,000,000 random correlations from the dataset</span>
@@ -172,11 +168,11 @@
   <span class="op">)</span>
 
 <span class="co"># simple histogram of correlation values -- drop NAs if present</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">cors</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">cors</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">cors</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">cors</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="convert-edger-results-into-a-tidy-dataframe" class="section level3">
-<h3 class="hasAnchor">
-<a href="#convert-edger-results-into-a-tidy-dataframe" class="anchor"></a>Convert edgeR results into a tidy dataframe</h3>
+<div class="section level3">
+<h3 id="convert-edger-results-into-a-tidy-dataframe">Convert edgeR results into a tidy dataframe<a class="anchor" aria-label="anchor" href="#convert-edger-results-into-a-tidy-dataframe"></a>
+</h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(coriell)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -208,9 +204,9 @@
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">5</span> gene<span class="fl">.74</span>    <span class="sc">-</span><span class="fl">6.05</span>          <span class="sc">-</span><span class="fl">6.07</span>   <span class="fl">7.04</span> <span class="fl">4.06e-8</span>    <span class="fl">0.000132</span>  </span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">6</span> gene<span class="fl">.53</span>    <span class="sc">-</span><span class="fl">4.67</span>          <span class="sc">-</span><span class="fl">4.68</span>   <span class="fl">3.91</span> <span class="fl">4.14e-8</span>    <span class="fl">0.000132</span> </span></code></pre></div>
 </div>
-<div id="summarize-results-from-differential-expression-test" class="section level3">
-<h3 class="hasAnchor">
-<a href="#summarize-results-from-differential-expression-test" class="anchor"></a>Summarize results from differential expression test</h3>
+<div class="section level3">
+<h3 id="summarize-results-from-differential-expression-test">Summarize results from differential expression test<a class="anchor" aria-label="anchor" href="#summarize-results-from-differential-expression-test"></a>
+</h3>
 <p>Return a table of up/down/non-de counts and their percentages.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for edgeR results default values can be used</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>res_df <span class="ot">&lt;-</span> <span class="fu">edger_to_df</span>(qlf)</span>
@@ -229,9 +225,9 @@
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr =</span> <span class="fl">0.05</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 </div>
-<div id="create-volcano-plot-from-differential-expression-results" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-volcano-plot-from-differential-expression-results" class="anchor"></a>Create volcano plot from differential expression results</h3>
+<div class="section level3">
+<h3 id="create-volcano-plot-from-differential-expression-results">Create volcano plot from differential expression results<a class="anchor" aria-label="anchor" href="#create-volcano-plot-from-differential-expression-results"></a>
+</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For edgeR results default values can be used</span>
 <span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
@@ -241,18 +237,18 @@
 <p><img src="reference/figures/volcano1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/volcano2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/volcano3.png"></p>
 <p>Positions of the count labels can be adjusted by setting the <code>xmax_label_offset</code>, <code>xmin_label_offset</code> and <code>ymax_label_offset</code> values. Setting the values closer to 1 moves the labels away from the origin. <code>xmax_label_offset</code> controls the ‘up’ gene label whereas <code>xmin_label_offset</code> controls the ‘down’ genes label. <code>ymax_label_offset</code> controls the vertical position of the labels.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,
              fdr <span class="op">=</span> <span class="fl">0.01</span>,
-             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
+             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
              xmax_label_offset <span class="op">=</span> <span class="fl">0.2</span>, 
              xmin_label_offset <span class="op">=</span> <span class="fl">0.7</span>, 
              ymax_label_offset <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>  <span class="op">+</span>
@@ -262,15 +258,15 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,
              fdr <span class="op">=</span> <span class="fl">1e-4</span>,
-             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
+             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
              annotate_counts <span class="op">=</span> <span class="cn">FALSE</span>,
              label_sig <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/volcano5.png"></p>
 </div>
-<div id="create-md-plot-from-differential-expression-results" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-md-plot-from-differential-expression-results" class="anchor"></a>Create md plot from differential expression results</h3>
+<div class="section level3">
+<h3 id="create-md-plot-from-differential-expression-results">Create md plot from differential expression results<a class="anchor" aria-label="anchor" href="#create-md-plot-from-differential-expression-results"></a>
+</h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For edgeR results default values can be used</span>
 <span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
@@ -284,13 +280,13 @@
 <p><img src="reference/figures/md1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/md2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, 
         fdr <span class="op">=</span> <span class="fl">0.01</span>, 
-        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
+        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
         annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/md3.png"></p>
@@ -298,21 +294,21 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, 
         fdr <span class="op">=</span> <span class="fl">0.01</span>,
-        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
+        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
         xmax_label_offset <span class="op">=</span> <span class="fl">0.6</span>, 
         ymin_label_offset <span class="op">=</span> <span class="fl">0.25</span>, 
         ymax_label_offset <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/md4.png"></p>
 </div>
-<div id="heatmap-with-sensible-defaults" class="section level3">
-<h3 class="hasAnchor">
-<a href="#heatmap-with-sensible-defaults" class="anchor"></a>Heatmap with sensible defaults</h3>
+<div class="section level3">
+<h3 id="heatmap-with-sensible-defaults">Heatmap with sensible defaults<a class="anchor" aria-label="anchor" href="#heatmap-with-sensible-defaults"></a>
+</h3>
 <p>We often use the same settings when making calls to <code>pheatmap</code>. This function is a wrapper around <code>pheatmap</code> which uses sensible default values for expression data. It changes the default color scale to a diverging blue to white to red scale, modifies the clustering parameters (row-wise euclidean, col-wise correlation) and clustering method (complete), angles the column labels, removes border colors and rownames.</p>
 <p>Any of these options can be overridden by simply supplying the arguments to <code>quickmap</code> as you would <code>pheatmap</code>. This also allows for additional arguments to be passed to the <code>quickmap</code> function for creating row and column annotations.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># generate some example data and log-scale it</span>
-<span class="va">lcpms</span> <span class="op">&lt;-</span> <span class="fu">coriell</span><span class="fu">::</span><span class="fu"><a href="reference/simulate_counts.html">simulate_counts</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">$</span><span class="va">table</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log1p</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">lcpms</span> <span class="op">&lt;-</span> <span class="fu">coriell</span><span class="fu">::</span><span class="fu"><a href="reference/simulate_counts.html">simulate_counts</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">$</span><span class="va">table</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># plot a heatmap of the logCPM values</span>
 <span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span></code></pre></div>
@@ -320,11 +316,11 @@
 <p>Other <code>pheatmap</code> arguments can be passed to the <code>quickmap</code> function as well.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create annotation for columns</span>
-<span class="va">col_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ctl"</span>, <span class="st">"trt"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span>
+<span class="va">col_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span>, <span class="st">"trt"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span>
 
 <span class="co"># create color scheme for treatment conditions</span>
-<span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ctl"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"trt"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"trt"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># plot the heatmap, passing additional args to pheatmap</span>
 <span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span>,
@@ -338,9 +334,9 @@
 <span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span>, diverging_palette <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/quickmap3.png"></p>
 </div>
-<div id="z-score-a-dataframe" class="section level3">
-<h3 class="hasAnchor">
-<a href="#z-score-a-dataframe" class="anchor"></a>Z-score a dataframe</h3>
+<div class="section level3">
+<h3 id="z-score-a-dataframe">Z-score a dataframe<a class="anchor" aria-label="anchor" href="#z-score-a-dataframe"></a>
+</h3>
 <p>Z-score a dataframe by row or column</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create some example data</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cpms <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>),</span>
@@ -374,9 +370,9 @@
 <span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co"># setting the by = "column"</span></span>
 <span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>cpms_st_by_col <span class="ot">&lt;-</span> <span class="fu">zscore_df</span>(cpms, <span class="at">by =</span> <span class="st">"column"</span>)</span></code></pre></div>
 </div>
-<div id="convert-a-list-of-sets-into-a-binary-matrix" class="section level3">
-<h3 class="hasAnchor">
-<a href="#convert-a-list-of-sets-into-a-binary-matrix" class="anchor"></a>Convert a list of sets into a binary matrix</h3>
+<div class="section level3">
+<h3 id="convert-a-list-of-sets-into-a-binary-matrix">Convert a list of sets into a binary matrix<a class="anchor" aria-label="anchor" href="#convert-a-list-of-sets-into-a-binary-matrix"></a>
+</h3>
 <p>This function is useful for comparing if a given gene is present across all or a certain proportion of conditions.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"set1"</span> <span class="ot">=</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>             <span class="st">"set2"</span> <span class="ot">=</span> letters[<span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>],</span>
@@ -397,9 +393,9 @@
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> g    <span class="dv">0</span>    <span class="dv">1</span>    <span class="dv">0</span>    <span class="dv">0</span></span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> h    <span class="dv">0</span>    <span class="dv">1</span>    <span class="dv">0</span>    <span class="dv">0</span></span></code></pre></div>
 </div>
-<div id="get-statistics-for-all-pairwise-combinations-of-a-list-of-sets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets" class="anchor"></a>Get statistics for all pairwise combinations of a list of sets</h3>
+<div class="section level3">
+<h3 id="get-statistics-for-all-pairwise-combinations-of-a-list-of-sets">Get statistics for all pairwise combinations of a list of sets<a class="anchor" aria-label="anchor" href="#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets"></a>
+</h3>
 <p>Compare every set to every other set and return statistics about their intersections.</p>
 <p>Statistics are returned in a list object. The returned list contains a named vector of the statistic computed. The names of the vectore indicate the pairwise comparison, i.e. “Set A : Set B” for all combinations of sets. Use <code>?pairwise_intersection_stats()</code> for more information about the statistics computed.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"set1"</span> <span class="ot">=</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],</span>
@@ -417,9 +413,9 @@
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> set1 <span class="sc">:</span> set2 set1 <span class="sc">:</span> set3 set1 <span class="sc">:</span> set4 set2 <span class="sc">:</span> set3 set2 <span class="sc">:</span> set4 set3 <span class="sc">:</span> set4 </span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span>           <span class="dv">2</span>           <span class="dv">4</span>           <span class="dv">1</span>           <span class="dv">3</span>           <span class="dv">3</span>           <span class="dv">2</span></span></code></pre></div>
 </div>
-<div id="perform-gene-ontology-analysis-with-panther" class="section level3">
-<h3 class="hasAnchor">
-<a href="#perform-gene-ontology-analysis-with-panther" class="anchor"></a>Perform Gene Ontology Analysis with PANTHER</h3>
+<div class="section level3">
+<h3 id="perform-gene-ontology-analysis-with-panther">Perform Gene Ontology Analysis with PANTHER<a class="anchor" aria-label="anchor" href="#perform-gene-ontology-analysis-with-panther"></a>
+</h3>
 <p>This function sends a request to the PANTHER REST API for GO over-representation analysis on the user specified vector of genes. The API should accept Ensembl gene identifiers, Ensembl protein identifiers, Ensembl transcript identifiers, Entrez gene ids, gene symbols, NCBI GIs, HGNC Ids, International protein index ids, NCBI UniGene ids, UniProt accessions and UniProt ids. The function will return a tibble of the GO results for the user specified organism, annotation dataset, test type and test correction method.</p>
 <p>NOTE: the <code>organism</code> parameter is given by the Entrez Taxon ID. Typical values for this parameter are “9606” for HUMAN, “10090” for MOUSE, “10116” for RAT. Any other Taxon ID could also be used. see <code><a href="reference/panther_go.html">?coriell::panther_go</a></code> for more information.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CTNNB1"</span>, <span class="st">"ADAM17"</span>, <span class="st">"AXIN1"</span>, <span class="st">"AXIN2"</span>, <span class="st">"CCND2"</span>, <span class="st">"CSNK1E"</span>, <span class="st">"CTNNB1"</span>, </span>
@@ -511,9 +507,9 @@
 <span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">9</span>                         <span class="dv">29</span>           <span class="fl">6.06</span>  <span class="fl">4.50e-16</span>    <span class="fl">4.78</span>                 <span class="dv">2878</span> <span class="fl">2.56e-19</span> <span class="sc">+</span>          GO<span class="sc">:</span><span class="dv">0009966</span> regulation of signal transduction                               </span>
 <span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">10</span>                        <span class="dv">21</span>           <span class="fl">12.3</span>  <span class="fl">1.04e-15</span>    <span class="fl">1.71</span>                 <span class="dv">1026</span> <span class="fl">6.57e-19</span> <span class="sc">+</span>          GO<span class="sc">:</span><span class="dv">0009887</span> animal organ morphogenesis </span></code></pre></div>
 </div>
-<div id="subsample-a-count-matrix" class="section level3">
-<h3 class="hasAnchor">
-<a href="#subsample-a-count-matrix" class="anchor"></a>Subsample a count matrix</h3>
+<div class="section level3">
+<h3 id="subsample-a-count-matrix">Subsample a count matrix<a class="anchor" aria-label="anchor" href="#subsample-a-count-matrix"></a>
+</h3>
 <p>Sub-sample a count matrix so that all columns have a library size equivalent to the smallest library in the input matrix.</p>
 <pre class="{r}"><code>library(coriell)
 
@@ -543,29 +539,42 @@ colSums(ss)
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing coriell</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Gennaro Calendo <br><small class="roles"> Maintainer </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Gennaro Calendo.</p>
+  <p></p>
+<p>Developed by Gennaro Calendo.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
@@ -573,6 +582,8 @@ colSums(ss)
 
   
 
+
+  
 
   </body>
 </html>

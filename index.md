@@ -2,8 +2,7 @@
 
 Helper functions for common bioinformatics tasks. If you find yourself reusing 
 old code over and over, let me know and we'll create a function and put it in 
-this package. Check out the [package website](https://coriell-research.github.io/coriell/) 
-for examples and documentation. 
+this package. 
 
 I will be adding tests, however, **please test functions and let me know when 
 things are broken** by either raising an issue on Github or contacting me.

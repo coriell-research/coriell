@@ -1,3 +1,8 @@
+## coriell 0.6.0
+
+- Added new function `read_bismark` that reads in a list of Bismark coverage files
+and optionally filters by coverage and variance.
+
 ## coriell 0.5.0
 
 - Updated `plot_md`, `plot_volcano`, and `summarize_dge` to remove `dplyr` dependency. 
