@@ -4,6 +4,7 @@
 `pairwise_fisher_test()`
 - Added arguments to `quickmap()` to enable fixing the colors at the extreme ends
 of the data.
+- Added lab_size arguments to `plot_volcano()` and `plot_md()`
 - Removed some old functions.
 
 ## coriell 0.6.0
