@@ -24,7 +24,8 @@ plot_md(
   nonde_size = 1,
   xmax_label_offset = 0.8,
   ymax_label_offset = 0.5,
-  ymin_label_offset = 0.5
+  ymin_label_offset = 0.5,
+  lab_size = 10
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ plot_md(
 \item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label}
 
 \item{ymin_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label}
+
+\item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 10.}
 }
 \value{
 ggplot MD plot
