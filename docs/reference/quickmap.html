@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
@@ -57,7 +57,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">quickmap</span><span class="op">(</span><span class="va">mat</span>, diverging_palette <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">quickmap</span><span class="op">(</span>
+  <span class="va">mat</span>,
+  diverging_palette <span class="op">=</span> <span class="cn">TRUE</span>,
+  n_breaks <span class="op">=</span> <span class="fl">50</span>,
+  fix_extreme <span class="op">=</span> <span class="cn">FALSE</span>,
+  thresh <span class="op">=</span> <span class="fl">0.5</span>,
+  <span class="va">...</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,9 +73,17 @@
 <dd><p>numeric matrix to be passed onto pheatmap function</p></dd>
 <dt>diverging_palette</dt>
 <dd><p>logical. Default(TRUE). Sets the color scale to a diverging palette (blue -&gt; white -&gt; red). If FALSE, set the
-color to a continuous color palette <code><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis::magma</a></code>, useful for un-scaled expression data.</p></dd>
+color to a continuous color palette <code>viridis::magma</code>, useful for un-scaled expression data.</p></dd>
+<dt>n_breaks</dt>
+<dd><p>numeric. The number of breaks to use in the color palette. Default 50.</p></dd>
+<dt>fix_extreme</dt>
+<dd><p>logical. Should the extreme values at the ends of a diverging palette be fixed colors? Default FALSE.</p></dd>
 <dt>...</dt>
 <dd><p>args to be passed to <code>pheatmap</code> function</p></dd>
+<dt>thresh.</dt>
+<dd><p>If fix_extreme is TRUE then what proportion of the extreme values should be filled. For example if the range
+of the final scaled values is from -20 to 20 and thresh is set to 0.5 then -20 to -10 will be colored blue and 10 to 20
+will be colored red. Default 0.5. See examples below.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -81,8 +96,8 @@ color to a continuous color palette <code><a href="https://sjmgarnier.github.io/
 <li><p><code>border_col = NA</code></p></li>
 <li><p><code>cluster_rows = TRUE</code></p></li>
 <li><p><code>cluster_cols = TRUE</code></p></li>
-<li><p><code>color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(50)</code> for diverging_palette = TRUE</p></li>
-<li><p><code>color = rev(viridisLite::magma(n = 50))</code> for diverging_palette = FALSE</p></li>
+<li><p><code>color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(n_breaks)</code> for diverging_palette = TRUE</p></li>
+<li><p><code>color = rev(viridisLite::magma(n = n_breaks))</code> for diverging_palette = FALSE</p></li>
 <li><p><code>treeheight_row = 0</code></p></li>
 <li><p><code>clustering_distance_rows = "correlation"</code></p></li>
 <li><p><code>clustering_distance_cols = "euclidean"</code></p></li>
@@ -99,6 +114,10 @@ color to a continuous color palette <code><a href="https://sjmgarnier.github.io/
 <span class="r-in"><span class="co"># display heatmap of scaled count data and add title to the plot</span></span>
 <span class="r-in"><span class="fu">quickmap</span><span class="op">(</span><span class="va">X</span>, main <span class="op">=</span> <span class="st">"Control vs Treatment"</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="quickmap-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># See effect of fix_extreme -- set thresh high to illustrate effect</span></span>
+<span class="r-in"><span class="fu">quickmap</span><span class="op">(</span><span class="va">X</span>, main <span class="op">=</span> <span class="st">"Control vs Treatment"</span>, fix_extreme <span class="op">=</span> <span class="cn">TRUE</span>, thresh <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="quickmap-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>

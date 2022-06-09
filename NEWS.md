@@ -1,3 +1,11 @@
+## coriell 0.7.0
+
+- Added function for performing pairwise fisher tests relative to a reference. 
+`pairwise_fisher_test()`
+- Added arguments to `quickmap()` to enable fixing the colors at the extreme ends
+of the data.
+- Removed some old functions.
+
 ## coriell 0.6.0
 
 - Added new function `read_bismark` that reads in a list of Bismark coverage files
