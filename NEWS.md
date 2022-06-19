@@ -5,25 +5,27 @@
 - Added arguments to `quickmap()` to enable fixing the colors at the extreme ends
 of the data.
 - Added lab_size arguments to `plot_volcano()` and `plot_md()`
+- Added `rarefy()` function. Replaces `subsample_counts()`
 - Removed some old functions.
 
 ## coriell 0.6.0
 
-- Added new function `read_bismark` that reads in a list of Bismark coverage files
+- Added new function `read_bismark()` that reads in a list of Bismark coverage files
 and optionally filters by coverage and variance.
 
 ## coriell 0.5.0
 
-- Updated `plot_md`, `plot_volcano`, and `summarize_dge` to remove `dplyr` dependency. 
+- Updated `plot_md()`, `plot_volcano()`, and `summarize_dge()` to remove `dplyr()` 
+dependency. 
 **The changes to these functions are breaking**. Arguments for column names must now be quoted.
-- `plot_volcano` and `plot_md` now support additional arguments for modifying the point
+- `plot_volcano()` and `plot_md()` now support additional arguments for modifying the point
 size, shape, and color. See function documentation.
 
 ## coriell 0.4.0
 
-- Added a function for calling outlier values in columns of a numeric matric by 
+- Added a function for calling outlier values in columns of a numeric matrix by 
 the IQR method
-- Removed `process_quant_file` function. Switched to using `tximport` in all 
+- Removed `process_quant_file()` function. Switched to using `tximport()` in all 
 pipelines.
 
 ## coriell 0.3.0
@@ -57,4 +59,3 @@ removing outside packages and switching to base R or moving to `data.table()`.
 vector in a vectorized fashion over the entire matrix. 
 - Removed filtering capability from `edger_to_df()` to allow for any `EdgeR` 
 results objects to be used as input.
-

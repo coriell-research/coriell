@@ -58,22 +58,24 @@
 <li>Added arguments to <code><a href="../reference/quickmap.html">quickmap()</a></code> to enable fixing the colors at the extreme ends of the data.</li>
 <li>Added lab_size arguments to <code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> and <code><a href="../reference/plot_md.html">plot_md()</a></code>
 </li>
+<li>Added <code><a href="../reference/rarefy.html">rarefy()</a></code> function. Replaces <code>subsample_counts()</code>
+</li>
 <li>Removed some old functions.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.0" id="coriell-060">coriell 0.6.0<a class="anchor" aria-label="anchor" href="#coriell-060"></a></h2>
-<ul><li>Added new function <code>read_bismark</code> that reads in a list of Bismark coverage files and optionally filters by coverage and variance.</li>
+<ul><li>Added new function <code><a href="../reference/read_bismark.html">read_bismark()</a></code> that reads in a list of Bismark coverage files and optionally filters by coverage and variance.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5.0" id="coriell-050">coriell 0.5.0<a class="anchor" aria-label="anchor" href="#coriell-050"></a></h2>
-<ul><li>Updated <code>plot_md</code>, <code>plot_volcano</code>, and <code>summarize_dge</code> to remove <code>dplyr</code> dependency. <strong>The changes to these functions are breaking</strong>. Arguments for column names must now be quoted.</li>
+<ul><li>Updated <code><a href="../reference/plot_md.html">plot_md()</a></code>, <code><a href="../reference/plot_volcano.html">plot_volcano()</a></code>, and <code><a href="../reference/summarize_dge.html">summarize_dge()</a></code> to remove <code>dplyr()</code> dependency. <strong>The changes to these functions are breaking</strong>. Arguments for column names must now be quoted.</li>
 <li>
-<code>plot_volcano</code> and <code>plot_md</code> now support additional arguments for modifying the point size, shape, and color. See function documentation.</li>
+<code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> and <code><a href="../reference/plot_md.html">plot_md()</a></code> now support additional arguments for modifying the point size, shape, and color. See function documentation.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.0" id="coriell-040">coriell 0.4.0<a class="anchor" aria-label="anchor" href="#coriell-040"></a></h2>
-<ul><li>Added a function for calling outlier values in columns of a numeric matric by the IQR method</li>
-<li>Removed <code>process_quant_file</code> function. Switched to using <code>tximport</code> in all pipelines.</li>
+<ul><li>Added a function for calling outlier values in columns of a numeric matrix by the IQR method</li>
+<li>Removed <code>process_quant_file()</code> function. Switched to using <code>tximport()</code> in all pipelines.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.0" id="coriell-030">coriell 0.3.0<a class="anchor" aria-label="anchor" href="#coriell-030"></a></h2>
