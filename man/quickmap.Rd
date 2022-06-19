@@ -4,7 +4,14 @@
 \alias{quickmap}
 \title{Heatmap with sensible defaults for RNA-seq expression data}
 \usage{
-quickmap(mat, diverging_palette = TRUE, ...)
+quickmap(
+  mat,
+  diverging_palette = TRUE,
+  n_breaks = 50,
+  fix_extreme = FALSE,
+  thresh = 0.5,
+  ...
+)
 }
 \arguments{
 \item{mat}{numeric matrix to be passed onto pheatmap function}
@@ -12,7 +19,15 @@ quickmap(mat, diverging_palette = TRUE, ...)
 \item{diverging_palette}{logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
 color to a continuous color palette \code{viridis::magma}, useful for un-scaled expression data.}
 
+\item{n_breaks}{numeric. The number of breaks to use in the color palette. Default 50.}
+
+\item{fix_extreme}{logical. Should the extreme values at the ends of a diverging palette be fixed colors? Default FALSE.}
+
 \item{...}{args to be passed to \code{pheatmap} function}
+
+\item{thresh.}{If fix_extreme is TRUE then what proportion of the extreme values should be filled. For example if the range
+of the final scaled values is from -20 to 20 and thresh is set to 0.5 then -20 to -10 will be colored blue and 10 to 20
+will be colored red. Default 0.5. See examples below.}
 }
 \value{
 pheatmap object. See \code{?pheatmap::pheatmap} for details
@@ -29,8 +44,8 @@ The default arguments to \code{pheatmap::pheatmap()} are:
 \item \code{border_col = NA}
 \item \code{cluster_rows = TRUE}
 \item \code{cluster_cols = TRUE}
-\item \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(50)} for diverging_palette = TRUE
-\item \code{color = rev(viridisLite::magma(n = 50))} for diverging_palette = FALSE
+\item \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(n_breaks)} for diverging_palette = TRUE
+\item \code{color = rev(viridisLite::magma(n = n_breaks))} for diverging_palette = FALSE
 \item \code{treeheight_row = 0}
 \item \code{clustering_distance_rows = "correlation"}
 \item \code{clustering_distance_cols = "euclidean"}
@@ -46,4 +61,7 @@ X <- coriell::simulate_counts(n_genes = 100)$table
 
 # display heatmap of scaled count data and add title to the plot
 quickmap(X, main = "Control vs Treatment")
+
+# See effect of fix_extreme -- set thresh high to illustrate effect
+quickmap(X, main = "Control vs Treatment", fix_extreme = TRUE, thresh = 0.9)
 }

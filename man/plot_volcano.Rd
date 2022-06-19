@@ -25,6 +25,7 @@ plot_volcano(
   xmin_label_offset = 0.5,
   xmax_label_offset = 0.5,
   ymax_label_offset = 0.8,
+  lab_size = 10,
   ...
 )
 }
@@ -68,6 +69,8 @@ plot_volcano(
 \item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'up' counts}
 
 \item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.}
+
+\item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 10.}
 
 \item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel}}
 }

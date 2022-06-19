@@ -35,8 +35,8 @@
 #' summarize_dge(df)
 #' 
 summarize_dge <- function(df, fdr_col = "FDR", lfc_col = "logFC", fdr = 0.05, lfc = 0) {
-  up <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] > 0)
-  down <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] < 0)
+  up <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] > 0, na.rm = TRUE)
+  down <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] < 0, na.rm = TRUE)
   unperturbed <- nrow(df) - (up + down)
   total <- up + down + unperturbed
     

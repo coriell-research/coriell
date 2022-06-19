@@ -22,6 +22,7 @@
 #' @param xmax_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label
 #' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
+#' @param lab_size numeric. If annotate_counts = TRUE specify the label size. Default = 10.
 #' @return ggplot MD plot
 #' @import data.table
 #' @export
@@ -61,7 +62,7 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", feature_col 
                     fdr = 0.1, lfc = 0, annotate_counts = TRUE, up_color = "red", down_color = "blue",
                     nonde_color = "black", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
                     up_size = 1, down_size = 1, nonde_size = 1, xmax_label_offset = 0.8,
-                    ymax_label_offset = 0.5, ymin_label_offset = 0.5) {
+                    ymax_label_offset = 0.5, ymin_label_offset = 0.5, lab_size = 10) {
 
   # Add new label for Up, Down and Non-DE genes
   dt <- as.data.table(df)
@@ -97,12 +98,14 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", feature_col 
     p <- p +
       ggplot2::annotate(
         geom = "label",
+        size = lab_size,
         x = xmax_label_offset * plot_lims$x_max,
         y = ymax_label_offset * plot_lims$y_max,
         label = paste0(up_count, "\n", up_pct, "%")
       ) +
       ggplot2::annotate(
         geom = "label",
+        size = lab_size,
         x = xmax_label_offset * plot_lims$x_max,
         y = ymin_label_offset * plot_lims$y_min,
         label = paste0(down_count, "\n", down_pct, "%")
