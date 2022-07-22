@@ -209,7 +209,7 @@ meta_pcombine <- function(exp_list, lfc_col = "logFC", pval_col = "FDR",
 #' @return Probability of the Fisher test statistic under the chisq distribution
 meta_fisher <- function(x) {
   test_stat <- -2 * (sum(log(x), na.rm = TRUE))
-  pval <- pchisq(q = test_stat, df = 2 * length(x), lower.tail = FALSE)
+  pval <- pchisq(q = test_stat, df = 2 * length(x[!is.na(x)]), lower.tail = FALSE)
   return(pval)
 }
 
@@ -220,7 +220,7 @@ meta_fisher <- function(x) {
 #' @return Probability of the Pearson test statistic under the chisq distribution
 meta_pearson <- function(x) {
   test_stat <- -2 * (sum(log(1 - x), na.rm = TRUE))
-  pval <- pchisq(q = test_stat, df = 2 * length(x), lower.tail = FALSE)
+  pval <- pchisq(q = test_stat, df = 2 * length(x[!is.na(x)]), lower.tail = FALSE)
   return(pval)
 }
 
@@ -231,7 +231,7 @@ meta_pearson <- function(x) {
 #' @return Probability of the Tippet test statistic under the beta distribution
 meta_tippet <- function(x) {
   test_stat <- min(x, na.rm = TRUE)
-  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x))
+  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x[!is.na(x)]))
   return(pval)
 }
 
@@ -242,6 +242,6 @@ meta_tippet <- function(x) {
 #' @return Probability of the Wilkinson test statistic under the beta distribution
 meta_wilkinson <- function(x) {
   test_stat <- max(x, na.rm = TRUE)
-  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x))
+  pval <- pbeta(q = test_stat, shape1 = 1, shape2 = length(x[!is.na(x)]))
   return(pval)
 }
