@@ -1,0 +1,4 @@
+name: GC Analysis Template
+description: >
+   Gennaro's Analysis template with paged layout, flatly theme, and TOC.
+create_dir: FALSE

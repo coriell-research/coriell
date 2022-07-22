@@ -20,19 +20,18 @@ knitr::opts_chunk$set(echo = TRUE,
 ## Load Libraries
 
 ```{r}
-library(here)
-library(data.table)
-library(ggplot2)
-
+suppressPackageStartupMessages(library(here))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(ggplot2))
 
 theme_set(
   theme_light() +
   theme(legend.position = "bottom",
-        axis.text.x = element_text(angle = 45, hjust = 1),
-        plot.title = element_text(size = 16, face = "bold"),
-        strip.text = element_text(size = 12, face = "bold"))
+        axis.title  = element_text(size = 14),
+        axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
+        axis.text.y = element_text(size = 14),
+        plot.title  = element_text(size = 22, face = "bold"),
+        strip.text  = element_text(size = 12, face = "bold"))
 )
 ```
-
-
 
