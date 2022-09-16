@@ -10,6 +10,7 @@ quickmap(
   n_breaks = 50,
   fix_extreme = FALSE,
   thresh = 0.5,
+  removeVar = NULL,
   ...
 )
 }
@@ -22,6 +23,8 @@ color to a continuous color palette \code{viridis::magma}, useful for un-scaled 
 \item{n_breaks}{numeric. The number of breaks to use in the color palette. Default 50.}
 
 \item{fix_extreme}{logical. Should the extreme values at the ends of a diverging palette be fixed colors? Default FALSE.}
+
+\item{removeVar}{If not NULL remove this proportion of features based on the variance across rows. Default NULL.}
 
 \item{...}{args to be passed to \code{pheatmap} function}
 

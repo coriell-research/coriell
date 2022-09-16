@@ -28,6 +28,7 @@
 #' @param thresh. If fix_extreme is TRUE then what proportion of the extreme values should be filled. For example if the range
 #' of the final scaled values is from -20 to 20 and thresh is set to 0.5 then -20 to -10 will be colored blue and 10 to 20
 #' will be colored red. Default 0.5. See examples below.
+#' @param removeVar If not NULL remove this proportion of features based on the variance across rows. Default NULL. 
 #' @param ... args to be passed to \code{pheatmap} function
 #' @return pheatmap object. See \code{?pheatmap::pheatmap} for details
 #' @examples
@@ -41,7 +42,7 @@
 #' quickmap(X, main = "Control vs Treatment", fix_extreme = TRUE, thresh = 0.9)
 #' @export
 quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50, 
-                     fix_extreme = FALSE, thresh = 0.5, ...) {
+                     fix_extreme = FALSE, thresh = 0.5, removeVar = NULL, ...) {
   stopifnot("thresh must be between 0 and 1" = thresh > 0 & thresh < 1)
   diverging_pal <- grDevices::colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(n_breaks)
   continuous_pal <- rev(viridisLite::magma(n = n_breaks))
@@ -71,6 +72,13 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
   )
   user_args <- list(...)
   default_args[names(user_args)] <- user_args
+  
+  if (!is.null(removeVar)) {
+    stopifnot("RemoveVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
+    v <- apply(mat, 1, var)
+    o <- order(v, decreasing = TRUE)
+    mat <- head(mat[o, ], n = nrow(mat) * (1 - removeVar))
+  }
   
   if (fix_extreme) {
     if (default_args[["scale"]] == "none") {
