@@ -14,7 +14,7 @@ plot_volcano(
   label_sig = FALSE,
   annotate_counts = TRUE,
   up_color = "red2",
-  down_color = "red2",
+  down_color = "royalblue2",
   nonde_color = "grey40",
   up_alpha = 1,
   down_alpha = 1,
@@ -25,7 +25,7 @@ plot_volcano(
   xmin_label_offset = 0.5,
   xmax_label_offset = 0.5,
   ymax_label_offset = 0.8,
-  lab_size = 10,
+  lab_size = 8,
   ...
 )
 }
@@ -70,7 +70,7 @@ plot_volcano(
 
 \item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.}
 
-\item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 10.}
+\item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 8.}
 
 \item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel}}
 }

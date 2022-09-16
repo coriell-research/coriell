@@ -13,9 +13,9 @@ plot_md(
   fdr = 0.1,
   lfc = 0,
   annotate_counts = TRUE,
-  up_color = "red",
-  down_color = "blue",
-  nonde_color = "black",
+  up_color = "red2",
+  down_color = "royalblue2",
+  nonde_color = "grey40",
   up_alpha = 1,
   down_alpha = 1,
   nonde_alpha = 1,
@@ -25,7 +25,7 @@ plot_md(
   xmax_label_offset = 0.8,
   ymax_label_offset = 0.5,
   ymin_label_offset = 0.5,
-  lab_size = 10
+  lab_size = 8
 )
 }
 \arguments{
@@ -45,11 +45,11 @@ plot_md(
 
 \item{annotate_counts}{TRUE/FALSE. Annotate the plot with the summarized gene counts}
 
-\item{up_color}{Point color of the up-regulated features. Default ("red")}
+\item{up_color}{Point color of the up-regulated features. Default ("red2")}
 
-\item{down_color}{Point color of the down-regulated features. Default ("blue")}
+\item{down_color}{Point color of the down-regulated features. Default ("royalblue2")}
 
-\item{nonde_color}{Point color of the unperturbed features. Default ("black")}
+\item{nonde_color}{Point color of the unperturbed features. Default ("grey40")}
 
 \item{up_alpha}{Point alpha value of the up-regulated features. Default (1)}
 
@@ -69,7 +69,7 @@ plot_md(
 
 \item{ymin_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label}
 
-\item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 10.}
+\item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 8.}
 }
 \value{
 ggplot MD plot

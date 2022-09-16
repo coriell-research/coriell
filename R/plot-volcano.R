@@ -21,7 +21,7 @@
 #' @param xmin_label_offset numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'down' counts
 #' @param xmax_label_offset numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'up' counts
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.
-#' @param lab_size numeric. Size of the label if annotate_counts = TRUE. Default 10.
+#' @param lab_size numeric. Size of the label if annotate_counts = TRUE. Default 8.
 #' @param ... Additional arguments passed to \code{ggrepel::geom_text_repel}
 #' @return ggplot volcano plot
 #' @import data.table
@@ -59,10 +59,10 @@
 #' }
 #'
 plot_volcano <- function(df, x = "logFC", y = "FDR", lab = "feature_id", fdr = 0.1, lfc = 0,
-                         label_sig = FALSE, annotate_counts = TRUE, up_color = "red2", down_color = "red2",
+                         label_sig = FALSE, annotate_counts = TRUE, up_color = "red2", down_color = "royalblue2",
                          nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1, up_size = 1,
                          down_size = 1, nonde_size = 1, xmin_label_offset = 0.5,
-                         xmax_label_offset = 0.5, ymax_label_offset = 0.8, lab_size = 10,...) {
+                         xmax_label_offset = 0.5, ymax_label_offset = 0.8, lab_size = 8,...) {
   dt <- as.data.table(df)
 
   # Modify the input df for plotting

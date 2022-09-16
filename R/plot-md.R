@@ -10,9 +10,9 @@
 #' @param fdr numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)
 #' @param annotate_counts TRUE/FALSE. Annotate the plot with the summarized gene counts
-#' @param up_color Point color of the up-regulated features. Default ("red")
-#' @param down_color Point color of the down-regulated features. Default ("blue")
-#' @param nonde_color Point color of the unperturbed features. Default ("black")
+#' @param up_color Point color of the up-regulated features. Default ("red2")
+#' @param down_color Point color of the down-regulated features. Default ("royalblue2")
+#' @param nonde_color Point color of the unperturbed features. Default ("grey40")
 #' @param up_alpha Point alpha value of the up-regulated features. Default (1)
 #' @param down_alpha Point alpha value of the down-regulated features. Default (1)
 #' @param nonde_alpha Point alpha value of the unperturbed features. Default (1)
@@ -22,7 +22,7 @@
 #' @param xmax_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label
 #' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
-#' @param lab_size numeric. If annotate_counts = TRUE specify the label size. Default = 10.
+#' @param lab_size numeric. If annotate_counts = TRUE specify the label size. Default = 8.
 #' @return ggplot MD plot
 #' @import data.table
 #' @export
@@ -59,10 +59,10 @@
 #' }
 #'
 plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", feature_col = "feature_id",
-                    fdr = 0.1, lfc = 0, annotate_counts = TRUE, up_color = "red", down_color = "blue",
-                    nonde_color = "black", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
+                    fdr = 0.1, lfc = 0, annotate_counts = TRUE, up_color = "red2", down_color = "royalblue2",
+                    nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
                     up_size = 1, down_size = 1, nonde_size = 1, xmax_label_offset = 0.8,
-                    ymax_label_offset = 0.5, ymin_label_offset = 0.5, lab_size = 10) {
+                    ymax_label_offset = 0.5, ymin_label_offset = 0.5, lab_size = 8) {
 
   # Add new label for Up, Down and Non-DE genes
   dt <- as.data.table(df)
