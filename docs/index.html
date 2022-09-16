@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
       </span>
     </div>
 
@@ -80,11 +80,11 @@
 </h2>
 <p>Since this package will be constantly changing be sure to install the latest version from Github using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Make sure you have devtools installed</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-
-<span class="co"># Then install using devtools::install_github</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"coriell-research/coriell"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Make sure you have devtools installed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Then install using devtools::install_github</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"coriell-research/coriell"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -158,17 +158,17 @@
 <h3 id="extract-random-correlations-from-a-dataframe">Extract random correlations from a data.frame<a class="anchor" aria-label="anchor" href="#extract-random-correlations-from-a-dataframe"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># using the same perc_meth data.frame and ages as defined above</span>
-<span class="co"># get 1,000,000 random correlations from the dataset</span>
-<span class="va">cors</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sample_n_random_cor.html">sample_n_random_cor</a></span><span class="op">(</span>
-  X <span class="op">=</span> <span class="va">perc_meth</span>, 
-  y <span class="op">=</span> <span class="va">ages</span><span class="op">$</span><span class="va">age</span>,
-  n <span class="op">=</span> <span class="fl">1000000</span>,
-  method <span class="op">=</span> <span class="st">"spearman"</span>
-  <span class="op">)</span>
-
-<span class="co"># simple histogram of correlation values -- drop NAs if present</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">cors</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">cors</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># using the same perc_meth data.frame and ages as defined above</span></span>
+<span><span class="co"># get 1,000,000 random correlations from the dataset</span></span>
+<span><span class="va">cors</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/sample_n_random_cor.html">sample_n_random_cor</a></span><span class="op">(</span></span>
+<span>  X <span class="op">=</span> <span class="va">perc_meth</span>, </span>
+<span>  y <span class="op">=</span> <span class="va">ages</span><span class="op">$</span><span class="va">age</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">1000000</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"spearman"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># simple histogram of correlation values -- drop NAs if present</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">cors</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">cors</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="convert-edger-results-into-a-tidy-dataframe">Convert edgeR results into a tidy dataframe<a class="anchor" aria-label="anchor" href="#convert-edger-results-into-a-tidy-dataframe"></a>
@@ -229,76 +229,76 @@
 <h3 id="create-volcano-plot-from-differential-expression-results">Create volcano plot from differential expression results<a class="anchor" aria-label="anchor" href="#create-volcano-plot-from-differential-expression-results"></a>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># For edgeR results default values can be used</span>
-<span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
-
-<span class="co"># For DESeq2 results you must specify the column names</span>
-<span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">deseq_res_df</span>, x <span class="op">=</span> <span class="st">"log2FoldChange"</span>, y <span class="op">=</span> <span class="st">"padj"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># For edgeR results default values can be used</span></span>
+<span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For DESeq2 results you must specify the column names</span></span>
+<span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">deseq_res_df</span>, x <span class="op">=</span> <span class="st">"log2FoldChange"</span>, y <span class="op">=</span> <span class="st">"padj"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano3.png"></p>
 <p>Positions of the count labels can be adjusted by setting the <code>xmax_label_offset</code>, <code>xmin_label_offset</code> and <code>ymax_label_offset</code> values. Setting the values closer to 1 moves the labels away from the origin. <code>xmax_label_offset</code> controls the ‘up’ gene label whereas <code>xmin_label_offset</code> controls the ‘down’ genes label. <code>ymax_label_offset</code> controls the vertical position of the labels.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,
-             fdr <span class="op">=</span> <span class="fl">0.01</span>,
-             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
-             xmax_label_offset <span class="op">=</span> <span class="fl">0.2</span>, 
-             xmin_label_offset <span class="op">=</span> <span class="fl">0.7</span>, 
-             ymax_label_offset <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>  <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,</span>
+<span>             fdr <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>             xmax_label_offset <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>             xmin_label_offset <span class="op">=</span> <span class="fl">0.7</span>, </span>
+<span>             ymax_label_offset <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano4.png"></p>
 <p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. Caution, if there are many DE genes this will be overplotted. By default the function uses the <code>feature_id</code> column created by <code><a href="reference/edger_to_df.html">edger_to_df()</a></code>. If your labels are in a different column then you must pass the label column to the <code>lab</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,
-             fdr <span class="op">=</span> <span class="fl">1e-4</span>,
-             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
-             annotate_counts <span class="op">=</span> <span class="cn">FALSE</span>,
-             label_sig <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>,</span>
+<span>             fdr <span class="op">=</span> <span class="fl">1e-4</span>,</span>
+<span>             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>             annotate_counts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>             label_sig <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano5.png"></p>
 </div>
 <div class="section level3">
 <h3 id="create-md-plot-from-differential-expression-results">Create md plot from differential expression results<a class="anchor" aria-label="anchor" href="#create-md-plot-from-differential-expression-results"></a>
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># For edgeR results default values can be used</span>
-<span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span>
-
-<span class="co"># For DESeq2 results you must specify the column names</span>
-<span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">deseq_res_df</span>,
-        x <span class="op">=</span> <span class="st">"baseMean"</span>,
-        y <span class="op">=</span> <span class="st">"log2FoldChange"</span>,
-        sig_col <span class="op">=</span> <span class="st">"padj"</span>
-        <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># For edgeR results default values can be used</span></span>
+<span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For DESeq2 results you must specify the column names</span></span>
+<span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">deseq_res_df</span>,</span>
+<span>        x <span class="op">=</span> <span class="st">"baseMean"</span>,</span>
+<span>        y <span class="op">=</span> <span class="st">"log2FoldChange"</span>,</span>
+<span>        sig_col <span class="op">=</span> <span class="st">"padj"</span></span>
+<span>        <span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, 
-        fdr <span class="op">=</span> <span class="fl">0.01</span>, 
-        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
-        annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, </span>
+<span>        fdr <span class="op">=</span> <span class="fl">0.01</span>, </span>
+<span>        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>        annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md3.png"></p>
 <p>Positions of the count labels can be adjusted by setting the <code>xmax_label_offset</code>, <code>ymin_label_offset</code> and <code>ymax_label_offset</code> values. Setting the values closer to 1 moves the labels away from the origin. <code>xmax_label_offset</code> controls the horizontal position of the labels. <code>ymin_label_offset</code> controls the ‘down’ gene label. <code>ymax_label_offset</code> controls the ‘up’ genes label.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, 
-        fdr <span class="op">=</span> <span class="fl">0.01</span>,
-        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,
-        xmax_label_offset <span class="op">=</span> <span class="fl">0.6</span>, 
-        ymin_label_offset <span class="op">=</span> <span class="fl">0.25</span>, 
-        ymax_label_offset <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, </span>
+<span>        fdr <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
+<span>        xmax_label_offset <span class="op">=</span> <span class="fl">0.6</span>, </span>
+<span>        ymin_label_offset <span class="op">=</span> <span class="fl">0.25</span>, </span>
+<span>        ymax_label_offset <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md4.png"></p>
 </div>
 <div class="section level3">
@@ -307,31 +307,31 @@
 <p>We often use the same settings when making calls to <code>pheatmap</code>. This function is a wrapper around <code>pheatmap</code> which uses sensible default values for expression data. It changes the default color scale to a diverging blue to white to red scale, modifies the clustering parameters (row-wise euclidean, col-wise correlation) and clustering method (complete), angles the column labels, removes border colors and rownames.</p>
 <p>Any of these options can be overridden by simply supplying the arguments to <code>quickmap</code> as you would <code>pheatmap</code>. This also allows for additional arguments to be passed to the <code>quickmap</code> function for creating row and column annotations.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># generate some example data and log-scale it</span>
-<span class="va">lcpms</span> <span class="op">&lt;-</span> <span class="fu">coriell</span><span class="fu">::</span><span class="fu"><a href="reference/simulate_counts.html">simulate_counts</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">$</span><span class="va">table</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># plot a heatmap of the logCPM values</span>
-<span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># generate some example data and log-scale it</span></span>
+<span><span class="va">lcpms</span> <span class="op">&lt;-</span> <span class="fu">coriell</span><span class="fu">::</span><span class="fu"><a href="reference/simulate_counts.html">simulate_counts</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">$</span><span class="va">table</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot a heatmap of the logCPM values</span></span>
+<span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/quickmap1.png"></p>
 <p>Other <code>pheatmap</code> arguments can be passed to the <code>quickmap</code> function as well.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># create annotation for columns</span>
-<span class="va">col_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span>, <span class="st">"trt"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span>
-
-<span class="co"># create color scheme for treatment conditions</span>
-<span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"trt"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># plot the heatmap, passing additional args to pheatmap</span>
-<span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span>,
-         annotation_col <span class="op">=</span> <span class="va">col_df</span>,
-         annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,
-         main <span class="op">=</span> <span class="st">"Treatment vs Control"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># create annotation for columns</span></span>
+<span><span class="va">col_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span>, <span class="st">"trt"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">lcpms</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create color scheme for treatment conditions</span></span>
+<span><span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ctl"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"trt"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># plot the heatmap, passing additional args to pheatmap</span></span>
+<span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span>,</span>
+<span>         annotation_col <span class="op">=</span> <span class="va">col_df</span>,</span>
+<span>         annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,</span>
+<span>         main <span class="op">=</span> <span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/quickmap2.png"></p>
 <p>There are two default color scales included which can be specified by setting the <code>diverging_palette</code> argument. By default <code>diverging_palette = TRUE</code> which sets the color scale the same as the above heatmaps. This is useful for scaled data. However, if you are plotting unscaled data such as normalized expression values then a continuous color palette is more appropriate. Setting <code>diverging_palette = FALSE</code> will set the color palette to a continuous (<code>viridis::magma(50)</code>) palette.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># NOTE: different lcpms data than above</span>
-<span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span>, diverging_palette <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># NOTE: different lcpms data than above</span></span>
+<span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">lcpms</span>, diverging_palette <span class="op">=</span> <span class="cn">FALSE</span>, scale <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/quickmap3.png"></p>
 </div>
 <div class="section level3">
@@ -574,7 +574,7 @@ colSums(ss)
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

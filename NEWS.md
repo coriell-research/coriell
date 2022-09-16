@@ -1,3 +1,10 @@
+## coriell 0.8.0
+
+- Added a new ggplot2 theme, `theme_coriell()`
+- Set defaults on `plot_volcano()` and `plot_md()` to have consistent colors
+- Added new argument to `quickmap()` that removes low variance features before
+plotting.
+
 ## coriell 0.7.0
 
 - Added function for performing pairwise fisher tests relative to a reference. 

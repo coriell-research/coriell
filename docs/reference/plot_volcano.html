@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
       </span>
     </div>
 
@@ -57,117 +57,162 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_volcano</span><span class="op">(</span>
-  <span class="va">df</span>,
-  x <span class="op">=</span> <span class="st">"logFC"</span>,
-  y <span class="op">=</span> <span class="st">"FDR"</span>,
-  lab <span class="op">=</span> <span class="st">"feature_id"</span>,
-  fdr <span class="op">=</span> <span class="fl">0.1</span>,
-  lfc <span class="op">=</span> <span class="fl">0</span>,
-  label_sig <span class="op">=</span> <span class="cn">FALSE</span>,
-  annotate_counts <span class="op">=</span> <span class="cn">TRUE</span>,
-  up_color <span class="op">=</span> <span class="st">"red2"</span>,
-  down_color <span class="op">=</span> <span class="st">"red2"</span>,
-  nonde_color <span class="op">=</span> <span class="st">"grey40"</span>,
-  up_alpha <span class="op">=</span> <span class="fl">1</span>,
-  down_alpha <span class="op">=</span> <span class="fl">1</span>,
-  nonde_alpha <span class="op">=</span> <span class="fl">1</span>,
-  up_size <span class="op">=</span> <span class="fl">1</span>,
-  down_size <span class="op">=</span> <span class="fl">1</span>,
-  nonde_size <span class="op">=</span> <span class="fl">1</span>,
-  xmin_label_offset <span class="op">=</span> <span class="fl">0.5</span>,
-  xmax_label_offset <span class="op">=</span> <span class="fl">0.5</span>,
-  ymax_label_offset <span class="op">=</span> <span class="fl">0.8</span>,
-  lab_size <span class="op">=</span> <span class="fl">10</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_volcano</span><span class="op">(</span></span>
+<span>  <span class="va">df</span>,</span>
+<span>  x <span class="op">=</span> <span class="st">"logFC"</span>,</span>
+<span>  y <span class="op">=</span> <span class="st">"FDR"</span>,</span>
+<span>  lab <span class="op">=</span> <span class="st">"feature_id"</span>,</span>
+<span>  fdr <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  lfc <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  label_sig <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  annotate_counts <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  up_color <span class="op">=</span> <span class="st">"red2"</span>,</span>
+<span>  down_color <span class="op">=</span> <span class="st">"royalblue2"</span>,</span>
+<span>  nonde_color <span class="op">=</span> <span class="st">"grey40"</span>,</span>
+<span>  up_alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  down_alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  nonde_alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  up_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  down_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  nonde_size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  xmin_label_offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  xmax_label_offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  ymax_label_offset <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  lab_size <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe containing columns with gene names, p-values, and log-fold changes.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>logFC column. Default (logFC)</p></dd>
+
+
 <dt>y</dt>
 <dd><p>FDR or p-value column. Default (FDR)</p></dd>
+
+
 <dt>lab</dt>
 <dd><p>column containing gene id or labels. Default (NULL)</p></dd>
+
+
 <dt>fdr</dt>
 <dd><p>significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)</p></dd>
+
+
 <dt>lfc</dt>
 <dd><p>log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default (0)</p></dd>
+
+
 <dt>label_sig</dt>
 <dd><p>TRUE/FALSE. apply ggrepel::geom_text_labels to significant DE genes.</p></dd>
+
+
 <dt>annotate_counts</dt>
 <dd><p>TRUE/FALSE. Annotate the plot with the summarized gene counts</p></dd>
+
+
 <dt>up_color</dt>
 <dd><p>Point color of the up-regulated features</p></dd>
+
+
 <dt>down_color</dt>
 <dd><p>Point color of the down-regulated features</p></dd>
+
+
 <dt>nonde_color</dt>
 <dd><p>Point color of the unperturbed features</p></dd>
+
+
 <dt>up_alpha</dt>
 <dd><p>Point alpha of the up-regulated features</p></dd>
+
+
 <dt>down_alpha</dt>
 <dd><p>Point alpha of the down-regulated features</p></dd>
+
+
 <dt>nonde_alpha</dt>
 <dd><p>Point alpha of the unperturbed features</p></dd>
+
+
 <dt>up_size</dt>
 <dd><p>Point size of the up-regulated features</p></dd>
+
+
 <dt>down_size</dt>
 <dd><p>Point size of the down-regulated features</p></dd>
+
+
 <dt>nonde_size</dt>
 <dd><p>Point size of the unperturbed features</p></dd>
+
+
 <dt>xmin_label_offset</dt>
 <dd><p>numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'down' counts</p></dd>
+
+
 <dt>xmax_label_offset</dt>
 <dd><p>numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'up' counts</p></dd>
+
+
 <dt>ymax_label_offset</dt>
 <dd><p>numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.</p></dd>
+
+
 <dt>lab_size</dt>
-<dd><p>numeric. Size of the label if annotate_counts = TRUE. Default 10.</p></dd>
+<dd><p>numeric. Size of the label if annotate_counts = TRUE. Default 8.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>ggplot volcano plot</p>
+    
+
+<p>ggplot volcano plot</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR" class="external-link">edgeR</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">coriell</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create some fake data</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  ctl1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span>
-<span class="r-in">  ctl2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span>
-<span class="r-in">  trt1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span>
-<span class="r-in">  trt2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span>
-<span class="r-in">  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># run edger pipeline</span></span>
-<span class="r-in"><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html" class="external-link">DGEList</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">x</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html" class="external-link">calcNormFactors</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="va">group</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/estimateDisp.html" class="external-link">estimateDisp</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To perform quasi-likelihood F-tests:</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFit</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">qlf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFTest</a></span><span class="op">(</span><span class="va">fit</span>, coef <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># convert the results object to a dataframe</span></span>
-<span class="r-in"><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="edger_to_df.html">edger_to_df</a></span><span class="op">(</span><span class="va">qlf</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create volcano plot</span></span>
-<span class="r-in"><span class="fu">plot_volcano</span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR" class="external-link">edgeR</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">coriell</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create some fake data</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  ctl1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  ctl2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  trt1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  trt2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span><span class="fl">1000</span>, size <span class="op">=</span> <span class="fl">0.4</span>, prob <span class="op">=</span> <span class="fl">1e-5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># run edger pipeline</span></span></span>
+<span class="r-in"><span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html" class="external-link">DGEList</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">x</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html" class="external-link">calcNormFactors</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="va">group</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/estimateDisp.html" class="external-link">estimateDisp</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To perform quasi-likelihood F-tests:</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFit</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">qlf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFTest</a></span><span class="op">(</span><span class="va">fit</span>, coef <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># convert the results object to a dataframe</span></span></span>
+<span class="r-in"><span><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="edger_to_df.html">edger_to_df</a></span><span class="op">(</span><span class="va">qlf</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create volcano plot</span></span></span>
+<span class="r-in"><span><span class="fu">plot_volcano</span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -182,7 +227,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
