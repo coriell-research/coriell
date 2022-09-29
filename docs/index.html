@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul>
@@ -230,19 +233,19 @@
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For edgeR results default values can be used</span></span>
-<span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># For DESeq2 results you must specify the column names</span></span>
 <span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">deseq_res_df</span>, x <span class="op">=</span> <span class="st">"log2FoldChange"</span>, y <span class="op">=</span> <span class="st">"padj"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano3.png"></p>
 <p>Positions of the count labels can be adjusted by setting the <code>xmax_label_offset</code>, <code>xmin_label_offset</code> and <code>ymax_label_offset</code> values. Setting the values closer to 1 moves the labels away from the origin. <code>xmax_label_offset</code> controls the ‘up’ gene label whereas <code>xmin_label_offset</code> controls the ‘down’ genes label. <code>ymax_label_offset</code> controls the vertical position of the labels.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -252,7 +255,7 @@
 <span>             xmax_label_offset <span class="op">=</span> <span class="fl">0.2</span>, </span>
 <span>             xmin_label_offset <span class="op">=</span> <span class="fl">0.7</span>, </span>
 <span>             ymax_label_offset <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>  <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano4.png"></p>
 <p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. Caution, if there are many DE genes this will be overplotted. By default the function uses the <code>feature_id</code> column created by <code><a href="reference/edger_to_df.html">edger_to_df()</a></code>. If your labels are in a different column then you must pass the label column to the <code>lab</code> argument.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -261,7 +264,7 @@
 <span>             lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>             annotate_counts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>             label_sig <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano5.png"></p>
 </div>
 <div class="section level3">
@@ -269,7 +272,7 @@
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For edgeR results default values can be used</span></span>
-<span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># For DESeq2 results you must specify the column names</span></span>
 <span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">deseq_res_df</span>,</span>
@@ -280,7 +283,7 @@
 <p><img src="reference/figures/md1.png"></p>
 <p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">res_df</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md2.png"></p>
 <p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -288,7 +291,7 @@
 <span>        fdr <span class="op">=</span> <span class="fl">0.01</span>, </span>
 <span>        lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
 <span>        annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md3.png"></p>
 <p>Positions of the count labels can be adjusted by setting the <code>xmax_label_offset</code>, <code>ymin_label_offset</code> and <code>ymax_label_offset</code> values. Setting the values closer to 1 moves the labels away from the origin. <code>xmax_label_offset</code> controls the horizontal position of the labels. <code>ymin_label_offset</code> controls the ‘down’ gene label. <code>ymax_label_offset</code> controls the ‘up’ genes label.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -298,7 +301,7 @@
 <span>        xmax_label_offset <span class="op">=</span> <span class="fl">0.6</span>, </span>
 <span>        ymin_label_offset <span class="op">=</span> <span class="fl">0.25</span>, </span>
 <span>        ymax_label_offset <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">ggtitle</span><span class="op">(</span><span class="st">"Treatment vs Control"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md4.png"></p>
 </div>
 <div class="section level3">
@@ -574,7 +577,7 @@ colSums(ss)
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
