@@ -119,7 +119,7 @@ txi <- tximport(
   type = "salmon", 
   countsFromAbundance = "scaledTPM", 
   tx2gene = tx2gene,
-  importer = fread
+  importer = data.table::fread
   )
 
 # Extract counts from the txi object
