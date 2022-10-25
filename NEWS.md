@@ -1,3 +1,9 @@
+## coriell 0.9.0
+
+- Potential breaking changes to `plot_volcano()` and `plot_md()`. For 
+`plot_volcano()` set the default value for the labels to NULL and removed the
+removed the labels altogether for `plot_md()`
+
 ## coriell 0.8.0
 
 - Added a new ggplot2 theme, `theme_coriell()`

@@ -9,7 +9,6 @@ plot_md(
   x = "logCPM",
   y = "logFC",
   sig_col = "FDR",
-  feature_col = "feature_id",
   fdr = 0.1,
   lfc = 0,
   annotate_counts = TRUE,
@@ -36,8 +35,6 @@ plot_md(
 \item{y}{column in dataframe containing the log-fold-change values. Default ("logFC")}
 
 \item{sig_col}{column in dataframe containing the results from significance testing. Default ("FDR")}
-
-\item{feature_col}{column in dataframe containing the feature names. Default ("feature_id")}
 
 \item{fdr}{numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)}
 
