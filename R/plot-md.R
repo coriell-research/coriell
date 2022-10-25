@@ -6,7 +6,6 @@
 #' @param x column in dataframe containing the logCPM data. Default ("logCPM")
 #' @param y column in dataframe containing the log-fold-change values. Default ("logFC")
 #' @param sig_col column in dataframe containing the results from significance testing. Default ("FDR")
-#' @param feature_col column in dataframe containing the feature names. Default ("feature_id")
 #' @param fdr numeric. Significance level cutoff for plotting. Values below the given fdr threshold are considered significant. Default (0.05)
 #' @param lfc numeric. Log-fold-change cutoff for plotting. Values greater than the abs(lfc) and less than fdr are displayed as differentially expressed. Default(0)
 #' @param annotate_counts TRUE/FALSE. Annotate the plot with the summarized gene counts
@@ -58,8 +57,8 @@
 #' plot_md(res_df)
 #' }
 #'
-plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", feature_col = "feature_id",
-                    fdr = 0.1, lfc = 0, annotate_counts = TRUE, up_color = "red2", down_color = "royalblue2",
+plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", fdr = 0.1, 
+                    lfc = 0, annotate_counts = TRUE, up_color = "red2", down_color = "royalblue2",
                     nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
                     up_size = 1, down_size = 1, nonde_size = 1, xmax_label_offset = 0.8,
                     ymax_label_offset = 0.5, ymin_label_offset = 0.5, lab_size = 8) {
@@ -72,7 +71,7 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", feature_col 
     default = "Unperturbed"
   )]
 
-  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = y, label = feature_col)) +
+  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = y)) +
     ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, size = nonde_size, alpha = nonde_alpha) +
     ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, size = down_size, alpha = down_alpha) +
     ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, size = up_size, alpha = up_alpha) +
