@@ -2,13 +2,15 @@ Package: coriell
 Type: Package
 Title: Convenience functions for bioinformatics
 Version: 0.8.0
-Author: Gennaro Calendo
-Maintainer: Gennaro Calendo <gcalendo@coriell.org>
+Authors@R: person("Gennaro", "Calendo", email = "gcalendo@coriell.org",
+  role = c("aut", "cre"))
 Description: Functions for plotting and transforming data.
 License: MIT + file LICENSE
+URL: https://github.com/coriell-research/coriell
+BugReports: https://github.com/coriell-research/coriell/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Imports: 
     ggplot2,
     ggrepel,
@@ -18,12 +20,7 @@ Imports:
     viridisLite,
     jsonlite,
     httr,
-    data.table,
-    DESeq2,
-    SummarizedExperiment,
-    qsmooth,
-    RUVSeq,
-    matrixStats
+    data.table
 Suggests: 
     testthat,
     knitr,
