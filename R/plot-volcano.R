@@ -58,7 +58,7 @@
 #' plot_volcano(res_df)
 #' }
 #'
-plot_volcano <- function(df, x = "logFC", y = "FDR", lab = "feature_id", fdr = 0.1, lfc = 0,
+plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc = 0,
                          label_sig = FALSE, annotate_counts = TRUE, up_color = "red2", down_color = "royalblue2",
                          nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1, up_size = 1,
                          down_size = 1, nonde_size = 1, xmin_label_offset = 0.5,
@@ -75,7 +75,7 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = "feature_id", fdr = 0
     logPval = -log10(get(y))
   )]
 
-  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = "logPval", label = lab)) +
+  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = "logPval")) +
     ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, alpha = nonde_alpha, size = nonde_size) +
     ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, alpha = down_alpha, size = down_size) +
     ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, alpha = up_alpha, size = up_size) +
@@ -93,7 +93,7 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = "feature_id", fdr = 0
     ggplot2::theme(legend.position = "bottom")
 
   # add text labels to significant genes
-  if (label_sig) {
+  if (label_sig && !is.null(lab)) {
     p <- p +
       ggrepel::geom_text_repel(
         data = dt[direction %in% c("Up", "Down")],
