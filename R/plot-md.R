@@ -66,8 +66,8 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", fdr = 0.1,
   # Add new label for Up, Down and Non-DE genes
   dt <- as.data.table(df)
   dt[, direction := fcase(
-    get(sig_col) < fdr & abs(get(y)) > lfc & get(y) > 0, "Up",
-    get(sig_col) < fdr & abs(get(y)) > lfc & get(y) < 0, "Down",
+    get(sig_col) < ..fdr & abs(get(y)) > ..lfc & get(y) > 0, "Up",
+    get(sig_col) < ..fdr & abs(get(y)) > ..lfc & get(y) < 0, "Down",
     default = "Unperturbed"
   )]
 

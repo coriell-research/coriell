@@ -68,8 +68,8 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc 
   # Modify the input df for plotting
   dt[, `:=`(
     direction = fcase(
-      get(y) < fdr & abs(get(x)) > lfc & get(x) > 0, "Up",
-      get(y) < fdr & abs(get(x)) > lfc & get(x) < 0, "Down",
+      get(y) < ..fdr & abs(get(x)) > ..lfc & get(x) > 0, "Up",
+      get(y) < ..fdr & abs(get(x)) > ..lfc & get(x) < 0, "Down",
       default = "Unperturbed"
     ),
     logPval = -log10(get(y))
