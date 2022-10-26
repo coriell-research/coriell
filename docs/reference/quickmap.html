@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -32,13 +32,22 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -48,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Heatmap with sensible defaults for RNA-seq expression data</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/quickmap.R" class="external-link"><code>R/quickmap.R</code></a></small>
     <div class="hidden name"><code>quickmap.Rd</code></div>
     </div>
 
@@ -76,7 +85,7 @@
 
 <dt>diverging_palette</dt>
 <dd><p>logical. Default(TRUE). Sets the color scale to a diverging palette (blue -&gt; white -&gt; red). If FALSE, set the
-color to a continuous color palette <code><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">viridis::magma</a></code>, useful for un-scaled expression data.</p></dd>
+color to a continuous color palette <code>viridis::magma</code>, useful for un-scaled expression data.</p></dd>
 
 
 <dt>n_breaks</dt>
@@ -150,7 +159,7 @@ will be colored red. Default 0.5. See examples below.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
