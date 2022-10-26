@@ -22,165 +22,75 @@ devtools::install_github("coriell-research/coriell")
 
 ## Examples
 
-For an overview of how to use some of these functions in a typical 
-analysis check out the [RNA-seq vignette](https://coriell-research.github.io/coriell/articles/RNA-seq-workflow.html) (more vignettes to come)
-
-- [Correlate methylation data with age](https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores)
-- [Create a null distribution of correlations](https://coriell-research.github.io/coriell/#extract-random-correlations-from-a-dataframe)
-- [Convert edgeR results into tidy dataframes](https://coriell-research.github.io/coriell/#convert-edger-results-into-a-tidy-dataframe)
 - [Summarize results from differential expression analysis](https://coriell-research.github.io/coriell/#summarize-results-from-differential-expression-test)
 - [Create volcano plot from differential expression results](https://coriell-research.github.io/coriell/#create-volcano-plot-from-differential-expression-results)
 - [Create md plot from differential expression results](https://coriell-research.github.io/coriell/#create-md-plot-from-differential-expression-results)
 - [Heatmap with sensible defaults](https://coriell-research.github.io/coriell/#heatmap-with-sensible-defaults)
-- [Z-score a dataframe](https://coriell-research.github.io/coriell/#z-score-a-dataframe)
-- [Convert a list of sets into a binary matrix](https://coriell-research.github.io/coriell/#convert-a-list-of-sets-into-a-binary-matrix)
-- [Get statistics for all pairwise combinations of a list of sets](https://coriell-research.github.io/coriell/#get-statistics-for-all-pairwise-combinations-of-a-list-of-sets)
-- [Perform Gene Ontology Analysis with PANTHER](https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther)
-- [Subsample a count matrix](https://coriell-research.github.io/coriell/#subsample-a-count-matrix)
+- [Perform gene ontology analysis with PANTHER](https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther)
+- [Correlate methylation data with age](https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores)
 
-### Perform correlation permutation test using multiple cores
+For an overview of how to use some of these functions in a typical 
+analysis check out the [RNA-seq vignette](https://coriell-research.github.io/coriell/articles/RNA-seq-workflow.html) (more vignettes to come)
 
-Note: if the number of possible permutations of your data is less than the 
-desired number of permutations given by the parameter `n_perm` then an exact 
-test on all of the real permutations will be performed instead of random 
-sampling. For example, if you only have 6 samples (720 possible permutations)
-but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be 
-tested. The `permutation_correlation_test` function will display a message if 
-this occurs. The function accepts a numeric matrix as input or a data.frame that
-can be converted to a numeric matrix. In the case a data.frame is passed to
-argument `X`, the function call will display a message confirming the conversion.
-In most cases this conversion is inconsequential.
+The package also contains many other convenience functions so be sure to check 
+out the [reference](https://coriell-research.github.io/coriell/reference/index.html) page as well.
 
-```R
-library(coriell)
-library(methylKit)
+### Builtin datasets
 
-# define age dataframe -- ages matching column order
-ages = data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
+These datasets are built into the package for testing purposes and are used 
+below to illustrate some functionality below.
 
-# simulate a methylation dataset
-sim_meth <- dataSim(
-  replicates = 8,
-  sites = 1000,
-  treatment = c(rep(1, 4), rep(0, 4)),
-  covariates = ages,
-  sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4))
-)
+* `GSE161650_de` : Differential expression results of THZ1 vs DMSO from GSE161650 
+* `GSE161650_lc` : Normalized lo2 counts from THZ1 vs DMSO replicates from GSE161650 
 
-# extract the methylation as percentages and coerce to data.frame
-perc_meth <- as.data.frame(percMethylation(sim_meth))
+The head of `GSE161650_de` looks like:
 
-head(perc_meth)
->       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4
-> 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231
-> 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000
-> 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329
-> 4 100.00000 100.00000 100.00000 100.00000 86.15385 72.340426 86.666667 100.000000
-> 5   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000  10.526316
-> 6  26.98413  12.63158  23.07692  10.00000 22.22222  0.000000  3.174603   4.166667
-
-# permutation testing -----------------------------------------------------------
-# perform permutation testing using 4 cores and 10000 permutations
-res <- permutation_correlation_test(
-  X = perc_meth, 
-  y = ages$age, 
-  n_cores = 4, 
-  n_perm = 10000,
-  method = "spearman" 
-  )
-
-head(res)
->       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr
-> 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231 -0.3437200      0.1925 0.4812073
-> 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000         NA          NA        NA
-> 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329 -0.3559957      0.1903 0.4812073
-> 4 100.00000 100.00000 100.00000 100.00000 86.15385 72.340426 86.666667 100.000000 -0.3093992      0.2195 0.4812073
-> 5   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000  10.526316  0.4252433      0.3769 0.4812073
-> 6  26.98413  12.63158  23.07692  10.00000 22.22222  0.000000  3.174603   4.166667 -0.2946172      0.2334 0.4812073
+```
+>   feature_id     logFC unshrunk.logFC    logCPM       PValue          FDR
+> 1        JUN  5.759233       5.759908  9.079350 2.919097e-14 1.990666e-10
+> 2       IER5  3.931325       3.931420 10.158336 3.365738e-14 1.990666e-10
+> 3    GADD45B  5.813030       5.814071  8.432432 6.435666e-14 2.537583e-10
+> 4       IER2  4.457981       4.458016 12.223835 1.528890e-13 4.521309e-10
+> 5     PIK3R3 -4.018325      -4.019603  7.124408 2.122484e-13 4.752097e-10
+> 6     HEXIM1  4.497345       4.497844  8.275561 2.696985e-13 4.752097e-10
 ```
 
-### Extract random correlations from a data.frame
+And `GSE161650_lc`:
 
-```R
-# using the same perc_meth data.frame and ages as defined above
-# get 1,000,000 random correlations from the dataset
-cors <- sample_n_random_cor(
-  X = perc_meth, 
-  y = ages$age,
-  n = 1000000,
-  method = "spearman"
-  )
-
-# simple histogram of correlation values -- drop NAs if present
-hist(cors[!is.na(cors)])
+```
+>          DMSO.1     DMSO.2     DMSO.3    THZ1.1    THZ1.2     THZ1.3
+> A1BG  5.3323512  5.4576081  5.2876011  6.703752 6.8090471  6.7908595
+> AAAS  3.8738768  3.8839857  3.5242625  3.768811 4.1406003  3.7454773
+> AACS  2.1381539  2.3748462  2.2761971  3.769163 3.4352003  3.4064114
+> AADAT 0.8240013 -0.2391457 -0.8699138 -1.342273 0.1967574 -0.8355924
+> AAED1 1.2814586  1.5332476  2.0735095  2.443188 2.1270932  0.9707206
+> AAGAB 6.8747238  6.7396922  6.6670762  6.756664 6.5840839  6.7662317
 ```
 
-### Convert edgeR results into a tidy dataframe
-
-```R
-library(edgeR)
-library(coriell)
-
-# simulate expression data using coriell::simulate_counts()
-x <- simulate_counts()
-
-# run edger pipeline
-group <-  factor(rep(c("ctl", "trt"), each = 3))
-y <- DGEList(counts = x$table, group = group)
-y <- calcNormFactors(y)
-design <- model.matrix(~group)
-y <- estimateDisp(y, design)
-
-# To perform quasi-likelihood F-tests
-fit <- glmQLFit(y, design)
-qlf <- glmQLFTest(fit, coef = 2)
-
-# -----------------------------------------------------------------------------
-# convert to tidy dataframe
-res_df <- edger_to_df(qlf)
-
-head(res_df)
->   feature_id logFC unshrunk.logFC logCPM   PValue        FDR
->   <chr>      <dbl>          <dbl>  <dbl>    <dbl>      <dbl>
-> 1 gene.51    -4.43          -4.43   6.37 2.93e-10 0.00000561
-> 2 gene.26    -6.63          -6.68   3.45 8.37e-9   0.0000801 
-> 3 gene.19    -7.01          -7.05   3.41 1.51e-8   0.0000962 
-> 4 gene.100   -4.62          -4.63   4.40 3.24e-8    0.000132  
-> 5 gene.74    -6.05          -6.07   7.04 4.06e-8    0.000132  
-> 6 gene.53    -4.67          -4.68   3.91 4.14e-8    0.000132 
-```
+See the package documentation for citation information.
 
 ### Summarize results from differential expression test
 
 Return a table of up/down/non-de counts and their percentages.
 
 ```R
-# for edgeR results default values can be used
-res_df <- edger_to_df(qlf)
+de <- GSE161650_de
 
-summarize_dge(res_df, fdr = 0.05)
->   Direction   N   Percent
-> 1 up        162     0.847
-> 2 down      266      1.39 
-> 3 non-dge 18709      97.8  
-
-# For DESeq2 results you must specify the column names
-summarize_dge(
-  deseq_res_df, 
-  fdr_col = "padj",
-  lfc_col = "log2FoldChange",
-  fdr = 0.05
-  )
+summarize_dge(de, fdr = 0.1)
+>     Direction    N Percent
+> 1          Up 2588   23.52
+> 2        Down 3365   30.59
+> 3 Unperturbed 5049   45.89
 ```
 
 ### Create volcano plot from differential expression results
 
 ```R
-# For edgeR results default values can be used
-plot_volcano(res_df) + ggtitle("Treatment vs Control")
+library(ggplot2)
 
-# For DESeq2 results you must specify the column names
-plot_volcano(deseq_res_df, x = "log2FoldChange", y = "padj")
+plot_volcano(de) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/volcano1.png)
@@ -189,7 +99,9 @@ Different significance levels can be used to filter the plotted points. For exam
 significance levels can be set by specifying the `fdr` and `lfc` values.
 
 ```R
-plot_volcano(res_df, fdr = 0.01, lfc = log2(2)) + ggtitle("Treatment vs Control")
+plot_volcano(de, fdr = 0.01, lfc = log2(2)) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/volcano2.png)
@@ -197,41 +109,45 @@ plot_volcano(res_df, fdr = 0.01, lfc = log2(2)) + ggtitle("Treatment vs Control"
 Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
 
 ```R
-plot_volcano(res_df, fdr = 0.01, lfc = log2(2), annotate_counts = FALSE) +
-  ggtitle("Treatment vs Control")
+plot_volcano(de, fdr = 0.01, lfc = log2(2), annotate_counts = FALSE) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/volcano3.png)
 
-Positions of the count labels can be adjusted by setting the `xmax_label_offset`, `xmin_label_offset` 
-and `ymax_label_offset` values. Setting the values closer to 1 moves the labels away from the origin.
-`xmax_label_offset` controls the 'up' gene label whereas `xmin_label_offset` controls the 'down'
-genes label. `ymax_label_offset` controls the vertical position of the labels.
+Text labels can also be added for the DE genes by setting `label_sig = TRUE`. 
+Caution, if there are many DE genes this will be overplotted. If `label_sig = TRUE` 
+then the `lab` argument must also designate a column containing the names of the
+items to plot. Additional arguments can be passed to `ggrepel::geom_text_repel()`
+via `...` if you need to modify the behavior of the labels.
 
 ```R
-plot_volcano(res_df,
-             fdr = 0.01,
-             lfc = log2(2),
-             xmax_label_offset = 0.2, 
-             xmin_label_offset = 0.7, 
-             ymax_label_offset = 0.9)  +
-  ggtitle("Treatment vs Control")
+plot_volcano(de, fdr = 0.01, lfc = log2(2), label_sig = TRUE, lab = "feature_id") + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/volcano4.png)
 
-Text labels can also be added for the DE genes by setting `label_sig = TRUE`. Caution, if there are many
-DE genes this will be overplotted. By default the function uses the `feature_id`
-column created by `edger_to_df()`. If your labels are in a different column then
-you must pass the label column to the `lab` argument.
+All aesthetics of the points can also be changed
 
 ```R
-plot_volcano(res_df,
-             fdr = 1e-4,
-             lfc = log2(2),
-             annotate_counts = FALSE,
-             label_sig = TRUE)  +
-  ggtitle("Treatment vs Control")
+plot_volcano(de,
+  fdr = 0.01, 
+  lfc = log2(2),
+  up_color = "firebrick",
+  down_color = "midnightblue",
+  nonde_color = "grey80",
+  up_alpha = 0.8,
+  down_alpha = 0.8,
+  nonde_alpha = 0.25,
+  up_size = 0.5,
+  down_size = 0.5,
+  nonde_size = 0.5
+  ) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/volcano5.png)
@@ -239,15 +155,9 @@ plot_volcano(res_df,
 ### Create md plot from differential expression results
 
 ```R
-# For edgeR results default values can be used
-plot_md(res_df) + ggtitle("Treatment vs Control")
-
-# For DESeq2 results you must specify the column names
-plot_md(deseq_res_df,
-        x = "baseMean",
-        y = "log2FoldChange",
-        sig_col = "padj"
-        )
+plot_md(de) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/md1.png)
@@ -256,7 +166,9 @@ Different significance levels can be used to filter the plotted points. For exam
 significance levels can be set by specifying the `fdr` and `lfc` values.
 
 ```R
-plot_md(res_df, fdr = 0.01, lfc = log2(2)) + ggtitle("Treatment vs Control")
+plot_md(de, fdr = 0.01, lfc = log2(2)) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/md2.png)
@@ -264,49 +176,50 @@ plot_md(res_df, fdr = 0.01, lfc = log2(2)) + ggtitle("Treatment vs Control")
 Labels for the counts will be displayed by default. To remove them set `annotate_counts = FALSE`
 
 ```R
-plot_md(res_df, 
-        fdr = 0.01, 
-        lfc = log2(2),
-        annotate_counts = FALSE) +
-  ggtitle("Treatment vs Control")
+plot_md(de, fdr = 0.01, lfc = log2(2), annotate_counts = FALSE) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/md3.png)
 
-Positions of the count labels can be adjusted by setting the `xmax_label_offset`, `ymin_label_offset` 
-and `ymax_label_offset` values. Setting the values closer to 1 moves the labels away from the origin.
-`xmax_label_offset` controls the horizontal position of the labels. `ymin_label_offset` controls the 
-'down' gene label. `ymax_label_offset` controls the 'up' genes label.
+All aesthetics of the points can also be changed
 
 ```R
-plot_md(res_df, 
-        fdr = 0.01,
-        lfc = log2(2),
-        xmax_label_offset = 0.6, 
-        ymin_label_offset = 0.25, 
-        ymax_label_offset = 0.25) +
-  ggtitle("Treatment vs Control")
+plot_md(de,
+  fdr = 0.01, 
+  lfc = log2(2),
+  up_color = "firebrick",
+  down_color = "midnightblue",
+  nonde_color = "grey80",
+  up_alpha = 0.8,
+  down_alpha = 0.8,
+  nonde_alpha = 0.25,
+  up_size = 0.5,
+  down_size = 0.5,
+  nonde_size = 0.5
+  ) + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
 ```
 
 ![](man/figures/md4.png)
 
 ### Heatmap with sensible defaults
 
-We often use the same settings when making calls to `pheatmap`. This function is a wrapper around `pheatmap`
-which uses sensible default values for expression data. It changes the default color scale to a diverging
-blue to white to red scale, modifies the clustering parameters (row-wise euclidean, col-wise correlation) and
-clustering method (complete), angles the column labels, removes border colors and rownames. 
+We often use the same settings when making calls to `pheatmap`. This function 
+is a wrapper around `pheatmap` which uses sensible default values for expression 
+data.
 
-Any of these options can be overridden by simply supplying the arguments to `quickmap` as you would `pheatmap`. 
-This also allows for additional arguments to be passed to the `quickmap` function for creating row and column 
-annotations. 
+Any of these default values can be overridden by simply supplying the arguments 
+to `quickmap` as you would `pheatmap`. This also allows for additional arguments 
+to be passed to the `quickmap` function for creating row and column annotations. 
 
 ```R
-# generate some example data and log-scale it
-lcpms <- coriell::simulate_counts(n = 1000)$table %>% log1p()
+logcounts <- GSE161650_lc
 
 # plot a heatmap of the logCPM values
-quickmap(lcpms)
+quickmap(logcounts)
 ```
 
 ![](man/figures/quickmap1.png)
@@ -315,123 +228,55 @@ Other `pheatmap` arguments can be passed to the `quickmap` function as well.
 
 ```R
 # create annotation for columns
-col_df <- data.frame(treatment = rep(c("ctl", "trt"), each = 3))
-rownames(col_df) <- colnames(lcpms)
+col_df <- data.frame(Treatment = rep(c("DMSO", "THZ1"), each = 3))
+rownames(col_df) <- colnames(logcounts)
 
 # create color scheme for treatment conditions
-ann_colors = list(treatment = c("ctl" = "steelblue", "trt" = "firebrick"))
+ann_colors = list(Treatment = c("DMSO" = "steelblue", "THZ1" = "firebrick"))
 
 # plot the heatmap, passing additional args to pheatmap
-quickmap(lcpms,
-         annotation_col = col_df,
-         annotation_colors = ann_colors,
-         main = "Treatment vs Control")
+quickmap(
+  logcounts,
+  annotation_col = col_df,
+  annotation_colors = ann_colors,
+  main = "Treatment vs Control"
+  )
 ```
 
 ![](man/figures/quickmap2.png)
 
-There are two default color scales included which can be specified by setting the `diverging_palette` argument. 
-By default `diverging_palette = TRUE` which sets the color scale the same as the above heatmaps. This is useful for
-scaled data. However, if you are plotting unscaled data such as normalized expression values then a continuous color
-palette is more appropriate. Setting `diverging_palette = FALSE` will set the color palette to a continuous (`viridis::magma(50)`)
-palette.
+Additional arguments can be set to limit the scales of the heatmap as well as
+remove low variance features prior to plotting. To remove low variance features
+set the `removeVar` argument to the desired proportion of features to drop.
 
 ```R
-# NOTE: different lcpms data than above
-quickmap(lcpms, diverging_palette = FALSE, scale = "none")
+quickmap(
+  logcounts,
+  removeVar = 0.9,
+  annotation_col = col_df,
+  annotation_colors = ann_colors,
+  main = "THZ1 vs DMSO"
+)
 ```
 
 ![](man/figures/quickmap3.png)
 
-### Z-score a dataframe
-
-Z-score a dataframe by row or column
-
-```R
-# create some example data
-cpms <- data.frame(a = runif(100, min = 0, max = 100),
-                   b = runif(100, min = 0, max = 100),
-                   c = runif(100, min = 0, max = 100),
-                   d = runif(100, min = 0, max = 100))
-
-> head(cpms)
->           a        b        c         d
-> 1 93.586737 41.79316 58.59588 73.082215
-> 2 70.009822 25.84383 57.03569 40.512135
-> 3 60.053908 14.68176 82.66302 60.842900
-> 4 95.711441 86.76281 58.07523 22.571323
-> 5  2.833631 25.04612 72.85270  5.417795
-> 6 24.596068 85.46398 16.12987 33.810050
-
-# scale the data by rows
-cpms_st <- zscore_df(cpms)
-
-> head(cpms_st)
->            a           b          c          d
-> 1  1.2201846 -1.13598436 -0.3716029  0.2874026
-> 2  1.1247307 -1.16871823  0.4510108 -0.4070232
-> 3  0.1922442 -1.39554374  0.9834448  0.2198548
-> 4  0.9076295  0.63627273 -0.2336442 -1.3102580
-> 5 -0.7309118 -0.04598875  1.4281295 -0.6512290
-> 6 -0.4943903  1.45917080 -0.7661138 -0.1986667
-
-
-# default is to scale by row, scaling by columns can also be performed by
-# setting the by = "column"
-cpms_st_by_col <- zscore_df(cpms, by = "column")
-```
-
-### Convert a list of sets into a binary matrix
-
-This function is useful for comparing if a given gene is present across all
-or a certain proportion of conditions.
+The colors of the heatmap scale can also be 'fixed' above and below a certain 
+threshold with the `fix_extreme` and `thresh` arguments
 
 ```R
-sets <- list("set1" = letters[1:4],
-             "set2" = letters[3:8],
-             "set3" = letters[1:5],
-             "set4" = letters[4:6])
-
-# convert the sets to a binary matrix
-mat <- list_to_matrix(sets)
-
-mat
->   set1 set2 set3 set4
-> a    1    0    1    0
-> b    1    0    1    0
-> c    1    1    1    0
-> d    1    1    1    1
-> e    0    1    1    1
-> f    0    1    0    1
-> g    0    1    0    0
-> h    0    1    0    0
+quickmap(
+    logcounts,
+    removeVar = 0.9,
+    fix_extreme = TRUE,
+    thresh = 0.5,
+    annotation_col = col_df,
+    annotation_colors = ann_colors,
+    main = "THZ1 vs DMSO"
+)
 ```
 
-### Get statistics for all pairwise combinations of a list of sets
-
-Compare every set to every other set and return statistics about their intersections.
-
-Statistics are returned in a list object. The returned list contains a named vector of the 
-statistic computed. The names of the vectore indicate the pairwise comparison, i.e. "Set A : Set B"
-for all combinations of sets. Use `?pairwise_intersection_stats()` for more information about
-the statistics computed.
-
-```R
-sets <- list("set1" = letters[1:4],
-             "set2" = letters[3:8],
-             "set3" = letters[1:5],
-             "set4" = letters[4:6])
-
-# get the intersection stats -- returns a list of statistics
-stats <- pairwise_intersection_stats(sets)
-
-# individual statistics can be accessed with subsetting the list
-# to get the intersection sizes of every combination of sets:
-stats$intersection_size
-
-> set1 : set2 set1 : set3 set1 : set4 set2 : set3 set2 : set4 set3 : set4 
->           2           4           1           3           3           2
-```
+![](man/figures/quickmap4.png)
 
 ### Perform Gene Ontology Analysis with PANTHER
 
@@ -496,7 +341,7 @@ ensembl_ids <- c("ENSG00000162736", "ENSG00000143801", "ENSG00000177283",
 
 ensembl_results <- panther_go(ensembl_ids, "9606", "biological_process")
 
-head(ensembl_results$table, n = 10)
+head(ensembl_results, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term   description                                               
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>     <chr>                                                     
 > 1                         12           78.4  1.70e-15    0.153                  84 1.07e-19 +          GO:00600… canonical Wnt signaling pathway                           
@@ -523,7 +368,7 @@ mouse_results <- panther_go(
                             organism = "10090", 
                             annot_dataset = "biological_process")
 
-head(mouse_results$table, n = 10)
+head(mouse_results, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term    description                                                     
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>      <chr>                                                           
 > 1                         13           97.8  2.50e-18    0.133                  80 1.58e-22 +          GO:0060070 canonical Wnt signaling pathway                                 
@@ -538,31 +383,63 @@ head(mouse_results$table, n = 10)
 > 10                        21           12.3  1.04e-15    1.71                 1026 6.57e-19 +          GO:0009887 animal organ morphogenesis 
 ```
 
-### Subsample a count matrix
+### Perform correlation permutation test using multiple cores
 
-Sub-sample a count matrix so that all columns have a library size equivalent
-to the smallest library in the input matrix.
+Note: if the number of possible permutations of your data is less than the 
+desired number of permutations given by the parameter `n_perm` then an exact 
+test on all of the real permutations will be performed instead of random 
+sampling. For example, if you only have 6 samples (720 possible permutations)
+but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be 
+tested. The `permutation_correlation_test` function will display a message if 
+this occurs. The function accepts a numeric matrix as input or a data.frame that
+can be converted to a numeric matrix. In the case a data.frame is passed to
+argument `X`, the function call will display a message confirming the conversion.
+In most cases this conversion is inconsequential.
 
-```{r}
+```R
 library(coriell)
+library(methylKit)
 
+# define age dataframe -- ages matching column order
+ages = data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
 
-# simulate a count matrix
-mat <- simulate_counts()$table
+# simulate a methylation dataset
+sim_meth <- dataSim(
+  replicates = 8,
+  sites = 1000,
+  treatment = c(rep(1, 4), rep(0, 4)),
+  covariates = ages,
+  sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4))
+)
 
-# scale the counts so that the libraries are different sizes
-offset <- c(0.5, 0.75, 1.0, 1.25, 1.5, 1.75)
-scaled <- round(mat %*% diag(offset))
-dimnames(scaled) <- dimnames(mat)
+# extract the methylation as percentages and coerce to data.frame
+perc_meth <- as.data.frame(percMethylation(sim_meth))
 
-colSums(scaled)
-> ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3 
->  4966  7586  9961 12745 15260 17805
+head(perc_meth)
+>       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4
+> 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231
+> 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000
+> 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329
+> 4 100.00000 100.00000 100.00000 100.00000 86.15385 72.340426 86.666667 100.000000
+> 5   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000  10.526316
+> 6  26.98413  12.63158  23.07692  10.00000 22.22222  0.000000  3.174603   4.166667
 
-# Subsample the matrix to the smallest library size
-ss <- subsample_counts(scaled)
+# permutation testing -----------------------------------------------------------
+# perform permutation testing using 4 cores and 10000 permutations
+res <- permutation_correlation_test(
+  X = perc_meth, 
+  y = ages$age, 
+  n_cores = 4, 
+  n_perm = 10000,
+  method = "spearman" 
+  )
 
-colSums(ss)
-> ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3 
->  4966  4966  4966  4966  4966  4966
+head(res)
+>       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr
+> 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231 -0.3437200      0.1925 0.4812073
+> 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000         NA          NA        NA
+> 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329 -0.3559957      0.1903 0.4812073
+> 4 100.00000 100.00000 100.00000 100.00000 86.15385 72.340426 86.666667 100.000000 -0.3093992      0.2195 0.4812073
+> 5   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000  10.526316  0.4252433      0.3769 0.4812073
+> 6  26.98413  12.63158  23.07692  10.00000 22.22222  0.000000  3.174603   4.166667 -0.2946172      0.2334 0.4812073
 ```
