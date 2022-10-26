@@ -22,7 +22,7 @@
 #' Default "fisher"
 #' @param correction character string. One of c("fdr", "bonferroni", "none").
 #' Default "fdr"
-#' @return list with results of GO analysis as data.table ("table") and the raw request sent to PANTHER DB ("request"). 
+#' @return data.table of results from over representation analysis.
 #' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
 #' for column descriptions in "table".
 #' @import data.table
@@ -94,6 +94,5 @@ panther_go <- function(
   parsed <- jsonlite::fromJSON(httr::content(r, "text"), simplifyVector = FALSE)
   dt <- rbindlist(parsed$results$result)
   
-  return(list("table" = dt, "request" = r))
-
+  return(dt)
 }

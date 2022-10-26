@@ -36,7 +36,7 @@ Default "fisher"}
 Default "fdr"}
 }
 \value{
-list with results of GO analysis as data.table ("table") and the raw request sent to PANTHER DB ("request"). 
+data.table of results from over representation analysis.
 See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
 for column descriptions in "table".
 }

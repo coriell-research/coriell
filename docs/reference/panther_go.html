@@ -20,7 +20,7 @@ of the genes of the given organism as the reference list."><!-- mathjax --><scri
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -35,13 +35,22 @@ of the genes of the given organism as the reference list."><!-- mathjax --><scri
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -51,7 +60,7 @@ of the genes of the given organism as the reference list."><!-- mathjax --><scri
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Perform GO analysis with PANTHER</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/panther-go.R" class="external-link"><code>R/panther-go.R</code></a></small>
     <div class="hidden name"><code>panther_go.Rd</code></div>
     </div>
 
@@ -63,13 +72,13 @@ of the genes of the given organism as the reference list.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">panther_go</span><span class="op">(</span>
-  <span class="va">gene_list</span>,
-  <span class="va">organism</span>,
-  <span class="va">annot_dataset</span>,
-  enrichment_test_type <span class="op">=</span> <span class="st">"fisher"</span>,
-  correction <span class="op">=</span> <span class="st">"fdr"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">panther_go</span><span class="op">(</span></span>
+<span>  <span class="va">gene_list</span>,</span>
+<span>  <span class="va">organism</span>,</span>
+<span>  <span class="va">annot_dataset</span>,</span>
+<span>  enrichment_test_type <span class="op">=</span> <span class="st">"fisher"</span>,</span>
+<span>  correction <span class="op">=</span> <span class="st">"fdr"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -80,58 +89,59 @@ of the following: Ensemble gene identifier, Ensemble protein identifier,
 Ensemble transcript identifier, Entrez gene id, gene symbol, NCBI GI, HGNC Id,
 International protein index id, NCBI UniGene id, UniProt accession and
 UniProt id</p></dd>
+
+
 <dt>organism</dt>
 <dd><p>character string. Taxon ID (e.g. "9606" for HUMAN, "10090" for
 MOUSE, "10116" for RAT). To get list of available taxon IDs see:</p><div class="sourceCode"><pre><code>curl -X GET "http://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"</code></pre></div></dd>
+
+
 <dt>annot_dataset</dt>
 <dd><p>character string. One of c("biological_process",
 "molecular_function", "cellular_component", "panther_go_slim_mf", "panther_go_slim_bp",
 "panther_go_slim_cc", "panther_pc", "panther_pathway", "panther_reactome_pathway"). see:</p><div class="sourceCode"><pre><code>curl -X POST "http://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"</code></pre></div><p>for full descriptions.</p></dd>
+
+
 <dt>enrichment_test_type</dt>
 <dd><p>character string. One of c("fisher", "binomial").
 Default "fisher"</p></dd>
+
+
 <dt>correction</dt>
 <dd><p>character string. One of c("fdr", "bonferroni", "none").
 Default "fdr"</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list with results of GO analysis as data.table ("table") and the raw request sent to PANTHER DB ("request"). 
-See <a href="http://www.pantherdb.org/help/PANTHER_user_manual.pdf" class="external-link">PANTHER user manual</a>for column descriptions in "table".</p>
+    
+
+<p>data.table of results from over representation analysis.
+See <a href="http://www.pantherdb.org/help/PANTHER_user_manual.pdf" class="external-link">PANTHER user manual</a></p>
+ 
+
+<p>for column descriptions in "table".</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="st">"CTNNB1"</span>, <span class="st">"ADAM17"</span>, <span class="st">"AXIN1"</span>, <span class="st">"AXIN2"</span>, <span class="st">"CCND2"</span>, <span class="st">"CSNK1E"</span>, <span class="st">"CTNNB1"</span>,</span>
-<span class="r-in">  <span class="st">"CUL1"</span>, <span class="st">"DKK1"</span>, <span class="st">"DKK4"</span>, <span class="st">"DLL1"</span>, <span class="st">"DVL2"</span>, <span class="st">"FRAT1"</span>, <span class="st">"FZD1"</span>, <span class="st">"FZD8"</span>,</span>
-<span class="r-in">  <span class="st">"GNAI1"</span>, <span class="st">"HDAC11"</span>, <span class="st">"HDAC2"</span>, <span class="st">"HDAC5"</span>, <span class="st">"HEY1"</span>, <span class="st">"HEY2"</span>, <span class="st">"JAG1"</span>,</span>
-<span class="r-in">  <span class="st">"JAG2"</span>, <span class="st">"KAT2A"</span>, <span class="st">"LEF1"</span>, <span class="st">"MAML1"</span>, <span class="st">"MYC"</span>, <span class="st">"NCOR2"</span>, <span class="st">"NCSTN"</span>,</span>
-<span class="r-in">  <span class="st">"NKD1"</span>, <span class="st">"NOTCH1"</span>, <span class="st">"NOTCH4"</span>, <span class="st">"NUMB"</span>, <span class="st">"PPARD"</span>, <span class="st">"PSEN2"</span>, <span class="st">"PTCH1"</span>,</span>
-<span class="r-in">  <span class="st">"RBPJ"</span>, <span class="st">"SKP2"</span>, <span class="st">"TCF7"</span>, <span class="st">"TP53"</span>, <span class="st">"WNT1"</span>, <span class="st">"WNT5B"</span>, <span class="st">"WNT6"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">go_results</span> <span class="op">&lt;-</span> <span class="fu">panther_go</span><span class="op">(</span><span class="va">genes</span>, organism <span class="op">=</span> <span class="st">"9606"</span>, annot_dataset <span class="op">=</span> <span class="st">"biological_process"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># to view results access the 'table' item</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">go_results</span><span class="op">$</span><span class="va">table</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    number_in_list fold_enrichment          fdr expected number_in_reference</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:             30        6.983109 1.171823e-16 4.296080                2106</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:             30        6.983109 1.171823e-16 4.296080                2106</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:             20       17.507653 1.558469e-16 1.142358                 560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:             20       17.507653 1.558469e-16 1.142358                 560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:             33        5.088730 1.040285e-15 6.484919                3179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:             33        5.088730 1.040285e-15 6.484919                3179</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          pValue                                    term plus_minus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 7.477177e-21                              GO:0007166          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 7.477177e-21 cell surface receptor signaling pathway          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1.988857e-20                              GO:0048729          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 1.988857e-20                    tissue morphogenesis          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 1.991357e-19                              GO:0048513          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1.991357e-19                animal organ development          +</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># to view the actual request (which allows you to parse results yourself) use</span></span>
-<span class="r-in"><span class="va">req</span> <span class="op">&lt;-</span> <span class="va">go_results</span><span class="op">$</span><span class="va">request</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">"CTNNB1"</span>, <span class="st">"ADAM17"</span>, <span class="st">"AXIN1"</span>, <span class="st">"AXIN2"</span>, <span class="st">"CCND2"</span>, <span class="st">"CSNK1E"</span>, <span class="st">"CTNNB1"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"CUL1"</span>, <span class="st">"DKK1"</span>, <span class="st">"DKK4"</span>, <span class="st">"DLL1"</span>, <span class="st">"DVL2"</span>, <span class="st">"FRAT1"</span>, <span class="st">"FZD1"</span>, <span class="st">"FZD8"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"GNAI1"</span>, <span class="st">"HDAC11"</span>, <span class="st">"HDAC2"</span>, <span class="st">"HDAC5"</span>, <span class="st">"HEY1"</span>, <span class="st">"HEY2"</span>, <span class="st">"JAG1"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"JAG2"</span>, <span class="st">"KAT2A"</span>, <span class="st">"LEF1"</span>, <span class="st">"MAML1"</span>, <span class="st">"MYC"</span>, <span class="st">"NCOR2"</span>, <span class="st">"NCSTN"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"NKD1"</span>, <span class="st">"NOTCH1"</span>, <span class="st">"NOTCH4"</span>, <span class="st">"NUMB"</span>, <span class="st">"PPARD"</span>, <span class="st">"PSEN2"</span>, <span class="st">"PTCH1"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"RBPJ"</span>, <span class="st">"SKP2"</span>, <span class="st">"TCF7"</span>, <span class="st">"TP53"</span>, <span class="st">"WNT1"</span>, <span class="st">"WNT5B"</span>, <span class="st">"WNT6"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">go_results</span> <span class="op">&lt;-</span> <span class="fu">panther_go</span><span class="op">(</span><span class="va">genes</span>, organism <span class="op">=</span> <span class="st">"9606"</span>, annot_dataset <span class="op">=</span> <span class="st">"biological_process"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># to view results access the 'table' item</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">go_results</span><span class="op">$</span><span class="va">table</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># to view the actual request (which allows you to parse results yourself) use</span></span></span>
+<span class="r-in"><span><span class="va">req</span> <span class="op">&lt;-</span> <span class="va">go_results</span><span class="op">$</span><span class="va">request</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -146,7 +156,7 @@ See <a href="http://www.pantherdb.org/help/PANTHER_user_manual.pdf" class="exter
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
