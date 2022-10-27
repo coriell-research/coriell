@@ -38,13 +38,13 @@ analysis check out the [RNA-seq vignette](https://coriell-research.github.io/cor
 The package also contains many other convenience functions so be sure to check 
 out the [reference](https://coriell-research.github.io/coriell/reference/index.html) page as well.
 
-### Builtin datasets
+### Built-in datasets
 
 These datasets are built into the package for testing purposes and are used 
-below to illustrate some functionality below.
+below to illustrate some functionality.
 
 * `GSE161650_de` : Differential expression results of THZ1 vs DMSO from GSE161650 
-* `GSE161650_lc` : Normalized lo2 counts from THZ1 vs DMSO replicates from GSE161650 
+* `GSE161650_lc` : Normalized log2 counts from THZ1 vs DMSO replicates from GSE161650 
 
 The head of `GSE161650_de` looks like:
 
@@ -70,7 +70,8 @@ And `GSE161650_lc`:
 > AAGAB 6.8747238  6.7396922  6.6670762  6.756664 6.5840839  6.7662317
 ```
 
-See the package documentation for citation information.
+See the package documentation `?GSE161650_de` and `?GSE161650_lc` for 
+citation information.
 
 ### Summarize results from differential expression test
 
