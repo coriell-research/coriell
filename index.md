@@ -120,10 +120,10 @@ plot_volcano(de, fdr = 0.01, lfc = log2(2), annotate_counts = FALSE) +
 ![](man/figures/volcano3.png)
 
 Text labels can also be added for the DE genes by setting `label_sig = TRUE`. 
-Caution, if there are many DE genes this will be overplotted. If `label_sig = TRUE` 
-then the `lab` argument must also designate a column containing the names of the
-items to plot. Additional arguments can be passed to `ggrepel::geom_text_repel()`
-via `...` if you need to modify the behavior of the labels.
+If `label_sig = TRUE` then the `lab` argument must also designate a column 
+containing the names of the items to plot. Additional arguments can be passed 
+to `ggrepel::geom_text_repel()` via `...` if you need to modify the behavior 
+of the labels.
 
 ```R
 plot_volcano(de, fdr = 0.01, lfc = log2(2), label_sig = TRUE, lab = "feature_id") + 
@@ -185,6 +185,20 @@ plot_md(de, fdr = 0.01, lfc = log2(2), annotate_counts = FALSE) +
 ```
 
 ![](man/figures/md3.png)
+
+Text labels can also be added for the DE genes by setting `label_sig = TRUE`. 
+If `label_sig = TRUE` then the `lab` argument must also designate a column 
+containing the names of the items to plot. Additional arguments can be passed 
+to `ggrepel::geom_text_repel()` via `...` if you need to modify the behavior 
+of the labels.
+
+```R
+plot_md(de, fdr = 0.01, lfc = log2(2), label_sig = TRUE, lab = "feature_id") + 
+  ggtitle("THZ1 vs Control") + 
+  theme_coriell()
+```
+
+![](man/figures/md5.png)
 
 All aesthetics of the points can also be changed
 
