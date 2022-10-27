@@ -3,6 +3,8 @@
 - Potential breaking changes to `plot_volcano()` and `plot_md()`. For 
 `plot_volcano()` set the default value for the labels to NULL and removed the
 removed the labels altogether for `plot_md()`
+- Added new plotting functions for expression matrices: `plot_boxplot()`, 
+`plot_density()`, and `plot_parallel()`
 
 ## coriell 0.8.0
 
