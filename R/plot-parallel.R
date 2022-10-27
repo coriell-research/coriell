@@ -29,7 +29,7 @@
 #'   theme_coriell()
 #'
 #' # Plot the PCP by Group in metadata
-#' plot_density(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) + 
+#' plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) + 
 #'   theme_coriell()
 plot_parallel <- function(x, metadata = NULL, stat = "median",
                           colBy = NULL, removeVar = NULL, ...) {
