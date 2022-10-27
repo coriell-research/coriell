@@ -50,6 +50,6 @@ plot_parallel(GSE161650_lc, alpha = 0.01) +
   theme_coriell()
 
 # Plot the PCP by Group in metadata
-plot_density(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) + 
+plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) + 
   theme_coriell()
 }
