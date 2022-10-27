@@ -33,6 +33,10 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc 
                          nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1, up_size = 1,
                          down_size = 1, nonde_size = 1, xmin_label_offset = 0.5,
                          xmax_label_offset = 0.5, ymax_label_offset = 0.8, lab_size = 8,...) {
+  
+  if (label_sig && is.null(lab))
+    message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
+  
   dt <- as.data.table(df)
 
   # Modify the input df for plotting
