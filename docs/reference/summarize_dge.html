@@ -18,7 +18,7 @@ genes based on log-fold-change and significance values."><!-- mathjax --><script
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
       </span>
     </div>
 
@@ -33,13 +33,22 @@ genes based on log-fold-change and significance values."><!-- mathjax --><script
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -49,7 +58,7 @@ genes based on log-fold-change and significance values."><!-- mathjax --><script
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarize RNA-seq expression results</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/summarize-dge.R" class="external-link"><code>R/summarize-dge.R</code></a></small>
     <div class="hidden name"><code>summarize_dge.Rd</code></div>
     </div>
 
@@ -59,63 +68,45 @@ genes based on log-fold-change and significance values.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">summarize_dge</span><span class="op">(</span><span class="va">df</span>, fdr_col <span class="op">=</span> <span class="st">"FDR"</span>, lfc_col <span class="op">=</span> <span class="st">"logFC"</span>, fdr <span class="op">=</span> <span class="fl">0.05</span>, lfc <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">summarize_dge</span><span class="op">(</span><span class="va">df</span>, fdr_col <span class="op">=</span> <span class="st">"FDR"</span>, lfc_col <span class="op">=</span> <span class="st">"logFC"</span>, fdr <span class="op">=</span> <span class="fl">0.05</span>, lfc <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>df</dt>
 <dd><p>dataframe of results. Must have columns containing significance values and log-fold changes.</p></dd>
+
+
 <dt>fdr_col</dt>
 <dd><p>Column name of the data.frame containing the significance level values.</p></dd>
+
+
 <dt>lfc_col</dt>
 <dd><p>Column name of data.frame containing the log-fold change values.</p></dd>
+
+
 <dt>fdr</dt>
 <dd><p>numeric. FDR or significance value below which genes are considered significant.</p></dd>
+
+
 <dt>lfc</dt>
 <dd><p>numeric. abs(log-fold change) value above which genes are considered significant.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame with columns describing the count and percentages of up/down/unperturbed genes</p>
+    
+
+<p>data.frame with columns describing the count and percentages of up/down/unperturbed genes</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">coriell</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a simulated results data.frame</span></span>
-<span class="r-in"><span class="co"># 50 will have logFC &gt; 0</span></span>
-<span class="r-in"><span class="co"># 50 will have logFC &lt; 0</span></span>
-<span class="r-in"><span class="co"># 25 of the up-regulated will have significant FDR values (&lt; 0.0001)</span></span>
-<span class="r-in"><span class="co"># 25 of the down-regulated will have significant FDR values (&lt; 0.0001)</span></span>
-<span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span>,</span>
-<span class="r-in">                 logFC <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">50</span>, min <span class="op">=</span> <span class="op">-</span><span class="fl">8</span>, max <span class="op">=</span> <span class="op">-</span><span class="fl">0.01</span><span class="op">)</span>, </span>
-<span class="r-in">                           <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">50</span>, min <span class="op">=</span> <span class="fl">0.01</span>, max <span class="op">=</span> <span class="fl">8</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">                 FDR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">25</span>, min <span class="op">=</span> <span class="fl">1e-12</span>, max <span class="op">=</span> <span class="fl">1e-4</span><span class="op">)</span>,</span>
-<span class="r-in">                         <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">25</span>, min <span class="op">=</span> <span class="fl">0.06</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
-<span class="r-in">                         <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">25</span>, min <span class="op">=</span> <span class="fl">1e-12</span>, max <span class="op">=</span> <span class="fl">1e-4</span><span class="op">)</span>,</span>
-<span class="r-in">                         <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">25</span>, min <span class="op">=</span> <span class="fl">0.06</span>, max <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># view the results data.frame</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   feature_id     logFC          FDR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     gene.1 -2.678591 7.316693e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     gene.2 -4.503393 1.907321e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     gene.3 -7.267323 4.967141e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     gene.4 -5.471506 4.160380e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     gene.5 -2.677554 5.079279e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     gene.6 -4.631657 3.766164e-05</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># summarize results</span></span>
-<span class="r-in"><span class="fu">summarize_dge</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Direction  N Percent</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1          Up 25      25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Down 25      25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Unperturbed 50      50</span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">summarize_dge</span><span class="op">(</span><span class="va">GSE161650_de</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Direction    N Percent</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1          Up 2376   21.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Down 3020   27.45</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Unperturbed 5606   50.95</span>
 </code></pre></div>
     </div>
   </div>
@@ -130,7 +121,7 @@ genes based on log-fold-change and significance values.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
