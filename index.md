@@ -1,8 +1,8 @@
 # coriell
 
-Helper functions for common bioinformatics tasks. If you find yourself reusing 
-old code over and over, let me know and we'll create a function and put it in 
-this package. 
+This package contains helper functions for common bioinformatics tasks (and some 
+not-so-common tasks). If you find yourself reusing old code over and over, let 
+me know and we'll create a function and put it in this package. 
 
 I will be adding tests, however, **please test functions and let me know when 
 things are broken** by either raising an issue on Github or contacting me.
@@ -26,6 +26,9 @@ devtools::install_github("coriell-research/coriell")
 - [Create volcano plot from differential expression results](https://coriell-research.github.io/coriell/#create-volcano-plot-from-differential-expression-results)
 - [Create md plot from differential expression results](https://coriell-research.github.io/coriell/#create-md-plot-from-differential-expression-results)
 - [Heatmap with sensible defaults](https://coriell-research.github.io/coriell/#heatmap-with-sensible-defaults)
+- [Parallel coordinates plot of expression matrix](https://coriell-research.github.io/coriell/#parallel-coordinates-plot-of-expression-matrix)
+- [Boxplot of expression matrix](https://coriell-research.github.io/coriell/#boxplot-of-expression-matrix)
+- [Density plot of expression matrix](https://coriell-research.github.io/coriell/#density-plot-of-expression-matrix)
 - [Perform gene ontology analysis with PANTHER](https://coriell-research.github.io/coriell/#perform-gene-ontology-analysis-with-panther)
 - [Correlate methylation data with age](https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores)
 
@@ -278,6 +281,70 @@ quickmap(
 
 ![](man/figures/quickmap4.png)
 
+### Parallel coordinates plot of expression matrix
+
+Parallel coordinates plots (PCP), as well as boxplots and density plots (below), 
+can be useful tools for examining expression patterns across samples before and 
+after normalization, for example. To create a PCP with `coriell` use the 
+`plot_parallel()` function. 
+
+Using `logcounts` define above:
+
+```R
+# Create PCP plot -- passing additional alpha value to geom_line()
+plot_parallel(logcounts, alpha = 0.01) + theme_coriell()
+```
+
+![](man/figures/parallel.png)
+
+If metadata is supplied then the PCP can be grouped and colored by the supplied
+variable name. Using `col_df` defined above:
+
+```R
+plot_parallel(logcounts, col_df, colBy = "Treatment", alpha = 0.01) + 
+  theme_coriell()
+```
+
+![](man/figures/parallel2.png)
+
+### Boxplot of expression matrix
+
+Likewise, boxplots of the expression values can be visualized in a similar 
+fashion with `plot_boxplot()`
+
+```R
+plot_boxplot(logcounts) + theme_coriell()
+```
+![](man/figures/boxplot.png)
+
+Values can be grouped if metadata are supplied and additional arguments can be
+passed to `geom_boxplot()` to modify the boxplots.
+
+```R
+plot_boxplot(logcounts, col_df, fillBy = "Treatment", outlier.shape = NA) + 
+  theme_coriell()
+```
+![](man/figures/boxplot2.png)
+
+### Density plot of expression matrix
+
+Density plots showing the expression values for samples or groups can be plotted
+using the `plot_density()` function. 
+
+```R
+plot_density(logcounts) + theme_coriell()
+```
+![](man/figures/density.png)
+
+Values can be grouped if metadata are supplied and additional arguments can be
+passed to `geom_density()` to modify the density lines.
+
+```R
+plot_density(logcounts, col_df, colBy = "Treatment", size = 2) + 
+  theme_coriell()
+```
+![](man/figures/density2.png)
+
 ### Perform Gene Ontology Analysis with PANTHER
 
 This function sends a request to the PANTHER REST API for GO over-representation
@@ -300,12 +367,8 @@ genes <- c("CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
            "NKD1", "NOTCH1", "NOTCH4", "NUMB", "PPARD", "PSEN2", "PTCH1", 
            "RBPJ", "SKP2", "TCF7", "TP53", "WNT1", "WNT5B", "WNT6")
 
-go_results <- coriell::panther_go(
-                                genes, 
-                                organism = "9606", 
-                                annot_dataset = "biological_process")
-
-head(go_results$table, n = 10)
+go_results <- panther_go(genes, organism = "9606", annot_dataset = "biological_process")
+head(go_results, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term    description                            
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>      <chr>                                  
 > 1                         32           6.29  3.63e-17    5.09                 2525 2.28e-21 +          GO:0007166 cell surface receptor signaling pathway
@@ -340,7 +403,6 @@ ensembl_ids <- c("ENSG00000162736", "ENSG00000143801", "ENSG00000177283",
                  "ENSG00000234876")
 
 ensembl_results <- panther_go(ensembl_ids, "9606", "biological_process")
-
 head(ensembl_results, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term   description                                               
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>     <chr>                                                     
@@ -363,11 +425,7 @@ mouse_genes <- c("Adam17", "Axin1", "Axin2", "Ccnd2", "Csnk1e", "Ctnnb1",
                  "Notch4", "Numb", "Ppard", "Psen2", "Ptch1", "Skp2", "Tcf7", 
                  "Wnt1", "Wnt5b", "Wnt6")
 
-mouse_results <- panther_go(
-                            mouse_genes, 
-                            organism = "10090", 
-                            annot_dataset = "biological_process")
-
+mouse_results <- panther_go(mouse_genes, organism = "10090", annot_dataset = "biological_process")
 head(mouse_results, n = 10)
 > result_number number_in_list fold_enrichment      fdr expected number_in_reference   pValue plus_minus GO_term    description                                                     
 > <chr>                  <int>           <dbl>    <dbl>    <dbl>               <int>    <dbl> <chr>      <chr>      <chr>                                                           
