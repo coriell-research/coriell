@@ -37,7 +37,7 @@ metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 plot_parallel(GSE161650_lc, alpha = 0.01) + 
   theme_coriell()
 
-# Plot the PCP by Group in metadata
+# Plot the PCP by coloring each sample by Group from metadata
 plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) + 
   theme_coriell()
 }
