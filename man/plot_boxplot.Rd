@@ -13,8 +13,8 @@ plot_boxplot(x, metadata = NULL, fillBy = NULL, ...)
 must match the colnames of the input matrix. Default NULL, each sample in the 
 matrix will be plotted.}
 
-\item{fillBy}{metadata column used to group and fill boxplots. Default NULL, 
-each sample in the matrix will be plotted.}
+\item{fillBy}{metadata column used to fill boxplots. Default NULL, 
+each sample will be a distinct color.}
 
 \item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()}}
 }
@@ -33,7 +33,7 @@ metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 plot_boxplot(GSE161650_lc) + 
   theme_coriell()
   
-# Plot the boxplot by Group in metadata
+# Plot the boxplot by coloring each Group
 plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") + 
   theme_coriell()
 }
