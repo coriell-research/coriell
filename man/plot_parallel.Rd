@@ -4,14 +4,7 @@
 \alias{plot_parallel}
 \title{Parallel coordinates plot of expression data}
 \usage{
-plot_parallel(
-  x,
-  metadata = NULL,
-  stat = "median",
-  colBy = NULL,
-  removeVar = NULL,
-  ...
-)
+plot_parallel(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)
 }
 \arguments{
 \item{x}{gene by sample matrix or data.frame of numeric values to be plotted.}
@@ -20,14 +13,11 @@ plot_parallel(
 must match the colnames of the input matrix. Default NULL, each sample in the 
 matrix will be plotted.}
 
-\item{stat}{Summary statistic to plot for each gene. One of c("mean", "median", "min", "max").
-Default "median"}
-
 \item{colBy}{metadata column used to color lines. Default NULL, every sample 
 will get its own color.}
 
-\item{removeVar}{If not NULL remove this proportion of features based on the 
-variance across rows. Default NULL.}
+\item{removeVar}{Remove this proportion of features based on the variance 
+across rows. Default NULL, all features are plotted.}
 
 \item{...}{Additional parameters passed to \code{ggplot2::geom_line()}}
 }
@@ -36,9 +26,7 @@ ggplot object
 }
 \description{
 The parallel coordinates plot will display a line plot showing the expression
-value for gene by each sample or summarized expression value of a gene for the 
-group given by the "colBy" argument on the y-axis and the sample or group 
-label on the x-axis.
+value for gene on the y-axis by each sample on the x-axis.
 }
 \examples{
 # Create metadata for plotting
