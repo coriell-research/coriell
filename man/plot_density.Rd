@@ -13,7 +13,7 @@ plot_density(x, metadata = NULL, colBy = NULL, ...)
 must match the colnames of the input matrix. Default NULL, each sample in the 
 matrix will be plotted.}
 
-\item{colBy}{metadata column used to group and color density lines. Default NULL, 
+\item{colBy}{metadata column used to color density lines. Default NULL, 
 each sample in the matrix will be plotted.}
 
 \item{...}{Additional parameters passed to \code{ggplot2::geom_density()}}
@@ -33,7 +33,7 @@ metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 plot_density(GSE161650_lc) + 
   theme_coriell()
   
-# Plot the density by Group in metadata
-plot_density(GSE161650_lc, metadata, fillBy = "Group") + 
+# Color each sample by their Group in metadata
+plot_density(GSE161650_lc, metadata, colBy = "Group") + 
   theme_coriell()
 }

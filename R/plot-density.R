@@ -6,7 +6,7 @@
 #' @param metadata data.frame containing metadata per sample. rownames of metadata
 #' must match the colnames of the input matrix. Default NULL, each sample in the 
 #' matrix will be plotted.
-#' @param colBy metadata column used to group and color density lines. Default NULL, 
+#' @param colBy metadata column used to color density lines. Default NULL, 
 #' each sample in the matrix will be plotted.
 #' @param ... Additional parameters passed to \code{ggplot2::geom_density()}
 #' @import data.table
@@ -21,8 +21,8 @@
 #' plot_density(GSE161650_lc) + 
 #'   theme_coriell()
 #'   
-#' # Plot the density by Group in metadata
-#' plot_density(GSE161650_lc, metadata, fillBy = "Group") + 
+#' # Color each sample by their Group in metadata
+#' plot_density(GSE161650_lc, metadata, colBy = "Group") + 
 #'   theme_coriell()
 plot_density <- function(x, metadata = NULL, colBy = NULL, ...) {
   stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
@@ -46,7 +46,7 @@ plot_density <- function(x, metadata = NULL, colBy = NULL, ...) {
   if (is.null(colBy)) 
     colBy <- ".sample"
   
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".value")) +
+  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".value", group = ".sample")) +
     ggplot2::geom_density(ggplot2::aes_string(color = colBy), ...) +
     ggplot2::labs(
       x = NULL, 
