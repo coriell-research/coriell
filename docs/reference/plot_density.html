@@ -82,7 +82,7 @@ matrix will be plotted.</p></dd>
 
 
 <dt>colBy</dt>
-<dd><p>metadata column used to group and color density lines. Default NULL, 
+<dd><p>metadata column used to color density lines. Default NULL, 
 each sample in the matrix will be plotted.</p></dd>
 
 
@@ -108,10 +108,9 @@ each sample in the matrix will be plotted.</p></dd>
 <span class="r-in"><span>  <span class="fu"><a href="theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_density-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="co"># Plot the density by Group in metadata</span></span></span>
-<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">GSE161650_lc</span>, <span class="va">metadata</span>, fillBy <span class="op">=</span> <span class="st">"Group"</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span><span class="co"># Color each sample by their Group in metadata</span></span></span>
+<span class="r-in"><span><span class="fu">plot_density</span><span class="op">(</span><span class="va">GSE161650_lc</span>, <span class="va">metadata</span>, colBy <span class="op">=</span> <span class="st">"Group"</span><span class="op">)</span> <span class="op">+</span> </span></span>
 <span class="r-in"><span>  <span class="fu"><a href="theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Ignoring unknown parameters: fillBy</span>
 <span class="r-plt img"><img src="plot_density-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

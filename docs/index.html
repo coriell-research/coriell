@@ -304,7 +304,7 @@
 <code class="sourceCode R"><span><span class="co"># Create PCP plot -- passing additional alpha value to geom_line()</span></span>
 <span><span class="fu"><a href="reference/plot_parallel.html">plot_parallel</a></span><span class="op">(</span><span class="va">logcounts</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/parallel.png"></p>
-<p>If metadata is supplied then the PCP can be grouped and colored by the supplied variable name. Using <code>col_df</code> defined above:</p>
+<p>If metadata is supplied then the PCP can be colored by the supplied variable name. Using <code>col_df</code> defined above:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_parallel.html">plot_parallel</a></span><span class="op">(</span><span class="va">logcounts</span>, <span class="va">col_df</span>, colBy <span class="op">=</span> <span class="st">"Treatment"</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -317,7 +317,7 @@
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_boxplot.html">plot_boxplot</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/boxplot.png"></p>
-<p>Values can be grouped if metadata are supplied and additional arguments can be passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot()</a></code> to modify the boxplots.</p>
+<p>If metadata are supplied the boxes can be colored by the desired metadata column and additional arguments can be passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot()</a></code> to modify the boxplots.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_boxplot.html">plot_boxplot</a></span><span class="op">(</span><span class="va">logcounts</span>, <span class="va">col_df</span>, fillBy <span class="op">=</span> <span class="st">"Treatment"</span>, outlier.shape <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -330,7 +330,7 @@
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/density.png"></p>
-<p>Values can be grouped if metadata are supplied and additional arguments can be passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density()</a></code> to modify the density lines.</p>
+<p>If metadata are supplied, the lines can be colored by the desired metadata column and additional arguments can be passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density()</a></code> to modify the density layer.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">logcounts</span>, <span class="va">col_df</span>, colBy <span class="op">=</span> <span class="st">"Treatment"</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>

@@ -312,8 +312,8 @@ plot_parallel(logcounts, alpha = 0.01) + theme_coriell()
 
 ![](man/figures/parallel.png)
 
-If metadata is supplied then the PCP can be grouped and colored by the supplied
-variable name. Using `col_df` defined above:
+If metadata is supplied then the PCP can be colored by the supplied variable 
+name. Using `col_df` defined above:
 
 ```R
 plot_parallel(logcounts, col_df, colBy = "Treatment", alpha = 0.01) + 
@@ -332,8 +332,8 @@ plot_boxplot(logcounts) + theme_coriell()
 ```
 ![](man/figures/boxplot.png)
 
-Values can be grouped if metadata are supplied and additional arguments can be
-passed to `geom_boxplot()` to modify the boxplots.
+If metadata are supplied the boxes can be colored by the desired metadata column
+and additional arguments can be passed to `geom_boxplot()` to modify the boxplots.
 
 ```R
 plot_boxplot(logcounts, col_df, fillBy = "Treatment", outlier.shape = NA) + 
@@ -351,8 +351,9 @@ plot_density(logcounts) + theme_coriell()
 ```
 ![](man/figures/density.png)
 
-Values can be grouped if metadata are supplied and additional arguments can be
-passed to `geom_density()` to modify the density lines.
+If metadata are supplied, the lines can be colored by the desired metadata column
+and additional arguments can be passed to `geom_density()` to modify the density
+layer.
 
 ```R
 plot_density(logcounts, col_df, colBy = "Treatment", size = 2) + 
