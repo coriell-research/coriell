@@ -43,8 +43,12 @@ plot_boxplot <- function(x, metadata = NULL, fillBy = NULL, ...) {
     dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
   }
   
-  if (is.null(fillBy)) 
+  if (is.null(fillBy))
     fillBy <- ".sample"
+  
+  # Force x axis to be in Group order
+  fct_levels <- dt.m[order(get(fillBy))][, unique(.sample)]
+  dt.m[, .sample := factor(.sample, levels = fct_levels)]
   
   ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value")) +
     ggplot2::geom_boxplot(ggplot2::aes_string(fill = fillBy), ...) +
