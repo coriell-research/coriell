@@ -13,6 +13,9 @@
 #' @examples
 #' summarize_dge(GSE161650_de)
 summarize_dge <- function(df, fdr_col = "FDR", lfc_col = "logFC", fdr = 0.05, lfc = 0) {
+  stopifnot("Provided fdr_col column not in data.frame" = fdr_col %in% colnames(df))
+  stopifnot("Provided lfc_col not in data.frame" = lfc_col %in% colnames(df))
+  
   up <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] > 0, na.rm = TRUE)
   down <- sum(df[[fdr_col]] < fdr & abs(df[[lfc_col]]) > lfc & df[[lfc_col]] < 0, na.rm = TRUE)
   unperturbed <- nrow(df) - (up + down)
