@@ -109,3 +109,28 @@ clr <- function(x, base = 2) {
 
   return(x)
 }
+
+#' Give means of rows of matrix based on column grouping variable
+#'
+#' Inspired by edgeR::sumTechReps, this function takes the average of the 
+#' values in each group given by the group argument for each row of the data 
+#' matrix.
+#' @param x variable (gene) by sample numeric matrix
+#' @param group Factor specifying the grouping level to by averaged
+#' @return variable x nLevels(group) matrix
+#' @export 
+#' @examples
+#' # Specify the Group levels 
+#' Group <- gl(n = 2, k = 3, labels = c("DMSO", "THZ1"))
+#' 
+#' # Take the average of every gene by treatment group
+#' by_group <- colmean(GSE161650_lc, group = Group)
+#' by_group[1:5,]
+#' 
+colmean <- function(x, group) {
+  stopifnot("x must be a numeric matrix" = is.numeric(x))
+  stopifnot("group must be a factor variable" = is.factor(group))
+  stopifnot("length of grouping factor must equal number of columns" = length(group) == ncol(x))
+  
+  t(rowsum(t(x), group = group, reorder = FALSE) / as.vector(table(group)))
+}
