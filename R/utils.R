@@ -112,9 +112,9 @@ clr <- function(x, base = 2) {
 
 #' Give means of rows of matrix based on column grouping variable
 #'
-#' Inspired by edgeR::sumTechReps, this function takes the average of the 
-#' values in each group given by the group argument for each row of the data 
-#' matrix.
+#' Inspired by \code{edgeR::sumTechReps} and \code{base::rowsum()}, this function 
+#' takes the average of the values in each group given by the group argument 
+#' for each row of the data matrix.
 #' @param x variable (gene) by sample numeric matrix
 #' @param group Factor specifying the grouping level to by averaged
 #' @return variable x nLevels(group) matrix
