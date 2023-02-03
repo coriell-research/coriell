@@ -4,25 +4,40 @@
 \alias{plot_boxplot}
 \title{Create boxplot from an expression matrix}
 \usage{
-plot_boxplot(x, metadata = NULL, fillBy = NULL, ...)
+plot_boxplot(
+  x,
+  metadata = NULL,
+  fillBy = NULL,
+  rle = FALSE,
+  violin = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{gene by sample matrix or data.frame of numeric values to be plotted.}
 
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata
-must match the colnames of the input matrix. Default NULL, each sample in the 
+must match the colnames of the input matrix. Default NULL, each sample in the
 matrix will be plotted.}
 
-\item{fillBy}{metadata column used to fill boxplots. Default NULL, 
+\item{fillBy}{metadata column used to fill boxplots. Default NULL,
 each sample will be a distinct color.}
 
-\item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()}}
+\item{rle}{Plot the relative log expression value. This option assumes
+that the input matrix has already been logged. Be sure to take the log of the 
+input matrix prior to setting this option.}
+
+\item{violin}{Plot the data as a violin plot instead of a boxplot. Default FALSE.}
+
+\item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()} or
+\code{ggplot2::geom_violin()}}
 }
 \value{
 ggplot object
 }
 \description{
-Create a boxplot of expression values for the given expression matrix.
+Create a boxplot (or violin plot) of expression distributions for the given 
+expression matrix. Optionally plot the relative log expression of the matrix.
 }
 \examples{
 # Create metadata for plotting
@@ -30,10 +45,14 @@ metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the boxplot by sample
-plot_boxplot(GSE161650_lc) + 
+plot_boxplot(GSE161650_lc) +
+  theme_coriell()
+
+# Plot the boxplot by coloring each Group
+plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") +
   theme_coriell()
   
-# Plot the boxplot by coloring each Group
-plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") + 
+# Create a violin plot after RLE transformation
+plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE) +
   theme_coriell()
 }
