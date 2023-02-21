@@ -9,6 +9,7 @@
 #' @return vector of hex values for RGB colors of length n
 random_rgb_palette <- function(n, alpha = 1.0) {
   stopifnot("n must be numeric" = is.numeric(n))
+  stopifnot("n must be greater than 0" = n > 0)
   stopifnot("length(n) must be equal to 1" = length(n) == 1)
   stopifnot("alpha must be between 0 and 1" = alpha >= 0 & alpha <= 1)
 
@@ -43,6 +44,7 @@ random_rgb_palette <- function(n, alpha = 1.0) {
 #' @return vector of distinct RGB colors
 distinct_rgb_palette <- function(n, alpha = 1.0, ...) {
   stopifnot("n must be numeric" = is.numeric(n))
+  stopifnot("n must be greater than 0" = n > 0)
   stopifnot("length(n) must be equal to 1" = length(n) == 1)
   stopifnot("alpha must be between 0 and 1" = alpha >= 0 & alpha <= 1)
 
