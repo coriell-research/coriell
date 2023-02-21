@@ -4,10 +4,12 @@
 \alias{edger_to_df}
 \title{Convert EdgeR results object to a data.frame}
 \usage{
-edger_to_df(res_obj)
+edger_to_df(res_obj, ...)
 }
 \arguments{
 \item{res_obj}{\code{edgeR} results object to be converted}
+
+\item{...}{Additional arguments passed to \link{\code{edgeR::topTags()}}}
 }
 \value{
 data.frame

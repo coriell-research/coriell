@@ -5,6 +5,7 @@
 #' with all features.
 #' 
 #' @param res_obj \code{edgeR} results object to be converted
+#' @param ... Additional arguments passed to \link{\code{edgeR::topTags()}}
 #' @export
 #' @return data.frame
 #' @examples
@@ -36,8 +37,8 @@
 #' 
 #' head(res_df)
 #'
-edger_to_df <- function(res_obj) {
-  df <- edgeR::topTags(res_obj, n = nrow(res_obj[["table"]]))[["table"]]
+edger_to_df <- function(res_obj, ...) {
+  df <- edgeR::topTags(res_obj, n = Inf, ...)$table
   df <- cbind(feature_id = rownames(df), df)
   rownames(df) <- NULL
   
