@@ -2,9 +2,22 @@
 % Please edit documentation in R/plot-boxplot.R
 \name{plot_boxplot}
 \alias{plot_boxplot}
-\title{Create boxplot from an expression matrix}
+\alias{plot_boxplot.SummarizedExperiment}
+\alias{plot_boxplot.matrix}
+\title{Create boxplot from expression data}
 \usage{
-plot_boxplot(
+plot_boxplot(x, ...)
+
+\method{plot_boxplot}{SummarizedExperiment}(
+  x,
+  assay = "counts",
+  fillBy = NULL,
+  rle = FALSE,
+  violin = FALSE,
+  ...
+)
+
+\method{plot_boxplot}{matrix}(
   x,
   metadata = NULL,
   fillBy = NULL,
@@ -14,11 +27,12 @@ plot_boxplot(
 )
 }
 \arguments{
-\item{x}{gene by sample matrix or data.frame of numeric values to be plotted.}
+\item{x}{matrix of expression values or \code{SummarizedExperiment} object}
 
-\item{metadata}{data.frame containing metadata per sample. rownames of metadata
-must match the colnames of the input matrix. Default NULL, each sample in the
-matrix will be plotted.}
+\item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()} or
+\code{ggplot2::geom_violin()}}
+
+\item{assay}{If a SummarizedExperiment is supplied what assay is used. Default "counts"}
 
 \item{fillBy}{metadata column used to fill boxplots. Default NULL,
 each sample will be a distinct color.}
@@ -29,8 +43,9 @@ input matrix prior to setting this option.}
 
 \item{violin}{Plot the data as a violin plot instead of a boxplot. Default FALSE.}
 
-\item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()} or
-\code{ggplot2::geom_violin()}}
+\item{metadata}{data.frame containing metadata per sample. rownames of metadata
+must match the colnames of the input matrix. Default NULL, each sample in x 
+will be plotted individually.}
 }
 \value{
 ggplot object
