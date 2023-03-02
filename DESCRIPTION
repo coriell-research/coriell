@@ -1,31 +1,35 @@
-Package: coriell
 Type: Package
-Title: Convenience functions for bioinformatics
+Package: coriell
+Title: Convenience Functions for Bioinformatics
 Version: 0.9.0
-Authors@R: person("Gennaro", "Calendo", email = "gcalendo@coriell.org",
-  role = c("aut", "cre"))
-Description: Functions for plotting and transforming data.
+Authors@R: 
+    person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre"))
+Description: This package provides many helper functions for common bioinformatics
+    tasks such as plotting and summarizing the results of differential expression 
+    analyses, creating heatmaps from expression data, performing permutation tests, 
+    selecting outliers, analyzing PCA plots, and many other common tasks.
 License: MIT + file LICENSE
 URL: https://github.com/coriell-research/coriell
 BugReports: https://github.com/coriell-research/coriell/issues
+Depends: 
+    R (>= 2.10)
+Imports: 
+    data.table,
+    ggplot2
+Suggests: 
+    edgeR,
+    ggrepel,
+    httr,
+    jsonlite,
+    knitr,
+    matrixStats,
+    pheatmap,
+    rmarkdown,
+    SummarizedExperiment,
+    testthat,
+    viridisLite
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-Imports: 
-    ggplot2,
-    ggrepel,
-    edgeR,
-    parallel,
-    pheatmap,
-    viridisLite,
-    jsonlite,
-    httr,
-    data.table
-Suggests: 
-    testthat,
-    knitr,
-    rmarkdown,
-    SummarizedExperiment
-VignetteBuilder: knitr
-Depends: 
-    R (>= 2.10)
