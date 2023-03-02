@@ -50,6 +50,13 @@ panther_go <- function(
                        annot_dataset,
                        enrichment_test_type = "fisher",
                        correction = "fdr") {
+  if (!requireNamespace("httr", quietly = TRUE)) {
+    stop("httr package is required.")
+  }
+  if (!requireNamespace("jsonlite", quietly = TRUE)) {
+    stop("jsonlite package is required.")
+  }
+  
   datasets <- c(
     "biological_process" = "GO:0008150",
     "molecular_function" = "GO:0003674",
@@ -92,7 +99,7 @@ panther_go <- function(
   httr::stop_for_status(r, "ERROR: failed to execute request")
   httr::warn_for_status(r, "WARNING: request produced a warning response")
   parsed <- jsonlite::fromJSON(httr::content(r, "text"), simplifyVector = FALSE)
-  dt <- rbindlist(parsed$results$result)
+  dt <- data.table::rbindlist(parsed$results$result)
   
   return(dt)
 }
