@@ -38,6 +38,9 @@
 #' head(res_df)
 #'
 edger_to_df <- function(res_obj, ...) {
+  if (!requireNamespace("edgeR", quietly = TRUE)) {
+    stop("edgeR package is required.")
+  }
   df <- edgeR::topTags(res_obj, n = Inf, ...)$table
   df <- cbind(feature_id = rownames(df), df)
   rownames(df) <- NULL
