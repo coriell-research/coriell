@@ -68,6 +68,10 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc 
 
   # add text labels to significant genes
   if (label_sig && !is.null(lab)) {
+    if (!requireNamespace("ggrepel", quietly = TRUE)) {
+      stop("ggrepel package is required.")
+    }
+    
     p <- p +
       ggrepel::geom_text_repel(
         data = dt[direction %in% c("Up", "Down")],
