@@ -2,6 +2,10 @@
 
 S3method(plot_boxplot,SummarizedExperiment)
 S3method(plot_boxplot,matrix)
+S3method(plot_density,SummarizedExperiment)
+S3method(plot_density,matrix)
+S3method(plot_parallel,SummarizedExperiment)
+S3method(plot_parallel,matrix)
 export(associate_components)
 export(clamp)
 export(clr)

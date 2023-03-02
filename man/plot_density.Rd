@@ -2,12 +2,20 @@
 % Please edit documentation in R/plot-density.R
 \name{plot_density}
 \alias{plot_density}
+\alias{plot_density.matrix}
+\alias{plot_density.SummarizedExperiment}
 \title{Density plot of expression values}
 \usage{
-plot_density(x, metadata = NULL, colBy = NULL, ...)
+plot_density(x, ...)
+
+\method{plot_density}{matrix}(x, metadata = NULL, colBy = NULL, ...)
+
+\method{plot_density}{SummarizedExperiment}(x, assay = "counts", colBy = NULL, ...)
 }
 \arguments{
-\item{x}{gene by sample matrix or data.frame of numeric values to be plotted.}
+\item{x}{gene by sample matrix or \code{SummarizedExperiment} object}
+
+\item{...}{Additional parameters passed to \code{ggplot2::geom_density()}}
 
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata
 must match the colnames of the input matrix. Default NULL, each sample in the 
@@ -16,13 +24,13 @@ matrix will be plotted.}
 \item{colBy}{metadata column used to color density lines. Default NULL, 
 each sample in the matrix will be plotted.}
 
-\item{...}{Additional parameters passed to \code{ggplot2::geom_density()}}
+\item{assay}{assay of the SummarizedExperiment object. Default "counts"}
 }
 \value{
 ggplot object
 }
 \description{
-Create a density of expression values for the given expression matrix.
+Create a density plot of expression values for the given expression matrix.
 }
 \examples{
 # Create metadata for plotting

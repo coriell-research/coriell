@@ -2,12 +2,20 @@
 % Please edit documentation in R/plot-parallel.R
 \name{plot_parallel}
 \alias{plot_parallel}
+\alias{plot_parallel.matrix}
+\alias{plot_parallel.SummarizedExperiment}
 \title{Parallel coordinates plot of expression data}
 \usage{
-plot_parallel(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)
+plot_parallel(x, ...)
+
+\method{plot_parallel}{matrix}(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)
+
+\method{plot_parallel}{SummarizedExperiment}(x, assay = "counts", colBy = NULL, removeVar = NULL, ...)
 }
 \arguments{
-\item{x}{gene by sample matrix or data.frame of numeric values to be plotted.}
+\item{x}{gene by sample matrix or \code{SummarizedExperiment} object}
+
+\item{...}{Additional parameters passed to \code{ggplot2::geom_line()}}
 
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata
 must match the colnames of the input matrix. Default NULL, each sample in the 
@@ -19,7 +27,7 @@ will get its own color.}
 \item{removeVar}{Remove this proportion of features based on the variance 
 across rows. Default NULL, all features are plotted.}
 
-\item{...}{Additional parameters passed to \code{ggplot2::geom_line()}}
+\item{assay}{assay of \code{SummarizedExperiment} object to be plotted. Default "counts".}
 }
 \value{
 ggplot object

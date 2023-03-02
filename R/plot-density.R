@@ -1,8 +1,9 @@
 #' Density plot of expression values
 #' 
-#' Create a density of expression values for the given expression matrix.
+#' Create a density plot of expression values for the given expression matrix.
 #' 
-#' @param x gene by sample matrix or data.frame of numeric values to be plotted.
+#' @param x gene by sample matrix or \code{SummarizedExperiment} object
+#' @param assay assay of the SummarizedExperiment object. Default "counts"
 #' @param metadata data.frame containing metadata per sample. rownames of metadata
 #' must match the colnames of the input matrix. Default NULL, each sample in the 
 #' matrix will be plotted.
@@ -24,7 +25,12 @@
 #' # Color each sample by their Group in metadata
 #' plot_density(GSE161650_lc, metadata, colBy = "Group") + 
 #'   theme_coriell()
-plot_density <- function(x, metadata = NULL, colBy = NULL, ...) {
+plot_density <- function(x, ...) UseMethod("plot_density")
+
+
+#' @rdname plot_density
+#' @export
+plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
   stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
   stopifnot("colBy must be a column in metadata" = colBy %in% colnames(metadata))
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
@@ -53,4 +59,39 @@ plot_density <- function(x, metadata = NULL, colBy = NULL, ...) {
       y = "Density", 
       color = if (colBy == ".sample") "Sample" else colBy
       )
+}
+
+#' @rdname plot_density
+#' @export
+plot_density.SummarizedExperiment <- function(x, assay = "counts", colBy = NULL, ...) {
+  if (!requireNamespace("SummarizedExperiment", quietly = TRUE))
+    stop("SummarizedExperiment package is not installed.")
+  
+  M <- SummarizedExperiment::assay(x, assay)
+  
+  dt <- data.table::as.data.table(M, keep.rownames = ".feature")
+  dt.m <- data.table::melt(
+    dt, 
+    id.vars = ".feature", 
+    variable.name = ".sample",
+    value.name = ".value",
+    variable.factor = FALSE
+  )
+  
+  meta <- data.table::setDT(
+    data.frame(SummarizedExperiment::colData(x)), 
+    keep.rownames = ".sample"
+  )
+  dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
+  
+  if (is.null(colBy)) 
+    colBy <- ".sample"
+  
+  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".value", group = ".sample")) +
+    ggplot2::geom_density(ggplot2::aes_string(color = colBy), ...) +
+    ggplot2::labs(
+      x = NULL, 
+      y = "Density", 
+      color = if (colBy == ".sample") "Sample" else colBy
+    )
 }
