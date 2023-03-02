@@ -64,6 +64,10 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, 
   
   # add text labels to significant genes
   if (label_sig && !is.null(lab)) {
+    if (!requireNamespace("ggrepel", quietly = TRUE)) {
+      stop("ggrepel package is required.")
+    }
+    
     p <- p +
       ggrepel::geom_text_repel(
         data = dt[direction %in% c("Up", "Down")],
