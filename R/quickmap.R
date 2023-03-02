@@ -43,6 +43,14 @@
 #' @export
 quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50, 
                      fix_extreme = FALSE, thresh = 0.5, removeVar = NULL, ...) {
+  if (!requireNamespace("pheatmap", quietly = TRUE)) {
+    stop("pheatmap package is required.")
+  }
+  
+  if (!requireNamespace("viridisLite", quietly = TRUE)) {
+    stop("viridisLite package is required.")
+  }
+  
   stopifnot("thresh must be between 0 and 1" = thresh > 0 & thresh < 1)
   diverging_pal <- grDevices::colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(n_breaks)
   continuous_pal <- rev(viridisLite::magma(n = n_breaks))
