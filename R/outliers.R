@@ -32,6 +32,10 @@
 #' outliers_by_iqr(M)
 #' 
 outliers_by_iqr <- function(X, scale_factor = 1.5) {
+  if (!requireNamespace("matrixStats", quietly = TRUE)) {
+    stop("matrixStats package is required.")
+  }
+  
   if (is(X, "data.frame")) X <- data.matrix(X)
   iqr <- matrixStats::colIQRs(X, useNames = FALSE)
   q1 <- matrixStats::colQuantiles(X, probs = 0.25, useNames = FALSE)
