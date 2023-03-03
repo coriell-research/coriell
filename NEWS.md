@@ -1,3 +1,11 @@
+## coriell 0.10.0
+
+- Moved most packages to "Suggests" instead of "Imports" to reflect that this
+package is a collection of helpers. This reduces dependencies upon install.
+- Inclusion of and update for `plot_boxplot()`, `plot_density()`, and 
+`plot_parallel()`. These functions are now generics that work with matrix, 
+data.frame, and `SummarizedExperiment` classes
+
 ## coriell 0.9.0
 
 - Potential breaking changes to `plot_volcano()` and `plot_md()`. For 
