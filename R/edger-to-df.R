@@ -5,7 +5,7 @@
 #' with all features.
 #' 
 #' @param res_obj \code{edgeR} results object to be converted
-#' @param ... Additional arguments passed to \link{\code{edgeR::topTags()}}
+#' @param ... Additional arguments passed to \code{edgeR::topTags()}
 #' @export
 #' @return data.frame
 #' @examples
