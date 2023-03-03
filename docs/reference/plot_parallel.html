@@ -18,7 +18,7 @@ value for gene on the y-axis by each sample on the x-axis."><!-- mathjax --><scr
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -70,7 +70,13 @@ value for gene on the y-axis by each sample on the x-axis.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for default</span></span>
+<span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for matrix</span></span>
+<span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">x</span>, metadata <span class="op">=</span> <span class="cn">NULL</span>, colBy <span class="op">=</span> <span class="cn">NULL</span>, removeVar <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for data.frame</span></span>
 <span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">x</span>, metadata <span class="op">=</span> <span class="cn">NULL</span>, colBy <span class="op">=</span> <span class="cn">NULL</span>, removeVar <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for SummarizedExperiment</span></span>
@@ -88,18 +94,16 @@ value for gene on the y-axis by each sample on the x-axis.</p>
 
 
 <dt>metadata</dt>
-<dd><p>data.frame containing metadata per sample. rownames of metadata
-must match the colnames of the input matrix. Default NULL, each sample in the 
-matrix will be plotted.</p></dd>
+<dd><p>data.frame containing metadata per sample. rownames of metadata</p></dd>
 
 
 <dt>colBy</dt>
-<dd><p>metadata column used to color lines. Default NULL, every sample 
+<dd><p>metadata column used to color lines. Default NULL, every sample
 will get its own color.</p></dd>
 
 
 <dt>removeVar</dt>
-<dd><p>Remove this proportion of features based on the variance 
+<dd><p>Remove this proportion of features based on the variance
 across rows. Default NULL, all features are plotted.</p></dd>
 
 
@@ -121,12 +125,12 @@ across rows. Default NULL, all features are plotted.</p></dd>
 <span class="r-in"><span><span class="va">metadata</span><span class="op">$</span><span class="va">Group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DMSO"</span>, <span class="st">"THZ1"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the PCP for each sample -- passing alpha value to geom_line()</span></span></span>
-<span class="r-in"><span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">GSE161650_lc</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">GSE161650_lc</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_parallel-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot the PCP by coloring each sample by Group from metadata</span></span></span>
-<span class="r-in"><span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">GSE161650_lc</span>, <span class="va">metadata</span>, colBy <span class="op">=</span> <span class="st">"Group"</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span><span class="fu">plot_parallel</span><span class="op">(</span><span class="va">GSE161650_lc</span>, <span class="va">metadata</span>, colBy <span class="op">=</span> <span class="st">"Group"</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_parallel-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>

@@ -19,7 +19,7 @@ https://stackoverflow.com/a/34287541"><!-- mathjax --><script src="https://cdnjs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -34,13 +34,22 @@ https://stackoverflow.com/a/34287541"><!-- mathjax --><script src="https://cdnjs
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -50,7 +59,7 @@ https://stackoverflow.com/a/34287541"><!-- mathjax --><script src="https://cdnjs
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate all permutations of a vector</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/permutation.R" class="external-link"><code>R/permutation.R</code></a></small>
     <div class="hidden name"><code>permutations.Rd</code></div>
     </div>
 
@@ -61,24 +70,27 @@ represents a permutation of the data. Stolen from:
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">permutations</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">permutations</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>vector</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>factorial(x) x length(x) matrix</p>
+    
+
+<p>factorial(x) x length(x) matrix</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">v</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">permutations</span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">p</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">permutations</span><span class="op">(</span><span class="va">v</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,1] [,2] [,3] [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "a"  "b"  "c"  "d" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "a"  "b"  "d"  "c" </span>
@@ -118,7 +130,7 @@ represents a permutation of the data. Stolen from:
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

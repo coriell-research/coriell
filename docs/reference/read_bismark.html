@@ -18,7 +18,7 @@ coverage and feature-wise variance."><!-- mathjax --><script src="https://cdnjs.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -33,13 +33,22 @@ coverage and feature-wise variance."><!-- mathjax --><script src="https://cdnjs.
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -49,7 +58,7 @@ coverage and feature-wise variance."><!-- mathjax --><script src="https://cdnjs.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read in and Filter Bismark Coverage Files</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/read-bismark.R" class="external-link"><code>R/read-bismark.R</code></a></small>
     <div class="hidden name"><code>read_bismark.Rd</code></div>
     </div>
 
@@ -59,31 +68,42 @@ coverage and feature-wise variance.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_bismark</span><span class="op">(</span>
-  <span class="va">files</span>,
-  coverage <span class="op">=</span> <span class="fl">1</span>,
-  prop_samples <span class="op">=</span> <span class="fl">1</span>,
-  remove_zero_var <span class="op">=</span> <span class="cn">FALSE</span>,
-  return_mats <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_bismark</span><span class="op">(</span></span>
+<span>  <span class="va">files</span>,</span>
+<span>  coverage <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  prop_samples <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  remove_zero_var <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  return_mats <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>files</dt>
 <dd><p>Named vector of file paths to the bismark coverage files</p></dd>
+
+
 <dt>coverage</dt>
 <dd><p>Minimum coverage for a CpG site. Default (1)</p></dd>
+
+
 <dt>prop_samples</dt>
 <dd><p>Proportion of samples that site must be covered to be retained. Default (1)</p></dd>
+
+
 <dt>remove_zero_var</dt>
 <dd><p>Should zero variance features be removed after filtering for coverage? Default (FALSE)</p></dd>
+
+
 <dt>return_mats</dt>
 <dd><p>if TRUE, return matrices of the filtered data in a list. Else, return the filtered data.table in bismark format. Default (FALSE)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Either a data.table of filtered data with additional columns for Coverage and Variance or a list of matrices of filtered data</p>
+    
+
+<p>Either a data.table of filtered data with additional columns for Coverage and Variance or a list of matrices of filtered data</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -96,25 +116,25 @@ CpGs (Unmethylated)</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P6_1.bismark.cov.gz"</span>, <span class="st">"P6_4.bismark.cov.gz"</span>, <span class="st">"P7_2.bismark.cov.gz"</span>, <span class="st">"P7_5.bismark.cov.gz"</span>, <span class="st">"P8_3.bismark.cov.gz"</span>, <span class="st">"P8_6.bismark.cov.gz"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\.bismark\\.cov\\.gz"</span>, <span class="st">""</span>, <span class="va">files</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Read in all files using default parameters -- returns a data.table</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">read_bismark</span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Filter for coverage &gt;= 20 in at least 50% of samples and remove any zero variance features</span></span>
-<span class="r-in"><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_bismark</span><span class="op">(</span><span class="va">files</span>, coverage <span class="op">=</span> <span class="fl">20</span>, prop_samples <span class="op">=</span> <span class="fl">0.5</span>, remove_zero_var <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Same filtering as above but return a list of CpG x Sample matrices</span></span>
-<span class="r-in"><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu">read_bismark</span><span class="op">(</span><span class="va">files</span>, coverage <span class="op">=</span> <span class="fl">20</span>, prop_samples <span class="op">=</span> <span class="fl">0.5</span>, remove_zero_var <span class="op">=</span> <span class="cn">TRUE</span>, return_mats <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># To view the CpG x Sample Coverages:</span></span>
-<span class="r-in"><span class="va">l</span><span class="op">$</span><span class="va">Coverage</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Percent methylation</span></span>
-<span class="r-in"><span class="va">l</span><span class="op">$</span><span class="va">Percent</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P6_1.bismark.cov.gz"</span>, <span class="st">"P6_4.bismark.cov.gz"</span>, <span class="st">"P7_2.bismark.cov.gz"</span>, <span class="st">"P7_5.bismark.cov.gz"</span>, <span class="st">"P8_3.bismark.cov.gz"</span>, <span class="st">"P8_6.bismark.cov.gz"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"\\.bismark\\.cov\\.gz"</span>, <span class="st">""</span>, <span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Read in all files using default parameters -- returns a data.table</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">read_bismark</span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Filter for coverage &gt;= 20 in at least 50% of samples and remove any zero variance features</span></span></span>
+<span class="r-in"><span><span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu">read_bismark</span><span class="op">(</span><span class="va">files</span>, coverage <span class="op">=</span> <span class="fl">20</span>, prop_samples <span class="op">=</span> <span class="fl">0.5</span>, remove_zero_var <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Same filtering as above but return a list of CpG x Sample matrices</span></span></span>
+<span class="r-in"><span><span class="va">l</span> <span class="op">&lt;-</span> <span class="fu">read_bismark</span><span class="op">(</span><span class="va">files</span>, coverage <span class="op">=</span> <span class="fl">20</span>, prop_samples <span class="op">=</span> <span class="fl">0.5</span>, remove_zero_var <span class="op">=</span> <span class="cn">TRUE</span>, return_mats <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># To view the CpG x Sample Coverages:</span></span></span>
+<span class="r-in"><span><span class="va">l</span><span class="op">$</span><span class="va">Coverage</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Percent methylation</span></span></span>
+<span class="r-in"><span><span class="va">l</span><span class="op">$</span><span class="va">Percent</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -129,7 +149,7 @@ CpGs (Unmethylated)</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

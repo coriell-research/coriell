@@ -2,13 +2,19 @@
 % Please edit documentation in R/plot-density.R
 \name{plot_density}
 \alias{plot_density}
+\alias{plot_density.default}
 \alias{plot_density.matrix}
+\alias{plot_density.data.frame}
 \alias{plot_density.SummarizedExperiment}
 \title{Density plot of expression values}
 \usage{
 plot_density(x, ...)
 
+\method{plot_density}{default}(x)
+
 \method{plot_density}{matrix}(x, metadata = NULL, colBy = NULL, ...)
+
+\method{plot_density}{data.frame}(x, metadata = NULL, colBy = NULL, ...)
 
 \method{plot_density}{SummarizedExperiment}(x, assay = "counts", colBy = NULL, ...)
 }
@@ -18,10 +24,10 @@ plot_density(x, ...)
 \item{...}{Additional parameters passed to \code{ggplot2::geom_density()}}
 
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata
-must match the colnames of the input matrix. Default NULL, each sample in the 
+must match the colnames of the input matrix. Default NULL, each sample in the
 matrix will be plotted.}
 
-\item{colBy}{metadata column used to color density lines. Default NULL, 
+\item{colBy}{metadata column used to color density lines. Default NULL,
 each sample in the matrix will be plotted.}
 
 \item{assay}{assay of the SummarizedExperiment object. Default "counts"}
@@ -38,10 +44,10 @@ metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the density by sample
-plot_density(GSE161650_lc) + 
+plot_density(GSE161650_lc) +
   theme_coriell()
-  
+
 # Color each sample by their Group in metadata
-plot_density(GSE161650_lc, metadata, colBy = "Group") + 
+plot_density(GSE161650_lc, metadata, colBy = "Group") +
   theme_coriell()
 }

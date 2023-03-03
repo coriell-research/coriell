@@ -2,13 +2,19 @@
 % Please edit documentation in R/plot-parallel.R
 \name{plot_parallel}
 \alias{plot_parallel}
+\alias{plot_parallel.default}
 \alias{plot_parallel.matrix}
+\alias{plot_parallel.data.frame}
 \alias{plot_parallel.SummarizedExperiment}
 \title{Parallel coordinates plot of expression data}
 \usage{
 plot_parallel(x, ...)
 
+\method{plot_parallel}{default}(x)
+
 \method{plot_parallel}{matrix}(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)
+
+\method{plot_parallel}{data.frame}(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)
 
 \method{plot_parallel}{SummarizedExperiment}(x, assay = "counts", colBy = NULL, removeVar = NULL, ...)
 }
@@ -17,14 +23,12 @@ plot_parallel(x, ...)
 
 \item{...}{Additional parameters passed to \code{ggplot2::geom_line()}}
 
-\item{metadata}{data.frame containing metadata per sample. rownames of metadata
-must match the colnames of the input matrix. Default NULL, each sample in the 
-matrix will be plotted.}
+\item{metadata}{data.frame containing metadata per sample. rownames of metadata}
 
-\item{colBy}{metadata column used to color lines. Default NULL, every sample 
+\item{colBy}{metadata column used to color lines. Default NULL, every sample
 will get its own color.}
 
-\item{removeVar}{Remove this proportion of features based on the variance 
+\item{removeVar}{Remove this proportion of features based on the variance
 across rows. Default NULL, all features are plotted.}
 
 \item{assay}{assay of \code{SummarizedExperiment} object to be plotted. Default "counts".}
@@ -42,10 +46,10 @@ metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the PCP for each sample -- passing alpha value to geom_line()
-plot_parallel(GSE161650_lc, alpha = 0.01) + 
+plot_parallel(GSE161650_lc, alpha = 0.01) +
   theme_coriell()
 
 # Plot the PCP by coloring each sample by Group from metadata
-plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) + 
+plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) +
   theme_coriell()
 }

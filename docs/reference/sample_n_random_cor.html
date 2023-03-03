@@ -18,7 +18,7 @@ row, permute vector y and perform correlation."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -33,13 +33,22 @@ row, permute vector y and perform correlation."><!-- mathjax --><script src="htt
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -49,7 +58,7 @@ row, permute vector y and perform correlation."><!-- mathjax --><script src="htt
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate a null distribution of correlation values</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/permutation.R" class="external-link"><code>R/permutation.R</code></a></small>
     <div class="hidden name"><code>sample_n_random_cor.Rd</code></div>
     </div>
 
@@ -59,38 +68,47 @@ row, permute vector y and perform correlation.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sample_n_random_cor</span><span class="op">(</span><span class="va">X</span>, <span class="va">y</span>, n <span class="op">=</span> <span class="fl">10000</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sample_n_random_cor</span><span class="op">(</span><span class="va">X</span>, <span class="va">y</span>, n <span class="op">=</span> <span class="fl">10000</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>numeric matrix or data.frame that can be converted to numeric matrix.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>numeric vector. Numeric vector of values used to correlate with each row of df</p></dd>
+
+
 <dt>n</dt>
 <dd><p>integer. Number of random correlations to return. Default (1e4)</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to `cor` function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>numeric vector of correlation values. Vector can contain NAs if row variance == 0.</p>
+    
+
+<p>numeric vector of correlation values. Vector can contain NAs if row variance == 0.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># generate example data</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1e3</span> <span class="op">*</span> <span class="fl">6</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1e3</span>, ncol <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"feature"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">1e3</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"sample"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># sample random correlations from permuted data</span></span>
-<span class="r-in"><span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="fu">sample_n_random_cor</span><span class="op">(</span><span class="va">X</span>, <span class="va">y</span>, n <span class="op">=</span> <span class="fl">1e3</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">null_dist</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.475 feature.979 feature.773  feature.24 feature.971 feature.796 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.1428571   0.1428571  -0.1428571  -0.3714286   0.4857143  -0.3714286 </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># generate example data</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">1e3</span> <span class="op">*</span> <span class="fl">6</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">1e3</span>, ncol <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"feature"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">1e3</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"sample"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, sep <span class="op">=</span> <span class="st">"."</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sample random correlations from permuted data</span></span></span>
+<span class="r-in"><span><span class="va">null_dist</span> <span class="op">&lt;-</span> <span class="fu">sample_n_random_cor</span><span class="op">(</span><span class="va">X</span>, <span class="va">y</span>, n <span class="op">=</span> <span class="fl">1e3</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">null_dist</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.333 feature.718 feature.797 feature.335 feature.122  feature.71 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.42857143 -0.20000000 -0.42857143 -0.08571429 -0.48571429  0.77142857 </span>
 </code></pre></div>
     </div>
   </div>
@@ -105,7 +123,7 @@ row, permute vector y and perform correlation.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

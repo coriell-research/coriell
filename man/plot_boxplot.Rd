@@ -2,24 +2,37 @@
 % Please edit documentation in R/plot-boxplot.R
 \name{plot_boxplot}
 \alias{plot_boxplot}
-\alias{plot_boxplot.SummarizedExperiment}
+\alias{plot_boxplot.default}
 \alias{plot_boxplot.matrix}
+\alias{plot_boxplot.data.frame}
+\alias{plot_boxplot.SummarizedExperiment}
 \title{Create boxplot from expression data}
 \usage{
 plot_boxplot(x, ...)
 
-\method{plot_boxplot}{SummarizedExperiment}(
+\method{plot_boxplot}{default}(x)
+
+\method{plot_boxplot}{matrix}(
   x,
-  assay = "counts",
+  metadata = NULL,
   fillBy = NULL,
   rle = FALSE,
   violin = FALSE,
   ...
 )
 
-\method{plot_boxplot}{matrix}(
+\method{plot_boxplot}{data.frame}(
   x,
   metadata = NULL,
+  fillBy = NULL,
+  rle = FALSE,
+  violin = FALSE,
+  ...
+)
+
+\method{plot_boxplot}{SummarizedExperiment}(
+  x,
+  assay = "counts",
   fillBy = NULL,
   rle = FALSE,
   violin = FALSE,
@@ -32,26 +45,26 @@ plot_boxplot(x, ...)
 \item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()} or
 \code{ggplot2::geom_violin()}}
 
-\item{assay}{If a SummarizedExperiment is supplied what assay is used. Default "counts"}
+\item{metadata}{data.frame containing metadata per sample. rownames of metadata
+must match the colnames of the input matrix. Default NULL, each sample in x
+will be plotted individually.}
 
 \item{fillBy}{metadata column used to fill boxplots. Default NULL,
 each sample will be a distinct color.}
 
 \item{rle}{Plot the relative log expression value. This option assumes
-that the input matrix has already been logged. Be sure to take the log of the 
+that the input matrix has already been logged. Be sure to take the log of the
 input matrix prior to setting this option.}
 
 \item{violin}{Plot the data as a violin plot instead of a boxplot. Default FALSE.}
 
-\item{metadata}{data.frame containing metadata per sample. rownames of metadata
-must match the colnames of the input matrix. Default NULL, each sample in x 
-will be plotted individually.}
+\item{assay}{If a SummarizedExperiment is supplied what assay is used. Default "counts"}
 }
 \value{
 ggplot object
 }
 \description{
-Create a boxplot (or violin plot) of expression distributions for the given 
+Create a boxplot (or violin plot) of expression distributions for the given
 expression matrix. Optionally plot the relative log expression of the matrix.
 }
 \examples{
@@ -66,7 +79,7 @@ plot_boxplot(GSE161650_lc) +
 # Plot the boxplot by coloring each Group
 plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") +
   theme_coriell()
-  
+
 # Create a violin plot after RLE transformation
 plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE) +
   theme_coriell()

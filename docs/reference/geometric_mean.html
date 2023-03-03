@@ -18,7 +18,7 @@ Stolen from https://stackoverflow.com/a/25555105."><!-- mathjax --><script src="
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -33,13 +33,22 @@ Stolen from https://stackoverflow.com/a/25555105."><!-- mathjax --><script src="
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -49,7 +58,7 @@ Stolen from https://stackoverflow.com/a/25555105."><!-- mathjax --><script src="
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Geometric mean of a vector</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>geometric_mean.Rd</code></div>
     </div>
 
@@ -59,28 +68,35 @@ Stolen from <a href="https://stackoverflow.com/a/25555105" class="external-link"
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geometric_mean</span><span class="op">(</span><span class="va">x</span>, zero_propagate <span class="op">=</span> <span class="cn">FALSE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geometric_mean</span><span class="op">(</span><span class="va">x</span>, zero_propagate <span class="op">=</span> <span class="cn">FALSE</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>numeric vector of non-negative values</p></dd>
+
+
 <dt>zero_propagate</dt>
 <dd><p>logical. Should zeros be included in the calculation. Default FALSE.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>logical. Remove NAs from calculation</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>geometric mean of the vector</p>
+    
+
+<p>geometric mean of the vector</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">1500</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gm</span> <span class="op">&lt;-</span> <span class="fu">geometric_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">1500</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gm</span> <span class="op">&lt;-</span> <span class="fu">geometric_mean</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -95,7 +111,7 @@ Stolen from <a href="https://stackoverflow.com/a/25555105" class="external-link"
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

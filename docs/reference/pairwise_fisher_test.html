@@ -19,7 +19,7 @@ data.frame of the results."><!-- mathjax --><script src="https://cdnjs.cloudflar
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -34,13 +34,22 @@ data.frame of the results."><!-- mathjax --><script src="https://cdnjs.cloudflar
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -50,7 +59,7 @@ data.frame of the results."><!-- mathjax --><script src="https://cdnjs.cloudflar
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Perform pairwise fisher.tests on an input matrix</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/pairwise-fisher-test.R" class="external-link"><code>R/pairwise-fisher-test.R</code></a></small>
     <div class="hidden name"><code>pairwise_fisher_test.Rd</code></div>
     </div>
 
@@ -61,19 +70,24 @@ data.frame of the results.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">pairwise_fisher_test</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pairwise_fisher_test</span><span class="op">(</span><span class="va">x</span>, <span class="va">ref</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>numeric 2 x m data.frame, matrix, or table</p></dd>
+
+
 <dt>ref</dt>
 <dd><p>column name of the reference column of the input matrix</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.frame of results for each test.</p>
+    
+
+<p>data.frame of results for each test.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -88,11 +102,11 @@ are in the desired order.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># From chisq.test docs:</span></span>
-<span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">as.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">762</span>, <span class="fl">327</span>, <span class="fl">468</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">484</span>, <span class="fl">239</span>, <span class="fl">477</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span>
-<span class="r-in">                    party <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Democrat"</span>,<span class="st">"Independent"</span>, <span class="st">"Republican"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">pairwise_fisher_test</span><span class="op">(</span><span class="va">M</span>, ref <span class="op">=</span> <span class="st">"Independent"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># From chisq.test docs:</span></span></span>
+<span class="r-in"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">as.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">762</span>, <span class="fl">327</span>, <span class="fl">468</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">484</span>, <span class="fl">239</span>, <span class="fl">477</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>gender <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"F"</span>, <span class="st">"M"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    party <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Democrat"</span>,<span class="st">"Independent"</span>, <span class="st">"Republican"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pairwise_fisher_test</span><span class="op">(</span><span class="va">M</span>, ref <span class="op">=</span> <span class="st">"Independent"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  comparison odds_ratio    ci_low   ci_high     p_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   Democrat vs Independent  1.1505995 0.9349959 1.4151128 0.178627092</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Republican vs Independent  0.7172647 0.5779167 0.8894628 0.002018961</span>
@@ -113,7 +127,7 @@ are in the desired order.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -32,13 +32,22 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -48,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Map a value in one range to a value in another</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>map_value.Rd</code></div>
     </div>
 
@@ -57,30 +66,41 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_value</span><span class="op">(</span><span class="va">x</span>, <span class="va">old_min</span>, <span class="va">old_max</span>, <span class="va">new_min</span>, <span class="va">new_max</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">map_value</span><span class="op">(</span><span class="va">x</span>, <span class="va">old_min</span>, <span class="va">old_max</span>, <span class="va">new_min</span>, <span class="va">new_max</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>numeric. Value to be transformed</p></dd>
+
+
 <dt>old_min</dt>
 <dd><p>numeric. Minimum value of source range.</p></dd>
+
+
 <dt>old_max</dt>
 <dd><p>numeric. Maximum value of source range.</p></dd>
+
+
 <dt>new_min</dt>
 <dd><p>numeric. Minimum value of desired range.</p></dd>
+
+
 <dt>new_max</dt>
 <dd><p>numeric. Maximum value of desired range.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Value of x mapped to the desired range.</p>
+    
+
+<p>Value of x mapped to the desired range.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">map_value</span><span class="op">(</span><span class="fl">50</span>, old_min <span class="op">=</span> <span class="fl">0</span>, old_max <span class="op">=</span> <span class="fl">100</span>, new_min <span class="op">=</span> <span class="fl">100</span>, new_max <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">map_value</span><span class="op">(</span><span class="fl">50</span>, old_min <span class="op">=</span> <span class="fl">0</span>, old_max <span class="op">=</span> <span class="fl">100</span>, new_min <span class="op">=</span> <span class="fl">100</span>, new_max <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 550</span>
 </code></pre></div>
     </div>
@@ -96,7 +116,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

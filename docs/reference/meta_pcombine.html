@@ -20,7 +20,7 @@ to the lfc_fun argument used to summarize the logFC values across studies."><!--
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -35,13 +35,22 @@ to the lfc_fun argument used to summarize the logFC values across studies."><!--
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -51,7 +60,7 @@ to the lfc_fun argument used to summarize the logFC values across studies."><!--
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Perform p-value combination on differential expression results</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/meta-analysis.R" class="external-link"><code>R/meta-analysis.R</code></a></small>
     <div class="hidden name"><code>meta_pcombine.Rd</code></div>
     </div>
 
@@ -63,55 +72,82 @@ to the <code>lfc_fun</code> argument used to summarize the logFC values across s
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">meta_pcombine</span><span class="op">(</span>
-  <span class="va">exp_list</span>,
-  lfc_col <span class="op">=</span> <span class="st">"logFC"</span>,
-  pval_col <span class="op">=</span> <span class="st">"FDR"</span>,
-  gene_col <span class="op">=</span> <span class="st">"feature_id"</span>,
-  all_common <span class="op">=</span> <span class="cn">FALSE</span>,
-  lfc_fun <span class="op">=</span> <span class="va">mean</span>,
-  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fisher"</span>, <span class="st">"pearson"</span>, <span class="st">"stouffer"</span>, <span class="st">"tippet"</span>, <span class="st">"wilkinson"</span><span class="op">)</span>,
-  plot <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot_lfc <span class="op">=</span> <span class="fl">0</span>,
-  plot_pval <span class="op">=</span> <span class="fl">0.05</span>,
-  plot_labels <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot_count <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">meta_pcombine</span><span class="op">(</span></span>
+<span>  <span class="va">exp_list</span>,</span>
+<span>  lfc_col <span class="op">=</span> <span class="st">"logFC"</span>,</span>
+<span>  pval_col <span class="op">=</span> <span class="st">"FDR"</span>,</span>
+<span>  gene_col <span class="op">=</span> <span class="st">"feature_id"</span>,</span>
+<span>  all_common <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  lfc_fun <span class="op">=</span> <span class="va">mean</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fisher"</span>, <span class="st">"pearson"</span>, <span class="st">"stouffer"</span>, <span class="st">"tippet"</span>, <span class="st">"wilkinson"</span><span class="op">)</span>,</span>
+<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot_lfc <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  plot_pval <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  plot_labels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot_count <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>exp_list</dt>
 <dd><p>list() of data.frames of differential expression results.</p></dd>
+
+
 <dt>lfc_col</dt>
 <dd><p>Column name in the expression data.frames that contains log fold-change values. default = "logFC".</p></dd>
+
+
 <dt>pval_col</dt>
 <dd><p>Column name in expression data.frames that contains the significance values. default = "FDR".</p></dd>
+
+
 <dt>gene_col</dt>
 <dd><p>Column name in the expression data.frames that contains the gene IDs. default = "feature_id".</p></dd>
+
+
 <dt>all_common</dt>
 <dd><p>Logical. Use only genes present in all experiments. default = FALSE.</p></dd>
+
+
 <dt>lfc_fun</dt>
 <dd><p>Function for summarizing logFC values across studies.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>Method for combining p-values. One of c("fisher", "pearson", "stouffer", "tippet", "wilkinson"). default "fisher".</p></dd>
+
+
 <dt>plot</dt>
 <dd><p>Logical. Display a volcano plot using the combined values. default = FALSE</p></dd>
+
+
 <dt>plot_lfc</dt>
 <dd><p>Numeric. LogFC cutoff used when plotting. default = 0</p></dd>
+
+
 <dt>plot_pval</dt>
 <dd><p>Numeric. P-value cutoff used when plotting. default = 0.05.</p></dd>
+
+
 <dt>plot_labels</dt>
 <dd><p>Logical. Display labels for significant genes on plot. default = FALSE</p></dd>
+
+
 <dt>plot_count</dt>
 <dd><p>Logical. Display count of up/down genes on plot. default = TRUE</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to lfc_fun.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.table with columns containing the combined logFC and p-values.</p>
+    
+
+<p>data.table with columns containing the combined logFC and p-values.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -134,7 +170,7 @@ to the <code>lfc_fun</code> argument used to summarize the logFC values across s
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

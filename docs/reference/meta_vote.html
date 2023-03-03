@@ -21,7 +21,7 @@ in the user defined proportion of studies."><!-- mathjax --><script src="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -36,13 +36,22 @@ in the user defined proportion of studies."><!-- mathjax --><script src="https:/
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -52,7 +61,7 @@ in the user defined proportion of studies."><!-- mathjax --><script src="https:/
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Perform vote counting on differential expression results</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/meta-analysis.R" class="external-link"><code>R/meta-analysis.R</code></a></small>
     <div class="hidden name"><code>meta_vote.Rd</code></div>
     </div>
 
@@ -65,43 +74,62 @@ in the user defined proportion of studies.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">meta_vote</span><span class="op">(</span>
-  <span class="va">exp_list</span>,
-  lfc_col <span class="op">=</span> <span class="st">"logFC"</span>,
-  pval_col <span class="op">=</span> <span class="st">"FDR"</span>,
-  gene_col <span class="op">=</span> <span class="st">"feature_id"</span>,
-  lfc <span class="op">=</span> <span class="fl">0</span>,
-  pval <span class="op">=</span> <span class="fl">0.05</span>,
-  meta_prop <span class="op">=</span> <span class="fl">0.5</span>,
-  all_common <span class="op">=</span> <span class="cn">FALSE</span>,
-  plot <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">meta_vote</span><span class="op">(</span></span>
+<span>  <span class="va">exp_list</span>,</span>
+<span>  lfc_col <span class="op">=</span> <span class="st">"logFC"</span>,</span>
+<span>  pval_col <span class="op">=</span> <span class="st">"FDR"</span>,</span>
+<span>  gene_col <span class="op">=</span> <span class="st">"feature_id"</span>,</span>
+<span>  lfc <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  pval <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  meta_prop <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  all_common <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>exp_list</dt>
 <dd><p>list() of data.frames of differential expression results.</p></dd>
+
+
 <dt>lfc_col</dt>
 <dd><p>Column name in expression data.frames that contains the log fold-change estimates. default = "logFC".</p></dd>
+
+
 <dt>pval_col</dt>
 <dd><p>Column name in expression data.frames that contains the significance values. default = "FDR".</p></dd>
+
+
 <dt>gene_col</dt>
 <dd><p>Column name in the expression data.frames that contains the gene IDs. default = "feature_id".</p></dd>
+
+
 <dt>lfc</dt>
 <dd><p>Numeric. Log fold-change value used as cutoff for determining differential expression in each study. default = 0.</p></dd>
+
+
 <dt>pval</dt>
 <dd><p>Numeric. Significance value used as cutoff for determining differential expression in each study</p></dd>
+
+
 <dt>meta_prop</dt>
 <dd><p>Numeric. Proportion of studies a gene must be differentially expressed in to be considered as 'meta-differentially expressed'. default = 0.5.</p></dd>
+
+
 <dt>all_common</dt>
 <dd><p>Logical. Use only genes present in all experiments. default = FALSE.</p></dd>
+
+
 <dt>plot</dt>
 <dd><p>Logical. Display a metavolcano ggplot2 plot of the results. default = FALSE.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.table of meta-expression results with the following columns:</p><ul><li><p>gene_col: Genes included in the final voting procedure.</p></li>
+    
+
+<p>data.table of meta-expression results with the following columns:</p><ul><li><p>gene_col: Genes included in the final voting procedure.</p></li>
 <li><p>n_de: The total number of studies in which the gene was differentially expressed (either up or down-regulated).</p></li>
 <li><p>prop_de: The proportion of studies in which the gene was differentially expressed (either up or down-regulated).</p></li>
 <li><p>sign_consistency: The number of studies in which a gene was up-regulated minus the number of studies in which a gene was down-regulated.</p></li>
@@ -129,7 +157,7 @@ geneA will be 'up-regulated'.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

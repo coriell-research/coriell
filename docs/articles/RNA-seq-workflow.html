@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul>
@@ -58,7 +61,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -74,7 +84,7 @@
       <h1 data-toc-skip>RNA-seq-workflow</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/vignettes/RNA-seq-workflow.Rmd" class="external-link"><code>vignettes/RNA-seq-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>RNA-seq-workflow.Rmd</code></div>
 
     </div>
@@ -99,7 +109,7 @@ your reads for quality. <a href="https://www.bioinformatics.babraham.ac.uk/proje
 is the <em>de facto</em> tool for this job.</p>
 <p>To run <code>fastqc</code> enter the directory where your fastq files
 are saved and run:</p>
-<pre><code><span class="va">fastqc</span> <span class="op">*</span><span class="va">.fastq.gz</span></code></pre>
+<pre><code><span><span class="va">fastqc</span> <span class="op">*</span><span class="va">.fastq.gz</span></span></code></pre>
 <p>Additional arguments can be passed to the program to increase the
 number of parallel processes as well as specify the output directory.
 e.g.  <code>fastqc *.fq.gz --threads 12 --outdir $OUT</code></p>
@@ -139,12 +149,12 @@ for SAMPLE_ID in $(cat $SAMPLE_IDS); do
 done</code></pre>
 <p>Where sample-ids.txt contains the basenames of the fastq files
 like:</p>
-<pre><code><span class="va">control1</span>
-<span class="va">control2</span>
-<span class="va">control3</span>
-<span class="va">treatment1</span>
-<span class="va">treatment2</span>
-<span class="va">treatment3</span></code></pre>
+<pre><code><span><span class="va">control1</span></span>
+<span><span class="va">control2</span></span>
+<span><span class="va">control3</span></span>
+<span><span class="va">treatment1</span></span>
+<span><span class="va">treatment2</span></span>
+<span><span class="va">treatment3</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="differential-gene-expression-analysis">Differential Gene Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-gene-expression-analysis"></a>
@@ -152,34 +162,34 @@ like:</p>
 <p>For this sample analysis we will use the included data in the
 <code>tximportData</code> package.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tximportData</span><span class="op">)</span>
-
-
-<span class="co"># Select the directory where the quants files are stored</span>
-<span class="va">dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"tximportData"</span><span class="op">)</span>
-
-<span class="co"># Read in the sample metadata</span>
-<span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"samples.txt"</span><span class="op">)</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">samples</span><span class="op">$</span><span class="va">run</span>
-
-<span class="co"># List all quant files in dir</span>
-<span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"salmon"</span>, <span class="va">samples</span><span class="op">$</span><span class="va">run</span>, <span class="st">"quant.sf.gz"</span><span class="op">)</span>
-
-<span class="co"># Name the files by their run ID</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/regmatches.html" class="external-link">regmatches</a></span><span class="op">(</span><span class="va">files</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">regexpr</a></span><span class="op">(</span><span class="st">"ERR[0-9]+"</span>, <span class="va">files</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Read in the tx2gene file that maps transcripts to genes</span>
-<span class="va">tx2gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"tx2gene.gencode.v27.csv"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tximportData</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Select the directory where the quants files are stored</span></span>
+<span><span class="va">dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"tximportData"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read in the sample metadata</span></span>
+<span><span class="va">samples</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"samples.txt"</span><span class="op">)</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">samples</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">samples</span><span class="op">$</span><span class="va">run</span></span>
+<span></span>
+<span><span class="co"># List all quant files in dir</span></span>
+<span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"salmon"</span>, <span class="va">samples</span><span class="op">$</span><span class="va">run</span>, <span class="st">"quant.sf.gz"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Name the files by their run ID</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/regmatches.html" class="external-link">regmatches</a></span><span class="op">(</span><span class="va">files</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">regexpr</a></span><span class="op">(</span><span class="st">"ERR[0-9]+"</span>, <span class="va">files</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Read in the tx2gene file that maps transcripts to genes</span></span>
+<span><span class="va">tx2gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir</span>, <span class="st">"tx2gene.gencode.v27.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>In your code, quant files will be saved in separate folders per
 sample if you followed the example script from above. The command to
 find these files might look more like:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>
-  path <span class="op">=</span> <span class="st">"/path/to/OUT_DIR"</span>,
-  pattern <span class="op">=</span> <span class="st">"quant.sf"</span>,
-  recursive <span class="op">=</span> <span class="cn">TRUE</span>,
-  full.names <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="st">"/path/to/OUT_DIR"</span>,</span>
+<span>  pattern <span class="op">=</span> <span class="st">"quant.sf"</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  full.names <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="import-counts-with-tximport">Import counts with <code>tximport</code><a class="anchor" aria-label="anchor" href="#import-counts-with-tximport"></a>
 </h3>
@@ -189,19 +199,19 @@ counts and applying an offset to adjust for length biases. The easiest
 way to import counts with an offset is to use the <code>tximport</code>
 function with the “scaledTPM” option.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/tximport" class="external-link">tximport</a></span><span class="op">)</span>
-
-
-<span class="co"># Import the counts using tximport</span>
-<span class="va">txi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tximport/man/tximport.html" class="external-link">tximport</a></span><span class="op">(</span><span class="va">files</span>, type <span class="op">=</span> <span class="st">"salmon"</span>, tx2gene <span class="op">=</span> <span class="va">tx2gene</span>, countsFromAbundance <span class="op">=</span> <span class="st">"scaledTPM"</span><span class="op">)</span>
-<span class="co">#&gt; reading in files with read_tsv</span>
-<span class="co">#&gt; 1 2 3 4 5 6 </span>
-<span class="co">#&gt; summarizing abundance</span>
-<span class="co">#&gt; summarizing counts</span>
-<span class="co">#&gt; summarizing length</span>
-
-<span class="co"># Extract the counts matrix from the txi object</span>
-<span class="va">counts</span> <span class="op">&lt;-</span> <span class="va">txi</span><span class="op">$</span><span class="va">counts</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/tximport" class="external-link">tximport</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Import the counts using tximport</span></span>
+<span><span class="va">txi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tximport/man/tximport.html" class="external-link">tximport</a></span><span class="op">(</span><span class="va">files</span>, type <span class="op">=</span> <span class="st">"salmon"</span>, tx2gene <span class="op">=</span> <span class="va">tx2gene</span>, countsFromAbundance <span class="op">=</span> <span class="st">"scaledTPM"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; reading in files with read_tsv</span></span>
+<span><span class="co">#&gt; 1 2 3 4 5 6 </span></span>
+<span><span class="co">#&gt; summarizing abundance</span></span>
+<span><span class="co">#&gt; summarizing counts</span></span>
+<span><span class="co">#&gt; summarizing length</span></span>
+<span></span>
+<span><span class="co"># Extract the counts matrix from the txi object</span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="va">txi</span><span class="op">$</span><span class="va">counts</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="filter-the-count-matrix">Filter the count matrix<a class="anchor" aria-label="anchor" href="#filter-the-count-matrix"></a>
@@ -214,55 +224,60 @@ We can download this annotation file and use it to select the protein
 coding genes as well as extract other useful information about the
 genes.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Download and imnport the annotations</span>
-<span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.annotation.gtf.gz"</span>
-<span class="va">gtf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">url</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Extract all of the protein coding genes from the GTF</span>
-<span class="va">protein_coding</span> <span class="op">&lt;-</span> <span class="va">gtf</span><span class="op">[</span><span class="va">gtf</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"gene"</span> <span class="op">&amp;</span> <span class="va">gtf</span><span class="op">$</span><span class="va">gene_type</span> <span class="op">==</span> <span class="st">"protein_coding"</span>, <span class="st">"gene_id"</span><span class="op">]</span>
-
-<span class="co"># Removing trailing ids if present</span>
-<span class="va">protein_coding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_[0-9]+$"</span>, <span class="st">""</span>, <span class="va">protein_coding</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Filter the count matrix for protein coding genes</span>
-<span class="va">counts</span> <span class="op">&lt;-</span> <span class="va">counts</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">protein_coding</span>, <span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Download and import the annotations</span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.annotation.gtf.gz"</span></span>
+<span><span class="va">gtf_file</span> <span class="op">&lt;-</span> <span class="st">"~/Downloads/gencode.v27lift37.annotation.gtf.gz"</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">gtf_file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">url</span>, <span class="va">gtf_file</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">gtf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="va">gtf_file</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract all of the protein coding genes from the GTF</span></span>
+<span><span class="va">protein_coding</span> <span class="op">&lt;-</span> <span class="va">gtf</span><span class="op">[</span><span class="va">gtf</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"gene"</span> <span class="op">&amp;</span> <span class="va">gtf</span><span class="op">$</span><span class="va">gene_type</span> <span class="op">==</span> <span class="st">"protein_coding"</span>, <span class="st">"gene_id"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Removing trailing ids if present</span></span>
+<span><span class="va">protein_coding</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_[0-9]+$"</span>, <span class="st">""</span>, <span class="va">protein_coding</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Filter the count matrix for protein coding genes</span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="va">counts</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">protein_coding</span>, <span class="op">]</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="analysis-with-edger">Analysis with <code>edgeR</code><a class="anchor" aria-label="anchor" href="#analysis-with-edger"></a>
 </h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR" class="external-link">edgeR</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: limma</span>
-
-
-<span class="co"># Add an arbitrary group factor to the samples</span>
-<span class="va">samples</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Specify group based design</span>
-<span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">0</span> <span class="op">+</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">samples</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"group"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Import counts into edger</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html" class="external-link">DGEList</a></span><span class="op">(</span><span class="va">counts</span>, samples <span class="op">=</span> <span class="va">samples</span>, group <span class="op">=</span> <span class="va">samples</span><span class="op">$</span><span class="va">group</span><span class="op">)</span>
-
-<span class="co"># Filter for expression</span>
-<span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/filterByExpr.html" class="external-link">filterByExpr</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">[</span><span class="va">keep</span>, <span class="op">]</span>
-
-<span class="co"># Calculate normalization factors</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html" class="external-link">calcNormFactors</a></span><span class="op">(</span><span class="va">y</span>, method <span class="op">=</span> <span class="st">"TMM"</span><span class="op">)</span>
-
-<span class="co"># Estimate genewise dispersion</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/estimateDisp.html" class="external-link">estimateDisp</a></span><span class="op">(</span><span class="va">y</span>, design <span class="op">=</span> <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># Fit the model</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFit</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># Specify contrasts to test</span>
-<span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/makeContrasts.html" class="external-link">makeContrasts</a></span><span class="op">(</span>TvC <span class="op">=</span> <span class="va">Treatment</span> <span class="op">-</span> <span class="va">Control</span>, levels <span class="op">=</span> <span class="va">design</span><span class="op">)</span>
-
-<span class="co"># Test for differential expression</span>
-<span class="va">qlf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFTest</a></span><span class="op">(</span><span class="va">fit</span>, contrast <span class="op">=</span> <span class="va">con</span><span class="op">[</span>, <span class="st">"TvC"</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR" class="external-link">edgeR</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: limma</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Add an arbitrary group factor to the samples</span></span>
+<span><span class="va">samples</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Specify group based design</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="op">~</span> <span class="fl">0</span> <span class="op">+</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">samples</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"group"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Import counts into edger</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html" class="external-link">DGEList</a></span><span class="op">(</span><span class="va">counts</span>, samples <span class="op">=</span> <span class="va">samples</span>, group <span class="op">=</span> <span class="va">samples</span><span class="op">$</span><span class="va">group</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Filter for expression</span></span>
+<span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/filterByExpr.html" class="external-link">filterByExpr</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">[</span><span class="va">keep</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Calculate normalization factors</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html" class="external-link">calcNormFactors</a></span><span class="op">(</span><span class="va">y</span>, method <span class="op">=</span> <span class="st">"TMM"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimate genewise dispersion</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/estimateDisp.html" class="external-link">estimateDisp</a></span><span class="op">(</span><span class="va">y</span>, design <span class="op">=</span> <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the model</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFit</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">design</span>, robust <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Specify contrasts to test</span></span>
+<span><span class="va">con</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/makeContrasts.html" class="external-link">makeContrasts</a></span><span class="op">(</span>TvC <span class="op">=</span> <span class="va">Treatment</span> <span class="op">-</span> <span class="va">Control</span>, levels <span class="op">=</span> <span class="va">design</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Test for differential expression</span></span>
+<span><span class="va">qlf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/glmQLFTest.html" class="external-link">glmQLFTest</a></span><span class="op">(</span><span class="va">fit</span>, contrast <span class="op">=</span> <span class="va">con</span><span class="op">[</span>, <span class="st">"TvC"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -273,35 +288,35 @@ logcounts using functions from <code>edgeR</code> and
 <code>PCAtools</code>. See the <a href="https://bioconductor.org/packages/devel/bioc/vignettes/PCAtools/inst/doc/PCAtools.html" class="external-link">PCAtools
 vignette</a> for more useful functions.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kevinblighe/PCAtools" class="external-link">PCAtools</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: ggplot2</span>
-<span class="co">#&gt; Loading required package: ggrepel</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'PCAtools'</span>
-<span class="co">#&gt; The following objects are masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     biplot, screeplot</span>
-
-
-<span class="co"># Calculate the normalized log counts</span>
-<span class="va">logcounts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">cpm</a></span><span class="op">(</span><span class="va">y</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="co"># Perform PCA on the 75% most variable logcounts</span>
-<span class="va">pca.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PCAtools/man/pca.html" class="external-link">pca</a></span><span class="op">(</span><span class="va">logcounts</span>, metadata <span class="op">=</span> <span class="va">samples</span>, removeVar <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>
-<span class="co">#&gt; -- removing the lower 25% of variables based on variance</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kevinblighe/PCAtools" class="external-link">PCAtools</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: ggrepel</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'PCAtools'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     biplot, screeplot</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Calculate the normalized log counts</span></span>
+<span><span class="va">logcounts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">cpm</a></span><span class="op">(</span><span class="va">y</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Perform PCA on the 75% most variable logcounts</span></span>
+<span><span class="va">pca.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PCAtools/man/pca.html" class="external-link">pca</a></span><span class="op">(</span><span class="va">logcounts</span>, metadata <span class="op">=</span> <span class="va">samples</span>, removeVar <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
+<span><span class="co">#&gt; -- removing the lower 25% of variables based on variance</span></span></code></pre></div>
 <p>Plot the pca biplot</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/PCAtools/man/biplot.html" class="external-link">biplot</a></span><span class="op">(</span>
-  <span class="va">pca.res</span>,
-  colby <span class="op">=</span> <span class="st">"group"</span>,
-  hline <span class="op">=</span> <span class="fl">0</span>,
-  vline <span class="op">=</span> <span class="fl">0</span>,
-  hlineType <span class="op">=</span> <span class="fl">2</span>,
-  vlineType <span class="op">=</span> <span class="fl">2</span>,
-  legendPosition <span class="op">=</span> <span class="st">"bottom"</span>,
-  title <span class="op">=</span> <span class="st">"PCA on logcounts"</span>,
-  caption <span class="op">=</span> <span class="st">"75% Most Variable Features"</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/PCAtools/man/biplot.html" class="external-link">biplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">pca.res</span>,</span>
+<span>  colby <span class="op">=</span> <span class="st">"group"</span>,</span>
+<span>  hline <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  vline <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  hlineType <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  vlineType <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  legendPosition <span class="op">=</span> <span class="st">"bottom"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"PCA on logcounts"</span>,</span>
+<span>  caption <span class="op">=</span> <span class="st">"75% Most Variable Features"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -312,22 +327,22 @@ vignette</a> for more useful functions.</p>
 Any argument that can be passed to <code>pheatmnap</code> can be passed
 to the <code>quickmap</code> function to override the defaults.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">coriell</span><span class="op">)</span>
-
-
-<span class="co"># Create a dataframe of annotations to use</span>
-<span class="va">col_df</span> <span class="op">&lt;-</span> <span class="va">samples</span><span class="op">[</span>, <span class="st">"group"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
-
-<span class="co"># Create color scheme for treatment conditions</span>
-<span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"Treatment"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># Plot the heatmap, passing additional args to pheatmap</span>
-<span class="fu"><a href="../reference/quickmap.html">quickmap</a></span><span class="op">(</span>
-  <span class="va">logcounts</span>,
-  annotation_col <span class="op">=</span> <span class="va">col_df</span>,
-  annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,
-  main <span class="op">=</span> <span class="st">"Treatment vs Control"</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/coriell-research/coriell" class="external-link">coriell</a></span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Create a dataframe of annotations to use</span></span>
+<span><span class="va">col_df</span> <span class="op">&lt;-</span> <span class="va">samples</span><span class="op">[</span>, <span class="st">"group"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Create color scheme for treatment conditions</span></span>
+<span><span class="va">ann_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"Treatment"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the heatmap, passing additional args to pheatmap</span></span>
+<span><span class="fu"><a href="../reference/quickmap.html">quickmap</a></span><span class="op">(</span></span>
+<span>  <span class="va">logcounts</span>,</span>
+<span>  annotation_col <span class="op">=</span> <span class="va">col_df</span>,</span>
+<span>  annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Treatment vs Control"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -341,10 +356,10 @@ function documentation for details.</p>
 <p>Of course for this analysis there are no differentially expressed
 genes.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># First, convert the qlf testing results to a data.frame</span>
-<span class="va">qlf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/edger_to_df.html">edger_to_df</a></span><span class="op">(</span><span class="va">qlf</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">qlf_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Volcano Plot of Differential Expression Results"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># First, convert the qlf testing results to a data.frame</span></span>
+<span><span class="va">qlf_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/edger_to_df.html">edger_to_df</a></span><span class="op">(</span><span class="va">qlf</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">qlf_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Volcano Plot of Differential Expression Results"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -352,7 +367,7 @@ genes.</p>
 </h2>
 <p>Likewise, MA plots can be drawn</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">qlf_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"MA Plot of Differential Expression Results"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">qlf_df</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"MA Plot of Differential Expression Results"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level2">
@@ -362,43 +377,20 @@ genes.</p>
 calls to the <a href="http://pantherdb.org/" class="external-link">PANTHER database</a> for
 gene ontology analysis.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Extract top 100 genes with positive logFC from the DE results</span>
-<span class="va">top_genes</span> <span class="op">&lt;-</span> <span class="va">qlf_df</span><span class="op">[</span><span class="va">qlf_df</span><span class="op">$</span><span class="va">logFC</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="op">]</span>
-<span class="va">top_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">top_genes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">top_genes</span><span class="op">$</span><span class="va">logFC</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-
-<span class="co"># Perform Gene Ontology Analysis with PANTHER</span>
-<span class="va">go.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/panther_go.html">panther_go</a></span><span class="op">(</span><span class="va">top_genes</span><span class="op">$</span><span class="va">feature_id</span>, organism <span class="op">=</span> <span class="st">"9606"</span>, annot_dataset <span class="op">=</span> <span class="st">"biological_process"</span><span class="op">)</span>
-
-<span class="co"># View the results of the enrichment analysis</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">go.res</span><span class="op">$</span><span class="va">table</span><span class="op">)</span>
-<span class="co">#&gt;    number_in_list fold_enrichment fdr    expected number_in_reference</span>
-<span class="co">#&gt; 1:             14       0.6331181   1 22.11277867               15176</span>
-<span class="co">#&gt; 2:             14       0.6331181   1 22.11277867               15176</span>
-<span class="co">#&gt; 3:              2      28.0122449   1  0.07139735                  49</span>
-<span class="co">#&gt; 4:              2      28.0122449   1  0.07139735                  49</span>
-<span class="co">#&gt; 5:              2      26.9137255   1  0.07431153                  51</span>
-<span class="co">#&gt; 6:              2      26.9137255   1  0.07431153                  51</span>
-<span class="co">#&gt;         pValue</span>
-<span class="co">#&gt; 1: 0.001589624</span>
-<span class="co">#&gt; 2: 0.001589624</span>
-<span class="co">#&gt; 3: 0.002496175</span>
-<span class="co">#&gt; 4: 0.002496175</span>
-<span class="co">#&gt; 5: 0.002692963</span>
-<span class="co">#&gt; 6: 0.002692963</span>
-<span class="co">#&gt;                                                                                term</span>
-<span class="co">#&gt; 1:                                                                       GO:0009987</span>
-<span class="co">#&gt; 2:                                                                 cellular process</span>
-<span class="co">#&gt; 3:                                                                       GO:0048247</span>
-<span class="co">#&gt; 4:                                                            lymphocyte chemotaxis</span>
-<span class="co">#&gt; 5:                                                                       GO:0045737</span>
-<span class="co">#&gt; 6: positive regulation of cyclin-dependent protein serine/threonine kinase activity</span>
-<span class="co">#&gt;    plus_minus</span>
-<span class="co">#&gt; 1:          -</span>
-<span class="co">#&gt; 2:          -</span>
-<span class="co">#&gt; 3:          +</span>
-<span class="co">#&gt; 4:          +</span>
-<span class="co">#&gt; 5:          +</span>
-<span class="co">#&gt; 6:          +</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Extract top 100 genes with positive logFC from the DE results</span></span>
+<span><span class="va">top_genes</span> <span class="op">&lt;-</span> <span class="va">qlf_df</span><span class="op">[</span><span class="va">qlf_df</span><span class="op">$</span><span class="va">logFC</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="op">]</span></span>
+<span><span class="va">top_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">top_genes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">top_genes</span><span class="op">$</span><span class="va">logFC</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="op">]</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Perform Gene Ontology Analysis with PANTHER</span></span>
+<span><span class="va">go.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/panther_go.html">panther_go</a></span><span class="op">(</span></span>
+<span>  <span class="va">top_genes</span><span class="op">$</span><span class="va">feature_id</span>, </span>
+<span>  organism <span class="op">=</span> <span class="st">"9606"</span>, </span>
+<span>  annot_dataset <span class="op">=</span> <span class="st">"biological_process"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># View the results of the enrichment analysis</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">go.res</span><span class="op">$</span><span class="va">table</span><span class="op">)</span></span>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 </div>
   </div>
 
@@ -419,7 +411,7 @@ gene ontology analysis.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

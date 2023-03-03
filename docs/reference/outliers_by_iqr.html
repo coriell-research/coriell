@@ -20,7 +20,7 @@ than Q3 + IQR * scale factor."><!-- mathjax --><script src="https://cdnjs.cloudf
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
       </span>
     </div>
 
@@ -35,13 +35,22 @@ than Q3 + IQR * scale factor."><!-- mathjax --><script src="https://cdnjs.cloudf
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
+    </li>
+    <li>
       <a href="../articles/RNA-seq-workflow.html">RNA-seq-workflow</a>
     </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/coriell-research/coriell/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -51,7 +60,7 @@ than Q3 + IQR * scale factor."><!-- mathjax --><script src="https://cdnjs.cloudf
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute outliers by IQR method</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/R/outliers.R" class="external-link"><code>R/outliers.R</code></a></small>
     <div class="hidden name"><code>outliers_by_iqr.Rd</code></div>
     </div>
 
@@ -63,7 +72,7 @@ than Q3 + IQR * scale factor.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">outliers_by_iqr</span><span class="op">(</span><span class="va">X</span>, scale_factor <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">outliers_by_iqr</span><span class="op">(</span><span class="va">X</span>, scale_factor <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,36 +80,41 @@ than Q3 + IQR * scale factor.</p>
     <dl><dt>X</dt>
 <dd><p>numeric matrix or data.frame that can be converted to a numeric 
 matrix with variables in the columns and sample names in the rows.</p></dd>
+
+
 <dt>scale_factor</dt>
 <dd><p>numeric. Factor to scale the outlier range. default 1.5.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>numeric matrix where values of 1L indicates an outlier and 0L indicates 
+    
+
+<p>numeric matrix where values of 1L indicates an outlier and 0L indicates 
 non-outlier</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
-<span class="r-in">  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span>, <span class="fl">15</span><span class="op">)</span><span class="op">)</span>, </span>
-<span class="r-in">  ncol <span class="op">=</span> <span class="fl">2</span>, </span>
-<span class="r-in">  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sample"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var1"</span>, <span class="st">"var2"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create one outlier in first and last rows</span></span>
-<span class="r-in"><span class="va">M</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span class="r-in"><span class="va">M</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
-<span class="r-in"><span class="va">M</span><span class="op">[</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">10</span></span>
-<span class="r-in"><span class="va">M</span><span class="op">[</span><span class="fl">10</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Show outliers on boxplot</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">10</span>, <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span>, <span class="fl">15</span><span class="op">)</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  ncol <span class="op">=</span> <span class="fl">2</span>, </span></span>
+<span class="r-in"><span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sample"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"var1"</span>, <span class="st">"var2"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create one outlier in first and last rows</span></span></span>
+<span class="r-in"><span><span class="va">M</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">100</span></span></span>
+<span class="r-in"><span><span class="va">M</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span></span>
+<span class="r-in"><span><span class="va">M</span><span class="op">[</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">10</span></span></span>
+<span class="r-in"><span><span class="va">M</span><span class="op">[</span><span class="fl">10</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Show outliers on boxplot</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="outliers_by_iqr-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Call outliers in each column</span></span>
-<span class="r-in"><span class="fu">outliers_by_iqr</span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Call outliers in each column</span></span></span>
+<span class="r-in"><span><span class="fu">outliers_by_iqr</span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          var1 var2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample1     1    1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample2     0    0</span>
@@ -112,7 +126,7 @@ non-outlier</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample8     0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample9     0    0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample10    1    1</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -127,7 +141,7 @@ non-outlier</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

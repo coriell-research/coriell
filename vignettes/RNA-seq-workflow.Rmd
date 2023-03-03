@@ -152,9 +152,14 @@ this annotation file and use it to select the protein coding genes as well as ex
 other useful information about the genes.
 
 ```{r}
-# Download and imnport the annotations
+# Download and import the annotations
 url <- "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.annotation.gtf.gz"
-gtf <- data.frame(rtracklayer::import(url))
+gtf_file <- "~/Downloads/gencode.v27lift37.annotation.gtf.gz"
+
+if (!file.exists(gtf_file)) {
+  download.file(url, gtf_file)
+}
+gtf <- data.frame(rtracklayer::import(gtf_file))
 
 # Extract all of the protein coding genes from the GTF
 protein_coding <- gtf[gtf$type == "gene" & gtf$gene_type == "protein_coding", "gene_id"]
@@ -249,7 +254,7 @@ library(coriell)
 col_df <- samples[, "group", drop = FALSE]
 
 # Create color scheme for treatment conditions
-ann_colors = list(group = c("Control" = "steelblue", "Treatment" = "firebrick"))
+ann_colors <- list(group = c("Control" = "steelblue", "Treatment" = "firebrick"))
 
 # Plot the heatmap, passing additional args to pheatmap
 quickmap(
@@ -295,7 +300,11 @@ top_genes <- qlf_df[qlf_df$logFC > 0, ]
 top_genes <- head(top_genes[order(top_genes$logFC, decreasing = TRUE), ], n = 100)
 
 # Perform Gene Ontology Analysis with PANTHER
-go.res <- panther_go(top_genes$feature_id, organism = "9606", annot_dataset = "biological_process")
+go.res <- panther_go(
+  top_genes$feature_id, 
+  organism = "9606", 
+  annot_dataset = "biological_process"
+  )
 
 # View the results of the enrichment analysis
 head(go.res$table)
