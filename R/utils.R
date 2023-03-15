@@ -134,3 +134,36 @@ colmean <- function(x, group) {
   
   t(rowsum(t(x), group = group, reorder = FALSE) / as.vector(table(group)))
 }
+
+#' Extract variable from an environment and remove that environment
+#' 
+#' This function will extract all variables from the given environment and 
+#' assign them to the global environment and then optionally remove the 
+#' environment. 
+#' @param x Environment to extract variables from
+#' @param remove Should the Environment be removed after extracting variables? Default TRUE
+#' @return variables from x are assigned to the GlobalEnv after execution
+#' @export
+#' @examples 
+#' my_env <- new.env()
+#' my_env$X <- 1000
+#' my_env$Y <- 1:10
+#' 
+#' # Extract X and Y to global environment and remove my_env
+#' env2global(my_env)
+#' 
+#' # Extract X and Y to global environment and keep my_env
+#' env2global(my_env, remove = FALSE)
+#' 
+env2global <- function(x, remove = TRUE) {
+  if (!is.environment(x))
+    stop("x must be an environment")
+  
+  vars <- ls(x)
+  for (v in vars) {
+    assign(v, x[[v]], envir = .GlobalEnv)
+  }
+  
+  if (remove)
+    rm(list = toString(substitute(x)), envir = .GlobalEnv)
+}
