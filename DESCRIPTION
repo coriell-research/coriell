@@ -1,7 +1,7 @@
 Type: Package
 Package: coriell
 Title: Convenience Functions for Bioinformatics
-Version: 0.10.0
+Version: 0.11.0
 Authors@R: 
     person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre"))
 Description: This package provides many helper functions for common
@@ -19,12 +19,14 @@ Imports:
     ggplot2
 Suggests: 
     edgeR,
+    fastcluster,
     ggrepel,
     httr,
     jsonlite,
     knitr,
     matrixStats,
     pheatmap,
+    rdist,
     Rfast,
     rmarkdown,
     SummarizedExperiment,
