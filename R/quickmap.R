@@ -31,6 +31,7 @@
 #' @param removeVar If not NULL remove this proportion of features based on the variance across rows. Default NULL. 
 #' @param ... args to be passed to \code{pheatmap} function
 #' @return pheatmap object. See \code{?pheatmap::pheatmap} for details
+#' @export
 #' @examples
 #' # generate fake count data
 #' X <- coriell::simulate_counts(n_genes = 100)$table
@@ -40,7 +41,6 @@
 #' 
 #' # See effect of fix_extreme -- set thresh high to illustrate effect
 #' quickmap(X, main = "Control vs Treatment", fix_extreme = TRUE, thresh = 0.9)
-#' @export
 quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50, 
                      fix_extreme = FALSE, thresh = 0.5, removeVar = NULL, ...) {
   if (!requireNamespace("pheatmap", quietly = TRUE)) {
@@ -89,13 +89,22 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
   user_args <- list(...)
   default_args[names(user_args)] <- user_args
   
+  # Remove low variance features
   if (!is.null(removeVar)) {
     stopifnot("RemoveVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
-    v <- apply(mat, 1, var)
+    
+    if (requireNamespace("Rfast", quietly = TRUE)) { 
+      v <- Rfast::rowVars(mat, std = FALSE, na.rm = TRUE) 
+    } else if (requireNamespace("matrixStats", quietly = TRUE)) {
+      v <- matrixStats::rowVars(mat, na.rm = TRUE, useNames = FALSE)  
+    } else {
+      v <- apply(mat, 1, var)
+    }
     o <- order(v, decreasing = TRUE)
     mat <- head(mat[o, ], n = nrow(mat) * (1 - removeVar))
   }
   
+  # Fix extreme values at ends of color scale
   if (fix_extreme) {
     if (default_args[["scale"]] == "none") {
       message("There are no scaled values to fix the extremes (i.e. scale = 'none'). Ignoring")
@@ -109,5 +118,15 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
     default_args[["breaks"]] <- b$breaks
     return(do.call(pheatmap::pheatmap, c(list(mat = mat), default_args)))
   }
+  
+  # Override pheatmap scaling
+  if (default_args[["scale"]] == "row") {
+    mat <- t(scale(t(mat), center = TRUE, scale = TRUE))
+    default_args[["scale"]] <- "none"
+  } else if (default_args[["scale"]] == "column") {
+    mat <- scale(mat, center = TRUE, scale = TRUE)
+    default_args[["scale"]] <- "none"
+  }
+  
   do.call(pheatmap::pheatmap, c(list(mat = mat), default_args))
 }
