@@ -1,3 +1,13 @@
+## coriell 0.11.0
+
+- Internal changes to the `quickmap()` function. Avoid `pheatmap` scaling in 
+favor of vectorized scaling. Speed up removeVar calculations with 
+`Rfast::rowVars()` or `matrixStats::rowVars()` if available. Speed up 
+clustering and distance matrix calculations by performing distance matrix
+calculations with `rdist::rdist()` and clustering with `fastcluster::hclust()` 
+if available. Round values in fix_extreme to better maintain original scale
+limits.
+
 ## coriell 0.10.0
 
 - Moved most packages to "Suggests" instead of "Imports" to reflect that this

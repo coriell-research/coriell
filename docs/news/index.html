@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.11.0</span>
       </span>
     </div>
 
@@ -60,6 +60,10 @@
       <small>Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.11.0" id="coriell-0110">coriell 0.11.0<a class="anchor" aria-label="anchor" href="#coriell-0110"></a></h2>
+<ul><li>Internal changes to the <code><a href="../reference/quickmap.html">quickmap()</a></code> function. Avoid <code>pheatmap</code> scaling in favor of vectorized scaling. Speed up removeVar calculations with <code><a href="https://rdrr.io/pkg/Rfast/man/colVars.html" class="external-link">Rfast::rowVars()</a></code> or <code><a href="https://rdrr.io/pkg/matrixStats/man/rowVars.html" class="external-link">matrixStats::rowVars()</a></code> if available. Speed up clustering and distance matrix calculations by performing distance matrix calculations with <code><a href="https://rdrr.io/pkg/rdist/man/rdist.html" class="external-link">rdist::rdist()</a></code> and clustering with <code><a href="https://rdrr.io/pkg/fastcluster/man/hclust.html" class="external-link">fastcluster::hclust()</a></code> if available. Round values in fix_extreme to better maintain original scale limits.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.10.0" id="coriell-0100">coriell 0.10.0<a class="anchor" aria-label="anchor" href="#coriell-0100"></a></h2>
 <ul><li>Moved most packages to “Suggests” instead of “Imports” to reflect that this package is a collection of helpers. This reduces dependencies upon install.</li>
