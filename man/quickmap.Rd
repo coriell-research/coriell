@@ -18,7 +18,7 @@ quickmap(
 \item{mat}{numeric matrix to be passed onto pheatmap function}
 
 \item{diverging_palette}{logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
-color to a continuous color palette \code{viridis::magma}, useful for un-scaled expression data.}
+color to a continuous color palette \code{viridis::magma()}, useful for un-scaled expression data.}
 
 \item{n_breaks}{numeric. The number of breaks to use in the color palette. Default 50.}
 
@@ -26,17 +26,21 @@ color to a continuous color palette \code{viridis::magma}, useful for un-scaled 
 
 \item{removeVar}{If not NULL remove this proportion of features based on the variance across rows. Default NULL.}
 
-\item{...}{args to be passed to \code{pheatmap} function}
+\item{...}{args to be passed to \code{pheatmap()} function}
 
 \item{thresh.}{If fix_extreme is TRUE then what proportion of the extreme values should be filled. For example if the range
 of the final scaled values is from -20 to 20 and thresh is set to 0.5 then -20 to -10 will be colored blue and 10 to 20
 will be colored red. Default 0.5. See examples below.}
 }
 \value{
-pheatmap object. See \code{?pheatmap::pheatmap} for details
+pheatmap object. See \code{?pheatmap::pheatmap()} for details
 }
 \description{
 Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
+\code{quickmap()} will also attempt to perform vectorized scaling, clustering,
+and distance calculations with functions from the \code{Rfast},
+\code{fastcluster} and \code{rdist} packages in order to speed up
+calculations for large gene expression matrices.
 }
 \details{
 The default arguments to \code{pheatmap::pheatmap()} are:
@@ -59,12 +63,15 @@ You can pass in additional arguments or simply override the defaults as well.
 }
 }
 \examples{
-# generate fake count data
-X <- coriell::simulate_counts(n_genes = 100)$table
-
 # display heatmap of scaled count data and add title to the plot
-quickmap(X, main = "Control vs Treatment")
+quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
 
-# See effect of fix_extreme -- set thresh high to illustrate effect
-quickmap(X, main = "Control vs Treatment", fix_extreme = TRUE, thresh = 0.9)
+# Remove 90\% lowest variance features and fix color scale at ends
+quickmap(
+  GSE161650_lc, 
+  removeVar = 0.9,
+  main = "THZ1 vs DMSO", 
+  fix_extreme = TRUE, 
+  thresh = 0.5
+)
 }
