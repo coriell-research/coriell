@@ -1,3 +1,25 @@
+#' Fix colors at the extreme ends of the color scale
+.getBreaks <- function(m, s, thresh, n_breaks) {
+  m <- switch (s,
+               row = t(scale(t(m), center = TRUE, scale = TRUE)),
+               column = scale(m, center = TRUE, scale = TRUE),
+               none = m
+  )
+  rng <- range(m)
+  ends <- round(max(abs(rng)), digits = 1)
+  bk <- seq(-ends, ends, length.out = n_breaks)
+  val <- ends - (ends * thresh)
+  n_low <- length(bk[bk <= -val])
+  n_high <- length(bk[bk >= val])
+  n_mid <- length(bk[bk > -val & bk < val])
+  pal <- c(
+    rep("dodgerblue3", n_low),
+    colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(n_mid),
+    rep("firebrick3", n_high)
+  )
+  list(breaks = bk, palette = pal, ends = ends, bk = bk, m = m)
+}
+
 #' Heatmap with sensible defaults for RNA-seq expression data
 #'
 #' Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
@@ -56,23 +78,6 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
   continuous_pal <- rev(viridisLite::magma(n = n_breaks))
   col_code <- if (diverging_palette) diverging_pal else continuous_pal
 
-  # Define function for fixing colors at the extreme ends of the color scale
-  getBreaks <- function(m, margin, thresh) {
-    rng <- range(apply(m, MARGIN = margin, scale))
-    ends <- ceiling(max(abs(rng)))
-    bk <- seq(-ends, ends, length.out = n_breaks)
-    val <- ends - (ends * thresh)
-    n_low <- length(bk[bk <= -val])
-    n_high <- length(bk[bk >= val])
-    n_mid <- length(bk[bk > -val & bk < val])
-    pal <- c(
-      rep("dodgerblue3", n_low),
-      colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(n_mid),
-      rep("firebrick3", n_high)
-    )
-    list(breaks = bk, palette = pal)
-  }
-  
   default_args <- list(
     scale = "row", 
     show_rownames = FALSE, 
@@ -110,9 +115,9 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
       message("There are no scaled values to fix the extremes (i.e. scale = 'none'). Ignoring")
       return(do.call(pheatmap::pheatmap, c(list(mat = mat), default_args)))
     } else if (default_args[["scale"]] == "row") {
-      b <- getBreaks(mat, 1, thresh)
+      b <- .getBreaks(mat, "row", thresh, n_breaks)
     } else {
-      b <- getBreaks(mat, 2, thresh)
+      b <- .getBreaks(mat, "column", thresh, n_breaks)
     }
     default_args[["color"]] <- b$palette
     default_args[["breaks"]] <- b$breaks
