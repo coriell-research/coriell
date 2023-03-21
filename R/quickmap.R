@@ -1,4 +1,5 @@
-#' Fix colors at the extreme ends of the color scale
+# Fix colors at the extreme ends of the color scale
+# 
 .getBreaks <- function(m, s, thresh, n_breaks) {
   m <- switch (s,
                row = t(scale(t(m), center = TRUE, scale = TRUE)),
@@ -20,9 +21,38 @@
   list(breaks = bk, palette = pal, ends = ends, bk = bk, m = m)
 }
 
+# Cluster a matrix using fastcluster, Rfast, and rdist
+# 
+# Overide pheatmap's default function to use faster methods if available
+.clusterMatrix <- function(x, distance, method) {
+  if (distance == "correlation") {
+    if (requireNamespace("Rfast", quietly = TRUE)) {
+      d <- as.dist(1 - Rfast::cora(t(x), large = TRUE)) 
+    } else {
+      d <- as.dist(1 - cor(t(x)))
+    }
+  } else {
+    if (requireNamespace("rdist", quietly = TRUE)) {
+      d <- rdist::rdist(x, metric = distance)
+    }
+    else {
+      d <- dist(x, method = distance) 
+    }
+  }
+  
+  if (requireNamespace("fastcluster", quietly = TRUE)) {
+    return(fastcluster::hclust(d, method = method))
+  }
+  hclust(d, method = method)
+}
+
 #' Heatmap with sensible defaults for RNA-seq expression data
 #'
 #' Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
+#' \code{quickmap()} will also attempt to perform vectorized scaling, clustering, 
+#' and distance calculations with functions from the \code{Rfast}, 
+#' \code{fastcluster} and \code{rdist} packages in order to speed up 
+#' calculations for large gene expression matrices.
 #' 
 #' @details The default arguments to \code{pheatmap::pheatmap()} are:
 #' \itemize{
@@ -44,25 +74,28 @@
 #' @md
 #' @param mat numeric matrix to be passed onto pheatmap function
 #' @param diverging_palette logical. Default(TRUE). Sets the color scale to a diverging palette (blue -> white -> red). If FALSE, set the
-#' color to a continuous color palette \code{viridis::magma}, useful for un-scaled expression data.
+#' color to a continuous color palette \code{viridis::magma()}, useful for un-scaled expression data.
 #' @param n_breaks numeric. The number of breaks to use in the color palette. Default 50.
 #' @param fix_extreme logical. Should the extreme values at the ends of a diverging palette be fixed colors? Default FALSE.
 #' @param thresh. If fix_extreme is TRUE then what proportion of the extreme values should be filled. For example if the range
 #' of the final scaled values is from -20 to 20 and thresh is set to 0.5 then -20 to -10 will be colored blue and 10 to 20
 #' will be colored red. Default 0.5. See examples below.
 #' @param removeVar If not NULL remove this proportion of features based on the variance across rows. Default NULL. 
-#' @param ... args to be passed to \code{pheatmap} function
-#' @return pheatmap object. See \code{?pheatmap::pheatmap} for details
+#' @param ... args to be passed to \code{pheatmap()} function
+#' @return pheatmap object. See \code{?pheatmap::pheatmap()} for details
 #' @export
 #' @examples
-#' # generate fake count data
-#' X <- coriell::simulate_counts(n_genes = 100)$table
-#' 
 #' # display heatmap of scaled count data and add title to the plot
-#' quickmap(X, main = "Control vs Treatment")
+#' quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
 #' 
-#' # See effect of fix_extreme -- set thresh high to illustrate effect
-#' quickmap(X, main = "Control vs Treatment", fix_extreme = TRUE, thresh = 0.9)
+#' # Remove 90% lowest variance features and fix color scale at ends
+#' quickmap(
+#'   GSE161650_lc, 
+#'   removeVar = 0.9,
+#'   main = "THZ1 vs DMSO", 
+#'   fix_extreme = TRUE, 
+#'   thresh = 0.5
+#' )
 quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50, 
                      fix_extreme = FALSE, thresh = 0.5, removeVar = NULL, ...) {
   if (!requireNamespace("pheatmap", quietly = TRUE)) {
@@ -96,9 +129,9 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
   
   # Remove low variance features
   if (!is.null(removeVar)) {
-    stopifnot("RemoveVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
+    stopifnot("removeVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
     
-    if (requireNamespace("Rfast", quietly = TRUE)) { 
+    if (requireNamespace("Rfast", quietly = TRUE)) {
       v <- Rfast::rowVars(mat, std = FALSE, na.rm = TRUE) 
     } else if (requireNamespace("matrixStats", quietly = TRUE)) {
       v <- matrixStats::rowVars(mat, na.rm = TRUE, useNames = FALSE)  
@@ -113,7 +146,6 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
   if (fix_extreme) {
     if (default_args[["scale"]] == "none") {
       message("There are no scaled values to fix the extremes (i.e. scale = 'none'). Ignoring")
-      return(do.call(pheatmap::pheatmap, c(list(mat = mat), default_args)))
     } else if (default_args[["scale"]] == "row") {
       b <- .getBreaks(mat, "row", thresh, n_breaks)
     } else {
@@ -121,10 +153,9 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
     }
     default_args[["color"]] <- b$palette
     default_args[["breaks"]] <- b$breaks
-    return(do.call(pheatmap::pheatmap, c(list(mat = mat), default_args)))
   }
   
-  # Override pheatmap scaling
+  # Override pheatmap scaling, uses slow apply call internally
   if (default_args[["scale"]] == "row") {
     mat <- t(scale(t(mat), center = TRUE, scale = TRUE))
     default_args[["scale"]] <- "none"
@@ -132,6 +163,20 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
     mat <- scale(mat, center = TRUE, scale = TRUE)
     default_args[["scale"]] <- "none"
   }
+  
+  # Calculate distances and clustering using faster functions if available
+  drow <- default_args[["clustering_distance_rows"]]
+  dcol <- default_args[["clustering_distance_cols"]]
+  meth <- default_args[["clustering_method"]]
+  
+  if (default_args[["cluster_rows"]]) 
+    hc_row <- .clusterMatrix(mat, distance = drow, method = meth)
+    default_args[["cluster_rows"]] <- hc_row
+  
+  if (default_args[["cluster_cols"]])
+    hc_col <- .clusterMatrix(t(mat), distance = dcol, method = meth)
+    default_args[["cluster_cols"]] <- hc_col
+
   
   do.call(pheatmap::pheatmap, c(list(mat = mat), default_args))
 }
