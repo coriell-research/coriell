@@ -16,7 +16,8 @@ Depends:
     R (>= 2.10)
 Imports: 
     data.table,
-    ggplot2
+    ggplot2,
+    umap
 Suggests: 
     edgeR,
     fastcluster,
