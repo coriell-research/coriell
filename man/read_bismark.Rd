@@ -31,10 +31,10 @@ This function will read in Bismark coverage files and optionally filter for
 coverage and feature-wise variance.
 }
 \details{
-The function can optionally return a list of CpG x Sample matrices of 
-the filtered data if return_mats = TRUE. The following matrices will be 
-returned for each of the retained CpG sites: Coverage, Percent Methylation 
-(Percent), count of methylated CpGs (Methylated) and count of unmethylated 
+The function can optionally return a list of CpG x Sample matrices of
+the filtered data if return_mats = TRUE. The following matrices will be
+returned for each of the retained CpG sites: Coverage, Percent Methylation
+(Percent), count of methylated CpGs (Methylated) and count of unmethylated
 CpGs (Unmethylated)
 }
 \examples{

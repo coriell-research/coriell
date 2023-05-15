@@ -1,23 +1,24 @@
 #' Rarefy (subsample) a matrix
 #'
-#' This function will randomly subsample counts from rows of the input matrix 
-#' such that the colSums all have even depth.  
-#' @param x numeric matrix or data.frame that can be converted to a numeric 
+#' This function will randomly subsample counts from rows of the input matrix
+#' such that the colSums all have even depth.
+#' @param x numeric matrix or data.frame that can be converted to a numeric
 #' matrix. Samples in columns features in rows.
 #' @param depth desired sampling depth applied to each library.
 #' @export
-#' @examples 
+#' @examples
 #' set.seed(123)
 #' m <- matrix(
-#'   sample.int(100), 
-#'   nrow=10, 
+#'   sample.int(100),
+#'   nrow = 10,
 #'   dimnames = list(
 #'     Gene = paste0("gene.", 1:10),
-#'     Sample = paste0("sample.", 1:10))
+#'     Sample = paste0("sample.", 1:10)
+#'   )
 #' )
-#' 
+#'
 #' colSums(m)
-#' 
+#'
 #' rarefied <- rarefy(m, depth = 100)
 #' colSums(rarefied)
 rarefy <- function(x, depth) {

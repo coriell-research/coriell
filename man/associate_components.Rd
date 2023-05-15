@@ -19,15 +19,15 @@ associate_components(x, metadata, N = 10, ...)
 data.frame with rows for each metadata variable, columns for each PC, and p-values from the given test in cells.
 }
 \description{
-Calculate associations between metadata variables and PCA rotations. This 
+Calculate associations between metadata variables and PCA rotations. This
 function is inspired by \code{methylKit::assocComp} but is designed to work
 with arbitrary input data.
 }
 \details{
-This function returns the p-values from testing the association 
+This function returns the p-values from testing the association
 between a given metadata column and all PC rotations. For numeric values the
-p-value returned is computed using the \code{cor.test()} function. For 
-factor variables and variables that can be converted to factor variables the 
+p-value returned is computed using the \code{cor.test()} function. For
+factor variables and variables that can be converted to factor variables the
 function will return p-values from the \code{wilcox.test()} function or the
 \code{kruskal.test()} function (when the metadata variable has > 2 levels).
 }
@@ -35,7 +35,7 @@ function will return p-values from the \code{wilcox.test()} function or the
 # Specify metadata
 metadata <- data.frame(
   age = c(30, 80, 34, 30, 80, 40),
-  treatment =  factor(c(rep("Treatment", 3), rep("Control", 3))),
+  treatment = factor(c(rep("Treatment", 3), rep("Control", 3))),
   class = factor(c(rep("A", 2), rep("B", 2), rep("C", 2))),
   row.names = c(paste0("trt", 1:3), paste0("ctrl", 1:3))
 )

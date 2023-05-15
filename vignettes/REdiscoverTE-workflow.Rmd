@@ -115,12 +115,12 @@ tx2gene <- readRDS("/mnt/data/gdata/human/REdiscoverTE_hg38/tx2gene_REdiscoverTE
 
 # Import counts for all files with tximport -- set scaledTPM to account for tx usage
 txi <- tximport(
-  quant_files, 
-  type = "salmon", 
-  countsFromAbundance = "scaledTPM", 
+  quant_files,
+  type = "salmon",
+  countsFromAbundance = "scaledTPM",
   tx2gene = tx2gene,
   importer = data.table::fread
-  )
+)
 
 # Extract counts from the txi object
 counts <- txi$counts

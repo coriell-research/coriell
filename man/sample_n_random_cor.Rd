@@ -19,7 +19,7 @@ sample_n_random_cor(X, y, n = 10000, ...)
 numeric vector of correlation values. Vector can contain NAs if row variance == 0.
 }
 \description{
-Selects n random rows from a numeric matrix with replacement. For each random 
+Selects n random rows from a numeric matrix with replacement. For each random
 row, permute vector y and perform correlation.
 }
 \examples{

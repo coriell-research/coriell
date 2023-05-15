@@ -8,7 +8,7 @@
 \alias{plot_parallel.SummarizedExperiment}
 \title{Parallel coordinates plot of expression data}
 \usage{
-plot_parallel(x, ...)
+plot_parallel(x)
 
 \method{plot_parallel}{default}(x)
 
@@ -21,8 +21,6 @@ plot_parallel(x, ...)
 \arguments{
 \item{x}{gene by sample matrix or \code{SummarizedExperiment} object}
 
-\item{...}{Additional parameters passed to \code{ggplot2::geom_line()}}
-
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata}
 
 \item{colBy}{metadata column used to color lines. Default NULL, every sample
@@ -30,6 +28,8 @@ will get its own color.}
 
 \item{removeVar}{Remove this proportion of features based on the variance
 across rows. Default NULL, all features are plotted.}
+
+\item{...}{Additional parameters passed to \code{ggplot2::geom_line()}}
 
 \item{assay}{assay of \code{SummarizedExperiment} object to be plotted. Default "counts".}
 }

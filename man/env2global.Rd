@@ -15,8 +15,8 @@ env2global(x, remove = TRUE)
 variables from x are assigned to the GlobalEnv after execution
 }
 \description{
-This function will extract all variables from the given environment and 
-assign them to the global environment and then optionally remove the 
+This function will extract all variables from the given environment and
+assign them to the global environment and then optionally remove the
 environment.
 }
 \examples{

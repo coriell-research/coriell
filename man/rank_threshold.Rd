@@ -16,15 +16,15 @@ named vector containing "x" and "y" position of calculated threshold
 }
 \description{
 Calculate a threshold value of a vector based on the unimodal threshold method
-described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"}{Rosin 2001} 
-for image thresholding. Conceptually, the method attempts to draw a line from 
+described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"}{Rosin 2001}
+for image thresholding. Conceptually, the method attempts to draw a line from
 the peak of the distribution to the tail and calculates the maximum distance
 from a point to that line. The point where the distance is maximized is the
 threshold.
 }
 \details{
 The function takes a numeric vector and ranks the values using \code{data.table::frank}.
-with \code{ties.method = "first"}. The returned values for the threshold "x" and "y", 
+with \code{ties.method = "first"}. The returned values for the threshold "x" and "y",
 indicate the rank of the data point and the value at that rank, respectively.
 }
 \examples{

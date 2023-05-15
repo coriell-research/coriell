@@ -8,7 +8,7 @@
 \alias{plot_density.SummarizedExperiment}
 \title{Density plot of expression values}
 \usage{
-plot_density(x, ...)
+plot_density(x)
 
 \method{plot_density}{default}(x)
 
@@ -21,14 +21,14 @@ plot_density(x, ...)
 \arguments{
 \item{x}{gene by sample matrix or \code{SummarizedExperiment} object}
 
-\item{...}{Additional parameters passed to \code{ggplot2::geom_density()}}
-
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata
 must match the colnames of the input matrix. Default NULL, each sample in the
 matrix will be plotted.}
 
 \item{colBy}{metadata column used to color density lines. Default NULL,
 each sample in the matrix will be plotted.}
+
+\item{...}{Additional parameters passed to \code{ggplot2::geom_density()}}
 
 \item{assay}{assay of the SummarizedExperiment object. Default "counts"}
 }

@@ -18,8 +18,8 @@ random_rgb_palette <- function(n, alpha = 1.0) {
     green = stats::runif(n),
     blue = stats::runif(n),
     alpha = alpha
-    )
-  
+  )
+
   return(pal)
 }
 

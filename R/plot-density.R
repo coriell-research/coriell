@@ -25,7 +25,7 @@
 #' # Color each sample by their Group in metadata
 #' plot_density(GSE161650_lc, metadata, colBy = "Group") +
 #'   theme_coriell()
-plot_density <- function(x, ...) UseMethod("plot_density")
+plot_density <- function(x) UseMethod("plot_density")
 
 
 #' @rdname plot_density

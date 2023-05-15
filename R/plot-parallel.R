@@ -29,7 +29,7 @@
 #' # Plot the PCP by coloring each sample by Group from metadata
 #' plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) +
 #'   theme_coriell()
-plot_parallel <- function(x, ...) UseMethod("plot_parallel")
+plot_parallel <- function(x) UseMethod("plot_parallel")
 
 
 #' @rdname plot_parallel

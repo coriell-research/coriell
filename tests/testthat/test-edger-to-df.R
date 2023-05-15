@@ -19,7 +19,7 @@ x <- data.frame(
 
 # edgeR pipeline
 group <- factor(rep(c("A", "B", "C"), each = 3))
-design <- model.matrix(~0 + group)
+design <- model.matrix(~ 0 + group)
 y <- DGEList(counts = x, group = group)
 y <- calcNormFactors(y)
 y <- estimateDisp(y, design)
@@ -43,5 +43,4 @@ test_that("Convert results to data.frame", {
   expect_is(edger_to_df(glmlrt_anova), "data.frame", label = "glmLRT with multiple coefs")
   expect_is(edger_to_df(glmtreat_single_contrast), "data.frame", label = "glmTreat with single coef")
   expect_is(edger_to_df(et_single_contrast), "data.frame", label = "exactTest")
-  }
-)
+})

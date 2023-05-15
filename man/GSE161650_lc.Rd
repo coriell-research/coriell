@@ -14,12 +14,12 @@ A matrix with 11,002 rows (Gene Symbols) and 6 columns (Samples).
 GSE161650_lc
 }
 \description{
-A subset of log2 expression counts containing THZ1 (n=3) vs DMSO (n=3) 
-samples after TMM normalization and log2 transformation. See Details for 
+A subset of log2 expression counts containing THZ1 (n=3) vs DMSO (n=3)
+samples after TMM normalization and log2 transformation. See Details for
 citation
 }
 \details{
-Jiang B, Gao Y, Che J, Lu W et al. Discovery and resistance mechanism of a selective CDK12 degrader. 
+Jiang B, Gao Y, Che J, Lu W et al. Discovery and resistance mechanism of a selective CDK12 degrader.
 Nat Chem Biol 2021 Jun;17(6):675-683. PMID: 33753926
 }
 \keyword{datasets}

@@ -237,7 +237,7 @@ biplot(
   legendPosition = "bottom",
   title = "PCA on logcounts",
   caption = "75% Most Variable Features"
-  )
+)
 ```
 
 ## Heatmap
@@ -262,7 +262,7 @@ quickmap(
   annotation_col = col_df,
   annotation_colors = ann_colors,
   main = "Treatment vs Control"
-  )
+)
 ```
 
 ## Volcano Plots
@@ -301,10 +301,10 @@ top_genes <- head(top_genes[order(top_genes$logFC, decreasing = TRUE), ], n = 10
 
 # Perform Gene Ontology Analysis with PANTHER
 go.res <- panther_go(
-  top_genes$feature_id, 
-  organism = "9606", 
+  top_genes$feature_id,
+  organism = "9606",
   annot_dataset = "biological_process"
-  )
+)
 
 # View the results of the enrichment analysis
 head(go.res$table)

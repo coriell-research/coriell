@@ -5,7 +5,7 @@
 \alias{UMAP.pca}
 \title{Perform UMAP}
 \usage{
-UMAP(x, ...)
+UMAP(x)
 
 \method{UMAP}{pca}(
   x,
@@ -34,42 +34,42 @@ UMAP(x, ...)
 )
 }
 \arguments{
-\item{x}{PCA object, prcomp object, or numeric matrix/data.frame that can be 
+\item{x}{PCA object, prcomp object, or numeric matrix/data.frame that can be
 converted to a numeric matrix}
 
 \item{n_neighbors}{Number of nearest neighbors. Default 15}
 
 \item{n_components}{Dimension of target (output) space. Default 2}
 
-\item{metric}{character or function; determines how distances between data 
-points are computed. When using a string, available metrics are: euclidean, 
-manhattan. Other available generalized metrics are: cosine, pearson, 
-pearson2. Note the triangle inequality may not be satisfied by some 
-generalized metrics, hence knn search may not be optimal. When using 
-metric.function as a function, the signature must be function(matrix, 
-origin, target) and should compute a distance between the origin column and 
+\item{metric}{character or function; determines how distances between data
+points are computed. When using a string, available metrics are: euclidean,
+manhattan. Other available generalized metrics are: cosine, pearson,
+pearson2. Note the triangle inequality may not be satisfied by some
+generalized metrics, hence knn search may not be optimal. When using
+metric.function as a function, the signature must be function(matrix,
+origin, target) and should compute a distance between the origin column and
 the target columns. Default "euclidean"}
 
-\item{n_epochs}{Number of iterations performed during layout optimization. 
+\item{n_epochs}{Number of iterations performed during layout optimization.
 Default 200}
 
-\item{input}{character, use either "data" or "dist"; determines whether the 
-primary input argument to umap() is treated as a data matrix or as a 
+\item{input}{character, use either "data" or "dist"; determines whether the
+primary input argument to umap() is treated as a data matrix or as a
 distance matrix. Default "data"}
 
-\item{init}{character or matrix. The default string "spectral" computes an 
-initial embedding using eigenvectors of the connectivity graph matrix. An 
+\item{init}{character or matrix. The default string "spectral" computes an
+initial embedding using eigenvectors of the connectivity graph matrix. An
 alternative is the string "random", which creates an initial layout based on
-random coordinates. This setting.can also be set to a matrix, in which case 
+random coordinates. This setting.can also be set to a matrix, in which case
 layout optimization begins from the provided coordinates. Default "spectral"}
 
-\item{min_dist}{numeric; determines how close points appear in the final 
+\item{min_dist}{numeric; determines how close points appear in the final
 layout. Default 0.1}
 
-\item{set_op_mix_ratio}{numeric in range [0,1]; determines who the knn-graph 
+\item{set_op_mix_ratio}{numeric in range [0,1]; determines who the knn-graph
 is used to create a fuzzy simplicial graph. Default 1}
 
-\item{local_connectivity}{numeric; used during construction of fuzzy 
+\item{local_connectivity}{numeric; used during construction of fuzzy
 simplicial set. Default 1}
 
 \item{bandwidth}{numeric; used during construction of fuzzy simplicial set.
@@ -78,28 +78,28 @@ Default 1}
 \item{alpha}{numeric; initial value of "learning rate" of layout optimization.
 Default 1}
 
-\item{gamma}{numeric; determines, together with alpha, the learning rate of 
+\item{gamma}{numeric; determines, together with alpha, the learning rate of
 layout optimization. Default 1}
 
-\item{negative_sample_rate}{integer; determines how many non-neighbor 
+\item{negative_sample_rate}{integer; determines how many non-neighbor
 points are used per point and per iteration during layout optimization.
 Default 5}
 
-\item{a}{numeric; contributes to gradient calculations during layout 
-optimization. When left at NA, a suitable value will be estimated 
+\item{a}{numeric; contributes to gradient calculations during layout
+optimization. When left at NA, a suitable value will be estimated
 automatically. Default NA}
 
-\item{b}{numeric; contributes to gradient calculations during layout 
-optimization. When left at NA, a suitable value will be estimated 
+\item{b}{numeric; contributes to gradient calculations during layout
+optimization. When left at NA, a suitable value will be estimated
 automatically. Default NA}
 
-\item{spread}{numeric; used during automatic estimation of a/b parameters. 
+\item{spread}{numeric; used during automatic estimation of a/b parameters.
 Default 1}
 
-\item{random_state}{integer; seed for random number generation used during 
+\item{random_state}{integer; seed for random number generation used during
 umap(). Default NA}
 
-\item{transform_state}{nteger; seed for random number generation used 
+\item{transform_state}{nteger; seed for random number generation used
 during predict(). Default NA}
 
 \item{knn}{object of class umap.knn; precomputed nearest neighbors. Default
@@ -107,10 +107,10 @@ NA}
 
 \item{knn_repeats}{number of times to restart knn search. Default 1}
 
-\item{verbose}{logical or integer; determines whether to show progress 
+\item{verbose}{logical or integer; determines whether to show progress
 messages. Default FALSE}
 
-\item{umap_learn_args}{vector of arguments to python package umap-learn. 
+\item{umap_learn_args}{vector of arguments to python package umap-learn.
 Default NA}
 }
 \description{

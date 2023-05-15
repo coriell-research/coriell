@@ -7,23 +7,24 @@
 rarefy(x, depth)
 }
 \arguments{
-\item{x}{numeric matrix or data.frame that can be converted to a numeric 
+\item{x}{numeric matrix or data.frame that can be converted to a numeric
 matrix. Samples in columns features in rows.}
 
 \item{depth}{desired sampling depth applied to each library.}
 }
 \description{
-This function will randomly subsample counts from rows of the input matrix 
+This function will randomly subsample counts from rows of the input matrix
 such that the colSums all have even depth.
 }
 \examples{
 set.seed(123)
 m <- matrix(
-  sample.int(100), 
-  nrow=10, 
+  sample.int(100),
+  nrow = 10,
   dimnames = list(
     Gene = paste0("gene.", 1:10),
-    Sample = paste0("sample.", 1:10))
+    Sample = paste0("sample.", 1:10)
+  )
 )
 
 colSums(m)

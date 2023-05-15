@@ -14,8 +14,8 @@ exact_cor_test(X, y, ...)
 \item{...}{arguments passed to the `cor` function}
 }
 \value{
-data.frame containing the original values in X along with columns 
-containing the correlation of Xi and Y, the empirical p-value of the 
+data.frame containing the original values in X along with columns
+containing the correlation of Xi and Y, the empirical p-value of the
 permutation test, and the FDR corrected empirical p-value
 }
 \description{

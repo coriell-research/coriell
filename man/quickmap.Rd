@@ -68,10 +68,10 @@ quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
 
 # Remove 90\% lowest variance features and fix color scale at ends
 quickmap(
-  GSE161650_lc, 
+  GSE161650_lc,
   removeVar = 0.9,
-  main = "THZ1 vs DMSO", 
-  fix_extreme = TRUE, 
+  main = "THZ1 vs DMSO",
+  fix_extreme = TRUE,
   thresh = 0.5
 )
 }

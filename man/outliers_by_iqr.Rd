@@ -7,28 +7,28 @@
 outliers_by_iqr(X, scale_factor = 1.5)
 }
 \arguments{
-\item{X}{numeric matrix or data.frame that can be converted to a numeric 
+\item{X}{numeric matrix or data.frame that can be converted to a numeric
 matrix with variables in the columns and sample names in the rows.}
 
 \item{scale_factor}{numeric. Factor to scale the outlier range. default 1.5.}
 }
 \value{
-numeric matrix where values of 1L indicates an outlier and 0L indicates 
+numeric matrix where values of 1L indicates an outlier and 0L indicates
 non-outlier
 }
 \description{
-Compute outliers for all columns of a numeric matrix using the IQR method. 
-For each column of the input matrix, a value is called as an outlier if the 
-value is less than the first quartile i.e. Q1 - IQR * scale factor or greater 
+Compute outliers for all columns of a numeric matrix using the IQR method.
+For each column of the input matrix, a value is called as an outlier if the
+value is less than the first quartile i.e. Q1 - IQR * scale factor or greater
 than Q3 + IQR * scale factor.
 }
 \examples{
 set.seed(12345)
 M <- matrix(
-  data = c(rnorm(10, 10, 1), rnorm(10, 100, 15)), 
-  ncol = 2, 
+  data = c(rnorm(10, 10, 1), rnorm(10, 100, 15)),
+  ncol = 2,
   dimnames = list(paste0("sample", 1:10), c("var1", "var2"))
-  )
+)
 
 # Create one outlier in first and last rows
 M[1, 1] <- 100

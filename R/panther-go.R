@@ -1,8 +1,8 @@
 #' Perform GO analysis with PANTHER
 #'
-#' Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over 
-#' representation analysis. This function excludes the option to import a reference 
-#' list and reference organism. By default, in this case, PANTHER will use all 
+#' Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over
+#' representation analysis. This function excludes the option to import a reference
+#' list and reference organism. By default, in this case, PANTHER will use all
 #' of the genes of the given organism as the reference list.
 #'
 #' @param gene_list character vector. Maximum of 100,000 identifiers. Can be any
@@ -23,7 +23,7 @@
 #' @param correction character string. One of c("fdr", "bonferroni", "none").
 #' Default "fdr"
 #' @return data.table of results from over representation analysis.
-#' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
+#' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
 #' for column descriptions in "table".
 #' @import data.table
 #' @export
@@ -44,8 +44,7 @@
 #'
 #' # to view the actual request (which allows you to parse results yourself) use
 #' req <- go_results$request
-panther_go <- function(
-                       gene_list,
+panther_go <- function(gene_list,
                        organism,
                        annot_dataset,
                        enrichment_test_type = "fisher",
@@ -56,7 +55,7 @@ panther_go <- function(
   if (!requireNamespace("jsonlite", quietly = TRUE)) {
     stop("jsonlite package is required.")
   }
-  
+
   datasets <- c(
     "biological_process" = "GO:0008150",
     "molecular_function" = "GO:0003674",
@@ -100,6 +99,6 @@ panther_go <- function(
   httr::warn_for_status(r, "WARNING: request produced a warning response")
   parsed <- jsonlite::fromJSON(httr::content(r, "text"), simplifyVector = FALSE)
   dt <- data.table::rbindlist(parsed$results$result)
-  
+
   return(dt)
 }

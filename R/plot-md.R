@@ -30,14 +30,14 @@
 #' @export
 #' @examples
 #' plot_md(GSE161650_de, fdr = 0.01, lfc = log2(2))
-plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, fdr = 0.1, 
+plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, fdr = 0.1,
                     lfc = 0, annotate_counts = TRUE, label_sig = FALSE, up_color = "red2", down_color = "royalblue2",
                     nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
                     up_size = 1, down_size = 1, nonde_size = 1, xmax_label_offset = 0.8,
                     ymax_label_offset = 0.5, ymin_label_offset = 0.5, lab_size = 8, ...) {
-  
-  if (label_sig && is.null(lab))
+  if (label_sig && is.null(lab)) {
     message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
+  }
 
   # Add new label for Up, Down and Non-DE genes
   dt <- as.data.table(df)
@@ -61,13 +61,13 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, 
     ) +
     ggplot2::theme_classic() +
     ggplot2::theme(legend.position = "bottom")
-  
+
   # add text labels to significant genes
   if (label_sig && !is.null(lab)) {
     if (!requireNamespace("ggrepel", quietly = TRUE)) {
       stop("ggrepel package is required.")
     }
-    
+
     p <- p +
       ggrepel::geom_text_repel(
         data = dt[direction %in% c("Up", "Down")],

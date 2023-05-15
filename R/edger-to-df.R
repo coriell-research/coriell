@@ -3,7 +3,7 @@
 #' Create a data.frame from an \code{edgeR} results object. This function calls
 #' \code{edgeR::topTags()} on the object and extracts the \code{table} data.frame
 #' with all features.
-#' 
+#'
 #' @param res_obj \code{edgeR} results object to be converted
 #' @param ... Additional arguments passed to \code{edgeR::topTags()}
 #' @export
@@ -34,7 +34,7 @@
 #'
 #' # convert the results object to a dataframe -- do not filter the results
 #' res_df <- edger_to_df(qlf)
-#' 
+#'
 #' head(res_df)
 #'
 edger_to_df <- function(res_obj, ...) {
@@ -44,6 +44,6 @@ edger_to_df <- function(res_obj, ...) {
   df <- edgeR::topTags(res_obj, n = Inf, ...)$table
   df <- cbind(feature_id = rownames(df), df)
   rownames(df) <- NULL
-  
+
   return(df)
 }

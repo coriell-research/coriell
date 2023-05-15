@@ -21,7 +21,7 @@ summarize_dge(df, fdr_col = "FDR", lfc_col = "logFC", fdr = 0.05, lfc = 0)
 data.frame with columns describing the count and percentages of up/down/unperturbed genes
 }
 \description{
-Summarize a results data.frame. Return data.frame of counts of up/down/non-DE 
+Summarize a results data.frame. Return data.frame of counts of up/down/non-DE
 genes based on log-fold-change and significance values.
 }
 \examples{

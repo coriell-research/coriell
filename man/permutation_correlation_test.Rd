@@ -18,9 +18,9 @@ permutation_correlation_test(X, y, n_perm = 10000, n_core = 1, ...)
 \item{...}{Additional arguments to pass to `cor` function}
 }
 \description{
-Compute a correlation value for every row of X against the vector y and n 
+Compute a correlation value for every row of X against the vector y and n
 random permutations of y. If the number of possible permutations is less than
-the the argument n_perm then an exact test is performed instead. In both 
+the the argument n_perm then an exact test is performed instead. In both
 cases the function returns a data.frame of the original data with additional
 columns for the test statistic, empirical p-value, and FDR corrected empirical
 p-value.

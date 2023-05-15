@@ -37,13 +37,13 @@ Default "fdr"}
 }
 \value{
 data.table of results from over representation analysis.
-See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual} 
+See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
 for column descriptions in "table".
 }
 \description{
-Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over 
-representation analysis. This function excludes the option to import a reference 
-list and reference organism. By default, in this case, PANTHER will use all 
+Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over
+representation analysis. This function excludes the option to import a reference
+list and reference organism. By default, in this case, PANTHER will use all
 of the genes of the given organism as the reference list.
 }
 \examples{

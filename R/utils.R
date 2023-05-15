@@ -41,23 +41,23 @@ map_value <- function(x, old_min, old_max, new_min, new_max) {
 }
 
 #' Limit values to a given range
-#' 
+#'
 #' This function is useful for input validation. If the value of x is in the given
 #' range then the function returns x. If the value is outside of the range then
 #' the function returns either the max or the min value of the range.
-#' 
+#'
 #' @param x numeric. Value to validate
 #' @param min numeric. Minimum value of range.
 #' @param max numeric. Maximum value of range.
-#' @return The clamped value. 
+#' @return The clamped value.
 #' @export
-#' @examples 
+#' @examples
 #' # Value in range -- returns value
 #' clamp(10, min = 0, max = 100)
-#' 
+#'
 #' # value less than range -- returns min
 #' clamp(-10, min = 0, max = 100)
-#' 
+#'
 #' # value greater than range -- returns max
 #' clamp(110, min = 0, max = 100)
 clamp <- function(x, min, max) {
@@ -112,58 +112,60 @@ clr <- function(x, base = 2) {
 
 #' Give means of rows of matrix based on column grouping variable
 #'
-#' Inspired by \code{edgeR::sumTechReps} and \code{base::rowsum()}, this function 
-#' takes the average of the values in each group given by the group argument 
+#' Inspired by \code{edgeR::sumTechReps} and \code{base::rowsum()}, this function
+#' takes the average of the values in each group given by the group argument
 #' for each row of the data matrix.
 #' @param x variable (gene) by sample numeric matrix
 #' @param group Factor specifying the grouping level to by averaged
 #' @return variable x nLevels(group) matrix
-#' @export 
+#' @export
 #' @examples
-#' # Specify the Group levels 
+#' # Specify the Group levels
 #' Group <- gl(n = 2, k = 3, labels = c("DMSO", "THZ1"))
-#' 
+#'
 #' # Take the average of every gene by treatment group
 #' by_group <- colmean(GSE161650_lc, group = Group)
-#' by_group[1:5,]
-#' 
+#' by_group[1:5, ]
+#'
 colmean <- function(x, group) {
   stopifnot("x must be a numeric matrix" = is.numeric(x))
   stopifnot("group must be a factor variable" = is.factor(group))
   stopifnot("length of grouping factor must equal number of columns" = length(group) == ncol(x))
-  
+
   t(rowsum(t(x), group = group, reorder = FALSE) / as.vector(table(group)))
 }
 
 #' Extract variable from an environment and remove that environment
-#' 
-#' This function will extract all variables from the given environment and 
-#' assign them to the global environment and then optionally remove the 
-#' environment. 
+#'
+#' This function will extract all variables from the given environment and
+#' assign them to the global environment and then optionally remove the
+#' environment.
 #' @param x Environment to extract variables from
 #' @param remove Should the Environment be removed after extracting variables? Default TRUE
 #' @return variables from x are assigned to the GlobalEnv after execution
 #' @export
-#' @examples 
+#' @examples
 #' my_env <- new.env()
 #' my_env$X <- 1000
 #' my_env$Y <- 1:10
-#' 
+#'
 #' # Extract X and Y to global environment and remove my_env
 #' env2global(my_env)
-#' 
+#'
 #' # Extract X and Y to global environment and keep my_env
 #' env2global(my_env, remove = FALSE)
-#' 
+#'
 env2global <- function(x, remove = TRUE) {
-  if (!is.environment(x))
+  if (!is.environment(x)) {
     stop("x must be an environment")
-  
+  }
+
   vars <- ls(x)
   for (v in vars) {
     assign(v, x[[v]], envir = .GlobalEnv)
   }
-  
-  if (remove)
+
+  if (remove) {
     rm(list = toString(substitute(x)), envir = .GlobalEnv)
+  }
 }

@@ -42,12 +42,13 @@ simulate_counts <- function(n_genes = 1000,
   down <- setdiff(de_genes, up)
 
   # generate the count table
-  counts <- matrix(stats::rnbinom(n_genes * n_samples,
-    mu = mu,
-    size = 1 / phi
-  ),
-  nrow = n_genes,
-  ncol = n_samples
+  counts <- matrix(
+    stats::rnbinom(n_genes * n_samples,
+      mu = mu,
+      size = 1 / phi
+    ),
+    nrow = n_genes,
+    ncol = n_samples
   )
 
   colnames(counts) <- paste(rep(groups, each = n_samples / length(groups)),
