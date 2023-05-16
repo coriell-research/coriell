@@ -16,6 +16,5 @@ Calculate the centered log-ratio transformation of a vector
 }
 \examples{
 x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
-
-clr_transformed <- clr(x)
+clr(x)
 }

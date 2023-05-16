@@ -20,5 +20,5 @@ Value of x within the desired range given by min, max.
 Linear interpolation of a value
 }
 \examples{
-lerp(0.25, min = 0, max = 100)
+lerp(c(0.1, 0.25, 0.5, 0.75), min = 0, max = 100)
 }

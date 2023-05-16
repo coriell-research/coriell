@@ -24,5 +24,6 @@ Value of x mapped to the desired range.
 Map a value in one range to a value in another
 }
 \examples{
-map_value(50, old_min = 0, old_max = 100, new_min = 100, new_max = 1000)
+# Map values from the range 0-10 to the range 0-1
+map_value(c(0, 1, 2, 3), 0, 10, 0, 1)
 }

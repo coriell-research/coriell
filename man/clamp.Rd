@@ -22,12 +22,5 @@ range then the function returns x. If the value is outside of the range then
 the function returns either the max or the min value of the range.
 }
 \examples{
-# Value in range -- returns value
-clamp(10, min = 0, max = 100)
-
-# value less than range -- returns min
-clamp(-10, min = 0, max = 100)
-
-# value greater than range -- returns max
-clamp(110, min = 0, max = 100)
+clamp(c(-1, 121, 10, 15), min = 0, max = 100)
 }

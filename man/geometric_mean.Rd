@@ -22,6 +22,5 @@ Stolen from \url{https://stackoverflow.com/a/25555105}.
 }
 \examples{
 x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
-
-gm <- geometric_mean(x)
+geometric_mean(x)
 }
