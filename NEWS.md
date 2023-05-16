@@ -1,3 +1,11 @@
+## coriell 0.12.0
+
+- Added `UMAP()` and `plot_umap()` functions. The `UMAP()` functions accepts 
+PCA objects from `PCAtools`, `prcomp`, or a distance matrix or raw data matrix
+and exposes the `umap.defaults` as function arguments. 
+- The `plot_umap()` function provides a simple plotting method for the 
+data.frame produced by the `UMAP()` function.
+
 ## coriell 0.11.0
 
 - Internal changes to the `quickmap()` function. Avoid `pheatmap` scaling in 
