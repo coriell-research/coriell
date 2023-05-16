@@ -207,7 +207,7 @@ UMAP.pca <- function(x, n_neighbors = 15, n_components = 2, metric = "euclidean"
                      min_dist = 0.1, set_op_mix_ratio = 1, local_connectivity = 1,
                      bandwidth = 1, alpha = 1, gamma = 1, negative_sample_rate = 5,
                      a = NA, b = NA, spread = 1, random_state = NA,
-                     transform_state = NA, knn = NA, knn_repeats = NA,
+                     transform_state = NA, knn = NA, knn_repeats = 1,
                      verbose = FALSE, umap_learn_args = NA) {
   # Experiment with the code below to more elegantly replace values
   # params <- umap::umap.defaults
@@ -256,7 +256,7 @@ UMAP.prcomp <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
                         local_connectivity = 1, bandwidth = 1, alpha = 1, 
                         gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
                         spread = 1, random_state = NA, transform_state = NA, 
-                        knn = NA, knn_repeats = NA, verbose = FALSE, 
+                        knn = NA, knn_repeats = 1, verbose = FALSE, 
                         umap_learn_args = NA) {
 
   if (!is.null(metadata)) {
@@ -308,7 +308,7 @@ UMAP.matrix <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
                         local_connectivity = 1, bandwidth = 1, alpha = 1, 
                         gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
                         spread = 1, random_state = NA, transform_state = NA, 
-                        knn = NA, knn_repeats = NA, verbose = FALSE, 
+                        knn = NA, knn_repeats = 1, verbose = FALSE, 
                         umap_learn_args = NA) {
   
   if (!is.null(metadata)) {
@@ -360,7 +360,7 @@ UMAP.data.frame <- function(x, metadata = NULL, n_neighbors = 15, n_components =
                         local_connectivity = 1, bandwidth = 1, alpha = 1, 
                         gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
                         spread = 1, random_state = NA, transform_state = NA, 
-                        knn = NA, knn_repeats = NA, verbose = FALSE, 
+                        knn = NA, knn_repeats = 1, verbose = FALSE, 
                         umap_learn_args = NA) {
   m <- data.matrix(x)
   if (!is.null(metadata)) {
@@ -412,7 +412,7 @@ UMAP.dist <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
                       local_connectivity = 1, bandwidth = 1, alpha = 1, 
                       gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
                       spread = 1, random_state = NA, transform_state = NA, 
-                      knn = NA, knn_repeats = NA, verbose = FALSE, 
+                      knn = NA, knn_repeats = 1, verbose = FALSE, 
                       umap_learn_args = NA) {
   
   if (!is.null(metadata)) {

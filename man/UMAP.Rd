@@ -32,7 +32,7 @@ UMAP(x, ...)
   random_state = NA,
   transform_state = NA,
   knn = NA,
-  knn_repeats = NA,
+  knn_repeats = 1,
   verbose = FALSE,
   umap_learn_args = NA
 )
@@ -59,7 +59,7 @@ UMAP(x, ...)
   random_state = NA,
   transform_state = NA,
   knn = NA,
-  knn_repeats = NA,
+  knn_repeats = 1,
   verbose = FALSE,
   umap_learn_args = NA
 )
@@ -86,7 +86,7 @@ UMAP(x, ...)
   random_state = NA,
   transform_state = NA,
   knn = NA,
-  knn_repeats = NA,
+  knn_repeats = 1,
   verbose = FALSE,
   umap_learn_args = NA
 )
@@ -113,7 +113,7 @@ UMAP(x, ...)
   random_state = NA,
   transform_state = NA,
   knn = NA,
-  knn_repeats = NA,
+  knn_repeats = 1,
   verbose = FALSE,
   umap_learn_args = NA
 )
@@ -140,7 +140,7 @@ UMAP(x, ...)
   random_state = NA,
   transform_state = NA,
   knn = NA,
-  knn_repeats = NA,
+  knn_repeats = 1,
   verbose = FALSE,
   umap_learn_args = NA
 )
