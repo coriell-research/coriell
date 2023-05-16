@@ -8,7 +8,7 @@
 \alias{plot_boxplot.SummarizedExperiment}
 \title{Create boxplot from expression data}
 \usage{
-plot_boxplot(x)
+plot_boxplot(x, ...)
 
 \method{plot_boxplot}{default}(x)
 
@@ -42,6 +42,9 @@ plot_boxplot(x)
 \arguments{
 \item{x}{matrix of expression values or \code{SummarizedExperiment} object}
 
+\item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()} or
+\code{ggplot2::geom_violin()}}
+
 \item{metadata}{data.frame containing metadata per sample. rownames of metadata
 must match the colnames of the input matrix. Default NULL, each sample in x
 will be plotted individually.}
@@ -54,9 +57,6 @@ that the input matrix has already been logged. Be sure to take the log of the
 input matrix prior to setting this option.}
 
 \item{violin}{Plot the data as a violin plot instead of a boxplot. Default FALSE.}
-
-\item{...}{Additional parameters passed to \code{ggplot2::geom_boxplot()} or
-\code{ggplot2::geom_violin()}}
 
 \item{assay}{If a SummarizedExperiment is supplied what assay is used. Default "counts"}
 }
