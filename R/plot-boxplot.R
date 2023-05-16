@@ -34,7 +34,7 @@
 #' # Create a violin plot after RLE transformation
 #' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE) +
 #'   theme_coriell()
-plot_boxplot <- function(x) UseMethod("plot_boxplot")
+plot_boxplot <- function(x, ...) UseMethod("plot_boxplot")
 
 
 #' @export
