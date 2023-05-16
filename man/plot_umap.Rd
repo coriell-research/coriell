@@ -55,6 +55,6 @@ metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # PCA with PCAtools
 p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
-udata <- UMAP(p, n_neighbors = 2)
+udata <- coriell::UMAP(p, n_neighbors = 2)
 plot_umap(udata, colBy = "Group")
 }
