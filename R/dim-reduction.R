@@ -167,6 +167,7 @@ remove_components <- function(x, components = 1, ...) {
 #' messages. Default FALSE
 #' @param umap_learn_args vector of arguments to python package umap-learn.
 #' Default NA
+#' @export
 #' @return data.frame with the UMAP embeddings. If metadata was supplied then 
 #' metadata columns are added to the results.
 #' @examples

@@ -22,7 +22,7 @@
 #' 
 #' # PCA with PCAtools
 #' p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
-#' udata <- UMAP(p, n_neighbors = 2)
+#' udata <- coriell::UMAP(p, n_neighbors = 2)
 #' plot_umap(udata, colBy = "Group")
 plot_umap <- function(df, x = "UMAP1", y = "UMAP2", colBy = NULL, shapeBy = NULL,
                       pointSize = 3, pointAlpha = 1, hline = 0, vline = 0,

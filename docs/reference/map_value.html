@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
       </span>
     </div>
 
@@ -100,8 +100,9 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">map_value</span><span class="op">(</span><span class="fl">50</span>, old_min <span class="op">=</span> <span class="fl">0</span>, old_max <span class="op">=</span> <span class="fl">100</span>, new_min <span class="op">=</span> <span class="fl">100</span>, new_max <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 550</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Map values from the range 0-10 to the range 0-1</span></span></span>
+<span class="r-in"><span><span class="fu">map_value</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0 0.1 0.2 0.3</span>
 </code></pre></div>
     </div>
   </div>

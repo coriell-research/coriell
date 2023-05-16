@@ -21,7 +21,7 @@ calculations for large gene expression matrices."><!-- mathjax --><script src="h
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.10.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
       </span>
     </div>
 
@@ -145,16 +145,16 @@ will be colored red. Default 0.5. See examples below.</p></dd>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># display heatmap of scaled count data and add title to the plot</span></span></span>
 <span class="r-in"><span><span class="fu">quickmap</span><span class="op">(</span><span class="va">GSE161650_lc</span>, main <span class="op">=</span> <span class="st">"THZ1 vs DMSO"</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="quickmap-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Remove 90% lowest variance features and fix color scale at ends</span></span></span>
 <span class="r-in"><span><span class="fu">quickmap</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">GSE161650_lc</span>, </span></span>
+<span class="r-in"><span>  <span class="va">GSE161650_lc</span>,</span></span>
 <span class="r-in"><span>  removeVar <span class="op">=</span> <span class="fl">0.9</span>,</span></span>
-<span class="r-in"><span>  main <span class="op">=</span> <span class="st">"THZ1 vs DMSO"</span>, </span></span>
-<span class="r-in"><span>  fix_extreme <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>  main <span class="op">=</span> <span class="st">"THZ1 vs DMSO"</span>,</span></span>
+<span class="r-in"><span>  fix_extreme <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  thresh <span class="op">=</span> <span class="fl">0.5</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="quickmap-1.png" alt="" width="700" height="433"></span>
 <span class="r-plt img"><img src="quickmap-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
