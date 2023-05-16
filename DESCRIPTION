@@ -1,7 +1,7 @@
 Type: Package
 Package: coriell
 Title: Convenience Functions for Bioinformatics
-Version: 0.11.0
+Version: 0.12.0
 Authors@R: 
     person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre"))
 Description: This package provides many helper functions for common
@@ -25,6 +25,7 @@ Suggests:
     jsonlite,
     knitr,
     matrixStats,
+    PCAtools,
     pheatmap,
     rdist,
     Rfast,
