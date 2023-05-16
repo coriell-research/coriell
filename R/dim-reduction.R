@@ -111,6 +111,8 @@ remove_components <- function(x, components = 1, ...) {
 #' the umap defaults as function arguments.
 #' @param x PCA object, prcomp object, or numeric matrix/data.frame that can be
 #' converted to a numeric matrix
+#' @param metadata Optional data.frame with sample-level metadata. Used if a 
+#' prcomp object or data.frame/matrix is supplied. Default NULL
 #' @param n_neighbors Number of nearest neighbors. Default 15
 #' @param n_components Dimension of target (output) space. Default 2
 #' @param metric character or function; determines how distances between data
@@ -165,7 +167,32 @@ remove_components <- function(x, components = 1, ...) {
 #' messages. Default FALSE
 #' @param umap_learn_args vector of arguments to python package umap-learn.
 #' Default NA
-UMAP <- function(x) UseMethod("UMAP")
+#' @return data.frame with the UMAP embeddings. If metadata was supplied then 
+#' metadata columns are added to the results.
+#' @examples
+#' 
+#' # Create metadata for plotting
+#' metadata <- data.frame(row.names = colnames(GSE161650_lc))
+#' metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
+#' 
+#' # PCA with PCAtools
+#' p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
+#' 
+#' # PCA with prcomp
+#' pr <- prcomp(t(GSE161650_lc), center = TRUE, scale. = FALSE)
+#' 
+#' # Pre-calculated distance matrix
+#' d <- dist(t(GSE161650_lc))
+#' 
+#' # Perform UMAP on each data type
+#' udata <- UMAP(p, n_neighbors = 2)
+#' udata2 <- UMAP(pr, metadata, n_neighbors = 2)
+#' udata3 <- UMAP(d, metadata, n_neighbors = 2)
+#' 
+#' # Also on raw data
+#' udata4 <- UMAP(t(GSE161650_lc), metadata, n_neighbors = 2)
+#' 
+UMAP <- function(x, ...) UseMethod("UMAP")
 
 UMAP.default <- function(x) {
   stop("Object of type ", class(x), " is not supported by this function")
@@ -212,9 +239,218 @@ UMAP.pca <- function(x, n_neighbors = 15, n_components = 2, metric = "euclidean"
 
   # Perform UMAP and add on metadata information
   u <- umap::umap(d = x$rotated, params)
-  u_dt <- data.table::as.data.table(u$layout, keep.rownames = "Sample")
-  meta <- data.table::as.data.table(data.frame(x$metadata))
-  u_dt <- data.table::merge(u_dt, meta, by = "Sample")
+  data <- u$layout
+  colnames(data) <- paste0("UMAP", 1:ncol(data))
+  result <- cbind(data, x$metadata)
 
-  return(u_dt)
+  return(result)
+}
+
+#' @rdname UMAP
+#' @export
+#'
+UMAP.prcomp <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2, 
+                        metric = "euclidean", n_epochs = 200, input = "data", 
+                        init = "spectral", min_dist = 0.1, set_op_mix_ratio = 1, 
+                        local_connectivity = 1, bandwidth = 1, alpha = 1, 
+                        gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
+                        spread = 1, random_state = NA, transform_state = NA, 
+                        knn = NA, knn_repeats = NA, verbose = FALSE, 
+                        umap_learn_args = NA) {
+
+  if (!is.null(metadata)) {
+    if (!all(rownames(x$x) == rownames(metadata))) {
+      stop("rownames of prcomp object != rownames of metadata")
+    }
+  }
+  
+  params <- umap::umap.defaults
+  params$n_neighbors <- n_neighbors
+  params$n_components <- n_components
+  params$metric <- metric
+  params$n_epochs <- n_epochs
+  params$input <- input
+  params$init <- init
+  params$min_dist <- min_dist
+  params$set_op_mix_ratio <- set_op_mix_ratio
+  params$local_connectivity <- local_connectivity
+  params$bandwidth <- bandwidth
+  params$alpha <- alpha
+  params$gamma <- gamma
+  params$negative_sample_rate <- negative_sample_rate
+  params$a <- a
+  params$b <- b
+  params$spread <- spread
+  params$random_state <- random_state
+  params$transform_state <- transform_state
+  params$knn <- knn
+  params$knn_repeats <- knn_repeats
+  params$verbose <- verbose
+  params$umap_learn_args <- umap_learn_args
+  
+  # Perform UMAP and add on metadata information
+  u <- umap::umap(d = x$x, params)
+  data <- u$layout
+  colnames(data) <- paste0("UMAP", 1:ncol(data))
+  if (is.null(metadata)) return(data)
+  result <- cbind(data, metadata)
+  
+  return(result)
+}
+
+#' @rdname UMAP
+#' @export
+#'
+UMAP.matrix <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2, 
+                        metric = "euclidean", n_epochs = 200, input = "data", 
+                        init = "spectral", min_dist = 0.1, set_op_mix_ratio = 1, 
+                        local_connectivity = 1, bandwidth = 1, alpha = 1, 
+                        gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
+                        spread = 1, random_state = NA, transform_state = NA, 
+                        knn = NA, knn_repeats = NA, verbose = FALSE, 
+                        umap_learn_args = NA) {
+  
+  if (!is.null(metadata)) {
+    if (!all(rownames(x) == rownames(metadata))) {
+      stop("rownames of matrix != rownames of metadata.")
+    }
+  }
+  
+  params <- umap::umap.defaults
+  params$n_neighbors <- n_neighbors
+  params$n_components <- n_components
+  params$metric <- metric
+  params$n_epochs <- n_epochs
+  params$input <- input
+  params$init <- init
+  params$min_dist <- min_dist
+  params$set_op_mix_ratio <- set_op_mix_ratio
+  params$local_connectivity <- local_connectivity
+  params$bandwidth <- bandwidth
+  params$alpha <- alpha
+  params$gamma <- gamma
+  params$negative_sample_rate <- negative_sample_rate
+  params$a <- a
+  params$b <- b
+  params$spread <- spread
+  params$random_state <- random_state
+  params$transform_state <- transform_state
+  params$knn <- knn
+  params$knn_repeats <- knn_repeats
+  params$verbose <- verbose
+  params$umap_learn_args <- umap_learn_args
+  
+  # Perform UMAP and add on metadata information
+  u <- umap::umap(d = x, params)
+  data <- u$layout
+  colnames(data) <- paste0("UMAP", 1:ncol(data))
+  if (is.null(metadata)) return(data)
+  result <- cbind(data, metadata)
+  
+  return(result)
+}
+
+#' @rdname UMAP
+#' @export
+#'
+UMAP.data.frame <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2, 
+                        metric = "euclidean", n_epochs = 200, input = "data", 
+                        init = "spectral", min_dist = 0.1, set_op_mix_ratio = 1, 
+                        local_connectivity = 1, bandwidth = 1, alpha = 1, 
+                        gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
+                        spread = 1, random_state = NA, transform_state = NA, 
+                        knn = NA, knn_repeats = NA, verbose = FALSE, 
+                        umap_learn_args = NA) {
+  m <- data.matrix(x)
+  if (!is.null(metadata)) {
+    if (!all(rownames(m) == rownames(metadata))) {
+      stop("rownames of matrix != rownames of metadata. ")
+    }
+  }
+  
+  params <- umap::umap.defaults
+  params$n_neighbors <- n_neighbors
+  params$n_components <- n_components
+  params$metric <- metric
+  params$n_epochs <- n_epochs
+  params$input <- input
+  params$init <- init
+  params$min_dist <- min_dist
+  params$set_op_mix_ratio <- set_op_mix_ratio
+  params$local_connectivity <- local_connectivity
+  params$bandwidth <- bandwidth
+  params$alpha <- alpha
+  params$gamma <- gamma
+  params$negative_sample_rate <- negative_sample_rate
+  params$a <- a
+  params$b <- b
+  params$spread <- spread
+  params$random_state <- random_state
+  params$transform_state <- transform_state
+  params$knn <- knn
+  params$knn_repeats <- knn_repeats
+  params$verbose <- verbose
+  params$umap_learn_args <- umap_learn_args
+  
+  # Perform UMAP and add on metadata information
+  u <- umap::umap(d = m, params)
+  data <- u$layout
+  colnames(data) <- paste0("UMAP", 1:ncol(data))
+  if (is.null(metadata)) return(data)
+  result <- cbind(data, metadata)
+  
+  return(result)
+}
+
+#' @rdname UMAP
+#' @export
+#'
+UMAP.dist <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2, 
+                      metric = "euclidean", n_epochs = 200, input = "dist", 
+                      init = "spectral", min_dist = 0.1, set_op_mix_ratio = 1, 
+                      local_connectivity = 1, bandwidth = 1, alpha = 1, 
+                      gamma = 1, negative_sample_rate = 5, a = NA, b = NA, 
+                      spread = 1, random_state = NA, transform_state = NA, 
+                      knn = NA, knn_repeats = NA, verbose = FALSE, 
+                      umap_learn_args = NA) {
+  
+  if (!is.null(metadata)) {
+    if (!all(attr(x, "Labels") == rownames(metadata))) {
+      stop("Labels od distance matrix != rownames of metadata.")
+    }
+  }
+  
+  params <- umap::umap.defaults
+  params$n_neighbors <- n_neighbors
+  params$n_components <- n_components
+  params$metric <- metric
+  params$n_epochs <- n_epochs
+  params$input <- input
+  params$init <- init
+  params$min_dist <- min_dist
+  params$set_op_mix_ratio <- set_op_mix_ratio
+  params$local_connectivity <- local_connectivity
+  params$bandwidth <- bandwidth
+  params$alpha <- alpha
+  params$gamma <- gamma
+  params$negative_sample_rate <- negative_sample_rate
+  params$a <- a
+  params$b <- b
+  params$spread <- spread
+  params$random_state <- random_state
+  params$transform_state <- transform_state
+  params$knn <- knn
+  params$knn_repeats <- knn_repeats
+  params$verbose <- verbose
+  params$umap_learn_args <- umap_learn_args
+  
+  # Perform UMAP and add on metadata information
+  m <- as.matrix(x)
+  u <- umap::umap(d = m, params)
+  data <- u$layout
+  colnames(data) <- paste0("UMAP", 1:ncol(data))
+  if (is.null(metadata)) return(data)
+  result <- cbind(data, metadata)
+  
+  return(result)
 }

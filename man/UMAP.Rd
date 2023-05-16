@@ -3,9 +3,13 @@
 \name{UMAP}
 \alias{UMAP}
 \alias{UMAP.pca}
+\alias{UMAP.prcomp}
+\alias{UMAP.matrix}
+\alias{UMAP.data.frame}
+\alias{UMAP.dist}
 \title{Perform UMAP}
 \usage{
-UMAP(x)
+UMAP(x, ...)
 
 \method{UMAP}{pca}(
   x,
@@ -14,6 +18,114 @@ UMAP(x)
   metric = "euclidean",
   n_epochs = 200,
   input = "data",
+  init = "spectral",
+  min_dist = 0.1,
+  set_op_mix_ratio = 1,
+  local_connectivity = 1,
+  bandwidth = 1,
+  alpha = 1,
+  gamma = 1,
+  negative_sample_rate = 5,
+  a = NA,
+  b = NA,
+  spread = 1,
+  random_state = NA,
+  transform_state = NA,
+  knn = NA,
+  knn_repeats = NA,
+  verbose = FALSE,
+  umap_learn_args = NA
+)
+
+\method{UMAP}{prcomp}(
+  x,
+  metadata = NULL,
+  n_neighbors = 15,
+  n_components = 2,
+  metric = "euclidean",
+  n_epochs = 200,
+  input = "data",
+  init = "spectral",
+  min_dist = 0.1,
+  set_op_mix_ratio = 1,
+  local_connectivity = 1,
+  bandwidth = 1,
+  alpha = 1,
+  gamma = 1,
+  negative_sample_rate = 5,
+  a = NA,
+  b = NA,
+  spread = 1,
+  random_state = NA,
+  transform_state = NA,
+  knn = NA,
+  knn_repeats = NA,
+  verbose = FALSE,
+  umap_learn_args = NA
+)
+
+\method{UMAP}{matrix}(
+  x,
+  metadata = NULL,
+  n_neighbors = 15,
+  n_components = 2,
+  metric = "euclidean",
+  n_epochs = 200,
+  input = "data",
+  init = "spectral",
+  min_dist = 0.1,
+  set_op_mix_ratio = 1,
+  local_connectivity = 1,
+  bandwidth = 1,
+  alpha = 1,
+  gamma = 1,
+  negative_sample_rate = 5,
+  a = NA,
+  b = NA,
+  spread = 1,
+  random_state = NA,
+  transform_state = NA,
+  knn = NA,
+  knn_repeats = NA,
+  verbose = FALSE,
+  umap_learn_args = NA
+)
+
+\method{UMAP}{data.frame}(
+  x,
+  metadata = NULL,
+  n_neighbors = 15,
+  n_components = 2,
+  metric = "euclidean",
+  n_epochs = 200,
+  input = "data",
+  init = "spectral",
+  min_dist = 0.1,
+  set_op_mix_ratio = 1,
+  local_connectivity = 1,
+  bandwidth = 1,
+  alpha = 1,
+  gamma = 1,
+  negative_sample_rate = 5,
+  a = NA,
+  b = NA,
+  spread = 1,
+  random_state = NA,
+  transform_state = NA,
+  knn = NA,
+  knn_repeats = NA,
+  verbose = FALSE,
+  umap_learn_args = NA
+)
+
+\method{UMAP}{dist}(
+  x,
+  metadata = NULL,
+  n_neighbors = 15,
+  n_components = 2,
+  metric = "euclidean",
+  n_epochs = 200,
+  input = "dist",
   init = "spectral",
   min_dist = 0.1,
   set_op_mix_ratio = 1,
@@ -112,8 +224,39 @@ messages. Default FALSE}
 
 \item{umap_learn_args}{vector of arguments to python package umap-learn.
 Default NA}
+
+\item{metadata}{Optional data.frame with sample-level metadata. Used if a 
+prcomp object or data.frame/matrix is supplied. Default NULL}
+}
+\value{
+data.frame with the UMAP embeddings. If metadata was supplied then 
+metadata columns are added to the results.
 }
 \description{
 This function provides a wrapper around \code{umap::umap()} that exposes
 the umap defaults as function arguments.
+}
+\examples{
+
+# Create metadata for plotting
+metadata <- data.frame(row.names = colnames(GSE161650_lc))
+metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
+
+# PCA with PCAtools
+p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
+
+# PCA with prcomp
+pr <- prcomp(t(GSE161650_lc), center = TRUE, scale. = FALSE)
+
+# Pre-calculated distance matrix
+d <- dist(t(GSE161650_lc))
+
+# Perform UMAP on each data type
+udata <- UMAP(p, n_neighbors = 2)
+udata2 <- UMAP(pr, metadata, n_neighbors = 2)
+udata3 <- UMAP(d, metadata, n_neighbors = 2)
+
+# Also on raw data
+udata4 <- UMAP(t(GSE161650_lc), metadata, n_neighbors = 2)
+
 }
