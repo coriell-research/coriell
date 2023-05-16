@@ -1,14 +1,18 @@
-#' Normalize a value within a given range
+#' Min-Max normalize a value within a given range
 #'
 #' @param x numeric. Value to be transformed (normalized).
-#' @param min numeric. Minimum value of range.
-#' @param max numeric. Maximum value of range.
+#' @param min numeric. Minimum value of range. Default NA, use the min of the supplied vector
+#' @param max numeric. Maximum value of range. Default NA, use the max of the supplied vector
 #' @return Normalized value (0-1) of x in the range given by min, max.
 #' @export
 #' @examples
-#' normalize(10, min = 0, max = 100)
-normalize <- function(x, min, max) {
-  return((x - min) / (max - min))
+#' minmax(c(0, 1, 10, 100))
+#' 
+#' # Use a scale outside of the range of x
+#' minmax(c(0, 1, 10, 100), min = 0, max = 1000)
+minmax <- function(x, min = NA, max = NA) {
+  (x - min(c(x, min), na.rm = TRUE)) / 
+  (max(c(x, max), na.rm = TRUE) - min(c(x, min), na.rm = TRUE))
 }
 
 #' Linear interpolation of a value
@@ -19,7 +23,7 @@ normalize <- function(x, min, max) {
 #' @return Value of x within the desired range given by min, max.
 #' @export
 #' @examples
-#' lerp(0.25, min = 0, max = 100)
+#' lerp(c(0.1, 0.25, 0.5, 0.75), min = 0, max = 100)
 lerp <- function(x, min, max) {
   stopifnot("x must be between 0-1 (inclusive)" = x >= 0 & x <= 1)
   return((max - min) * x + min)
@@ -35,10 +39,13 @@ lerp <- function(x, min, max) {
 #' @return Value of x mapped to the desired range.
 #' @export
 #' @examples
-#' map_value(50, old_min = 0, old_max = 100, new_min = 100, new_max = 1000)
+#' # Map values from the range 0-10 to the range 0-1
+#' map_value(c(0, 1, 2, 3), 0, 10, 0, 1)
 map_value <- function(x, old_min, old_max, new_min, new_max) {
-  return(coriell::lerp(coriell::normalize(x, old_min, old_max), new_min, new_max))
+  lerp(minmax(x, old_min, old_max), new_min, new_max)
 }
+
+.clamp <- function(x, min, max) min(c(max(c(x, min)), max))
 
 #' Limit values to a given range
 #'
@@ -52,17 +59,8 @@ map_value <- function(x, old_min, old_max, new_min, new_max) {
 #' @return The clamped value.
 #' @export
 #' @examples
-#' # Value in range -- returns value
-#' clamp(10, min = 0, max = 100)
-#'
-#' # value less than range -- returns min
-#' clamp(-10, min = 0, max = 100)
-#'
-#' # value greater than range -- returns max
-#' clamp(110, min = 0, max = 100)
-clamp <- function(x, min, max) {
-  return(min(c(max(c(x, min)), max)))
-}
+#' clamp(c(-1, 121, 10, 15), min = 0, max = 100)
+clamp <- Vectorize(.clamp)
 
 #' Geometric mean of a vector
 #'
@@ -76,8 +74,7 @@ clamp <- function(x, min, max) {
 #' @export
 #' @examples
 #' x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
-#'
-#' gm <- geometric_mean(x)
+#' geometric_mean(x)
 geometric_mean <- function(x, zero_propagate = FALSE, na.rm = TRUE) {
   if (any(x < 0, na.rm = TRUE)) {
     return(NaN)
@@ -101,8 +98,7 @@ geometric_mean <- function(x, zero_propagate = FALSE, na.rm = TRUE) {
 #' @export
 #' @examples
 #' x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
-#'
-#' clr_transformed <- clr(x)
+#' clr(x)
 clr <- function(x, base = 2) {
   x <- log((x / geometric_mean(x)), base)
   x[!is.finite(x) | is.na(x)] <- 0.0
