@@ -170,14 +170,13 @@ quickmap <- function(mat, diverging_palette = TRUE, n_breaks = 50,
 
   if (default_args[["cluster_rows"]]) {
     hc_row <- .clusterMatrix(mat, distance = drow, method = meth)
+    default_args[["cluster_rows"]] <- hc_row
   }
-  default_args[["cluster_rows"]] <- hc_row
-
+  
   if (default_args[["cluster_cols"]]) {
     hc_col <- .clusterMatrix(t(mat), distance = dcol, method = meth)
+    default_args[["cluster_cols"]] <- hc_col
   }
-  default_args[["cluster_cols"]] <- hc_col
-
-
+  
   do.call(pheatmap::pheatmap, c(list(mat = mat), default_args))
 }
