@@ -165,3 +165,34 @@ env2global <- function(x, remove = TRUE) {
     rm(list = toString(substitute(x)), envir = .GlobalEnv)
   }
 }
+
+#' Perform simple imputation on rows of a matrix
+#' 
+#' Impute NA values for each row of a matrix.
+#' @param x numeric matrix or data.frame that can be converted to a numeric matrix
+#' @param fun Imputation function to apply to rows of the matrix. Default median
+#' @export
+#' @return Matrix with imputed values
+#' @examples
+#' # Create a matrix of values with NAs
+#' X <- matrix(runif(25), 5, dimnames = list(paste0("CpG", 1:5), paste0("Sample", 1:5)))
+#' X[sample.int(25, 5)] <- NA
+#' X
+#' 
+#' # Impute missing values with row medians
+#' impute(X)
+#' 
+#' # Impute missing values with row mins
+#' impute(X, min)
+impute <- function(x, fun = median) {
+  if (is(x, "data.frame"))
+    x <- data.matrix(x)
+  
+  imputed <- apply(x, 1, function(i) { 
+    i[which(is.na(i))] <- do.call(fun, list(i, na.rm = TRUE))
+    return(i)
+  }, simplify = FALSE)
+  m <- do.call(rbind, imputed)
+  dimnames(m) <- dimnames(x)
+  m
+}
