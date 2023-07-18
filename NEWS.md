@@ -1,3 +1,11 @@
+## coriell 0.13.0
+
+- Removed meta-analysis functions, `meta_vote()`, `meta_pcombine()` and 
+`plot_metavolcano()`, in favor of the newer `meta_de()` function which
+provides and interface to `metapod` for combining p-values in a more robust way.
+- Removed a redundant scaling step in `quickmap()` when calculating breaks and
+made some changes to the way the `fix_extreme` argument behaves.
+
 ## coriell 0.12.0
 
 - Added `UMAP()` and `plot_umap()` functions. The `UMAP()` functions accepts 
