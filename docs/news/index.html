@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.0</span>
       </span>
     </div>
 
@@ -60,6 +60,11 @@
       <small>Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.13.0" id="coriell-0130">coriell 0.13.0<a class="anchor" aria-label="anchor" href="#coriell-0130"></a></h2>
+<ul><li>Removed meta-analysis functions, <code>meta_vote()</code>, <code>meta_pcombine()</code> and <code>plot_metavolcano()</code>, in favor of the newer <code><a href="../reference/meta_de.html">meta_de()</a></code> function which provides and interface to <code>metapod</code> for combining p-values in a more robust way.</li>
+<li>Removed a redundant scaling step in <code><a href="../reference/quickmap.html">quickmap()</a></code> when calculating breaks and made some changes to the way the <code>fix_extreme</code> argument behaves.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.12.0" id="coriell-0120">coriell 0.12.0<a class="anchor" aria-label="anchor" href="#coriell-0120"></a></h2>
 <ul><li>Added <code><a href="../reference/UMAP.html">UMAP()</a></code> and <code><a href="../reference/plot_umap.html">plot_umap()</a></code> functions. The <code><a href="../reference/UMAP.html">UMAP()</a></code> functions accepts PCA objects from <code>PCAtools</code>, <code>prcomp</code>, or a distance matrix or raw data matrix and exposes the <code>umap.defaults</code> as function arguments.</li>
@@ -117,9 +122,9 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.0" id="coriell-030">coriell 0.3.0<a class="anchor" aria-label="anchor" href="#coriell-030"></a></h2>
 <ul><li>Added meta-analysis functions that rip off <code>MetaVolcanoR</code> but are much faster.
-<ul><li>The <code><a href="../reference/meta_vote.html">meta_vote()</a></code> function implements a vote-counting strategy for determining common differentially expressed genes</li>
-<li>The <code><a href="../reference/meta_pcombine.html">meta_pcombine()</a></code> function combines p-values and logFCs across studies.</li>
-<li>The <code><a href="../reference/plot_metavolcano.html">plot_metavolcano()</a></code> function provides a plotting function specific to the <code><a href="../reference/meta_vote.html">meta_vote()</a></code> results.</li>
+<ul><li>The <code>meta_vote()</code> function implements a vote-counting strategy for determining common differentially expressed genes</li>
+<li>The <code>meta_pcombine()</code> function combines p-values and logFCs across studies.</li>
+<li>The <code>plot_metavolcano()</code> function provides a plotting function specific to the <code>meta_vote()</code> results.</li>
 </ul></li>
 <li>Eliminated export of <code>magittr</code> pipe. Now <code>coriell</code> doesn’t export the pipe.</li>
 </ul></div>
