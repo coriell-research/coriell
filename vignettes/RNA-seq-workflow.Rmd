@@ -135,7 +135,12 @@ library(tximport)
 
 
 # Import the counts using tximport
-txi <- tximport(files, type = "salmon", tx2gene = tx2gene, countsFromAbundance = "scaledTPM")
+txi <- tximport(
+  files, 
+  type = "salmon", 
+  tx2gene = tx2gene, 
+  countsFromAbundance = "scaledTPM"
+  )
 
 # Extract the counts matrix from the txi object
 counts <- txi$counts
@@ -171,9 +176,64 @@ protein_coding <- unique(gsub("_[0-9]+$", "", protein_coding))
 counts <- counts[rownames(counts) %in% protein_coding, ]
 ```
 
-### Analysis with `edgeR`
+### Checking the library distributions
+
+It is always good to check to see if the sequenced libraries are behaving as
+expected. The `coriell` package has a few diagnostic plots to help with this.
+
+The first diagnostic plot is the `plot_boxplot()` function which will plot 
+boxplots for each sample in a matrix. Importantly, the `plot_boxplot()` function
+also allows the user to examine the relative log expression values for each 
+sample in order to assess technical factors that may be influencing each 
+library. RLE plots should show sample distributions centered on zero with 
+similar distributions of outlier values.
 
 ```{r}
+library(coriell)
+library(ggplot2)
+
+
+# Calculate the log2 counts per million for each sample
+logcounts <- edgeR::cpm(counts, log = TRUE, prior.count = 1)
+
+# Show the distribution of the logcounts for each sample
+plot_boxplot(logcounts, metadata = samples, fillBy = "pop", rle = TRUE, 
+             outlier.shape = NA) +
+  labs(title = "Relative Log Expression",
+       x = "Sample",
+       y = "RLE") +
+  scale_y_continuous(limits = c(-1.5, 1.5)) +
+  theme_coriell()
+```
+
+Another diagnostic plot is the `plot_distribution()` function. This function
+creates a density plot for each sample allowing the user to view the density 
+of the counts for all samples.
+
+```{r}
+plot_density(logcounts, metadata = samples, colBy = "pop") +
+  labs(title = "Density plot",
+       x = "log2CPM") +
+  theme_coriell()
+```
+
+Another useful diagnostic plot is to view the euclidean distances for the 
+unscaled counts between samples. This plot gives you an idea of how similar 
+samples are to each other on an absolute level. This can be accomplished with 
+the `plot_dist()` function.
+
+```{r}
+plot_dist(counts, metadata = samples[, "pop", drop = FALSE])
+```
+
+### Analysis with `edgeR`
+
+Downstream analysis of count data can be performed in `edgeR`. Since this 
+example data does not contain any actual groups i will create artificial groups
+only for the purpose of demonstrating the steps involved in a simple 
+differential expression analysis.
+
+```{r message=FALSE}
 library(edgeR)
 
 
@@ -205,6 +265,9 @@ con <- makeContrasts(TvC = Treatment - Control, levels = design)
 
 # Test for differential expression
 qlf <- glmQLFTest(fit, contrast = con[, "TvC"])
+
+# Extract the test results as a data.frame
+qlf_df <- edger_to_df(qlf)
 ```
 
 ## PCA
@@ -213,18 +276,18 @@ We can perform Principal Components Analysis on the normalized logcounts using
 functions from `edgeR` and `PCAtools`. See the [PCAtools vignette](https://bioconductor.org/packages/devel/bioc/vignettes/PCAtools/inst/doc/PCAtools.html) 
 for more useful functions.
 
-```{r}
+```{r message=FALSE}
 library(PCAtools)
 
 
-# Calculate the normalized log counts
+# Calculate the normalized log counts per million
 logcounts <- cpm(y, log = TRUE)
 
-# Perform PCA on the 75% most variable logcounts
-pca.res <- pca(logcounts, metadata = samples, removeVar = 0.25)
+# Perform PCA on the 20% most variable logcounts
+pca.res <- pca(logcounts, metadata = samples, removeVar = 0.8, scale = TRUE)
 ```
 
-Plot the pca biplot
+Plot the pca biplot and color by the arbitrary group variable.
 
 ```{r}
 biplot(
@@ -236,20 +299,20 @@ biplot(
   vlineType = 2,
   legendPosition = "bottom",
   title = "PCA on logcounts",
-  caption = "75% Most Variable Features"
+  caption = "20% Most Variable Features"
 )
 ```
 
 ## Heatmap
 
-The `coriell` package has a wrapper around `pheatmap` that sets sensible defaults
-for sequencing data. Any argument that can be passed to `pheatmnap` can be passed
-to the `quickmap` function to override the defaults.
+The `coriell` package has a wrapper around `pheatmap()` that sets sensible 
+defaults for sequencing data. Any argument that can be passed to `pheatmap()` 
+can be passed to the `quickmap()` function to override the defaults. The 
+`quickmap()` function also allows the user to remove low variance features and
+fix the scales of the the color so that extreme values do not wash out the 
+heatmap.
 
 ```{r}
-library(coriell)
-
-
 # Create a dataframe of annotations to use
 col_df <- samples[, "group", drop = FALSE]
 
@@ -259,9 +322,11 @@ ann_colors <- list(group = c("Control" = "steelblue", "Treatment" = "firebrick")
 # Plot the heatmap, passing additional args to pheatmap
 quickmap(
   logcounts,
+  removeVar = 0.8,
+  fix_extreme = TRUE,
   annotation_col = col_df,
   annotation_colors = ann_colors,
-  main = "Treatment vs Control"
+  main = "20% Most Variable Genes"
 )
 ```
 
@@ -269,43 +334,148 @@ quickmap(
 
 The `coriell` contains functions for plotting volcano plots and displaying
 the counts of up and down regulated genes on the plots. The aesthetics of the
-plots produced by `plot_volcano` and `plot_md` below can be modified. Please 
+plots produced by `plot_volcano()` and `plot_md()` below can be modified. Please 
 check the function documentation for details.
 
-Of course for this analysis there are no differentially expressed genes.
+Of course, for this analysis there are no differentially expressed genes because 
+the groups are arbitrary. However, we can still demonstrate the functions from 
+the `coriell` package.
 
 ```{r}
-# First, convert the qlf testing results to a data.frame
-qlf_df <- edger_to_df(qlf)
+# Create a volcano plot with the default settings
+plot_volcano(qlf_df) + 
+  ggtitle("Volcano Plot of Differential Expression Results")
+```
 
-plot_volcano(qlf_df) + ggtitle("Volcano Plot of Differential Expression Results")
+For a real dataset with differences the plot looks more like:
+
+```{r}
+# GSE161650_de is a dataset built into the coriell package for demonstrations
+plot_volcano(GSE161650_de, fdr = 0.05, lfc = log2(1.5))
 ```
 
 ## MA Plots
 
-Likewise, MA plots can be drawn
+Likewise, MA plots can be drawn with `plot_md()`
 
 ```{r}
-plot_md(qlf_df) + ggtitle("MA Plot of Differential Expression Results")
+plot_md(qlf_df) + 
+  ggtitle("MA Plot of Differential Expression Results")
 ```
 
-## Gene Ontology Analysis
-
-The `coriell` function includes a function to make API calls to the 
-[PANTHER database](http://pantherdb.org/) for gene ontology analysis. 
+and again for real data:
 
 ```{r}
-# Extract top 100 genes with positive logFC from the DE results
-top_genes <- qlf_df[qlf_df$logFC > 0, ]
-top_genes <- head(top_genes[order(top_genes$logFC, decreasing = TRUE), ], n = 100)
+plot_md(GSE161650_de, fdr = 0.05, lfc = log2(1.5))
+```
 
-# Perform Gene Ontology Analysis with PANTHER
-go.res <- panther_go(
-  top_genes$feature_id,
-  organism = "9606",
-  annot_dataset = "biological_process"
+## Gene ontology analysis
+
+Once you have a vector of genes that is interesting you can see if those genes 
+are over-represented in a particular pathway. The easiest way to do this is
+with the `clusterProfiler` package.
+
+```{r, message=FALSE}
+library(clusterProfiler)
+library(org.Hs.eg.db)
+
+
+# Extract a vector of the up-regulated genes
+up_genes <- subset(
+  GSE161650_de, 
+  FDR < 0.05 & logFC > 0, 
+  select = feature_id, 
+  drop = TRUE
+  )
+
+# Extract a vector of the down-regulated genes
+down_genes <- subset(
+  GSE161650_de, 
+  FDR < 0.05 & logFC < 0, 
+  select = feature_id, 
+  drop = TRUE
+  )
+
+# Test each set for over-representation of all ontologies
+ego_up <- enrichGO(
+  up_genes,
+  OrgDb = org.Hs.eg.db,
+  keyType = "SYMBOL",
+  ont = "ALL",
+  pool = TRUE,
+  readable = TRUE
 )
 
-# View the results of the enrichment analysis
-head(go.res$table)
+ego_down <- enrichGO(
+  down_genes,
+  OrgDb = org.Hs.eg.db,
+  keyType = "SYMBOL",
+  ont = "ALL",
+  pool = TRUE,
+  readable = TRUE
+)
+```
+
+We can visualize the over-representation results with dotplots
+
+```{r}
+dotplot(ego_up) + labs(title = "Up-regulated genes")
+dotplot(ego_down) + labs(title = "Down-regulated genes")
+```
+
+To view the results of the over-representation test as a data.frame simply 
+coerce:
+
+```{r}
+# Convert the ego results to a data.frame
+ego_df <- data.frame(ego_up)
+head(ego_df)
+```
+
+## Gene set enrichment analysis
+
+We can perform gene set enrichment on a list of genes and their ranks from a 
+differential expression analysis using the `fgsea` package and gene sets from 
+the Molecular Signatures Database.
+
+```{r}
+library(fgsea)
+library(msigdb)
+library(ExperimentHub)
+
+
+# Get the msigDB data
+msigdb.hs <- getMsigdb(org = "hs", id = "SYM", version = "7.4")
+
+# Subset for the hallmark gene set
+hallmark <- subsetCollection(msigdb.hs, "h")
+
+# Convert to a simple list for fgsea
+hallmark <- geneIds(hallmark)
+
+# Create a ranking stat vector -- use coriell example data
+stats <- with(GSE161650_de, logFC * -log10(PValue))
+names(stats) <- GSE161650_de$feature_id
+
+# Perform GSEA on all of the hallmark sets with fgsea
+fgsea.results <- fgsea(
+  hallmark,
+  stats,
+  nPermSimple = 1e4,
+  eps = 0.0
+)
+```
+
+The results of the GSEA test can be viewed as a table:
+
+```{r}
+head(fgsea.results)
+```
+
+Or selected pathways can be plotted with:
+
+```{r}
+plotEnrichment(hallmark[["HALLMARK_APOPTOSIS"]], stats) +
+  labs(title = "HALLMARK APOPTOSIS") +
+  theme_coriell()
 ```
