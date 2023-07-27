@@ -417,7 +417,7 @@ UMAP.dist <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
   
   if (!is.null(metadata)) {
     if (!all(attr(x, "Labels") == rownames(metadata))) {
-      stop("Labels od distance matrix != rownames of metadata.")
+      stop("Labels of distance matrix != rownames of metadata.")
     }
   }
   
