@@ -31,13 +31,11 @@
 #'   theme_coriell()
 plot_parallel <- function(x, ...) UseMethod("plot_parallel")
 
-
 #' @rdname plot_parallel
 #' @export
 plot_parallel.default <- function(x) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
-
 
 #' @rdname plot_parallel
 #' @export
@@ -46,17 +44,12 @@ plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
   stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
   stopifnot("colBy must be a column in metadata" = colBy %in% colnames(metadata))
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
-
-  mat <- x
-  if (!is.null(removeVar)) {
-    stopifnot("RemoveVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
-    v <- apply(mat, 1, var)
-    o <- order(v, decreasing = TRUE)
-    mat <- head(mat[o, ], n = nrow(mat) * (1 - removeVar))
-  }
+  
+  if (!is.null(removeVar))
+    x <- remove_var(x, p = removeVar)
 
   # Coerce data into plot-friendly shape
-  dt <- data.table::as.data.table(mat, keep.rownames = ".feature")
+  dt <- data.table::as.data.table(x, keep.rownames = ".feature")
   dt.m <- data.table::melt(
     dt,
     id.vars = ".feature",
@@ -91,46 +84,8 @@ plot_parallel.data.frame <- function(x, metadata = NULL, colBy = NULL,
   if (is(x, "tbl_df") || is(x, "data.table")) {
     stop("You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)")
   }
-  stopifnot("colnames(x) do not match rownames(metadata)" = (!is.null(metadata) && all(colnames(x) == rownames(metadata))))
-  stopifnot("colBy must be a column in metadata" = colBy %in% colnames(metadata))
-  stopifnot("non-numeric columns in x" = all(sapply(x, is.numeric)))
-
-  M <- as.matrix(x)
-  mat <- M
-  if (!is.null(removeVar)) {
-    stopifnot("RemoveVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
-    v <- apply(mat, 1, var)
-    o <- order(v, decreasing = TRUE)
-    mat <- head(mat[o, ], n = nrow(mat) * (1 - removeVar))
-  }
-
-  # Coerce data into plot-friendly shape
-  dt <- data.table::as.data.table(mat, keep.rownames = ".feature")
-  dt.m <- data.table::melt(
-    dt,
-    id.vars = ".feature",
-    variable.name = ".sample",
-    value.name = ".value",
-    variable.factor = FALSE
-  )
-
-  if (!is.null(metadata)) {
-    meta <- data.table::as.data.table(metadata, keep.rownames = ".sample")
-    dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
-  }
-
-  if (is.null(colBy)) {
-    colBy <- ".sample"
-  }
-
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value", group = ".feature")) +
-    ggplot2::geom_line(ggplot2::aes_string(color = colBy), ...) +
-    ggplot2::labs(
-      x = NULL,
-      y = NULL,
-      color = if (colBy == ".sample") "Sample" else colBy
-    ) +
-    ggplot2::guides(color = ggplot2::guide_legend(override.aes = list(alpha = 1)))
+  m <- data.matrix(x)
+  plot_parallel.matrix(m, metadata, colBy, removeVar, ...)
 }
 
 
@@ -141,43 +96,6 @@ plot_parallel.SummarizedExperiment <- function(x, assay = "counts", colBy = NULL
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is not installed.")
   }
-
-  M <- SummarizedExperiment::assay(x, assay)
-  mat <- M
-
-  if (!is.null(removeVar)) {
-    stopifnot("RemoveVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
-    v <- apply(mat, 1, var)
-    o <- order(v, decreasing = TRUE)
-    mat <- head(mat[o, ], n = nrow(mat) * (1 - removeVar))
-  }
-
-  # Coerce data into plot-friendly shape
-  dt <- data.table::as.data.table(mat, keep.rownames = ".feature")
-  dt.m <- data.table::melt(
-    dt,
-    id.vars = ".feature",
-    variable.name = ".sample",
-    value.name = ".value",
-    variable.factor = FALSE
-  )
-
-  meta <- data.table::setDT(
-    data.frame(SummarizedExperiment::colData(x)),
-    keep.rownames = ".sample"
-  )
-  dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
-
-  if (is.null(colBy)) {
-    colBy <- ".sample"
-  }
-
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value", group = ".feature")) +
-    ggplot2::geom_line(ggplot2::aes_string(color = colBy), ...) +
-    ggplot2::labs(
-      x = NULL,
-      y = NULL,
-      color = if (colBy == ".sample") "Sample" else colBy
-    ) +
-    ggplot2::guides(color = ggplot2::guide_legend(override.aes = list(alpha = 1)))
+  m <- SummarizedExperiment::assay(x, assay)
+  plot_parallel.matrix(m, metadata, colBy, removeVar, ...)
 }
