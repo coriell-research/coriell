@@ -196,3 +196,55 @@ impute <- function(x, fun = median) {
   dimnames(m) <- dimnames(x)
   m
 }
+
+#' Remove low variance features from a matrix
+#' 
+#' This function removes the p lowest variance features from a matrix. The 
+#' function expects features in rows and samples in columns (e.g. an expression
+#' matrix).
+#' @param x matrix, numeric data.frame, or SummarizedExperiment object
+#' @param p proportion of low variance features to remove
+#' @param assay if SummarizedExperiment, what assay to use. Default = "counts"
+#' @return matrix with lowest variance features removed
+#' @export
+#' @examples
+#' 
+#' # Remove 80% lowest variance features
+#' removed <- remove_var(GSE161650_lc, p = 0.8)
+remove_var <- function(x, ...) UseMethod("remove_var")
+
+remove_var.default <- function(x) {
+  stop("Object of type ", class(x), " is not supported by this function")
+}
+
+#' @rdname remove_var
+#' @export
+remove_var.matrix <- function(x, p) {
+  stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
+  message("Removing ", p*100, "% lowest variance features...")
+  if (requireNamespace("matrixStats", quietly = TRUE)) {
+    v <- matrixStats::rowVars(x, na.rm = TRUE, useNames = FALSE)
+  } else if (requireNamespace("Rfast", quietly = TRUE)) {
+    v <- Rfast::rowVars(x, std = FALSE, na.rm = TRUE)
+  } else {
+    v <- apply(x, 1, var, na.rm = TRUE)
+  }
+  o <- order(v, decreasing = TRUE)
+  head(x[o, ], n = nrow(x) * (1 - p))
+}
+
+#' @rdname remove_var
+#' @export
+remove_var.data.frame <- function(x, p) {
+  stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
+  m <- data.matrix(x)
+  remove_var.matrix(m, p = p)
+}
+
+#' @rdname remove_var
+#' @export
+remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
+  stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
+  m <- SummarizedExperiment::assay(x, assay)
+  remove_var.matrix(m, p = p)
+}
