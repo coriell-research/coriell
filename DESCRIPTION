@@ -22,7 +22,6 @@ Suggests:
     fastcluster,
     ggrepel,
     httr2,
-    jsonlite,
     knitr,
     matrixStats,
     metapod,
