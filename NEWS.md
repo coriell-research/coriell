@@ -2,12 +2,11 @@
 
 - Removed meta-analysis functions, `meta_vote()`, `meta_pcombine()` and 
 `plot_metavolcano()`, in favor of the newer `meta_de()` function which
-provides and interface to `metapod` for combining p-values in a more robust way.
+provides an interface to `metapod` for combining p-values in a more robust way.
 - Removed a redundant scaling step in `quickmap()` when calculating breaks and
 made some changes to the way the `fix_extreme` argument behaves.
-- Remove `panther_go()`. The PANTHER API changed and 
-`clusterProfiler::enrichGo()` is better anyway.
 - Updated RNA-seq article with more analysis steps and helper functions
+- Updated `panther_go()` to use `httr2`
 
 ## coriell 0.12.0
 
