@@ -36,13 +36,11 @@
 #'   theme_coriell()
 plot_boxplot <- function(x, ...) UseMethod("plot_boxplot")
 
-
 #' @export
 #' @rdname plot_boxplot
 plot_boxplot.default <- function(x) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
-
 
 #' @export
 #' @rdname plot_boxplot
@@ -105,56 +103,8 @@ plot_boxplot.data.frame <- function(x, metadata = NULL, fillBy = NULL,
   if (is(x, "tbl_df") || is(x, "data.table")) {
     stop("You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)")
   }
-  stopifnot("colnames(x) do not match rownames(metadata)" = (!is.null(metadata) && all(colnames(x) == rownames(metadata))))
-  stopifnot("fillBy must be a column in metadata" = fillBy %in% colnames(metadata))
-  stopifnot("non-numeric columns in x" = all(sapply(df, is.numeric)))
-
-  M <- as.matrix(x)
-
-  if (rle) {
-    m <- apply(M, 1, median, na.rm = TRUE)
-    M <- M - m
-  }
-
-  dt <- data.table::as.data.table(M, keep.rownames = ".feature")
-  dt.m <- data.table::melt(
-    dt,
-    id.vars = ".feature",
-    variable.name = ".sample",
-    value.name = ".value",
-    variable.factor = FALSE
-  )
-
-  if (!is.null(metadata)) {
-    meta <- data.table::as.data.table(metadata, keep.rownames = ".sample")
-    dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
-  }
-
-  if (is.null(fillBy)) {
-    fillBy <- ".sample"
-  }
-
-  # Force x axis to be in Group order
-  fct_levels <- dt.m[order(get(fillBy))][, unique(.sample)]
-  dt.m[, .sample := factor(.sample, levels = fct_levels)]
-
-  p <- ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value"))
-
-  if (violin) {
-    p <- p + ggplot2::geom_violin(ggplot2::aes_string(fill = fillBy, ...))
-  } else {
-    p <- p + ggplot2::geom_boxplot(ggplot2::aes_string(fill = fillBy), ...)
-  }
-
-  p + ggplot2::geom_hline(
-    yintercept = median(M, na.rm = TRUE),
-    color = "red", linetype = 2
-  ) +
-    ggplot2::labs(
-      x = NULL,
-      y = NULL,
-      fill = if (fillBy == ".sample") "Sample" else fillBy
-    )
+  m <- data.matrix(x)
+  plot_boxplot.matrix(m, metadata, fillBy, rle, violin, ...)
 }
 
 #' @export
@@ -164,52 +114,8 @@ plot_boxplot.SummarizedExperiment <- function(x, assay = "counts", fillBy = NULL
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is not installed.")
   }
-
-  M <- SummarizedExperiment::assay(x, assay)
-
-  if (rle) {
-    m <- apply(M, 1, median, na.rm = TRUE)
-    M <- M - m
-  }
-
-  dt <- data.table::as.data.table(M, keep.rownames = ".feature")
-  dt.m <- data.table::melt(
-    dt,
-    id.vars = ".feature",
-    variable.name = ".sample",
-    value.name = ".value",
-    variable.factor = FALSE
-  )
-
-  meta <- data.table::setDT(
-    data.frame(SummarizedExperiment::colData(x)),
-    keep.rownames = ".sample"
-  )
-  dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
-
-  if (is.null(fillBy)) {
-    fillBy <- ".sample"
-  }
-
-  # Force x axis to be in Group order
-  fct_levels <- dt.m[order(get(fillBy))][, unique(.sample)]
-  dt.m[, .sample := factor(.sample, levels = fct_levels)]
-
-  p <- ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value"))
-
-  if (violin) {
-    p <- p + ggplot2::geom_violin(ggplot2::aes_string(fill = fillBy, ...))
-  } else {
-    p <- p + ggplot2::geom_boxplot(ggplot2::aes_string(fill = fillBy), ...)
-  }
-
-  p + ggplot2::geom_hline(
-    yintercept = median(M, na.rm = TRUE),
-    color = "red", linetype = 2
-  ) +
-    ggplot2::labs(
-      x = NULL,
-      y = NULL,
-      fill = if (fillBy == ".sample") "Sample" else fillBy
-    )
+  
+  m <- SummarizedExperiment::assay(x, assay)
+  metadata <- data.frame(SummarizedExperiment::colData(x))
+  plot_boxplot.matrix(m, metadata, fillBy, rle, violin, ...)
 }
