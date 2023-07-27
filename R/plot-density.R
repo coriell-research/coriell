@@ -27,13 +27,11 @@
 #'   theme_coriell()
 plot_density <- function(x, ...) UseMethod("plot_density")
 
-
 #' @rdname plot_density
 #' @export
 plot_density.default <- function(x) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
-
 
 #' @rdname plot_density
 #' @export
@@ -75,37 +73,8 @@ plot_density.data.frame <- function(x, metadata = NULL, colBy = NULL, ...) {
   if (is(x, "tbl_df") || is(x, "data.table")) {
     stop("You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)")
   }
-  stopifnot("colnames(x) do not match rownames(metadata)" = (!is.null(metadata) && all(colnames(x) == rownames(metadata))))
-  stopifnot("colBy must be a column in metadata" = colBy %in% colnames(metadata))
-  stopifnot("non-numeric columns in x" = all(sapply(x, is.numeric)))
-
-  M <- as.matrix(x)
-
-  dt <- data.table::as.data.table(M, keep.rownames = ".feature")
-  dt.m <- data.table::melt(
-    dt,
-    id.vars = ".feature",
-    variable.name = ".sample",
-    value.name = ".value",
-    variable.factor = FALSE
-  )
-
-  if (!is.null(metadata)) {
-    meta <- data.table::as.data.table(metadata, keep.rownames = ".sample")
-    dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
-  }
-
-  if (is.null(colBy)) {
-    colBy <- ".sample"
-  }
-
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".value", group = ".sample")) +
-    ggplot2::geom_density(ggplot2::aes_string(color = colBy), ...) +
-    ggplot2::labs(
-      x = NULL,
-      y = "Density",
-      color = if (colBy == ".sample") "Sample" else colBy
-    )
+  m <- data.matrix(x)
+  plot_density.matrix(m, metadata, colBy, ...)
 }
 
 #' @rdname plot_density
@@ -114,33 +83,7 @@ plot_density.SummarizedExperiment <- function(x, assay = "counts", colBy = NULL,
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is not installed.")
   }
-
-  M <- SummarizedExperiment::assay(x, assay)
-
-  dt <- data.table::as.data.table(M, keep.rownames = ".feature")
-  dt.m <- data.table::melt(
-    dt,
-    id.vars = ".feature",
-    variable.name = ".sample",
-    value.name = ".value",
-    variable.factor = FALSE
-  )
-
-  meta <- data.table::setDT(
-    data.frame(SummarizedExperiment::colData(x)),
-    keep.rownames = ".sample"
-  )
-  dt.m <- dt.m[meta, on = ".sample", nomatch = NULL]
-
-  if (is.null(colBy)) {
-    colBy <- ".sample"
-  }
-
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".value", group = ".sample")) +
-    ggplot2::geom_density(ggplot2::aes_string(color = colBy), ...) +
-    ggplot2::labs(
-      x = NULL,
-      y = "Density",
-      color = if (colBy == ".sample") "Sample" else colBy
-    )
+  m <- SummarizedExperiment::assay(x, assay)
+  metadata <- data.frame(SummarizedExperiment::colData(x))
+  plot_density.matrix(m, metadata, colBy, ...)
 }
