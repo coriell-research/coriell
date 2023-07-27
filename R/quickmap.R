@@ -130,19 +130,8 @@ quickmap <- function(mat, diverging_palette = TRUE, fix_extreme = FALSE,
   user_args <- list(...)
   default_args[names(user_args)] <- user_args
 
-  # Remove low variance features
-  if (!is.null(removeVar)) {
-    stopifnot("removeVar must be between 0 and 1" = removeVar > 0 & removeVar < 1)
-    if (requireNamespace("Rfast", quietly = TRUE)) {
-      v <- Rfast::rowVars(mat, std = FALSE, na.rm = TRUE)
-    } else if (requireNamespace("matrixStats", quietly = TRUE)) {
-      v <- matrixStats::rowVars(mat, na.rm = TRUE, useNames = FALSE)
-    } else {
-      v <- apply(mat, 1, var)
-    }
-    o <- order(v, decreasing = TRUE)
-    mat <- head(mat[o, ], n = nrow(mat) * (1 - removeVar))
-  }
+  if (!is.null(removeVar)) 
+    mat <- remove_var(mat, p = removeVar)
 
   # Override pheatmap scaling, uses slower apply call internally
   if (default_args[["scale"]] == "row") {
