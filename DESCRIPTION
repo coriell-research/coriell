@@ -21,7 +21,7 @@ Suggests:
     edgeR,
     fastcluster,
     ggrepel,
-    httr,
+    httr2,
     jsonlite,
     knitr,
     matrixStats,
