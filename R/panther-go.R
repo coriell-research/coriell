@@ -90,10 +90,11 @@ panther_go <- function(gene_list,
   )
 
   resp <- httr2::request(base_url) |>
+    httr2::req_user_agent("coriell (https://coriell-research.github.io/coriell)") |> 
     httr2::req_method("POST") |>
     httr2::req_url_query(!!!data) |>
-    httr2::req_headers(Accept = "application/json") |>
-    httr2::req_options(ssl_verifypeer = 0) |>
+    httr2::req_headers(Accept = "application/json") |> 
+    httr2::req_options(ssl_verifypeer = 0) |>  # This could be dangerous...
     httr2::req_perform()
 
   if (isTRUE(httr2::resp_is_error(resp))) {
