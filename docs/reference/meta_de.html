@@ -115,7 +115,7 @@ that contains the feature names (i.e. genes) over which to combine. Default
 
 
 <dt>...</dt>
-<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/metapod/man/combineParallelPValues.html" class="external-link">metapod::combineParallelPValues()</a></code></p></dd>
+<dd><p>Additional arguments passed to <code>metapod::combineParallelPValues()</code></p></dd>
 
 </dl></div>
     <div id="value">
@@ -159,22 +159,7 @@ performed after removing NA values.</p>
 <span class="r-in"><span><span class="va">L</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>exp1<span class="op">=</span><span class="va">df1</span>, exp2<span class="op">=</span><span class="va">df2</span>, exp3<span class="op">=</span><span class="va">df3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">meta_de</span><span class="op">(</span><span class="va">L</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   feature      p.value direction n.logFC n.pos.logFC n.neg.logFC mean.logFC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A       A 1.135646e-04      down       2           0           2  -1.250000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B       B 2.102770e-01        up       3           2           0   0.100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C       C 5.797078e-10        up       3           3           0   1.450000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> D       D 4.029376e-07        up       3           3           0   3.133333</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E       E 9.000000e-01        up       1           1           0   0.250000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F       F 9.324672e-06      down       2           0           2  -2.400000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> G       G 8.500000e-02        up       1           1           0   2.600000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   median.logFC min.logFC max.logFC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A        -1.25     -1.50     -1.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B         0.10      0.00      0.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C         1.50      1.25      1.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> D         3.20      2.90      3.30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E         0.25      0.25      0.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F        -2.40     -2.70     -2.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> G         2.60      2.60      2.60</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in meta_de(L):</span> metapod package is required.</span>
 </code></pre></div>
     </div>
   </div>
@@ -189,7 +174,7 @@ performed after removing NA values.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

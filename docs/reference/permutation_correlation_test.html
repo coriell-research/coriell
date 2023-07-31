@@ -22,7 +22,7 @@ p-value."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.12.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.0</span>
       </span>
     </div>
 
@@ -113,13 +113,20 @@ p-value.</p>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">permutation_correlation_test</span><span class="op">(</span><span class="va">X</span>, <span class="va">y</span>, n_perm <span class="op">=</span> <span class="fl">1e3</span>, n_core <span class="op">=</span> <span class="fl">8</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            sample.1  sample.2   sample.3   sample.4   sample.5  sample.6   sample.7  sample.8   sample.9  sample.10        cor empirical.p</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.7821933 0.6602043 0.48967790 0.75132905 0.60629744 0.6202229 0.91611895 0.8945791 0.01401642 0.16415494 -0.2969697       0.208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.4291988 0.2354373 0.61205202 0.51226119 0.03515643 0.6820479 0.58738448 0.2587961 0.67671086 0.79105816  0.5272727       0.057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.9272740 0.7137101 0.04128511 0.28267931 0.87701057 0.6256800 0.21747829 0.6450892 0.67225925 0.03130573 -0.4545455       0.097</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.7732432 0.8436818 0.94495533 0.09581502 0.25778071 0.7987585 0.06514611 0.3728736 0.49071237 0.78709861 -0.2848485       0.198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.2596812 0.7661008 0.17228455 0.51790417 0.59102029 0.2347332 0.49508171 0.2482119 0.17214143 0.52142752 -0.2121212       0.282</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.3212247 0.7935108 0.15859775 0.55098693 0.18830556 0.9114281 0.32647564 0.5998900 0.99117209 0.57493332  0.4545455       0.106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            sample.1  sample.2   sample.3   sample.4   sample.5  sample.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.7821933 0.6602043 0.48967790 0.75132905 0.60629744 0.6202229</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.4291988 0.2354373 0.61205202 0.51226119 0.03515643 0.6820479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.9272740 0.7137101 0.04128511 0.28267931 0.87701057 0.6256800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.7732432 0.8436818 0.94495533 0.09581502 0.25778071 0.7987585</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.2596812 0.7661008 0.17228455 0.51790417 0.59102029 0.2347332</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.3212247 0.7935108 0.15859775 0.55098693 0.18830556 0.9114281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             sample.7  sample.8   sample.9  sample.10        cor empirical.p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.91611895 0.8945791 0.01401642 0.16415494 -0.2969697       0.208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.58738448 0.2587961 0.67671086 0.79105816  0.5272727       0.057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.21747829 0.6450892 0.67225925 0.03130573 -0.4545455       0.097</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.06514611 0.3728736 0.49071237 0.78709861 -0.2848485       0.198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.49508171 0.2482119 0.17214143 0.52142752 -0.2121212       0.282</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.32647564 0.5998900 0.99117209 0.57493332  0.4545455       0.106</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 FDR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.4571429</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.3774834</span>
@@ -141,7 +148,7 @@ p-value.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

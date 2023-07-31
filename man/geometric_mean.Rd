@@ -4,23 +4,38 @@
 \alias{geometric_mean}
 \title{Geometric mean of a vector}
 \usage{
-geometric_mean(x, zero_propagate = FALSE, na.rm = TRUE)
+geometric_mean(x, zero_propagate = FALSE, ignore_zero = TRUE)
 }
 \arguments{
 \item{x}{numeric vector of non-negative values}
 
 \item{zero_propagate}{logical. Should zeros be included in the calculation. Default FALSE.}
 
-\item{na.rm}{logical. Remove NAs from calculation}
+\item{ignore_zero}{logical. Should zero values be ignored in the calculation of the mean? Default TRUE.}
 }
 \value{
 geometric mean of the vector
 }
 \description{
-Calculate the geometric mean of a vector
-Stolen from \url{https://stackoverflow.com/a/25555105}.
+Calculate the geometric mean of a vector. This function is valid for 
+non-negative, non-NA containing vectors.
 }
 \examples{
-x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
-geometric_mean(x)
+# Normal case
+geometric_mean(c(2, 5, 95, 5))
+
+# Default ignores 0s entirely
+geometric_mean(c(2, 5, 95, 5, 0, 0, 0, 0))
+
+# Ignore zero = FALSE -- zero is used in mean calculation
+geometric_mean(c(2, 5, 95, 5, 0, 0, 0, 0), ignore_zero = FALSE)
+
+# Case with NA -- Returns NA
+geometric_mean(c(NA, 1, 2, 3))
+
+# Case with 0 propagation -- Returns 0
+geometric_mean(c(0, 1, 2, 3), zero_propagate = TRUE)
+
+# Case with negative -- Returns NaN
+geometric_mean(c(-1, 2, 3))
 }
