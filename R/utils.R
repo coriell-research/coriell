@@ -64,34 +64,53 @@ clamp <- Vectorize(.clamp)
 
 #' Geometric mean of a vector
 #'
-#' Calculate the geometric mean of a vector
-#' Stolen from \url{https://stackoverflow.com/a/25555105}.
+#' Calculate the geometric mean of a vector. This function is valid for 
+#' non-negative, non-NA containing vectors.
 #'
 #' @param x numeric vector of non-negative values
-#' @param na.rm logical. Remove NAs from calculation
 #' @param zero_propagate logical. Should zeros be included in the calculation. Default FALSE.
+#' @param ignore_zero logical. Should zero values be ignored in the calculation of the mean? Default TRUE. 
 #' @return geometric mean of the vector
 #' @export
 #' @examples
-#' x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
-#' geometric_mean(x)
-geometric_mean <- function(x, zero_propagate = FALSE, na.rm = TRUE) {
-  if (isTRUE(na.rm)) {
-    x <- x[!is.na(x)]
-  }
-
-  if (any(x < 0, na.rm = na.rm)) {
+#' # Normal case
+#' geometric_mean(c(2, 5, 95, 5))
+#' 
+#' # Default ignores 0s entirely
+#' geometric_mean(c(2, 5, 95, 5, 0, 0, 0, 0))
+#' 
+#' # Ignore zero = FALSE -- zero is used in mean calculation
+#' geometric_mean(c(2, 5, 95, 5, 0, 0, 0, 0), ignore_zero = FALSE)
+#' 
+#' # Case with NA -- Returns NA
+#' geometric_mean(c(NA, 1, 2, 3))
+#' 
+#' # Case with 0 propagation -- Returns 0
+#' geometric_mean(c(0, 1, 2, 3), zero_propagate = TRUE)
+#' 
+#' # Case with negative -- Returns NaN
+#' geometric_mean(c(-1, 2, 3))
+geometric_mean <- function(x, zero_propagate = FALSE, ignore_zero = TRUE) {
+  if (any(is.na(x)))
+    return(NA)
+  
+  if (any(x < 0, na.rm = TRUE))
     return(NaN)
-  }
   
-  if (zero_propagate) {
-    if (any(x == 0, na.rm = na.rm)) {
+  if (isTRUE(zero_propagate)) {
+    if (any(x == 0, na.rm = TRUE)) {
       return(0)
-      }
+    }
   }
   
-  # Remove zeroes and return geomean
+  # Get the length of the vector WITH 0 values
+  l <- length(x)
   x <- x[x > 0]
+  
+  # Use zero values in mean calculation
+  if (isFALSE(ignore_zero)) 
+    return(exp( sum(log(x)) / l ))
+  
   return(exp(mean(log(x))))
 }
 
