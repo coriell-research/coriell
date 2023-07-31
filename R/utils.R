@@ -76,17 +76,23 @@ clamp <- Vectorize(.clamp)
 #' x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
 #' geometric_mean(x)
 geometric_mean <- function(x, zero_propagate = FALSE, na.rm = TRUE) {
-  if (any(x < 0, na.rm = TRUE)) {
+  if (isTRUE(na.rm)) {
+    x <- x[!is.na(x)]
+  }
+
+  if (any(x < 0, na.rm = na.rm)) {
     return(NaN)
   }
+  
   if (zero_propagate) {
-    if (any(x == 0, na.rm = TRUE)) {
+    if (any(x == 0, na.rm = na.rm)) {
       return(0)
-    }
-    exp(mean(log(x), na.rm = na.rm))
-  } else {
-    exp(sum(log(x[x > 0]), na.rm = na.rm) / length(x))
+      }
   }
+  
+  # Remove zeroes and return geomean
+  x <- x[x > 0]
+  return(exp(mean(log(x))))
 }
 
 #' Centered Log-ratio transformation
