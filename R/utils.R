@@ -138,6 +138,7 @@ clr <- function(x, base = 2) {
 #' for each row of the data matrix.
 #' @param x variable (gene) by sample numeric matrix
 #' @param group Factor specifying the grouping level to by averaged
+#' @param na.rm Logical (TRUE or FALSE). Should NA (including NaN) values be discarded?
 #' @return variable x nLevels(group) matrix
 #' @export
 #' @examples
@@ -148,12 +149,12 @@ clr <- function(x, base = 2) {
 #' by_group <- colmean(GSE161650_lc, group = Group)
 #' by_group[1:5, ]
 #'
-colmean <- function(x, group) {
+colmean <- function(x, group, na.rm = FALSE) {
   stopifnot("x must be a numeric matrix" = is.numeric(x))
   stopifnot("group must be a factor variable" = is.factor(group))
   stopifnot("length of grouping factor must equal number of columns" = length(group) == ncol(x))
 
-  t(rowsum(t(x), group = group, reorder = FALSE) / as.vector(table(group)))
+  t(rowsum(t(x), group = group, reorder = FALSE, na.rm = na.rm) / as.vector(table(group)))
 }
 
 #' Extract variable from an environment and remove that environment

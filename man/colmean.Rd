@@ -4,12 +4,14 @@
 \alias{colmean}
 \title{Give means of rows of matrix based on column grouping variable}
 \usage{
-colmean(x, group)
+colmean(x, group, na.rm = FALSE)
 }
 \arguments{
 \item{x}{variable (gene) by sample numeric matrix}
 
 \item{group}{Factor specifying the grouping level to by averaged}
+
+\item{na.rm}{Logical (TRUE or FALSE). Should NA (including NaN) values be discarded?}
 }
 \value{
 variable x nLevels(group) matrix
