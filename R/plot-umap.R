@@ -38,11 +38,17 @@ plot_umap <- function(df, x = "UMAP1", y = "UMAP2", colBy = NULL, shapeBy = NULL
     }
   }
   
-  ggplot2::ggplot(df, ggplot2::aes_string(
-    x = x, y = y, color = colBy, shape = shapeBy)) +
+  ggplot2::ggplot(df, ggplot2::aes(
+    x = .data[[x]], y = .data[[y]], 
+    color = if (is.null(colBy)) NULL else .data[[colBy]], 
+    shape = if (is.null(shapeBy)) NULL else .data[[shapeBy]])
+    ) +
     ggplot2::geom_point(size = pointSize, alpha = pointAlpha) +
     ggplot2::geom_hline(yintercept = hline, linetype = hlineType) +
     ggplot2::geom_vline(xintercept =  vline, linetype = vlineType) +
+    ggplot2::labs(
+      color = if (is.null(colBy)) NULL else colBy,
+      shape = if (is.null(shapeBy)) NULL else shapeBy) +
     theme_coriell()
   
 }

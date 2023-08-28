@@ -49,7 +49,7 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc 
     logPval = -log10(get(y))
   )]
 
-  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = "logPval")) +
+  p <- ggplot2::ggplot(data = dt, ggplot2::aes(x = .data[[x]], y = .data[["logPval"]])) +
     ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, alpha = nonde_alpha, size = nonde_size) +
     ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, alpha = down_alpha, size = down_size) +
     ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, alpha = up_alpha, size = up_size) +
@@ -75,7 +75,7 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc 
     p <- p +
       ggrepel::geom_text_repel(
         data = dt[direction %in% c("Up", "Down")],
-        ggplot2::aes_string(label = lab),
+        ggplot2::aes(label = .data[[lab]]),
         ...
       )
   }

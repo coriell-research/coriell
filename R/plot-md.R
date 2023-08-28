@@ -47,7 +47,7 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, 
     default = "Unperturbed"
   )]
 
-  p <- ggplot2::ggplot(data = dt, ggplot2::aes_string(x = x, y = y)) +
+  p <- ggplot2::ggplot(data = dt, ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
     ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, size = nonde_size, alpha = nonde_alpha) +
     ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, size = down_size, alpha = down_alpha) +
     ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, size = up_size, alpha = up_alpha) +
@@ -71,7 +71,7 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, 
     p <- p +
       ggrepel::geom_text_repel(
         data = dt[direction %in% c("Up", "Down")],
-        ggplot2::aes_string(label = lab),
+        ggplot2::aes(label = .data[[lab]]),
         ...
       )
   }

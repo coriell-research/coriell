@@ -67,8 +67,9 @@ plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
     colBy <- ".sample"
   }
 
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value", group = ".feature")) +
-    ggplot2::geom_line(ggplot2::aes_string(color = colBy), ...) +
+  ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".sample"]], y = .data[[".value"]], 
+                                     group = .data[[".feature"]])) +
+    ggplot2::geom_line(ggplot2::aes(color = .data[[colBy]]), ...) +
     ggplot2::labs(
       x = NULL,
       y = NULL,

@@ -77,12 +77,11 @@ plot_boxplot.matrix <- function(x, metadata = NULL, fillBy = NULL, rle = FALSE,
   fct_levels <- dt.m[order(get(fillBy))][, unique(.sample)]
   dt.m[, .sample := factor(.sample, levels = fct_levels)]
 
-  p <- ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".sample", y = ".value"))
-
+  p <- ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".sample"]], y = .data[[".value"]]))
   if (violin) {
-    p <- p + ggplot2::geom_violin(ggplot2::aes_string(fill = fillBy, ...))
+    p <- p + ggplot2::geom_violin(ggplot2::aes(fill = .data[[fillBy]]), ...)
   } else {
-    p <- p + ggplot2::geom_boxplot(ggplot2::aes_string(fill = fillBy), ...)
+    p <- p + ggplot2::geom_boxplot(ggplot2::aes(fill = .data[[fillBy]]), ...)
   }
 
   p + ggplot2::geom_hline(

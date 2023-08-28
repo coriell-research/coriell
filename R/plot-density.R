@@ -58,8 +58,8 @@ plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
     colBy <- ".sample"
   }
 
-  ggplot2::ggplot(dt.m, ggplot2::aes_string(x = ".value", group = ".sample")) +
-    ggplot2::geom_density(ggplot2::aes_string(color = colBy), ...) +
+  ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".value"]], group = .data[[".sample"]])) +
+    ggplot2::geom_density(ggplot2::aes(color = .data[[colBy]]), ...) +
     ggplot2::labs(
       x = NULL,
       y = "Density",
