@@ -1,7 +1,7 @@
 Type: Package
 Package: coriell
 Title: Convenience Functions for Bioinformatics
-Version: 0.13.0
+Version: 0.14.0
 Authors@R: 
     person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre"))
 Description: This package provides many helper functions for common

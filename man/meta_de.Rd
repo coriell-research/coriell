@@ -2,78 +2,68 @@
 % Please edit documentation in R/meta-analysis.R
 \name{meta_de}
 \alias{meta_de}
-\title{Combine p-values across multiple differential expression studies}
+\title{Perform p-value combination for sets of differential expression tests}
 \usage{
-meta_de(
-  l,
-  p_method = "fisher",
-  lfc_threshold = 0,
-  pval_col = "p.value",
-  lfc_col = "logFC",
-  feature_col = "gene_id",
-  ...
-)
+meta_de(x, FUN, fdr = "FDR", lfc = "logFC", ...)
 }
 \arguments{
-\item{l}{List of data.frames containing differential expression results. 
-Every data.frame in the list must have the same columns names.}
+\item{x}{SummarizedExperiment object containing combined differential
+expression results from different studies. The SE object must contain at
+least two assays, one for the P-values to combine and the other for the
+effect sizes to compute (e.g. logFC).}
 
-\item{p_method}{p-value combination method. One of c("simes", "holm-min", 
-"berger", "fisher", "pearson", "wilkinson", "stouffer"). Default "fisher".}
+\item{FUN}{One of the 'parallel' functions provided by \code{metapod}. One
+of c(parallelBerger, parallelFisher, parallelHolmMin,parallelPearson,
+parallelSimes, parallelStouffer, parallelWilkinson).}
 
-\item{lfc_threshold}{numeric scalar defining the threshold at which an effect 
-is "up" or "down"}
+\item{fdr}{assay name in SE object containing the P-values to combine}
 
-\item{pval_col}{character string of the column name in each data.frame that 
-contains the p-values to combine. Default "p.value"}
+\item{lfc}{assay name in the SE object containing the logFC values to combine.}
 
-\item{lfc_col}{character string of the column name in each data.frame that 
-contains the log-fold change values to combine. Default "logFC"}
-
-\item{feature_col}{character string of the column name in each data.frame 
-that contains the feature names (i.e. genes) over which to combine. Default 
-"gene_id"}
-
-\item{...}{Additional arguments passed to \code{metapod::combineParallelPValues()}}
+\item{...}{Additional arguments passed to FUN. See the \code{metapod} package
+for details.}
 }
 \value{
-data.frame with columns containing the combined p-values, the 
-summarized direction of the effect, and additional summary statistics about 
-combined logFC values for each gene.
+data.table with summary stats of the p-value combination of all
+experiments. Please see the ducumentation in the \code{metapod} package for
+more details. The returned columns, "Rep.LogFC" and "Rep.Pval" contain the
+results of extracting the representative effect and P=value from all
+influential tests. These are individual tests in the data that are particularly
+important for calculating the combined effects.
 }
 \description{
-This function provides an interface to p-value combination methods 
-implemented by the \code{metapod} package for use in the context of 
-differential expression.
-}
-\details{
-The "n.logFC" column of the resulting data.frame reports the number of non-NA
-logFC values. The "n.pos.logFC" and the "n.neg.logFC" columns report the 
-number of logFC values across experiments that exceed the value given by the
-"lfc_threshold" argument. All other summary statistics on logFC values are 
-performed after removing NA values.
+This function performs p-value combination for all genes and estimates summary
+statistics for average effect sizes for all experiments in the input
+\code{SummarizedExperiment} object.
 }
 \examples{
-df1 <- data.frame(
-  gene_id = c("A", "B", "C", "D", "E"),
-  logFC = c(-1, 0, 1.5, 3.2, 0.25),
-  p.value = c(0.015, 0.1, 0.000005, 0.006, 0.9)
+# Example taken from ?dfs2se()
+
+# Define two differential expression dataset data.frames
+exp1 <- data.frame(
+  feature_id = c("geneA", "geneB", "geneC"),
+  PValue = c(0.01, 0.5, 0.05),
+  FDR = c(0.02, 0.5, 0.07),
+  logFC = c(1.2, -2.5, 3.7),
+  logCPM = c(12, 9, 0)
 )
 
-df2 <- data.frame(
-  gene_id = c("A", "B", "C", "D", "F"),
-  logFC = c(-1.5, 0.1, 1.6, 2.9, -2.1),
-  p.value = c(0.0006, 0.3, 0.000058, 0.0005, 0.0087)
+exp2 <- data.frame(
+  feature_id = c("geneA", "geneB", "geneD"),
+  PValue = c(0.07, 0.3, 0.8),
+  FDR = c(0.08, 0.4, 1.0),
+  logFC = c(1.5, -2.0, 3.0),
+  logCPM = c(14, 10, 2)
 )
 
-df3 <- data.frame(
-  gene_id = c("G", "B", "C", "D", "F"),
-  logFC = c(2.6, 0.2, 1.25, 3.3, -2.7),
-  p.value = c(0.085, 0.5, 0.005, 0.0006, 0.00007)
-)
+# Combine into a single list
+l <- list(experiment1 = exp1, experiment2 = exp2)
 
-# Note: genes do not have to be present across all studies 
-L <- list(exp1=df1, exp2=df2, exp3=df3)
+# Convert the data to a SummarizedExperiment
+se <- dfs2se(l)
 
-meta_de(L)
+# Perform p-value combination across experiments for each gene
+#  using Wilkinson's method and passing additional values
+meta_de(se, metapod::parallelWilkinson, min.prop = 0.1)
+
 }

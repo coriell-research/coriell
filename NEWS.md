@@ -1,3 +1,12 @@
+## coriell 0.14.0
+
+- Updated `meta_de()` function to operate strictly on SummarizedExperiment 
+objects. This function is significantly faster than the previous version.
+- Added a helper function, `dfs2se()` to convert a list of data.frames to a 
+SummarizedExperiment object for use by `meta_de()`
+- Added a helper function to perform jackknife resampling on the columns of a 
+SummarizedExperiment, `jackknifeSE()`.
+
 ## coriell 0.13.0
 
 - Removed meta-analysis functions, `meta_vote()`, `meta_pcombine()` and 
