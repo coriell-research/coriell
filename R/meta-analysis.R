@@ -1,10 +1,15 @@
+
 #' Helper function for converting columns to assay data
+#' @noRd
+#' @keywords internal
 .col2assay <- function(df, rows, cols, vals) {
   m <- dcast(df, get(rows) ~ get(cols), value.var = vals, fill = NA)
   as.matrix(m, rownames = "rows")
 }
 
-# Helper function for extracting representative results for summary stats
+#' Helper function for extracting representative results for summary stats
+#' @noRd
+#' @keywords internal
 .getRepresentative <- function(x, m) {
   by_gene <- asplit(m, 1)
   repVal <- vector("numeric", length(by_gene))
@@ -228,9 +233,6 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
 #' 
 jackknifeSE <- function(x, FUN, ...) {
   stopifnot("SummarizedExperiment object expected" = is(x, "SummarizedExperiment"))
-  if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
-    stop("SummarizedExperiment package is required.")
-  }
   idx <- 1:ncol(x)
   lapply(idx, function(i) do.call(FUN, list(x = x[, setdiff(idx, i)]), ...))
 }
