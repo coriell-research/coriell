@@ -23,6 +23,9 @@ plot_md(
   up_size = 1,
   down_size = 1,
   nonde_size = 1,
+  up_shape = 19,
+  down_shape = 19,
+  nonde_shape = 19,
   xmax_label_offset = 0.8,
   ymax_label_offset = 0.5,
   ymin_label_offset = 0.5,
@@ -66,6 +69,12 @@ plot_md(
 \item{down_size}{Point size of the down-regulated features. Default (1)}
 
 \item{nonde_size}{Point size of the unperturbed features. Default (1)}
+
+\item{up_shape}{Point shape of the up-regulated features}
+
+\item{down_shape}{Point shape of the down-regulated features}
+
+\item{nonde_shape}{Point shape of the unperturbed features}
 
 \item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels}
 
