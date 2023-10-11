@@ -18,6 +18,9 @@
 #' @param up_size Point size of the up-regulated features
 #' @param down_size Point size of the down-regulated features
 #' @param nonde_size Point size of the unperturbed features
+#' @param up_shape Point shape of the up-regulated features
+#' @param down_shape Point shape of the down-regulated features
+#' @param nonde_shape Point shape of the unperturbed features
 #' @param xmin_label_offset numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'down' counts
 #' @param xmax_label_offset numeric. Value between 0 and 1 inclusive to control the x-position of the count annotation label for the 'up' counts
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.
@@ -28,11 +31,15 @@
 #' @export
 #' @examples
 #' plot_volcano(GSE161650_de, fdr = 0.01, lfc = log2(2))
-plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc = 0,
-                         label_sig = FALSE, annotate_counts = TRUE, up_color = "red2", down_color = "royalblue2",
-                         nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1, up_size = 1,
-                         down_size = 1, nonde_size = 1, xmin_label_offset = 0.5,
-                         xmax_label_offset = 0.5, ymax_label_offset = 0.8, lab_size = 8, ...) {
+plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, 
+                         lfc = 0, label_sig = FALSE, annotate_counts = TRUE, 
+                         up_color = "red2", down_color = "royalblue2",
+                         nonde_color = "grey40", up_alpha = 1, down_alpha = 1, 
+                         nonde_alpha = 1, up_size = 1, down_size = 1, 
+                         nonde_size = 1, up_shape = 19, down_shape = 19, 
+                         nonde_shape = 19, xmin_label_offset = 0.5,
+                         xmax_label_offset = 0.5, ymax_label_offset = 0.8, 
+                         lab_size = 8, ...) {
   if (label_sig && is.null(lab)) {
     message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
   }
@@ -50,9 +57,9 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1, lfc 
   )]
 
   p <- ggplot2::ggplot(data = dt, ggplot2::aes(x = .data[[x]], y = .data[["logPval"]])) +
-    ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, alpha = nonde_alpha, size = nonde_size) +
-    ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, alpha = down_alpha, size = down_size) +
-    ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, alpha = up_alpha, size = up_size) +
+    ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, alpha = nonde_alpha, size = nonde_size, shape = nonde_shape) +
+    ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, alpha = down_alpha, size = down_size, shape = down_shape) +
+    ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, alpha = up_alpha, size = up_size, shape = up_shape) +
     ggplot2::geom_vline(xintercept = 0, linetype = 2) +
     ggplot2::geom_vline(xintercept = lfc, linetype = 3) +
     ggplot2::geom_vline(xintercept = -lfc, linetype = 3) +

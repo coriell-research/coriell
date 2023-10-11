@@ -20,6 +20,9 @@
 #' @param up_size Point size of the up-regulated features. Default (1)
 #' @param down_size Point size of the down-regulated features. Default (1)
 #' @param nonde_size Point size of the unperturbed features. Default (1)
+#' @param up_shape Point shape of the up-regulated features
+#' @param down_shape Point shape of the down-regulated features
+#' @param nonde_shape Point shape of the unperturbed features
 #' @param xmax_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the count labels
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label
 #' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
@@ -30,11 +33,15 @@
 #' @export
 #' @examples
 #' plot_md(GSE161650_de, fdr = 0.01, lfc = log2(2))
-plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, fdr = 0.1,
-                    lfc = 0, annotate_counts = TRUE, label_sig = FALSE, up_color = "red2", down_color = "royalblue2",
-                    nonde_color = "grey40", up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
-                    up_size = 1, down_size = 1, nonde_size = 1, xmax_label_offset = 0.8,
-                    ymax_label_offset = 0.5, ymin_label_offset = 0.5, lab_size = 8, ...) {
+plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, 
+                    fdr = 0.1, lfc = 0, annotate_counts = TRUE, 
+                    label_sig = FALSE, up_color = "red2", 
+                    down_color = "royalblue2", nonde_color = "grey40", 
+                    up_alpha = 1, down_alpha = 1, nonde_alpha = 1,
+                    up_size = 1, down_size = 1, nonde_size = 1, 
+                    up_shape = 19, down_shape = 19, nonde_shape = 19, 
+                    xmax_label_offset = 0.8, ymax_label_offset = 0.5, 
+                    ymin_label_offset = 0.5, lab_size = 8, ...) {
   if (label_sig && is.null(lab)) {
     message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
   }
@@ -48,9 +55,9 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL, 
   )]
 
   p <- ggplot2::ggplot(data = dt, ggplot2::aes(x = .data[[x]], y = .data[[y]])) +
-    ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, size = nonde_size, alpha = nonde_alpha) +
-    ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, size = down_size, alpha = down_alpha) +
-    ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, size = up_size, alpha = up_alpha) +
+    ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, size = nonde_size, alpha = nonde_alpha, shape = nonde_shape) +
+    ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, size = down_size, alpha = down_alpha, shape = down_shape) +
+    ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, size = up_size, alpha = up_alpha, shape = up_shape) +
     ggplot2::geom_hline(yintercept = 0, linetype = 1) +
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
