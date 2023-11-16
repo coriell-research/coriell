@@ -18,21 +18,20 @@ list_to_matrix <- function(sets) {
   stopifnot("List of vectors must be supplied" = is(sets, "list"))
   union_all <- Reduce(union, sets)
 
-  if (sum(is.na(union_all)) > 0) {
+  if (anyNA(union_all)) {
     message("NA values present in union of all sets. NA values will be dropped in final matrix")
     union_all <- union_all[!is.na(union_all)]
   }
 
   mat <- matrix(
-    data = 0,
+    data = 0L,
     nrow = length(union_all),
-    ncol = length(sets)
+    ncol = length(sets),
+    dimnames = list(union_all, names(sets))
   )
-  colnames(mat) <- names(sets)
-  rownames(mat) <- union_all
 
   for (i in seq_along(sets)) {
-    mat[unique(sets[[i]][!is.na(sets[[i]])]), i] <- 1
+    mat[unique(sets[[i]][!is.na(sets[[i]])]), i] <- 1L
   }
   mat
 }
