@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coriell</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.13.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.14.0</span>
       </span>
     </div>
 
@@ -50,6 +50,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Practical-analysis-with-SummarizedExperiments.html">Practical-analysis-with-SummarizedExperiments</a>
+    </li>
+    <li>
       <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
     </li>
     <li>
@@ -84,7 +87,7 @@
       <h1 data-toc-skip>RNA-seq-workflow</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/vignettes/RNA-seq-workflow.Rmd" class="external-link"><code>vignettes/RNA-seq-workflow.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/vignettes/articles/RNA-seq-workflow.Rmd" class="external-link"><code>vignettes/articles/RNA-seq-workflow.Rmd</code></a></small>
       <div class="hidden name"><code>RNA-seq-workflow.Rmd</code></div>
 
     </div>
@@ -100,6 +103,11 @@ workflow, starting with checking data for quality and then progressing
 through quantifying with <a href="https://salmon.readthedocs.io/en/latest/salmon.html" class="external-link">Salmon</a>
 and performing differential expression analysis with
 <code>edgeR</code>.</p>
+<p><strong>update (2024-02)</strong> Since writing this vignette I have
+updated my preferred TE workflow away from REdiscoverTE and towards
+using a bootstrapped based quantification method instead. This vignette
+still contains many examples of the <code>coriell</code> package and
+typical RNA-seq analysis steps.</p>
 </div>
 <div class="section level2">
 <h2 id="checking-sequences-for-quality">Checking sequences for quality<a class="anchor" aria-label="anchor" href="#checking-sequences-for-quality"></a>
@@ -157,15 +165,28 @@ like:</p>
 <span><span class="va">treatment3</span></span></code></pre>
 </div>
 <div class="section level2">
+<h2 id="load-libraries">Load libraries<a class="anchor" aria-label="anchor" href="#load-libraries"></a>
+</h2>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/coriell-research/coriell" class="external-link">coriell</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tximportData</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/thelovelab/tximport" class="external-link">tximport</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/edgeR/" class="external-link">edgeR</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kevinblighe/PCAtools" class="external-link">PCAtools</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/biomedical-knowledge-mining-book/" class="external-link">clusterProfiler</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ctlab/fgsea/" class="external-link">fgsea</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://davislaboratory.github.io/msigdb" class="external-link">msigdb</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ExperimentHub</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="differential-gene-expression-analysis">Differential Gene Expression Analysis<a class="anchor" aria-label="anchor" href="#differential-gene-expression-analysis"></a>
 </h2>
 <p>For this sample analysis we will use the included data in the
 <code>tximportData</code> package.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">tximportData</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Select the directory where the quants files are stored</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Select the directory where the quants files are stored</span></span>
 <span><span class="va">dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"tximportData"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Read in the sample metadata</span></span>
@@ -183,7 +204,7 @@ like:</p>
 <p>In your code, quant files will be saved in separate folders per
 sample if you followed the example script from above. The command to
 find these files might look more like:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="st">"/path/to/OUT_DIR"</span>,</span>
 <span>  pattern <span class="op">=</span> <span class="st">"quant.sf"</span>,</span>
@@ -198,11 +219,8 @@ transcript level but the gene-level. This requires summarizing the
 counts and applying an offset to adjust for length biases. The easiest
 way to import counts with an offset is to use the <code>tximport</code>
 function with the “scaledTPM” option.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mikelove/tximport" class="external-link">tximport</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Import the counts using tximport</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Import the counts using tximport</span></span>
 <span><span class="va">txi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tximport/man/tximport.html" class="external-link">tximport</a></span><span class="op">(</span></span>
 <span>  <span class="va">files</span>, </span>
 <span>  type <span class="op">=</span> <span class="st">"salmon"</span>, </span>
@@ -228,10 +246,10 @@ usually easiest to work with GTF files directly.</p>
 We can download this annotation file and use it to select the protein
 coding genes as well as extract other useful information about the
 genes.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download and import the annotations</span></span>
-<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.annotation.gtf.gz"</span></span>
-<span><span class="va">gtf_file</span> <span class="op">&lt;-</span> <span class="st">"~/Downloads/gencode.v27lift37.annotation.gtf.gz"</span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.basic.annotation.gtf.gz"</span></span>
+<span><span class="va">gtf_file</span> <span class="op">&lt;-</span> <span class="st">"~/Downloads/gencode.v27lift37.basic.annotation.gtf.gz"</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="va">gtf_file</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="va">url</span>, <span class="va">gtf_file</span><span class="op">)</span></span>
@@ -260,12 +278,8 @@ relative log expression values for each sample in order to assess
 technical factors that may be influencing each library. RLE plots should
 show sample distributions centered on zero with similar distributions of
 outlier values.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/coriell-research/coriell" class="external-link">coriell</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Calculate the log2 counts per million for each sample</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Calculate the log2 counts per million for each sample</span></span>
 <span><span class="va">logcounts</span> <span class="op">&lt;-</span> <span class="fu">edgeR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">cpm</a></span><span class="op">(</span><span class="va">counts</span>, log <span class="op">=</span> <span class="cn">TRUE</span>, prior.count <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Show the distribution of the logcounts for each sample</span></span>
@@ -278,23 +292,23 @@ outlier values.</p>
 <span>  <span class="fu"><a href="../reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 5292 rows containing non-finite values</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>Another diagnostic plot is the <code>plot_distribution()</code>
 function. This function creates a density plot for each sample allowing
 the user to view the density of the counts for all samples.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">logcounts</span>, metadata <span class="op">=</span> <span class="va">samples</span>, colBy <span class="op">=</span> <span class="st">"pop"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Density plot"</span>,</span>
 <span>       x <span class="op">=</span> <span class="st">"log2CPM"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Another useful diagnostic plot is to view the euclidean distances for
 the unscaled counts between samples. This plot gives you an idea of how
 similar samples are to each other on an absolute level. This can be
 accomplished with the <code><a href="../reference/plot_dist.html">plot_dist()</a></code> function.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_dist.html">plot_dist</a></span><span class="op">(</span><span class="va">counts</span>, metadata <span class="op">=</span> <span class="va">samples</span><span class="op">[</span>, <span class="st">"pop"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="analysis-with-edger">Analysis with <code>edgeR</code><a class="anchor" aria-label="anchor" href="#analysis-with-edger"></a>
@@ -304,11 +318,8 @@ accomplished with the <code><a href="../reference/plot_dist.html">plot_dist()</a
 groups i will create artificial groups only for the purpose of
 demonstrating the steps involved in a simple differential expression
 analysis.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/edgeR/" class="external-link">edgeR</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Add an arbitrary group factor to the samples</span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Add an arbitrary group factor to the samples</span></span>
 <span><span class="va">samples</span><span class="op">$</span><span class="va">group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Specify group based design</span></span>
@@ -348,17 +359,14 @@ analysis.</p>
 logcounts using functions from <code>edgeR</code> and
 <code>PCAtools</code>. See the <a href="https://bioconductor.org/packages/devel/bioc/vignettes/PCAtools/inst/doc/PCAtools.html" class="external-link">PCAtools
 vignette</a> for more useful functions.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/kevinblighe/PCAtools" class="external-link">PCAtools</a></span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Calculate the normalized log counts per million</span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Calculate the normalized log counts per million</span></span>
 <span><span class="va">logcounts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">cpm</a></span><span class="op">(</span><span class="va">y</span>, log <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Perform PCA on the 20% most variable logcounts</span></span>
 <span><span class="va">pca.res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/PCAtools/man/pca.html" class="external-link">pca</a></span><span class="op">(</span><span class="va">logcounts</span>, metadata <span class="op">=</span> <span class="va">samples</span>, removeVar <span class="op">=</span> <span class="fl">0.8</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Plot the pca biplot and color by the arbitrary group variable.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/PCAtools/man/biplot.html" class="external-link">biplot</a></span><span class="op">(</span></span>
 <span>  <span class="va">pca.res</span>,</span>
 <span>  colby <span class="op">=</span> <span class="st">"group"</span>,</span>
@@ -370,7 +378,7 @@ vignette</a> for more useful functions.</p>
 <span>  title <span class="op">=</span> <span class="st">"PCA on logcounts"</span>,</span>
 <span>  caption <span class="op">=</span> <span class="st">"20% Most Variable Features"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="heatmap">Heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
@@ -382,7 +390,7 @@ to the <code><a href="../reference/quickmap.html">quickmap()</a></code> function
 <code><a href="../reference/quickmap.html">quickmap()</a></code> function also allows the user to remove low
 variance features and fix the scales of the the color so that extreme
 values do not wash out the heatmap.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a dataframe of annotations to use</span></span>
 <span><span class="va">col_df</span> <span class="op">&lt;-</span> <span class="va">samples</span><span class="op">[</span>, <span class="st">"group"</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
 <span></span>
@@ -397,8 +405,9 @@ values do not wash out the heatmap.</p>
 <span>  annotation_col <span class="op">=</span> <span class="va">col_df</span>,</span>
 <span>  annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,</span>
 <span>  main <span class="op">=</span> <span class="st">"20% Most Variable Genes"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Removing 80% lowest variance features...</span></span></code></pre></div>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="volcano-plots">Volcano Plots<a class="anchor" aria-label="anchor" href="#volcano-plots"></a>
@@ -411,29 +420,29 @@ modified. Please check the function documentation for details.</p>
 <p>Of course, for this analysis there are no differentially expressed
 genes because the groups are arbitrary. However, we can still
 demonstrate the functions from the <code>coriell</code> package.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a volcano plot with the default settings</span></span>
 <span><span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">qlf_df</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Volcano Plot of Differential Expression Results"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <p>For a real dataset with differences the plot looks more like:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># GSE161650_de is a dataset built into the coriell package for demonstrations</span></span>
 <span><span class="fu"><a href="../reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">GSE161650_de</span>, fdr <span class="op">=</span> <span class="fl">0.05</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="ma-plots">MA Plots<a class="anchor" aria-label="anchor" href="#ma-plots"></a>
 </h2>
 <p>Likewise, MA plots can be drawn with <code><a href="../reference/plot_md.html">plot_md()</a></code></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">qlf_df</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"MA Plot of Differential Expression Results"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
-<p>and again for real data:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">GSE161650_de</span>, fdr <span class="op">=</span> <span class="fl">0.05</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p>and again for real data:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">GSE161650_de</span>, fdr <span class="op">=</span> <span class="fl">0.05</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 </div>
 <div class="section level2">
 <h2 id="gene-ontology-analysis">Gene ontology analysis<a class="anchor" aria-label="anchor" href="#gene-ontology-analysis"></a>
@@ -441,12 +450,8 @@ demonstrate the functions from the <code>coriell</code> package.</p>
 <p>Once you have a vector of genes that is interesting you can see if
 those genes are over-represented in a particular pathway. The easiest
 way to do this is with the <code>clusterProfiler</code> package.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://yulab-smu.top/biomedical-knowledge-mining-book/" class="external-link">clusterProfiler</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">org.Hs.eg.db</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Extract a vector of the up-regulated genes</span></span>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Extract a vector of the up-regulated genes</span></span>
 <span><span class="va">up_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/subset.html" class="external-link">subset</a></span><span class="op">(</span></span>
 <span>  <span class="va">GSE161650_de</span>, </span>
 <span>  <span class="va">FDR</span> <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="va">logFC</span> <span class="op">&gt;</span> <span class="fl">0</span>, </span>
@@ -481,15 +486,15 @@ way to do this is with the <code>clusterProfiler</code> package.</p>
 <span>  readable <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>We can visualize the over-representation results with dotplots</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html" class="external-link">dotplot</a></span><span class="op">(</span><span class="va">ego_up</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Up-regulated genes"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html" class="external-link">dotplot</a></span><span class="op">(</span><span class="va">ego_up</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Up-regulated genes"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/enrichplot/man/dotplot.html" class="external-link">dotplot</a></span><span class="op">(</span><span class="va">ego_down</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Down-regulated genes"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-18-2.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-19-2.png" width="700"></p>
 <p>To view the results of the over-representation test as a data.frame
 simply coerce:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Convert the ego results to a data.frame</span></span>
 <span><span class="va">ego_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">ego_up</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ego_df</span><span class="op">)</span></span>
@@ -528,23 +533,12 @@ simply coerce:</p>
 <p>We can perform gene set enrichment on a list of genes and their ranks
 from a differential expression analysis using the <code>fgsea</code>
 package and gene sets from the Molecular Signatures Database.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ctlab/fgsea/" class="external-link">fgsea</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://davislaboratory.github.io/msigdb" class="external-link">msigdb</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ExperimentHub</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: AnnotationHub</span></span>
-<span><span class="co">#&gt; Loading required package: BiocFileCache</span></span>
-<span><span class="co">#&gt; Loading required package: dbplyr</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'AnnotationHub'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:Biobase':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     cache</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Get the msigDB data</span></span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get the msigDB data</span></span>
 <span><span class="va">msigdb.hs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/msigdb/man/getMsigdb.html" class="external-link">getMsigdb</a></span><span class="op">(</span>org <span class="op">=</span> <span class="st">"hs"</span>, id <span class="op">=</span> <span class="st">"SYM"</span>, version <span class="op">=</span> <span class="st">"7.4"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; see ?msigdb and browseVignettes('msigdb') for documentation</span></span>
+<span><span class="co">#&gt; downloading 1 resources</span></span>
+<span><span class="co">#&gt; retrieving 1 resource</span></span>
 <span><span class="co">#&gt; loading from cache</span></span>
 <span><span class="co">#&gt; require("GSEABase")</span></span>
 <span></span>
@@ -566,28 +560,30 @@ package and gene sets from the Molecular Signatures Database.</p>
 <span>  eps <span class="op">=</span> <span class="fl">0.0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>The results of the GSEA test can be viewed as a table:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fgsea.results</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                         pathway        pval        padj    log2err        ES</span></span>
-<span><span class="co">#&gt; 1:        HALLMARK_ADIPOGENESIS 0.002354998 0.009812491 0.43170770 0.4727442</span></span>
-<span><span class="co">#&gt; 2: HALLMARK_ALLOGRAFT_REJECTION 0.462774505 0.593300647 0.03157084 0.3315436</span></span>
-<span><span class="co">#&gt; 3:   HALLMARK_ANDROGEN_RESPONSE 0.240909091 0.391308313 0.04443811 0.3909382</span></span>
-<span><span class="co">#&gt; 4:        HALLMARK_ANGIOGENESIS 0.028912784 0.080313288 0.13063134 0.7526828</span></span>
-<span><span class="co">#&gt; 5:     HALLMARK_APICAL_JUNCTION 0.097514857 0.195029714 0.07460182 0.4003922</span></span>
-<span><span class="co">#&gt; 6:      HALLMARK_APICAL_SURFACE 0.845822361 0.881064959 0.01952125 0.3317011</span></span>
-<span><span class="co">#&gt;          NES size                                leadingEdge</span></span>
-<span><span class="co">#&gt; 1: 1.4661180  158 GADD45A,TOB1,MAP4K3,ANGPTL4,APOE,DGAT1,...</span></span>
-<span><span class="co">#&gt; 2: 0.9897429  118         IRF7,TNF,SOCS5,RPL39,RPS9,SRGN,...</span></span>
-<span><span class="co">#&gt; 3: 1.1017149   77    SAT1,SGK1,TSC22D1,ADRM1,NDRG1,ACSL3,...</span></span>
-<span><span class="co">#&gt; 4: 1.5338382   15         MSX1,CXCL6,S100A4,PTK2,VEGFA,TIMP1</span></span>
-<span><span class="co">#&gt; 5: 1.2000326  122    ICAM5,FSCN1,MVD,SLC30A3,PARD6G,MMP9,...</span></span>
-<span><span class="co">#&gt; 6: 0.7631710   26       HSPB1,LYPD3,GAS1,MAL,GSTM3,IL2RG,...</span></span></code></pre></div>
+<span><span class="co">#&gt;                          &lt;char&gt;       &lt;num&gt;       &lt;num&gt;      &lt;num&gt;     &lt;num&gt;</span></span>
+<span><span class="co">#&gt; 1:        HALLMARK_ADIPOGENESIS 0.001944172 0.008100719 0.45505987 0.4727442</span></span>
+<span><span class="co">#&gt; 2: HALLMARK_ALLOGRAFT_REJECTION 0.454743137 0.583004021 0.03219222 0.3315436</span></span>
+<span><span class="co">#&gt; 3:   HALLMARK_ANDROGEN_RESPONSE 0.255434783 0.400613328 0.04360878 0.3909382</span></span>
+<span><span class="co">#&gt; 4:        HALLMARK_ANGIOGENESIS 0.030353332 0.084709008 0.12694980 0.7526828</span></span>
+<span><span class="co">#&gt; 5:     HALLMARK_APICAL_JUNCTION 0.092831640 0.193399249 0.07719384 0.4003922</span></span>
+<span><span class="co">#&gt; 6:      HALLMARK_APICAL_SURFACE 0.843459614 0.878603765 0.01949138 0.3317011</span></span>
+<span><span class="co">#&gt;          NES  size  leadingEdge</span></span>
+<span><span class="co">#&gt;        &lt;num&gt; &lt;int&gt;       &lt;list&gt;</span></span>
+<span><span class="co">#&gt; 1: 1.4638970   158 GADD45A,....</span></span>
+<span><span class="co">#&gt; 2: 0.9907230   118 IRF7, TN....</span></span>
+<span><span class="co">#&gt; 3: 1.0986264    77 SAT1, SG....</span></span>
+<span><span class="co">#&gt; 4: 1.5207820    15 MSX1, CX....</span></span>
+<span><span class="co">#&gt; 5: 1.2007151   122 ICAM5, F....</span></span>
+<span><span class="co">#&gt; 6: 0.7654131    26 HSPB1, L....</span></span></code></pre></div>
 <p>Or selected pathways can be plotted with:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/fgsea/man/plotEnrichment.html" class="external-link">plotEnrichment</a></span><span class="op">(</span><span class="va">hallmark</span><span class="op">[[</span><span class="st">"HALLMARK_APOPTOSIS"</span><span class="op">]</span><span class="op">]</span>, <span class="va">stats</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"HALLMARK APOPTOSIS"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="RNA-seq-workflow_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
   </div>
 

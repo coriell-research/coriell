@@ -1,0 +1,241 @@
+---
+title: "Practical analysis with SummarizedExperiments"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Practical analysis with SummarizedExperiments}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## What are `SummarizedExperiments`
+
+`SummarizedExperiments` are R objects meant for organizing and manipulating
+rectangular matrices that are typically produced by arrays or high-throughput 
+sequencing. If you are doing any kind of analysis that requires associating 
+feature-level data (RNA-seq gene counts, methylation array loci, ATAC-seq 
+regions, etc.) with the genomic coordinates of those features and the 
+sample-level metadata with which those features were measured, then you should 
+be using a `SummarizedExperiment` to organize, manipulate, and store your 
+results. 
+
+Please take a moment to read through the first 2 sections (at least) of the 
+[SummarizedExperiment vignette](https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html) in order to familiarize yourself with what 
+`SummarizedExperiments` are and their structure. I will demonstrate *how* you 
+can use `SummarizedExperiments` below.
+
+## Subsetting in R
+
+`SummarizedExperiments` allow you to quickly and effectively subset your data in
+a synchronized fashion that keeps all sample-level metadata, feature-level 
+matrix data, and genomic range-level data consistent. The principles of 
+`SummarizedExperiments` are derived from base R subsetting operations. Therefore,
+in order to become comfortable with `SummarizedExperiments` you should be 
+comfortable with some base R functions.
+
+You may have only ever encountered R from the perspective of the 
+[tidyverse](https://www.tidyverse.org/). `tidyverse` functions provide useful 
+abstractions for munging [tidy data](https://vita.had.co.nz/papers/tidy-data.html)
+however, most genomics data is often best represented and operated on as 
+matrices. Keeping your data in matrix format can provide many benefits as far 
+as speed and code clarity, which in turn helps to ensure correctness. You can 
+think of matrices as just fancy 2D versions of vectors. So what are vectors?
+
+Vectors are the main building blocks of most R analyses. Whenever you use the
+`c()` function, like: `x <- c('a', 'b', 'c')` you're creating a vector. You can 
+do all kinds of cool things with vectors which will prove useful when working 
+with `SummarizedExperiments`.
+
+NOTE: the following is heavily inspired by Norm Matloff's excellent 
+[fasteR](https://github.com/matloff/fasteR) tutorial. Take a look there to get a 
+brief and concise overview base R.
+
+### Subsetting vectors
+
+Below, we'll use the built-in R constant called `LETTERS`. The `LETTERS` 
+vector is simply a 'list' of all uppercase letters in the Roman alphabet.
+
+```{r}
+LETTERS
+```
+
+We can subset the vector by position. For example, to get the 3rd letter
+
+```{r}
+LETTERS[3]
+```
+
+Or a range of positions
+
+```{r}
+LETTERS[3:7]
+```
+
+We don't have to select sequential elements either. We can extract elements by
+using another vector of positions.
+
+```{r}
+LETTERS[c(7, 5, 14, 14, 1, 18, 15)]
+```
+
+Vectors become really powerful when we start combining them with logical 
+operations.
+
+```{r}
+my_favorite_letters <- c("A", "B", "C")
+
+# See that this produces a logical vector of (TRUE/FALSE) values 
+# TRUE when LETTERS is one of my_favorite_letters and FALSE otherwise
+LETTERS %in% my_favorite_letters
+
+# We can use that same expression to filter the vector
+LETTERS[LETTERS %in% my_favorite_letters]
+```
+
+This same kind of subsetting works on vectors that contain numeric data as well. 
+For example, we can filter the measurements of annual flow of water through the 
+Nile river like so:
+
+```{r}
+# Any values strictly greater than 1200
+Nile[Nile > 1200]
+
+# Any even number
+Nile[Nile %% 2 == 0]
+```
+
+### Subsetting data.frames
+
+But these are just one dimensional vectors. In R we usually deal with 
+data.frames (tibbles for you tidyers) and matrices. Luckily for us, the 
+subsetting operations we learned for vectors work the same way for data.frames
+and matrices.
+
+Let's take a look at the built-in `ToothGrowth` dataset. The data consists of 
+the length of odontoblasts in 60 guinea pigs receiving one of three levels of 
+vitamin C by one of two delivery methods.
+
+```{r}
+head(ToothGrowth)
+```
+
+The dollar sign `$` is used to extract an individual column which is just a 
+vector.
+
+```{r}
+head(ToothGrowth$len)
+```
+
+When subsetting a data.frame in base R the general scheme is
+
+```
+df[the rows you want, the columns you want]
+```
+
+So in order to get the 5th row of the first column we could do:
+
+```{r}
+ToothGrowth[5, 1]
+```
+
+Again, we can combine this kind of thinking to extract rows and columns matching
+logical conditions. For example, if we want to get all of the animals 
+administered orange juice ('OJ')
+
+```{r}
+ToothGrowth[ToothGrowth$supp == "OJ", ]
+```
+
+We can also combine logical statements. For example, to get all of the rows for 
+animals administered orange juice and with odontoblast length ('len') less than 
+10.
+
+```{r}
+ToothGrowth[ToothGrowth$supp == "OJ" & ToothGrowth$len < 10, ]
+
+# We can also use the bracket notation to select rows and columns at the same time
+ToothGrowth[ToothGrowth$supp == "OJ" & ToothGrowth$len < 10, c("len", "supp")]
+```
+
+It gets annoying typing `ToothGrowth` every time we want to subset the data.frame. 
+Base R has a very useful function called `subset()` that can help us type less.
+`subset()` essentially 'looks inside' the data.frame that you give it for the 
+given columns and evaluates the expression without having to explicitly tell R
+where to find the columns. Think of it like `dplyr::filter()`. 
+
+```{r}
+subset(ToothGrowth, supp == "OJ" & len < 10)
+```
+
+### Subsetting matrices
+
+Matrices behave much like data.frames but unlike data.frames matrices can only
+contain one type of data. This might sound like a limitation at first but 
+you'll soon come to realize that matrices are very powerful (and fast) to work 
+with in R.
+
+```{r}
+# Create some random data that looks like
+(m <- matrix(
+  data = runif(6 * 10), 
+  ncol = 6, 
+  dimnames = list(paste0("CpG.", 1:10), 
+                  paste0("Sample", 1:6))
+  ))
+```
+
+If we want to extract the value for CpG.3 for Sample3
+
+```{r}
+m[3, 3]
+```
+
+Or all values of CpG.3 for each sample
+
+```{r}
+m[3, ]
+```
+
+We can also apply a mask to the entire matrix at once. For example, the 
+following will mark any value that is greater than 0.5 with `TRUE`
+
+```{r}
+m > 0.5
+```
+
+We can use this kind of masking to filter rows of the matrix using some very 
+helpful base R functions that operate on matrices. For example, to get only 
+those CpGs where 3 or more samples have a value > 0.5 we can use the `rowSums()`
+like so.
+
+This pattern is very common when dealing with genetics data. Base R functions
+like `rowSums()` and `colMeans()` are specialized to operate over matrices 
+and are the most efficient way to summarize matrix data. The R package 
+[matrixStats](https://github.com/HenrikBengtsson/matrixStats) also contains 
+highly optimized functions for operating on matrices.
+
+```{r}
+m[rowSums(m > 0.5) > 3, ]
+```
+
+Compare the above to the `tidy` solution given the same matrix and converting 
+back to a matrix.
+
+```{r}
+tidyr::as_tibble(m, rownames = "CpG") |>
+  tidyr::pivot_longer(!CpG, names_to = "SampleName", values_to = "beta") |> 
+  dplyr::group_by(CpG) |> 
+  dplyr::mutate(n_gt = sum(beta > 0.5)) |> 
+  dplyr::filter(n_gt > 3) |>
+  tidyr::pivot_wider(id_cols = CpG, names_from = "SampleName", values_from = "beta") |> 
+  tibble::column_to_rownames(var = "CpG") |> 
+  data.matrix()
+```
+
+

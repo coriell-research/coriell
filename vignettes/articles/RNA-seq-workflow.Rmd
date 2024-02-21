@@ -22,6 +22,11 @@ package by walking through a typical RNA-seq workflow, starting with checking
 data for quality and then progressing through quantifying with [Salmon](https://salmon.readthedocs.io/en/latest/salmon.html) 
 and performing differential expression analysis with `edgeR`. 
 
+**update (2024-02)** Since writing this vignette I have updated my preferred
+TE workflow away from REdiscoverTE and towards using a bootstrapped based 
+quantification method instead. This vignette still contains many examples
+of the `coriell` package and typical RNA-seq analysis steps.
+
 ## Checking sequences for quality
 
 The first step in any high-throughput analysis should be to check your reads for
@@ -84,15 +89,28 @@ treatment2
 treatment3
 ```
 
+## Load libraries
+
+```{r}
+suppressPackageStartupMessages(library(coriell))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(tximportData))
+suppressPackageStartupMessages(library(tximport))
+suppressPackageStartupMessages(library(edgeR))
+suppressPackageStartupMessages(library(PCAtools))
+suppressPackageStartupMessages(library(clusterProfiler))
+suppressPackageStartupMessages(library(org.Hs.eg.db))
+suppressPackageStartupMessages(library(fgsea))
+suppressPackageStartupMessages(library(msigdb))
+suppressPackageStartupMessages(library(ExperimentHub))
+```
+
 ## Differential Gene Expression Analysis
 
 For this sample analysis we will use the included data in the `tximportData` 
 package.
 
 ```{r}
-library(tximportData)
-
-
 # Select the directory where the quants files are stored
 dir <- system.file("extdata", package = "tximportData")
 
@@ -131,9 +149,6 @@ adjust for length biases. The easiest way to import counts with an offset is to
 use the `tximport` function with the "scaledTPM" option.
 
 ```{r}
-library(tximport)
-
-
 # Import the counts using tximport
 txi <- tximport(
   files, 
@@ -158,8 +173,8 @@ other useful information about the genes.
 
 ```{r}
 # Download and import the annotations
-url <- "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.annotation.gtf.gz"
-gtf_file <- "~/Downloads/gencode.v27lift37.annotation.gtf.gz"
+url <- "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_27/GRCh37_mapping/gencode.v27lift37.basic.annotation.gtf.gz"
+gtf_file <- "~/Downloads/gencode.v27lift37.basic.annotation.gtf.gz"
 
 if (!file.exists(gtf_file)) {
   download.file(url, gtf_file)
@@ -189,10 +204,6 @@ library. RLE plots should show sample distributions centered on zero with
 similar distributions of outlier values.
 
 ```{r}
-library(coriell)
-library(ggplot2)
-
-
 # Calculate the log2 counts per million for each sample
 logcounts <- edgeR::cpm(counts, log = TRUE, prior.count = 1)
 
@@ -234,9 +245,6 @@ only for the purpose of demonstrating the steps involved in a simple
 differential expression analysis.
 
 ```{r message=FALSE}
-library(edgeR)
-
-
 # Add an arbitrary group factor to the samples
 samples$group <- gl(2, 3, labels = c("Control", "Treatment"))
 
@@ -277,9 +285,6 @@ functions from `edgeR` and `PCAtools`. See the [PCAtools vignette](https://bioco
 for more useful functions.
 
 ```{r message=FALSE}
-library(PCAtools)
-
-
 # Calculate the normalized log counts per million
 logcounts <- cpm(y, log = TRUE)
 
@@ -376,10 +381,6 @@ are over-represented in a particular pathway. The easiest way to do this is
 with the `clusterProfiler` package.
 
 ```{r, message=FALSE}
-library(clusterProfiler)
-library(org.Hs.eg.db)
-
-
 # Extract a vector of the up-regulated genes
 up_genes <- subset(
   GSE161650_de, 
@@ -439,11 +440,6 @@ differential expression analysis using the `fgsea` package and gene sets from
 the Molecular Signatures Database.
 
 ```{r}
-library(fgsea)
-library(msigdb)
-library(ExperimentHub)
-
-
 # Get the msigDB data
 msigdb.hs <- getMsigdb(org = "hs", id = "SYM", version = "7.4")
 

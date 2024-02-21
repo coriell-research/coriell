@@ -1,8 +1,9 @@
-pandoc: 2.19.2
+pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
+  Practical-analysis-with-SummarizedExperiments: Practical-analysis-with-SummarizedExperiments.html
   REdiscoverTE-workflow: REdiscoverTE-workflow.html
   RNA-seq-workflow: RNA-seq-workflow.html
-last_built: 2023-03-03T15:20Z
+last_built: 2024-02-21T02:10Z
 

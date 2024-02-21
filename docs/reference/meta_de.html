@@ -34,6 +34,9 @@ SummarizedExperiment object."><!-- mathjax --><script src="https://cdnjs.cloudfl
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/Practical-analysis-with-SummarizedExperiments.html">Practical-analysis-with-SummarizedExperiments</a>
+    </li>
+    <li>
       <a href="../articles/REdiscoverTE-workflow.html">REdiscoverTE Workflow</a>
     </li>
     <li>
@@ -144,11 +147,13 @@ important for calculating the combined effects.</p>
 <span class="r-in"><span><span class="co">#  using Wilkinson's method and passing additional values</span></span></span>
 <span class="r-in"><span><span class="fu">meta_de</span><span class="op">(</span><span class="va">se</span>, <span class="fu">metapod</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/metapod/man/parallelWilkinson.html" class="external-link">parallelWilkinson</a></span>, min.prop <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Feature Combined.Pval Direction Rep.logFC Rep.Pval Median.logFC Mean.logFC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     &lt;char&gt;         &lt;num&gt;    &lt;char&gt;     &lt;num&gt;    &lt;num&gt;        &lt;num&gt;      &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:   geneA        0.0396        up       1.2      1.2         1.35       1.35</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:   geneB        0.6400      down      -2.0     -2.0        -2.25      -2.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:   geneC        0.0700        up       3.7      3.7         3.70       3.70</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4:   geneD        1.0000        up       3.0      3.0         3.00       3.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min.logFC Max.logFC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;num&gt;     &lt;num&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1:       1.2       1.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:      -2.5      -2.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:       3.7       3.7</span>
