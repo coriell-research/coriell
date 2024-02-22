@@ -617,6 +617,22 @@ from 'Batch' A in the 'Control' group
                se$Batch == "A"])
 ```
 
+## Saving a `SummarizedExperiment`
+
+Since `SummarizedExperiments` keep basically all information about an experiment
+in one place, it is convenient to save the entire `SummarizedExperiment` object 
+so that you can pick up an analysis where you left off or even to facilitate 
+better sharing of data between collaborators.
+
+You can save the entire `SummarizedExperiment` object with:
+
+`saveRDS(se, "/path/to/se.rds")`
+
+And when you want to read the same object back into R for your next analysis
+you can do so with:
+
+`se <- readRDS("/path/to/se.rds")`
+
 ## `SummarizedExperiments` in the real world
 
 If you're working with any [Bioconductor](https://bioconductor.org/) packages
@@ -631,19 +647,39 @@ packages that depend on `SummarizedExperiment`.
 Also, many common methods are also implemented for `SummarizedExperiment` 
 objects. For example, to simplify calculating counts-per-million above I could 
 have simply used the `edgeR::cpm()` directly on the `SummarizedExperiment` 
-object. Many functions in bioconductor packages know how to deal directly with `SummarizedExperiments` so you don't ever have to take the trouble extracting 
+object. Many functions in bioconductor packages know how to deal directly with 
+`SummarizedExperiments` so you don't ever have to take the trouble extracting 
 components and performing tedious calculations yourself.
 
 ```{r}
 assay(se, "cpm") <- edgeR::cpm(se)
 ```
 
+I also left out any discussion of the `metadata()` slot of the 
+`SummarizedExperiment`. The metadata slot is simply a list of any R object 
+that contains information about the experiment. The `metadata` in the metadata
+slots are not subjected to the same subsetting rules as the other slots. In 
+practice this assay contains addtional information about the experiment as a 
+whole. For example, I typically store bootstrap alignments for each sample here.
+
+To add something to the `SummarizedExperiment` metadata slot you can do:
+
+```{r}
+metadata(se)$additional_info <- "Experiment performed on 6 samples with three replicates each"
+```
+
+And to retrieve this:
+
+```{r}
+metadata(se)$additional_info
+```
+
 ## Closing thoughts
 
 Hopefully this was enough information to get you started using 
 `SummarizedExperiments`. There's many things I left out such as different 
-[backings](https://bioconductor.org/packages/release/bioc/html/HDF5Array.html) for storing out of memory data, tidyverse [interfaces](https://stemangiola.github.io/tidySummarizedExperiment/) to `SummarizedExperiment` objects, and much more.
+[backings](https://bioconductor.org/packages/release/bioc/html/HDF5Array.html) 
+for storing out of memory data, a tidyverse [interfaces](https://stemangiola.github.io/tidySummarizedExperiment/) to `SummarizedExperiment` objects, and much more.
 
 Please let me know your thoughts and if anything needs more clarification.
-
 

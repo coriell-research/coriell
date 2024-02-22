@@ -380,14 +380,14 @@ the following will mark any value that is greater than 0.5 with
 <p>We can use this kind of masking to filter rows of the matrix using
 some very helpful base R functions that operate on matrices. For
 example, to get only those CpGs where 3 or more samples have a value
-&gt; 0.5 we can use the <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">rowSums()</a></code> like so:</p>
+&gt; 0.5 we can use the <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> like so:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">m</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">3</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;         Sample1   Sample2   Sample3   Sample4   Sample5   Sample6</span></span>
 <span><span class="co">#&gt; CpG.3 0.4089769 0.6775706 0.6405068 0.6907053 0.4137243 0.7989248</span></span>
 <span><span class="co">#&gt; CpG.4 0.8830174 0.5726334 0.9942698 0.7954674 0.3688455 0.1218993</span></span></code></pre></div>
 <p>This pattern is very common when dealing with sequencing data. Base R
-functions like <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">rowSums()</a></code> and <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowMeans.html" class="external-link">colMeans()</a></code> are
+functions like <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans()</a></code> are
 specialized to operate over matrices and are the most efficient way to
 summarize matrix data. The R package <a href="https://github.com/HenrikBengtsson/matrixStats" class="external-link">matrixStats</a>
 also contains highly optimized functions for operating on matrices.</p>
@@ -437,11 +437,11 @@ and 2-dimensional <code>[</code>, <code>[&lt;-</code> methods.</li>
 </ul>
 </li>
 <li>
-<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> and / or <code>rowRanges()</code>:
+<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> and / or <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowRanges.html" class="external-link">rowRanges()</a></code>:
 Annotations on each row.
 <ul>
 <li>
-<code>rowRanges()</code>: coordinates of gene / exons in transcripts
+<code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowRanges.html" class="external-link">rowRanges()</a></code>: coordinates of gene / exons in transcripts
 / etc.</li>
 <li>
 <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code>: P-values and log-fold change of each gene
@@ -602,7 +602,7 @@ extracted with its accessor function. To extract a particular assay you
 can use the <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a></code> function. To extract the column
 metadata you can use the <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a></code> function. To extract the
 GRanges for the rows of the matrix you can use the
-<code>rowRanges()</code> function. The <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> function
+<code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowRanges.html" class="external-link">rowRanges()</a></code> function. The <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> function
 also allows you to access row-level annotation information from data
 added to the <code>rowData</code> slot or by the <code>mcols()</code> of
 the <code>rowRanges</code>. This will be made more clear below.</p>
@@ -644,7 +644,7 @@ the <code>rowRanges</code>. This will be made more clear below.</p>
 <h3 id="getting-the-rowranges">Getting the rowRanges<a class="anchor" aria-label="anchor" href="#getting-the-rowranges"></a>
 </h3>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rowRanges</span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowRanges.html" class="external-link">rowRanges</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
 <span><span class="co">#&gt; GRanges object with 200 ranges and 2 metadata columns:</span></span>
 <span><span class="co">#&gt;           seqnames        ranges strand |  feature_id      gene_type</span></span>
 <span><span class="co">#&gt;              &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;    &lt;character&gt;</span></span>
@@ -700,7 +700,7 @@ our counts matrix and add a new assay back into our
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Calculate counts per million</span></span>
 <span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span></span>
-<span><span class="va">cpm</span> <span class="op">&lt;-</span> <span class="va">counts</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span>
+<span><span class="va">cpm</span> <span class="op">&lt;-</span> <span class="va">counts</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span>
 <span></span>
 <span><span class="co"># Add the CPM data as a new assay to our existing se object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">cpm</span></span>
@@ -715,7 +715,7 @@ our counts matrix and add a new assay back into our
 <p>Note: Instead of creating intermediate variables we could also
 directly use the assays like so:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="adding-metadata">Adding metadata<a class="anchor" aria-label="anchor" href="#adding-metadata"></a>
@@ -939,7 +939,7 @@ been subsetted reflecting this change as well.</p>
 <span><span class="co">#&gt; Gene55     249      58      43     307      51      33</span></span>
 <span><span class="co">#&gt; Gene56     215      96      28     198      50      81</span></span></code></pre></div>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rowRanges</span><span class="op">(</span><span class="va">chr2</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowRanges.html" class="external-link">rowRanges</a></span><span class="op">(</span><span class="va">chr2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; GRanges object with 150 ranges and 3 metadata columns:</span></span>
 <span><span class="co">#&gt;           seqnames        ranges strand |  feature_id      gene_type      Keep</span></span>
 <span><span class="co">#&gt;              &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;    &lt;character&gt; &lt;logical&gt;</span></span>
@@ -980,6 +980,21 @@ the Sample from ‘Batch’ A in the ‘Control’ group</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="saving-a-summarizedexperiment">Saving a <code>SummarizedExperiment</code><a class="anchor" aria-label="anchor" href="#saving-a-summarizedexperiment"></a>
+</h2>
+<p>Since <code>SummarizedExperiments</code> keep basically all
+information about an experiment in one place, it is convenient to save
+the entire <code>SummarizedExperiment</code> object so that you can pick
+up an analysis where you left off or even to facilitate better sharing
+of data between collaborators.</p>
+<p>You can save the entire <code>SummarizedExperiment</code> object
+with:</p>
+<p><code>saveRDS(se, "/path/to/se.rds")</code></p>
+<p>And when you want to read the same object back into R for your next
+analysis you can do so with:</p>
+<p><code>se &lt;- readRDS("/path/to/se.rds")</code></p>
+</div>
+<div class="section level2">
 <h2 id="summarizedexperiments-in-the-real-world">
 <code>SummarizedExperiments</code> in the real world<a class="anchor" aria-label="anchor" href="#summarizedexperiments-in-the-real-world"></a>
 </h2>
@@ -1003,6 +1018,22 @@ trouble extracting components and performing tedious calculations
 yourself.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">edgeR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">cpm</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span></code></pre></div>
+<p>I also left out any discussion of the <code>metadata()</code> slot of
+the <code>SummarizedExperiment</code>. The metadata slot is simply a
+list of any R object that contains information about the experiment. The
+<code>metadata</code> in the metadata slots are not subjected to the
+same subsetting rules as the other slots. In practice this assay
+contains addtional information about the experiment as a whole. For
+example, I typically store bootstrap alignments for each sample
+here.</p>
+<p>To add something to the <code>SummarizedExperiment</code> metadata
+slot you can do:</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">metadata</span><span class="op">(</span><span class="va">se</span><span class="op">)</span><span class="op">$</span><span class="va">additional_info</span> <span class="op">&lt;-</span> <span class="st">"Experiment performed on 6 samples with three replicates each"</span></span></code></pre></div>
+<p>And to retrieve this:</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">metadata</span><span class="op">(</span><span class="va">se</span><span class="op">)</span><span class="op">$</span><span class="va">additional_info</span></span>
+<span><span class="co">#&gt; [1] "Experiment performed on 6 samples with three replicates each"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="closing-thoughts">Closing thoughts<a class="anchor" aria-label="anchor" href="#closing-thoughts"></a>
@@ -1010,7 +1041,7 @@ yourself.</p>
 <p>Hopefully this was enough information to get you started using
 <code>SummarizedExperiments</code>. There’s many things I left out such
 as different <a href="https://bioconductor.org/packages/release/bioc/html/HDF5Array.html" class="external-link">backings</a>
-for storing out of memory data, tidyverse <a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">interfaces</a>
+for storing out of memory data, a tidyverse <a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">interfaces</a>
 to <code>SummarizedExperiment</code> objects, and much more.</p>
 <p>Please let me know your thoughts and if anything needs more
 clarification.</p>
