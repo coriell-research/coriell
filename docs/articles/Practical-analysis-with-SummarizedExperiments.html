@@ -139,7 +139,9 @@ do all kinds of cool things with vectors which will prove useful when
 working with <code>SummarizedExperiments</code>.</p>
 <p>NOTE: the following is heavily inspired by Norm Matloff’s excellent
 <a href="https://github.com/matloff/fasteR" class="external-link">fasteR</a> tutorial. Take a
-look there to get a brief and concise overview base R.</p>
+look there to get a brief and concise overview base R. You should also
+check out the first few chapters of Hadley Wickham’s amazing book <a href="https://adv-r.hadley.nz/" class="external-link">Advanced R</a>. The <a href="http://adv-r.had.co.nz/" class="external-link">first edition</a> contains some more
+information on base R.</p>
 <div class="section level3">
 <h3 id="subsetting-vectors">Subsetting vectors<a class="anchor" aria-label="anchor" href="#subsetting-vectors"></a>
 </h3>
@@ -151,11 +153,12 @@ letters in the Roman alphabet.</p>
 <span><span class="co">#&gt;  [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S"</span></span>
 <span><span class="co">#&gt; [20] "T" "U" "V" "W" "X" "Y" "Z"</span></span></code></pre></div>
 <p>We can subset the vector by position. For example, to get the 3rd
-letter</p>
+letter we use the <code>[</code> operator and the position we want to
+extract.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "C"</span></span></code></pre></div>
-<p>Or a range of positions</p>
+<p>We can also use a range of positions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "C" "D" "E" "F" "G"</span></span></code></pre></div>
@@ -171,17 +174,18 @@ logical operations.</p>
 <span></span>
 <span><span class="co"># See that this produces a logical vector of (TRUE/FALSE) values </span></span>
 <span><span class="co"># TRUE when LETTERS is one of my_favorite_letters and FALSE otherwise</span></span>
-<span><span class="va">LETTERS</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">my_favorite_letters</span></span>
+<span><span class="va">LETTERS</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">my_favorite_letters</span></span>
 <span><span class="co">#&gt;  [1]  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">#&gt; [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</span></span>
 <span><span class="co">#&gt; [25] FALSE FALSE</span></span>
 <span></span>
 <span><span class="co"># We can use that same expression to filter the vector</span></span>
-<span><span class="va">LETTERS</span><span class="op">[</span><span class="va">LETTERS</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">my_favorite_letters</span><span class="op">]</span></span>
+<span><span class="va">LETTERS</span><span class="op">[</span><span class="va">LETTERS</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">my_favorite_letters</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "A" "B" "C"</span></span></code></pre></div>
 <p>This same kind of subsetting works on vectors that contain numeric
 data as well. For example, we can filter the measurements of annual flow
 of water through the Nile river like so:</p>
+<p><em>Nile is another built-in dataset</em></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Any values strictly greater than 1200</span></span>
 <span><span class="va">Nile</span><span class="op">[</span><span class="va">Nile</span> <span class="op">&gt;</span> <span class="fl">1200</span><span class="op">]</span></span>
@@ -199,7 +203,7 @@ of water through the Nile river like so:</p>
 <h3 id="subsetting-data-frames">Subsetting data.frames<a class="anchor" aria-label="anchor" href="#subsetting-data-frames"></a>
 </h3>
 <p>But these are just one dimensional vectors. In R we usually deal with
-data.frames (tibbles for you tidyers) and matrices. Luckily for us, the
+data.frames (tibbles for you tidyers) and matrices. Lucky for us, the
 subsetting operations we learned for vectors work the same way for
 data.frames and matrices.</p>
 <p>Let’s take a look at the built-in <code>ToothGrowth</code> dataset.
@@ -216,20 +220,26 @@ methods.</p>
 <span><span class="co">#&gt; 5  6.4   VC  0.5</span></span>
 <span><span class="co">#&gt; 6 10.0   VC  0.5</span></span></code></pre></div>
 <p>The dollar sign <code>$</code> is used to extract an individual
-column which is just a vector.</p>
+column from the data.frame, which is just a vector.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">len</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  4.2 11.5  7.3  5.8  6.4 10.0</span></span></code></pre></div>
-<p>When subsetting a data.frame in base R the general scheme is</p>
+<p>We can also use the <code>[[</code> to get the same thing.
+Double-brackets come in handy when your columns are not valid R names
+since <code>$</code> only works when columns are valid names</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ToothGrowth</span><span class="op">[[</span><span class="st">"len"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  4.2 11.5  7.3  5.8  6.4 10.0</span></span></code></pre></div>
+<p>When subsetting a data.frame in base R the general scheme is:</p>
 <pre><code>df[the rows you want, the columns you want]</code></pre>
 <p>So in order to get the 5th row of the first column we could do:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ToothGrowth</span><span class="op">[</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] 6.4</span></span></code></pre></div>
 <p>Again, we can combine this kind of thinking to extract rows and
 columns matching logical conditions. For example, if we want to get all
 of the animals administered orange juice (‘OJ’)</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ToothGrowth</span><span class="op">[</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">supp</span> <span class="op">==</span> <span class="st">"OJ"</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;     len supp dose</span></span>
 <span><span class="co">#&gt; 31 15.2   OJ  0.5</span></span>
@@ -265,7 +275,7 @@ of the animals administered orange juice (‘OJ’)</p>
 <p>We can also combine logical statements. For example, to get all of
 the rows for animals administered orange juice and with odontoblast
 length (‘len’) less than 10.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ToothGrowth</span><span class="op">[</span><span class="va">ToothGrowth</span><span class="op">$</span><span class="va">supp</span> <span class="op">==</span> <span class="st">"OJ"</span> <span class="op">&amp;</span> <span class="va">ToothGrowth</span><span class="op">$</span><span class="va">len</span> <span class="op">&lt;</span> <span class="fl">10</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;    len supp dose</span></span>
 <span><span class="co">#&gt; 34 9.7   OJ  0.5</span></span>
@@ -282,13 +292,13 @@ length (‘len’) less than 10.</p>
 <span><span class="co">#&gt; 40 9.7   OJ</span></span></code></pre></div>
 <p>It gets annoying typing <code>ToothGrowth</code> every time we want
 to subset the data.frame. Base R has a very useful function called
-<code><a href="https://rdrr.io/pkg/BiocGenerics/man/subset.html" class="external-link">subset()</a></code> that can help us type less. <code><a href="https://rdrr.io/pkg/BiocGenerics/man/subset.html" class="external-link">subset()</a></code>
+<code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code> that can help us type less. <code><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset()</a></code>
 essentially ‘looks inside’ the data.frame that you give it for the given
 columns and evaluates the expression without having to explicitly tell R
 where to find the columns. Think of it like
 <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">dplyr::filter()</a></code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ToothGrowth</span>, <span class="va">supp</span> <span class="op">==</span> <span class="st">"OJ"</span> <span class="op">&amp;</span> <span class="va">len</span> <span class="op">&lt;</span> <span class="fl">10</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">ToothGrowth</span>, <span class="va">supp</span> <span class="op">==</span> <span class="st">"OJ"</span> <span class="op">&amp;</span> <span class="va">len</span> <span class="op">&lt;</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    len supp dose</span></span>
 <span><span class="co">#&gt; 34 9.7   OJ  0.5</span></span>
 <span><span class="co">#&gt; 37 8.2   OJ  0.5</span></span>
@@ -302,79 +312,708 @@ where to find the columns. Think of it like
 can only contain one type of data. This might sound like a limitation at
 first but you’ll soon come to realize that matrices are very powerful
 (and fast) to work with in R.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create some random data that looks like</span></span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create some random data that looks like methylation values</span></span>
 <span><span class="op">(</span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">6</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span>, </span>
 <span>  ncol <span class="op">=</span> <span class="fl">6</span>, </span>
 <span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"CpG."</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>, </span>
 <span>                  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;          Sample1    Sample2   Sample3   Sample4    Sample5    Sample6</span></span>
-<span><span class="co">#&gt; CpG.1  0.8650113 0.73314697 0.2562499 0.3421035 0.51109453 0.03229310</span></span>
-<span><span class="co">#&gt; CpG.2  0.5618446 0.01594823 0.7197144 0.3320535 0.68127468 0.02306232</span></span>
-<span><span class="co">#&gt; CpG.3  0.2156928 0.59236443 0.9317838 0.2858852 0.20217931 0.13576589</span></span>
-<span><span class="co">#&gt; CpG.4  0.4311463 0.28576197 0.8999364 0.2036986 0.74198920 0.58805204</span></span>
-<span><span class="co">#&gt; CpG.5  0.3236574 0.53974444 0.5637210 0.4934779 0.62581354 0.66690693</span></span>
-<span><span class="co">#&gt; CpG.6  0.2947591 0.34520790 0.7354448 0.6344497 0.12656096 0.89445699</span></span>
-<span><span class="co">#&gt; CpG.7  0.6470855 0.16859332 0.1406321 0.4053713 0.91727803 0.59130453</span></span>
-<span><span class="co">#&gt; CpG.8  0.7173902 0.41308704 0.7583214 0.9985040 0.15849981 0.65449142</span></span>
-<span><span class="co">#&gt; CpG.9  0.4467033 0.78632410 0.7823403 0.1384543 0.84780102 0.16660458</span></span>
-<span><span class="co">#&gt; CpG.10 0.5864781 0.38885772 0.8167770 0.1677617 0.02846175 0.63311029</span></span></code></pre></div>
+<span><span class="co">#&gt;          Sample1    Sample2   Sample3    Sample4   Sample5    Sample6</span></span>
+<span><span class="co">#&gt; CpG.1  0.2875775 0.95683335 0.8895393 0.96302423 0.1428000 0.04583117</span></span>
+<span><span class="co">#&gt; CpG.2  0.7883051 0.45333416 0.6928034 0.90229905 0.4145463 0.44220007</span></span>
+<span><span class="co">#&gt; CpG.3  0.4089769 0.67757064 0.6405068 0.69070528 0.4137243 0.79892485</span></span>
+<span><span class="co">#&gt; CpG.4  0.8830174 0.57263340 0.9942698 0.79546742 0.3688455 0.12189926</span></span>
+<span><span class="co">#&gt; CpG.5  0.9404673 0.10292468 0.6557058 0.02461368 0.1524447 0.56094798</span></span>
+<span><span class="co">#&gt; CpG.6  0.0455565 0.89982497 0.7085305 0.47779597 0.1388061 0.20653139</span></span>
+<span><span class="co">#&gt; CpG.7  0.5281055 0.24608773 0.5440660 0.75845954 0.2330341 0.12753165</span></span>
+<span><span class="co">#&gt; CpG.8  0.8924190 0.04205953 0.5941420 0.21640794 0.4659625 0.75330786</span></span>
+<span><span class="co">#&gt; CpG.9  0.5514350 0.32792072 0.2891597 0.31818101 0.2659726 0.89504536</span></span>
+<span><span class="co">#&gt; CpG.10 0.4566147 0.95450365 0.1471136 0.23162579 0.8578277 0.37446278</span></span></code></pre></div>
 <p>If we want to extract the value for CpG.3 for Sample3</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] 0.9317838</span></span></code></pre></div>
-<p>Or all values of CpG.3 for each sample</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] 0.6405068</span></span></code></pre></div>
+<p>Or all values of CpG.3 for every sample</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span><span class="fl">3</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;   Sample1   Sample2   Sample3   Sample4   Sample5   Sample6 </span></span>
-<span><span class="co">#&gt; 0.2156928 0.5923644 0.9317838 0.2858852 0.2021793 0.1357659</span></span></code></pre></div>
+<span><span class="co">#&gt; 0.4089769 0.6775706 0.6405068 0.6907053 0.4137243 0.7989248</span></span>
+<span></span>
+<span><span class="co"># Or refer to the row by it's name</span></span>
+<span><span class="va">m</span><span class="op">[</span><span class="st">"CpG.3"</span>, <span class="op">]</span></span>
+<span><span class="co">#&gt;   Sample1   Sample2   Sample3   Sample4   Sample5   Sample6 </span></span>
+<span><span class="co">#&gt; 0.4089769 0.6775706 0.6405068 0.6907053 0.4137243 0.7989248</span></span></code></pre></div>
+<p>Or all CpGs for Sample3</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span>, <span class="fl">3</span><span class="op">]</span></span>
+<span><span class="co">#&gt;     CpG.1     CpG.2     CpG.3     CpG.4     CpG.5     CpG.6     CpG.7     CpG.8 </span></span>
+<span><span class="co">#&gt; 0.8895393 0.6928034 0.6405068 0.9942698 0.6557058 0.7085305 0.5440660 0.5941420 </span></span>
+<span><span class="co">#&gt;     CpG.9    CpG.10 </span></span>
+<span><span class="co">#&gt; 0.2891597 0.1471136</span></span>
+<span></span>
+<span><span class="co"># Or refer to the column by it's name</span></span>
+<span><span class="va">m</span><span class="op">[</span>, <span class="st">"Sample3"</span><span class="op">]</span></span>
+<span><span class="co">#&gt;     CpG.1     CpG.2     CpG.3     CpG.4     CpG.5     CpG.6     CpG.7     CpG.8 </span></span>
+<span><span class="co">#&gt; 0.8895393 0.6928034 0.6405068 0.9942698 0.6557058 0.7085305 0.5440660 0.5941420 </span></span>
+<span><span class="co">#&gt;     CpG.9    CpG.10 </span></span>
+<span><span class="co">#&gt; 0.2891597 0.1471136</span></span></code></pre></div>
 <p>We can also apply a mask to the entire matrix at once. For example,
 the following will mark any value that is greater than 0.5 with
 <code>TRUE</code></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m</span> <span class="op">&gt;</span> <span class="fl">0.5</span></span>
 <span><span class="co">#&gt;        Sample1 Sample2 Sample3 Sample4 Sample5 Sample6</span></span>
-<span><span class="co">#&gt; CpG.1     TRUE    TRUE   FALSE   FALSE    TRUE   FALSE</span></span>
-<span><span class="co">#&gt; CpG.2     TRUE   FALSE    TRUE   FALSE    TRUE   FALSE</span></span>
-<span><span class="co">#&gt; CpG.3    FALSE    TRUE    TRUE   FALSE   FALSE   FALSE</span></span>
-<span><span class="co">#&gt; CpG.4    FALSE   FALSE    TRUE   FALSE    TRUE    TRUE</span></span>
-<span><span class="co">#&gt; CpG.5    FALSE    TRUE    TRUE   FALSE    TRUE    TRUE</span></span>
-<span><span class="co">#&gt; CpG.6    FALSE   FALSE    TRUE    TRUE   FALSE    TRUE</span></span>
-<span><span class="co">#&gt; CpG.7     TRUE   FALSE   FALSE   FALSE    TRUE    TRUE</span></span>
-<span><span class="co">#&gt; CpG.8     TRUE   FALSE    TRUE    TRUE   FALSE    TRUE</span></span>
-<span><span class="co">#&gt; CpG.9    FALSE    TRUE    TRUE   FALSE    TRUE   FALSE</span></span>
-<span><span class="co">#&gt; CpG.10    TRUE   FALSE    TRUE   FALSE   FALSE    TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; CpG.1    FALSE    TRUE    TRUE    TRUE   FALSE   FALSE</span></span>
+<span><span class="co">#&gt; CpG.2     TRUE   FALSE    TRUE    TRUE   FALSE   FALSE</span></span>
+<span><span class="co">#&gt; CpG.3    FALSE    TRUE    TRUE    TRUE   FALSE    TRUE</span></span>
+<span><span class="co">#&gt; CpG.4     TRUE    TRUE    TRUE    TRUE   FALSE   FALSE</span></span>
+<span><span class="co">#&gt; CpG.5     TRUE   FALSE    TRUE   FALSE   FALSE    TRUE</span></span>
+<span><span class="co">#&gt; CpG.6    FALSE    TRUE    TRUE   FALSE   FALSE   FALSE</span></span>
+<span><span class="co">#&gt; CpG.7     TRUE   FALSE    TRUE    TRUE   FALSE   FALSE</span></span>
+<span><span class="co">#&gt; CpG.8     TRUE   FALSE    TRUE   FALSE   FALSE    TRUE</span></span>
+<span><span class="co">#&gt; CpG.9     TRUE   FALSE   FALSE   FALSE   FALSE    TRUE</span></span>
+<span><span class="co">#&gt; CpG.10   FALSE    TRUE   FALSE   FALSE    TRUE   FALSE</span></span></code></pre></div>
 <p>We can use this kind of masking to filter rows of the matrix using
 some very helpful base R functions that operate on matrices. For
 example, to get only those CpGs where 3 or more samples have a value
-&gt; 0.5 we can use the <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> like so.</p>
-<p>This pattern is very common when dealing with genetics data. Base R
-functions like <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans()</a></code> are
+&gt; 0.5 we can use the <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">rowSums()</a></code> like so:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">m</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">3</span>, <span class="op">]</span></span>
+<span><span class="co">#&gt;         Sample1   Sample2   Sample3   Sample4   Sample5   Sample6</span></span>
+<span><span class="co">#&gt; CpG.3 0.4089769 0.6775706 0.6405068 0.6907053 0.4137243 0.7989248</span></span>
+<span><span class="co">#&gt; CpG.4 0.8830174 0.5726334 0.9942698 0.7954674 0.3688455 0.1218993</span></span></code></pre></div>
+<p>This pattern is very common when dealing with sequencing data. Base R
+functions like <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">rowSums()</a></code> and <code><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowMeans.html" class="external-link">colMeans()</a></code> are
 specialized to operate over matrices and are the most efficient way to
 summarize matrix data. The R package <a href="https://github.com/HenrikBengtsson/matrixStats" class="external-link">matrixStats</a>
 also contains highly optimized functions for operating on matrices.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">m</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">m</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">3</span>, <span class="op">]</span></span>
-<span><span class="co">#&gt;         Sample1   Sample2   Sample3   Sample4   Sample5   Sample6</span></span>
-<span><span class="co">#&gt; CpG.5 0.3236574 0.5397444 0.5637210 0.4934779 0.6258135 0.6669069</span></span>
-<span><span class="co">#&gt; CpG.8 0.7173902 0.4130870 0.7583214 0.9985040 0.1584998 0.6544914</span></span></code></pre></div>
 <p>Compare the above to the <code>tidy</code> solution given the same
-matrix and converting back to a matrix.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+matrix.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">m</span>, rownames <span class="op">=</span> <span class="st">"CpG"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="va">CpG</span>, names_to <span class="op">=</span> <span class="st">"SampleName"</span>, values_to <span class="op">=</span> <span class="st">"beta"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">CpG</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>n_gt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">beta</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n_gt</span> <span class="op">&gt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">beta</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">n</span> <span class="op">&gt;</span> <span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html" class="external-link">pivot_wider</a></span><span class="op">(</span>id_cols <span class="op">=</span> <span class="va">CpG</span>, names_from <span class="op">=</span> <span class="st">"SampleName"</span>, values_from <span class="op">=</span> <span class="st">"beta"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">column_to_rownames</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"CpG"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.matrix.html" class="external-link">data.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         Sample1   Sample2   Sample3   Sample4   Sample5   Sample6</span></span>
-<span><span class="co">#&gt; CpG.5 0.3236574 0.5397444 0.5637210 0.4934779 0.6258135 0.6669069</span></span>
-<span><span class="co">#&gt; CpG.8 0.7173902 0.4130870 0.7583214 0.9985040 0.1584998 0.6544914</span></span></code></pre></div>
+<span><span class="co">#&gt; CpG.3 0.4089769 0.6775706 0.6405068 0.6907053 0.4137243 0.7989248</span></span>
+<span><span class="co">#&gt; CpG.4 0.8830174 0.5726334 0.9942698 0.7954674 0.3688455 0.1218993</span></span></code></pre></div>
+<p>Hopefully these examples are enough to get you started understanding
+how subsetting works in R and appreciate how useful it is. Now that you
+have some familiarity with the using R functions for subsetting objects,
+you’re ready to start working with
+<code>SummarizedExperiments</code>.</p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="the-summarizedexperiment">The <code>SummarizedExperiment</code><a class="anchor" aria-label="anchor" href="#the-summarizedexperiment"></a>
+</h2>
+<p>From the <code>SummarizedExperiment</code> <a href="https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html" class="external-link">vignette</a>:</p>
+<p><img src="summarized-experiments.png" title="Overview of SummarizedExperiment structure"></p>
+<p>The <code>SummarizedExperiment</code> object coordinates four main
+parts:</p>
+<ul>
+<li>
+<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a></code>, <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays()</a></code>: A matrix-like or list
+of matrix-like objects of identical dimension
+<ul>
+<li>matrix-like: implements <code><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim()</a></code>, <code><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames()</a></code>,
+and 2-dimensional <code>[</code>, <code>[&lt;-</code> methods.</li>
+<li>rows: genes, genomic coordinates, etc.</li>
+<li>columns: samples, cells, etc.</li>
+</ul>
+</li>
+<li>
+<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a></code>: Annotations on each column, as a DataFrame.
+<ul>
+<li>E.g., description of each sample</li>
+</ul>
+</li>
+<li>
+<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> and / or <code>rowRanges()</code>:
+Annotations on each row.
+<ul>
+<li>
+<code>rowRanges()</code>: coordinates of gene / exons in transcripts
+/ etc.</li>
+<li>
+<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code>: P-values and log-fold change of each gene
+after differential expresssion analysis.</li>
+</ul>
+</li>
+<li>
+<code>metadata()</code>: List of unstructured metadata describing
+the overall content of the object.</li>
+</ul>
+<p>In order to better understand how they work, let’s construct a
+<code>SummarizedExperiment</code> from scratch.</p>
+<div class="section level3">
+<h3 id="constructing-a-summarizedexperiment">Constructing a <code>SummarizedExperiment</code><a class="anchor" aria-label="anchor" href="#constructing-a-summarizedexperiment"></a>
+</h3>
+<p>Hopefully you’ll already be working with data that is in a
+<code>SummarizedExperiment</code> or some other class that derives from
+one. But just in case you don’t have data structured as a
+<code>SummarizedExperiment</code> it’s useful and instructive to
+understand how to create one from scratch.</p>
+<p>To be most useful, a <code>SummarizedExperiment</code> should have at
+least:</p>
+<ul>
+<li>A matrix of data with features in rows and samples in columns</li>
+<li>A metadata data.frame with samples as rownames and columns
+describing their properties</li>
+</ul>
+<p>Another really useful object to add to
+<code>SummarizedExperiments</code> is a GRanges object describing the
+genomic locations of each feature in the matrix. Adding this to the
+<code>SummarizedExperiment</code> creates what is called a
+<code>RangedSummarizedExperiment</code> that acts just like a regular
+<code>SummarizedExperiment</code> with some extra features.</p>
+<p>To construct our basic <code>SummarizedExperiment</code>:</p>
+<ul>
+<li>We’ll create a ‘counts’ matrix with gene IDs as rows and Samples in
+columns</li>
+<li>We’ll add some metadata describing the Samples</li>
+<li>We’ll add on <code><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges()</a></code> describing the genomic location
+of the genes</li>
+</ul>
+<div class="section level4">
+<h4 id="construct-the-counts-matrix">Construct the counts matrix<a class="anchor" aria-label="anchor" href="#construct-the-counts-matrix"></a>
+</h4>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/SummarizedExperiment" class="external-link">SummarizedExperiment</a></span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/NegBinomial.html" class="external-link">rnbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">200</span> <span class="op">*</span> <span class="fl">6</span>, mu <span class="op">=</span> <span class="fl">100</span>, size <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fl">0.5</span><span class="op">)</span>, </span>
+<span>  nrow <span class="op">=</span> <span class="fl">200</span>, </span>
+<span>  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Gene"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Sample"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Take a peak at what this looks like</span></span>
+<span><span class="va">counts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
+<span><span class="co">#&gt;       Sample1 Sample2 Sample3 Sample4 Sample5</span></span>
+<span><span class="co">#&gt; Gene1     100     210     186      14      95</span></span>
+<span><span class="co">#&gt; Gene2      74      17      62      48      27</span></span>
+<span><span class="co">#&gt; Gene3     129      72     105     203      73</span></span>
+<span><span class="co">#&gt; Gene4      73      80      84      81      59</span></span>
+<span><span class="co">#&gt; Gene5      17     242      32      21      58</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="construct-the-sample-metadata">Construct the sample metadata<a class="anchor" aria-label="anchor" href="#construct-the-sample-metadata"></a>
+</h4>
+<p>It is important that the sample metadata be either a
+<code>data.frame</code> or a <code>DataFrame</code> object because
+<code>SummarizedExperiment</code> requires the <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a></code> to
+have rownames that match the colnames of the count matrix.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">coldata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  SampleName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span>, </span>
+<span>  Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/gl.html" class="external-link">gl</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="st">"Treatment"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  Age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Take a peak at what this looks like</span></span>
+<span><span class="va">coldata</span></span>
+<span><span class="co">#&gt;         SampleName Treatment Age</span></span>
+<span><span class="co">#&gt; Sample1    Sample1   Control  38</span></span>
+<span><span class="co">#&gt; Sample2    Sample2   Control  71</span></span>
+<span><span class="co">#&gt; Sample3    Sample3   Control  30</span></span>
+<span><span class="co">#&gt; Sample4    Sample4 Treatment  64</span></span>
+<span><span class="co">#&gt; Sample5    Sample5 Treatment   8</span></span>
+<span><span class="co">#&gt; Sample6    Sample6 Treatment  47</span></span></code></pre></div>
+<p>Notice that all of the rownames of the metadata are in the same order
+as the colnames of the counts matrix. <strong>This is
+necessary</strong>.</p>
+</div>
+<div class="section level4">
+<h4 id="construct-gene-range-annotations">Construct gene range annotations<a class="anchor" aria-label="anchor" href="#construct-gene-range-annotations"></a>
+</h4>
+<p>You will usually have gene annotations or <code>GRanges</code>
+objects loaded from a GTF file or you may even create
+<code>GRanges</code> yourself by specifying the chromosome, start, end,
+and strand, information manually.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rowranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"chr1"</span>, <span class="st">"chr2"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">150</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu">IRanges</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">200</span>, <span class="fl">1e5</span>, <span class="fl">1e6</span><span class="op">)</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
+<span>  strand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"+"</span>, <span class="st">"-"</span><span class="op">)</span>, <span class="fl">200</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"ID%03d"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">)</span>,</span>
+<span>  gene_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"protein_coding"</span>, <span class="st">"lncRNA"</span>, <span class="st">"repeat_element"</span><span class="op">)</span>, <span class="fl">200</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">rowranges</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Take a peak at what this looks like</span></span>
+<span><span class="va">rowranges</span></span>
+<span><span class="co">#&gt; GRanges object with 200 ranges and 2 metadata columns:</span></span>
+<span><span class="co">#&gt;           seqnames        ranges strand |  feature_id      gene_type</span></span>
+<span><span class="co">#&gt;              &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;    &lt;character&gt;</span></span>
+<span><span class="co">#&gt;     Gene1     chr1 954187-954286      - |       ID001 protein_coding</span></span>
+<span><span class="co">#&gt;     Gene2     chr1 552363-552462      + |       ID002 protein_coding</span></span>
+<span><span class="co">#&gt;     Gene3     chr1 303793-303892      - |       ID003         lncRNA</span></span>
+<span><span class="co">#&gt;     Gene4     chr1 875980-876079      + |       ID004 protein_coding</span></span>
+<span><span class="co">#&gt;     Gene5     chr1 427141-427240      - |       ID005 repeat_element</span></span>
+<span><span class="co">#&gt;       ...      ...           ...    ... .         ...            ...</span></span>
+<span><span class="co">#&gt;   Gene196     chr2 268871-268970      + |       ID196 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene197     chr2 599914-600013      + |       ID197 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene198     chr2 477464-477563      + |       ID198 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene199     chr2 461424-461523      - |       ID199 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene200     chr2 619939-620038      + |       ID200 protein_coding</span></span>
+<span><span class="co">#&gt;   -------</span></span>
+<span><span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="construct-the-summarizedexperiment-object">Construct the <code>SummarizedExperiment</code> object<a class="anchor" aria-label="anchor" href="#construct-the-summarizedexperiment-object"></a>
+</h4>
+<p>With these pieces of information we’re ready to create a
+<code>SummarizedExperiment</code> object.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">se</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/RangedSummarizedExperiment-class.html" class="external-link">SummarizedExperiment</a></span><span class="op">(</span></span>
+<span>  assays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">counts</span><span class="op">)</span>,</span>
+<span>  colData <span class="op">=</span> <span class="va">coldata</span>,</span>
+<span>  rowRanges <span class="op">=</span> <span class="va">rowranges</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Printing the object gives a summary of what's inside</span></span>
+<span><span class="va">se</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 200 6 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(1): counts</span></span>
+<span><span class="co">#&gt; rownames(200): Gene1 Gene2 ... Gene199 Gene200</span></span>
+<span><span class="co">#&gt; rowData names(2): feature_id gene_type</span></span>
+<span><span class="co">#&gt; colnames(6): Sample1 Sample2 ... Sample5 Sample6</span></span>
+<span><span class="co">#&gt; colData names(3): SampleName Treatment Age</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="accessing-parts-of-the-summarizedexperiment-object">Accessing parts of the <code>SummarizedExperiment</code> object<a class="anchor" aria-label="anchor" href="#accessing-parts-of-the-summarizedexperiment-object"></a>
+</h2>
+<p>Every part of the <code>SummarizedExperiment</code> object can be
+extracted with its accessor function. To extract a particular assay you
+can use the <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay()</a></code> function. To extract the column
+metadata you can use the <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData()</a></code> function. To extract the
+GRanges for the rows of the matrix you can use the
+<code>rowRanges()</code> function. The <code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData()</a></code> function
+also allows you to access row-level annotation information from data
+added to the <code>rowData</code> slot or by the <code>mcols()</code> of
+the <code>rowRanges</code>. This will be made more clear below.</p>
+<div class="section level3">
+<h3 id="getting-the-count-matrix">Getting the count matrix<a class="anchor" aria-label="anchor" href="#getting-the-count-matrix"></a>
+</h3>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       Sample1 Sample2 Sample3 Sample4 Sample5 Sample6</span></span>
+<span><span class="co">#&gt; Gene1     100     210     186      14      95      43</span></span>
+<span><span class="co">#&gt; Gene2      74      17      62      48      27      71</span></span>
+<span><span class="co">#&gt; Gene3     129      72     105     203      73      63</span></span>
+<span><span class="co">#&gt; Gene4      73      80      84      81      59     153</span></span>
+<span><span class="co">#&gt; Gene5      17     242      32      21      58      40</span></span>
+<span><span class="co">#&gt; Gene6      22      91      38      89     164      43</span></span></code></pre></div>
+<p>To see what assays are available you can use the
+<code><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays()</a></code> function</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of length 1</span></span>
+<span><span class="co">#&gt; names(1): counts</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="getting-the-column-metadata">Getting the column metadata<a class="anchor" aria-label="anchor" href="#getting-the-column-metadata"></a>
+</h3>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; DataFrame with 6 rows and 3 columns</span></span>
+<span><span class="co">#&gt;          SampleName Treatment       Age</span></span>
+<span><span class="co">#&gt;         &lt;character&gt;  &lt;factor&gt; &lt;integer&gt;</span></span>
+<span><span class="co">#&gt; Sample1     Sample1 Control          38</span></span>
+<span><span class="co">#&gt; Sample2     Sample2 Control          71</span></span>
+<span><span class="co">#&gt; Sample3     Sample3 Control          30</span></span>
+<span><span class="co">#&gt; Sample4     Sample4 Treatment        64</span></span>
+<span><span class="co">#&gt; Sample5     Sample5 Treatment         8</span></span>
+<span><span class="co">#&gt; Sample6     Sample6 Treatment        47</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="getting-the-rowranges">Getting the rowRanges<a class="anchor" aria-label="anchor" href="#getting-the-rowranges"></a>
+</h3>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rowRanges</span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; GRanges object with 200 ranges and 2 metadata columns:</span></span>
+<span><span class="co">#&gt;           seqnames        ranges strand |  feature_id      gene_type</span></span>
+<span><span class="co">#&gt;              &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;    &lt;character&gt;</span></span>
+<span><span class="co">#&gt;     Gene1     chr1 954187-954286      - |       ID001 protein_coding</span></span>
+<span><span class="co">#&gt;     Gene2     chr1 552363-552462      + |       ID002 protein_coding</span></span>
+<span><span class="co">#&gt;     Gene3     chr1 303793-303892      - |       ID003         lncRNA</span></span>
+<span><span class="co">#&gt;     Gene4     chr1 875980-876079      + |       ID004 protein_coding</span></span>
+<span><span class="co">#&gt;     Gene5     chr1 427141-427240      - |       ID005 repeat_element</span></span>
+<span><span class="co">#&gt;       ...      ...           ...    ... .         ...            ...</span></span>
+<span><span class="co">#&gt;   Gene196     chr2 268871-268970      + |       ID196 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene197     chr2 599914-600013      + |       ID197 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene198     chr2 477464-477563      + |       ID198 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene199     chr2 461424-461523      - |       ID199 repeat_element</span></span>
+<span><span class="co">#&gt;   Gene200     chr2 619939-620038      + |       ID200 protein_coding</span></span>
+<span><span class="co">#&gt;   -------</span></span>
+<span><span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="getting-the-rowdata">Getting the rowData<a class="anchor" aria-label="anchor" href="#getting-the-rowdata"></a>
+</h3>
+<p>Note that rowData in this case is the same as <code>mcols()</code> of
+the <code>rowRanges</code></p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; DataFrame with 200 rows and 2 columns</span></span>
+<span><span class="co">#&gt;          feature_id      gene_type</span></span>
+<span><span class="co">#&gt;         &lt;character&gt;    &lt;character&gt;</span></span>
+<span><span class="co">#&gt; Gene1         ID001 protein_coding</span></span>
+<span><span class="co">#&gt; Gene2         ID002 protein_coding</span></span>
+<span><span class="co">#&gt; Gene3         ID003         lncRNA</span></span>
+<span><span class="co">#&gt; Gene4         ID004 protein_coding</span></span>
+<span><span class="co">#&gt; Gene5         ID005 repeat_element</span></span>
+<span><span class="co">#&gt; ...             ...            ...</span></span>
+<span><span class="co">#&gt; Gene196       ID196 repeat_element</span></span>
+<span><span class="co">#&gt; Gene197       ID197 repeat_element</span></span>
+<span><span class="co">#&gt; Gene198       ID198 repeat_element</span></span>
+<span><span class="co">#&gt; Gene199       ID199 repeat_element</span></span>
+<span><span class="co">#&gt; Gene200       ID200 protein_coding</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="modifying-a-summarizedexperiment">Modifying a <code>SummarizedExperiment</code><a class="anchor" aria-label="anchor" href="#modifying-a-summarizedexperiment"></a>
+</h2>
+<p>Once you create a <code>SummarizedExperiment</code> you are not stuck
+with the information in that object. <code>SummarizedExperiments</code>
+allow you to add and modify the data within the object.</p>
+<div class="section level3">
+<h3 id="adding-assays">Adding assays<a class="anchor" aria-label="anchor" href="#adding-assays"></a>
+</h3>
+<p>For example, we may wish to calculate counts per million values for
+our counts matrix and add a new assay back into our
+<code>SummarizedExperiment</code> object.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Calculate counts per million</span></span>
+<span><span class="va">counts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span></span>
+<span><span class="va">cpm</span> <span class="op">&lt;-</span> <span class="va">counts</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="va">counts</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span>
+<span></span>
+<span><span class="co"># Add the CPM data as a new assay to our existing se object</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">cpm</span></span>
+<span></span>
+<span><span class="co"># And if we wish to log-scale these values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"logcounts"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="va">cpm</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Now there are three assays available</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assays</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of length 3</span></span>
+<span><span class="co">#&gt; names(3): counts cpm logcounts</span></span></code></pre></div>
+<p>Note: Instead of creating intermediate variables we could also
+directly use the assays like so:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/pkg/MatrixGenerics/man/rowSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"counts"</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e6</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="adding-metadata">Adding metadata<a class="anchor" aria-label="anchor" href="#adding-metadata"></a>
+</h3>
+<p><code>SummarizedExperiment</code> objects use the <code>$</code> to
+get and set columns of the metadata contained in the
+<code>colData</code> slot. For example, to get all of the Ages we can
+use:</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">se</span><span class="op">$</span><span class="va">Age</span></span>
+<span><span class="co">#&gt; [1] 38 71 30 64  8 47</span></span></code></pre></div>
+<p>If we want to add a new column we simply create the new column in the
+same way</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">se</span><span class="op">$</span><span class="va">Batch</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Now you can se that a new 'Batch` column has been added to the colData</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">colData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; DataFrame with 6 rows and 4 columns</span></span>
+<span><span class="co">#&gt;          SampleName Treatment       Age    Batch</span></span>
+<span><span class="co">#&gt;         &lt;character&gt;  &lt;factor&gt; &lt;integer&gt; &lt;factor&gt;</span></span>
+<span><span class="co">#&gt; Sample1     Sample1 Control          38        A</span></span>
+<span><span class="co">#&gt; Sample2     Sample2 Control          71        B</span></span>
+<span><span class="co">#&gt; Sample3     Sample3 Control          30        C</span></span>
+<span><span class="co">#&gt; Sample4     Sample4 Treatment        64        A</span></span>
+<span><span class="co">#&gt; Sample5     Sample5 Treatment         8        B</span></span>
+<span><span class="co">#&gt; Sample6     Sample6 Treatment        47        C</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="adding-rowdata">Adding rowData<a class="anchor" aria-label="anchor" href="#adding-rowdata"></a>
+</h3>
+<p>We can also modify the data which describes each feature in the
+matrix by adding columns to the rowData. For example, let’s create a new
+column called <code>Keep</code> if the gene is a protein_coding
+gene.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span><span class="op">$</span><span class="va">Keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span><span class="op">$</span><span class="va">gene_type</span> <span class="op">==</span> <span class="st">"protein_coding"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span>
+<span><span class="co">#&gt; DataFrame with 200 rows and 3 columns</span></span>
+<span><span class="co">#&gt;          feature_id      gene_type      Keep</span></span>
+<span><span class="co">#&gt;         &lt;character&gt;    &lt;character&gt; &lt;logical&gt;</span></span>
+<span><span class="co">#&gt; Gene1         ID001 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene2         ID002 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene3         ID003         lncRNA     FALSE</span></span>
+<span><span class="co">#&gt; Gene4         ID004 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene5         ID005 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; ...             ...            ...       ...</span></span>
+<span><span class="co">#&gt; Gene196       ID196 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene197       ID197 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene198       ID198 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene199       ID199 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene200       ID200 protein_coding      TRUE</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="subsetting-summarizedexperiment-objects">Subsetting <code>SummarizedExperiment</code> objects<a class="anchor" aria-label="anchor" href="#subsetting-summarizedexperiment-objects"></a>
+</h2>
+<p><code>SummarizedExperiments</code> follow the basic idea of</p>
+<pre><code>se[the rows you want, the columns you want]</code></pre>
+<p>With a <code>SummarizedExperiment</code> “the rows you want”
+corresponds to the features in the rows of the matrix/rowData and “the
+columns you want” corresponds to the metadata in
+<code>colData</code></p>
+<div class="section level3">
+<h3 id="subsetting-based-on-sample-metadata">Subsetting based on sample metadata<a class="anchor" aria-label="anchor" href="#subsetting-based-on-sample-metadata"></a>
+</h3>
+<p>For example, if we want to select all of the data belonging only to
+samples in the Treatment group we can use the following:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">trt</span> <span class="op">&lt;-</span> <span class="va">se</span><span class="op">[</span>, <span class="va">se</span><span class="op">$</span><span class="va">Treatment</span> <span class="op">==</span> <span class="st">"Treatment"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 200 3 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(3): counts cpm logcounts</span></span>
+<span><span class="co">#&gt; rownames(200): Gene1 Gene2 ... Gene199 Gene200</span></span>
+<span><span class="co">#&gt; rowData names(3): feature_id gene_type Keep</span></span>
+<span><span class="co">#&gt; colnames(3): Sample4 Sample5 Sample6</span></span>
+<span><span class="co">#&gt; colData names(4): SampleName Treatment Age Batch</span></span></code></pre></div>
+<p>Notice how the <code>dim</code> of the object changed from 6 to 3.
+This is because we have selected only the Samples from the original
+<code>SummarizedExperiment</code> object from the treatment group. The
+cool thing about <code>SummarizedExperiments</code> is that all of the
+assays have also been subsetted to reflect this selection!</p>
+<p>Take a look at the “logcounts” assay. It only contains Samples 4, 5,
+and 6.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">trt</span>, <span class="st">"logcounts"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         Sample4  Sample5  Sample6</span></span>
+<span><span class="co">#&gt; Gene1  9.681439 12.23369 11.09368</span></span>
+<span><span class="co">#&gt; Gene2 11.306469 10.37294 11.82069</span></span>
+<span><span class="co">#&gt; Gene3 13.329167 11.85724 11.85136</span></span>
+<span><span class="co">#&gt; Gene4 11.957898 11.55359 12.97889</span></span>
+<span><span class="co">#&gt; Gene5 10.059737 11.73207 10.98576</span></span>
+<span><span class="co">#&gt; Gene6 12.146676 13.07906 11.04431</span></span></code></pre></div>
+<p>Of course you can combine multiple conditions as well</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">se</span><span class="op">[</span>, <span class="va">se</span><span class="op">$</span><span class="va">Batch</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">se</span><span class="op">$</span><span class="va">Age</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">]</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 200 3 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(3): counts cpm logcounts</span></span>
+<span><span class="co">#&gt; rownames(200): Gene1 Gene2 ... Gene199 Gene200</span></span>
+<span><span class="co">#&gt; rowData names(3): feature_id gene_type Keep</span></span>
+<span><span class="co">#&gt; colnames(3): Sample2 Sample3 Sample6</span></span>
+<span><span class="co">#&gt; colData names(4): SampleName Treatment Age Batch</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="subsetting-based-on-rows">Subsetting based on rows<a class="anchor" aria-label="anchor" href="#subsetting-based-on-rows"></a>
+</h3>
+<p>We can also select certain features that we want to keep using row
+subsetting. For example to select only the first 50 rows:</p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">se</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, <span class="op">]</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 50 6 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(3): counts cpm logcounts</span></span>
+<span><span class="co">#&gt; rownames(50): Gene1 Gene2 ... Gene49 Gene50</span></span>
+<span><span class="co">#&gt; rowData names(3): feature_id gene_type Keep</span></span>
+<span><span class="co">#&gt; colnames(6): Sample1 Sample2 ... Sample5 Sample6</span></span>
+<span><span class="co">#&gt; colData names(4): SampleName Treatment Age Batch</span></span></code></pre></div>
+<p>Notice how the <code>dim</code> changed from 200 to 50 reflecting the
+fact that we have only selected the first 50 rows.</p>
+<p>This subsetting is very useful when combined with logical operators.
+Above we created a vector in <code>rowData</code> called “Keep” that
+contained TRUE if the corresponding row of the se object was a coding
+gene and FALSE otherwise. Let’s use this vector to subset our se
+object.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">coding</span> <span class="op">&lt;-</span> <span class="va">se</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span><span class="op">$</span><span class="va">Keep</span>, <span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 68 6 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(3): counts cpm logcounts</span></span>
+<span><span class="co">#&gt; rownames(68): Gene1 Gene2 ... Gene193 Gene200</span></span>
+<span><span class="co">#&gt; rowData names(3): feature_id gene_type Keep</span></span>
+<span><span class="co">#&gt; colnames(6): Sample1 Sample2 ... Sample5 Sample6</span></span>
+<span><span class="co">#&gt; colData names(4): SampleName Treatment Age Batch</span></span></code></pre></div>
+<p>And if we look at the resulting <code>rowData</code> we can see that
+it only contains the protein_coding features</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">coding</span><span class="op">)</span></span>
+<span><span class="co">#&gt; DataFrame with 68 rows and 3 columns</span></span>
+<span><span class="co">#&gt;          feature_id      gene_type      Keep</span></span>
+<span><span class="co">#&gt;         &lt;character&gt;    &lt;character&gt; &lt;logical&gt;</span></span>
+<span><span class="co">#&gt; Gene1         ID001 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene2         ID002 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene4         ID004 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene8         ID008 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene13        ID013 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; ...             ...            ...       ...</span></span>
+<span><span class="co">#&gt; Gene183       ID183 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene185       ID185 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene187       ID187 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene193       ID193 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene200       ID200 protein_coding      TRUE</span></span></code></pre></div>
+<p>Each assay also reflects this operation</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">coding</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         Sample1    Sample2   Sample3    Sample4  Sample5   Sample6</span></span>
+<span><span class="co">#&gt; Gene1  5865.103 10646.3878  9453.141   821.1144 4816.223  2185.404</span></span>
+<span><span class="co">#&gt; Gene2  3904.601   834.9295  3158.753  2532.7142 1326.065  3617.281</span></span>
+<span><span class="co">#&gt; Gene4  3585.286  4075.8101  4432.250  3978.1936 3005.910  8073.027</span></span>
+<span><span class="co">#&gt; Gene8  1582.946 12180.1483  1069.900  3165.8928 2603.016   815.162</span></span>
+<span><span class="co">#&gt; Gene13 5571.848  4512.0406  6556.211 12199.4135 9936.629 15704.411</span></span>
+<span><span class="co">#&gt; Gene15 5019.011  3405.1637 15366.569  6235.7414 4421.630  3988.270</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="subsetting-based-on-rowranges">Subsetting based on rowRanges<a class="anchor" aria-label="anchor" href="#subsetting-based-on-rowranges"></a>
+</h3>
+<p>A closely related row-wise subsetting operation can be used if you
+have a <code>RangedSummarizedExperiment</code> (a
+<code>SummarizedExperiment</code> with a rowRanges slot) that allows you
+to perform operations on a <code>SummarizedExperiment</code> object like
+you would a GRanges object.</p>
+<p>For example, let’s say we only wanted to extract the features on
+Chromosome 2 only. Then we can use the <code>GenomicRanges</code>
+function <code>subsetByOverlaps</code> directly on our
+<code>SummarizedExperiment</code> object like so:</p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Region of interest </span></span>
+<span><span class="va">roi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html" class="external-link">GRanges</a></span><span class="op">(</span>seqnames <span class="op">=</span> <span class="st">"chr2"</span>, ranges<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">1e7</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Subset the SE object for only features on chr2</span></span>
+<span><span class="op">(</span><span class="va">chr2</span> <span class="op">&lt;-</span> <span class="fu">subsetByOverlaps</span><span class="op">(</span><span class="va">se</span>, <span class="va">roi</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 150 6 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(3): counts cpm logcounts</span></span>
+<span><span class="co">#&gt; rownames(150): Gene51 Gene52 ... Gene199 Gene200</span></span>
+<span><span class="co">#&gt; rowData names(3): feature_id gene_type Keep</span></span>
+<span><span class="co">#&gt; colnames(6): Sample1 Sample2 ... Sample5 Sample6</span></span>
+<span><span class="co">#&gt; colData names(4): SampleName Treatment Age Batch</span></span></code></pre></div>
+<p>You can see again that the <code>dim</code> changed reflecting our
+selection. Again, all of the associated assays and rowData have also
+been subsetted reflecting this change as well.</p>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">chr2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; DataFrame with 150 rows and 3 columns</span></span>
+<span><span class="co">#&gt;          feature_id      gene_type      Keep</span></span>
+<span><span class="co">#&gt;         &lt;character&gt;    &lt;character&gt; &lt;logical&gt;</span></span>
+<span><span class="co">#&gt; Gene51        ID051 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt; Gene52        ID052         lncRNA     FALSE</span></span>
+<span><span class="co">#&gt; Gene53        ID053 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene54        ID054 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene55        ID055 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; ...             ...            ...       ...</span></span>
+<span><span class="co">#&gt; Gene196       ID196 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene197       ID197 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene198       ID198 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene199       ID199 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt; Gene200       ID200 protein_coding      TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">chr2</span>, <span class="st">"counts"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        Sample1 Sample2 Sample3 Sample4 Sample5 Sample6</span></span>
+<span><span class="co">#&gt; Gene51      32      45     139     261     153      95</span></span>
+<span><span class="co">#&gt; Gene52     113      80      80      61      72     131</span></span>
+<span><span class="co">#&gt; Gene53     118      24      60     153       5     103</span></span>
+<span><span class="co">#&gt; Gene54      20       1      35       4      89      49</span></span>
+<span><span class="co">#&gt; Gene55     249      58      43     307      51      33</span></span>
+<span><span class="co">#&gt; Gene56     215      96      28     198      50      81</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">rowRanges</span><span class="op">(</span><span class="va">chr2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; GRanges object with 150 ranges and 3 metadata columns:</span></span>
+<span><span class="co">#&gt;           seqnames        ranges strand |  feature_id      gene_type      Keep</span></span>
+<span><span class="co">#&gt;              &lt;Rle&gt;     &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;    &lt;character&gt; &lt;logical&gt;</span></span>
+<span><span class="co">#&gt;    Gene51     chr2 839636-839735      + |       ID051 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt;    Gene52     chr2 388487-388586      + |       ID052         lncRNA     FALSE</span></span>
+<span><span class="co">#&gt;    Gene53     chr2 357210-357309      + |       ID053 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;    Gene54     chr2 230565-230664      + |       ID054 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;    Gene55     chr2 491399-491498      + |       ID055 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;       ...      ...           ...    ... .         ...            ...       ...</span></span>
+<span><span class="co">#&gt;   Gene196     chr2 268871-268970      + |       ID196 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;   Gene197     chr2 599914-600013      + |       ID197 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;   Gene198     chr2 477464-477563      + |       ID198 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;   Gene199     chr2 461424-461523      - |       ID199 repeat_element     FALSE</span></span>
+<span><span class="co">#&gt;   Gene200     chr2 619939-620038      + |       ID200 protein_coding      TRUE</span></span>
+<span><span class="co">#&gt;   -------</span></span>
+<span><span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="combining-subsetting-operations">Combining subsetting operations<a class="anchor" aria-label="anchor" href="#combining-subsetting-operations"></a>
+</h3>
+<p>Of course you don’t have to perform one subsetting operation at a
+time. Like base R you can combine multiple expressions to subset a
+<code>SummarizedExperiment</code> object.</p>
+<p>For example, to select only features labeled as repeat_elements and
+the Sample from ‘Batch’ A in the ‘Control’ group</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">selected</span> <span class="op">&lt;-</span> <span class="va">se</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">rowData</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span><span class="op">$</span><span class="va">gene_type</span> <span class="op">==</span> <span class="st">"repeat_element"</span>, </span>
+<span>               <span class="va">se</span><span class="op">$</span><span class="va">Treatment</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">&amp;</span></span>
+<span>               <span class="va">se</span><span class="op">$</span><span class="va">Batch</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; class: RangedSummarizedExperiment </span></span>
+<span><span class="co">#&gt; dim: 72 1 </span></span>
+<span><span class="co">#&gt; metadata(0):</span></span>
+<span><span class="co">#&gt; assays(3): counts cpm logcounts</span></span>
+<span><span class="co">#&gt; rownames(72): Gene5 Gene6 ... Gene198 Gene199</span></span>
+<span><span class="co">#&gt; rowData names(3): feature_id gene_type Keep</span></span>
+<span><span class="co">#&gt; colnames(1): Sample1</span></span>
+<span><span class="co">#&gt; colData names(4): SampleName Treatment Age Batch</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="summarizedexperiments-in-the-real-world">
+<code>SummarizedExperiments</code> in the real world<a class="anchor" aria-label="anchor" href="#summarizedexperiments-in-the-real-world"></a>
+</h2>
+<p>If you’re working with any <a href="https://bioconductor.org/" class="external-link">Bioconductor</a> packages it’s likely
+that the object you’re working with either is a
+<code>SummarizedExperiment</code> or is inherited from one. For example,
+the <code>DESeqDataSet</code> from the <a href="https://bioconductor.org/packages/release/bioc/html/DESeq2.html" class="external-link">DESeq2
+package</a> and <code>BSseq</code> objects from the <a href="https://bioconductor.org/packages/release/bioc/html/bsseq.html" class="external-link">bsseq
+package</a> both inherit from a <code>SummarizedExperiment</code> and
+thus retain all of the same functionality as above. If you go to the <a href="https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html" class="external-link">SummarizedExperiment</a>
+landing page and click “See More” under details you can see all of the
+packages that depend on <code>SummarizedExperiment</code>.</p>
+<p>Also, many common methods are also implemented for
+<code>SummarizedExperiment</code> objects. For example, to simplify
+calculating counts-per-million above I could have simply used the
+<code><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">edgeR::cpm()</a></code> directly on the
+<code>SummarizedExperiment</code> object. Many functions in bioconductor
+packages know how to deal directly with
+<code>SummarizedExperiments</code> so you don’t ever have to take the
+trouble extracting components and performing tedious calculations
+yourself.</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html" class="external-link">assay</a></span><span class="op">(</span><span class="va">se</span>, <span class="st">"cpm"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu">edgeR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/cpm.html" class="external-link">cpm</a></span><span class="op">(</span><span class="va">se</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="closing-thoughts">Closing thoughts<a class="anchor" aria-label="anchor" href="#closing-thoughts"></a>
+</h2>
+<p>Hopefully this was enough information to get you started using
+<code>SummarizedExperiments</code>. There’s many things I left out such
+as different <a href="https://bioconductor.org/packages/release/bioc/html/HDF5Array.html" class="external-link">backings</a>
+for storing out of memory data, tidyverse <a href="https://stemangiola.github.io/tidySummarizedExperiment/" class="external-link">interfaces</a>
+to <code>SummarizedExperiment</code> objects, and much more.</p>
+<p>Please let me know your thoughts and if anything needs more
+clarification.</p>
 </div>
   </div>
 
