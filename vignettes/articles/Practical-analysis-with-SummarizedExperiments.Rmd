@@ -26,9 +26,9 @@ be using a `SummarizedExperiment` to organize, manipulate, and store your
 results. 
 
 Please take a moment to read through the first 2 sections (at least) of the 
-[SummarizedExperiment vignette](https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html) in order to familiarize yourself with what 
-`SummarizedExperiments` are and their structure. I will demonstrate *how* you 
-can use `SummarizedExperiments` below.
+[SummarizedExperiment vignette](https://bioconductor.org/packages/release/bioc/vignettes/SummarizedExperiment/inst/doc/SummarizedExperiment.html) in order to familiarize
+yourself with what `SummarizedExperiments` are and their structure. I will
+demonstrate *how* you can use `SummarizedExperiments` below.
 
 ## Subsetting in R
 
@@ -94,7 +94,7 @@ operations.
 ```{r}
 my_favorite_letters <- c("A", "B", "C")
 
-# See that this produces a logical vector of (TRUE/FALSE) values 
+# See that this produces a logical vector of (TRUE/FALSE) values
 # TRUE when LETTERS is one of my_favorite_letters and FALSE otherwise
 LETTERS %in% my_favorite_letters
 
@@ -199,11 +199,13 @@ set.seed(123)
 
 # Create some random data that looks like methylation values
 (m <- matrix(
-  data = runif(6 * 10), 
-  ncol = 6, 
-  dimnames = list(paste0("CpG.", 1:10), 
-                  paste0("Sample", 1:6))
-  ))
+  data = runif(6 * 10),
+  ncol = 6,
+  dimnames = list(
+    paste0("CpG.", 1:10),
+    paste0("Sample", 1:6)
+  )
+))
 ```
 
 If we want to extract the value for CpG.3 for Sample3
@@ -256,14 +258,17 @@ Compare the above to the `tidy` solution given the same matrix.
 
 ```{r}
 tidyr::as_tibble(m, rownames = "CpG") |>
-  tidyr::pivot_longer(!CpG, names_to = "SampleName", values_to = "beta") |> 
-  dplyr::group_by(CpG) |> 
-  dplyr::mutate(n = sum(beta > 0.5)) |> 
+  tidyr::pivot_longer(!CpG, names_to = "SampleName", values_to = "beta") |>
+  dplyr::group_by(CpG) |>
+  dplyr::mutate(n = sum(beta > 0.5)) |>
   dplyr::filter(n > 3) |>
-  tidyr::pivot_wider(id_cols = CpG, names_from = "SampleName", values_from = "beta") |> 
-  tibble::column_to_rownames(var = "CpG") |> 
+  tidyr::pivot_wider(id_cols = CpG, names_from = "SampleName", values_from = "beta") |>
+  tibble::column_to_rownames(var = "CpG") |>
   data.matrix()
 ```
+
+*There's probably some kind of tidy solution using `across()` that I'm missing 
+but this is how most of the tidy code in the wild that I have seen looks*
 
 Hopefully these examples are enough to get you started understanding how 
 subsetting works in R and appreciate how useful it is. Now that you have some 
@@ -286,7 +291,7 @@ The `SummarizedExperiment` object coordinates four main parts:
   - E.g., description of each sample
 - `rowData()` and / or `rowRanges()`: Annotations on each row.
   - `rowRanges()`: coordinates of gene / exons in transcripts / etc.
-  - `rowData()`: P-values and log-fold change of each gene after differential expresssion analysis.
+  - `rowData()`: P-values and log-fold change of each gene after differential expression analysis.
 - `metadata()`: List of unstructured metadata describing the overall content of the object.
 
 In order to better understand how they work, let's construct a 
@@ -324,12 +329,12 @@ suppressPackageStartupMessages(library(SummarizedExperiment))
 
 
 counts <- matrix(
-  data = rnbinom(n = 200 * 6, mu = 100, size = 1 / 0.5), 
-  nrow = 200, 
+  data = rnbinom(n = 200 * 6, mu = 100, size = 1 / 0.5),
+  nrow = 200,
   dimnames = list(paste0("Gene", 1:200), paste0("Sample", 1:6))
-  )
+)
 
-# Take a peak at what this looks like
+# Take a peek at what this looks like
 counts[1:5, 1:5]
 ```
 
@@ -341,13 +346,13 @@ have rownames that match the colnames of the count matrix.
 
 ```{r}
 coldata <- data.frame(
-  SampleName = colnames(counts), 
+  SampleName = colnames(counts),
   Treatment = gl(2, 3, labels = c("Control", "Treatment")),
   Age = sample.int(100, 6),
   row.names = colnames(counts)
-  )
+)
 
-# Take a peak at what this looks like
+# Take a peek at what this looks like
 coldata
 ```
 
@@ -367,10 +372,10 @@ rowranges <- GRanges(
   strand = sample(c("+", "-"), 200, TRUE),
   feature_id = sprintf("ID%03d", 1:200),
   gene_type = sample(c("protein_coding", "lncRNA", "repeat_element"), 200, replace = TRUE)
-  )
+)
 names(rowranges) <- rownames(counts)
 
-# Take a peak at what this looks like
+# Take a peek at what this looks like
 rowranges
 ```
 
@@ -478,7 +483,7 @@ se$Age
 If we want to add a new column we simply create the new column in the same way
 
 ```{r}
-se$Batch <- factor(rep(c('A', 'B', 'C'), 2))
+se$Batch <- factor(rep(c("A", "B", "C"), 2))
 
 # Now you can se that a new 'Batch` column has been added to the colData
 colData(se)
@@ -579,8 +584,8 @@ only. Then we can use the `GenomicRanges` function `subsetByOverlaps` directly
 on our `SummarizedExperiment` object like so:
 
 ```{r}
-# Region of interest 
-roi <- GRanges(seqnames = "chr2", ranges=1:1e7)
+# Region of interest
+roi <- GRanges(seqnames = "chr2", ranges = 1:1e7)
 
 # Subset the SE object for only features on chr2
 (chr2 <- subsetByOverlaps(se, roi))
@@ -602,6 +607,13 @@ assay(chr2, "counts") |> head()
 rowRanges(chr2)
 ```
 
+There's also a few shortcuts on range operations using GRanges/SummarizedExperiments.
+See the help pages for `%over`, `%within%`, and `%outside%`. For example:
+
+```{r}
+all.equal(se[se %over% roi, ], subsetByOverlaps(se, roi))
+```
+
 ### Combining subsetting operations
 
 Of course you don't have to perform one subsetting operation at a time. Like
@@ -612,9 +624,11 @@ For example, to select only features labeled as repeat_elements and the Sample
 from 'Batch' A in the 'Control' group
 
 ```{r}
-(selected <- se[rowData(se)$gene_type == "repeat_element", 
-               se$Treatment == "Control" &
-               se$Batch == "A"])
+(selected <- se[
+  rowData(se)$gene_type == "repeat_element",
+  se$Treatment == "Control" &
+    se$Batch == "A"
+])
 ```
 
 ## Saving a `SummarizedExperiment`
@@ -659,7 +673,7 @@ I also left out any discussion of the `metadata()` slot of the
 `SummarizedExperiment`. The metadata slot is simply a list of any R object 
 that contains information about the experiment. The `metadata` in the metadata
 slots are not subjected to the same subsetting rules as the other slots. In 
-practice this assay contains addtional information about the experiment as a 
+practice this assay contains additional information about the experiment as a 
 whole. For example, I typically store bootstrap alignments for each sample here.
 
 To add something to the `SummarizedExperiment` metadata slot you can do:
@@ -679,7 +693,7 @@ metadata(se)$additional_info
 Hopefully this was enough information to get you started using 
 `SummarizedExperiments`. There's many things I left out such as different 
 [backings](https://bioconductor.org/packages/release/bioc/html/HDF5Array.html) 
-for storing out of memory data, a tidyverse [interfaces](https://stemangiola.github.io/tidySummarizedExperiment/) to `SummarizedExperiment` objects, and much more.
+for storing out of memory data, a tidyverse [interface](https://stemangiola.github.io/tidySummarizedExperiment/) to `SummarizedExperiment` objects, [TreeSummarizedExperiments](https://bioconductor.org/packages/release/bioc/vignettes/mia/inst/doc/mia.html) for microbiome data, [MultiAssayExperiments](https://bioconductor.org/packages/release/bioc/vignettes/MultiAssayExperiment/inst/doc/MultiAssayExperiment.html) for dealing with experiments 
+containing multiomics data, and much more.
 
 Please let me know your thoughts and if anything needs more clarification.
-
