@@ -14,7 +14,7 @@ jackknifeSE(x, FUN, ...)
 \item{...}{Additional arguments passed to FUN}
 }
 \value{
-List of results calculated by FUN on each resample of the SE object
+data.table of jackknife resampled results
 }
 \description{
 This function provides a simple wrapper to perform jackknife resampling on
