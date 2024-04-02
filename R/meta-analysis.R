@@ -1,4 +1,3 @@
-
 #' Helper function for converting columns to assay data
 #' @noRd
 #' @keywords internal
@@ -106,14 +105,14 @@ dfs2se <- function(x, feature_col = "feature_id",
 #' least two assays, one for the P-values to combine and the other for the
 #' effect sizes to compute (e.g. logFC).
 #' @param FUN One of the 'parallel' functions provided by \code{metapod}. One
-#' of c(parallelBerger, parallelFisher, parallelHolmMin,parallelPearson,
-#' parallelSimes, parallelStouffer, parallelWilkinson).
-#' @param fdr assay name in SE object containing the P-values to combine
+#' of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
+#' "parallelSimes", "parallelStouffer", or "parallelWilkinson".
+#' @param fdr assay name in SE object containing the P-values to combine.
 #' @param lfc assay name in the SE object containing the logFC values to combine.
 #' @param ... Additional arguments passed to FUN. See the \code{metapod} package
 #' for details.
 #' @return data.table with summary stats of the p-value combination of all
-#' experiments. Please see the ducumentation in the \code{metapod} package for
+#' experiments. Please see the documentation in the \code{metapod} package for
 #' more details. The returned columns, "Rep.LogFC" and "Rep.Pval" contain the
 #' results of extracting the representative effect and P=value from all
 #' influential tests. These are individual tests in the data that are particularly
@@ -174,7 +173,7 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
   # Calculate summary statistics of the logFC
   lfc_m <- SummarizedExperiment::assay(x, lfc)
   median_lfc <- matrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
-  avg_lfc <- rowMeans(lfc_m, na.rm = TRUE)
+  avg_lfc <- matrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
   min_lfc <- matrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
   max_lfc <- matrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
 
@@ -184,7 +183,7 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
     Combined.Pval = comb$p.value,
     Direction = direction,
     Rep.logFC = .getRepresentative(comb$representative, lfc_m),
-    Rep.Pval = .getRepresentative(comb$representative, lfc_m),
+    Rep.Pval = .getRepresentative(comb$representative,  SummarizedExperiment::assay(x, fdr)),
     Median.logFC = median_lfc,
     Mean.logFC = avg_lfc,
     Min.logFC = min_lfc,
@@ -202,7 +201,7 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
 #' @param x SummarizedExperiment object to perform jackknife resampling of columns on
 #' @param FUN function to perform on each resample.
 #' @param ... Additional arguments passed to FUN
-#' @return List of results calculated by FUN on each resample of the SE object
+#' @return data.table of jackknife resampled results
 #' @export
 #' @examples
 #' # Define two differential expression dataset data.frames
@@ -234,5 +233,9 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
 jackknifeSE <- function(x, FUN, ...) {
   stopifnot("SummarizedExperiment object expected" = is(x, "SummarizedExperiment"))
   idx <- 1:ncol(x)
-  lapply(idx, function(i) do.call(FUN, list(x = x[, setdiff(idx, i)]), ...))
+  results <- lapply(idx, function(i) do.call(FUN, list(x = x[, setdiff(idx, i)]), ...))
+  result <- data.table::rbindlist(results, idcol = "Jackknife")
+  data.table::setorder(result, "Feature")
+  
+  return(result)
 }
