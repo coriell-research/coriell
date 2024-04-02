@@ -13,10 +13,10 @@ least two assays, one for the P-values to combine and the other for the
 effect sizes to compute (e.g. logFC).}
 
 \item{FUN}{One of the 'parallel' functions provided by \code{metapod}. One
-of c(parallelBerger, parallelFisher, parallelHolmMin,parallelPearson,
-parallelSimes, parallelStouffer, parallelWilkinson).}
+of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
+"parallelSimes", "parallelStouffer", or "parallelWilkinson".}
 
-\item{fdr}{assay name in SE object containing the P-values to combine}
+\item{fdr}{assay name in SE object containing the P-values to combine.}
 
 \item{lfc}{assay name in the SE object containing the logFC values to combine.}
 
@@ -25,7 +25,7 @@ for details.}
 }
 \value{
 data.table with summary stats of the p-value combination of all
-experiments. Please see the ducumentation in the \code{metapod} package for
+experiments. Please see the documentation in the \code{metapod} package for
 more details. The returned columns, "Rep.LogFC" and "Rep.Pval" contain the
 results of extracting the representative effect and P=value from all
 influential tests. These are individual tests in the data that are particularly
