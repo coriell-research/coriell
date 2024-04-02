@@ -4,19 +4,23 @@
 \alias{horvath_age}
 \title{Transform ages using Horvath's method}
 \usage{
-horvath_age(x, adult_age = 20)
+horvath_age(x, adult_age = 20, inverse = FALSE)
 }
 \arguments{
 \item{x}{numeric vector of ages}
 
 \item{adult_age}{Age of the adult of the species. From the original manuscript, 
 20 for humans and 15 for chimpanzees.}
+
+\item{inverse}{If TRUE, return transformed ages to the original scale}
 }
 \value{
 transformed ages
 }
 \description{
-Transform age in years using the log transformation defined in Horvath (2013)
+Transform age in years using the log transformation defined in Horvath (2013). 
+This function can also be used to convert transformed ages back to the 
+original scale.
 }
 \details{
 \href{https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115}{Horvath, S. DNA methylation age of human tissues and cell types. 
@@ -24,5 +28,10 @@ Genome Biol 14, 3156 (2013). https://doi.org/10.1186/gb-2013-14-10-r115}
 }
 \examples{
 
-plot(\(x) coriell::horvath_age(x), from=0, to=100, xlab="Age", ylab="Transformed Age")
+age <- 0:100
+transformed <- horvath_age(age)
+plot(age, transformed, xlab="Age", ylab="Transformed Age", type="l")
+
+# Conversion back to original scale
+all.equal(age, horvath_age(transformed, inverse = TRUE))
 }
