@@ -64,6 +64,7 @@ se <- dfs2se(l)
 
 # Perform p-value combination across experiments for each gene
 #  using Wilkinson's method and passing additional values
-meta_de(se, metapod::parallelWilkinson, min.prop = 0.1)
+result <- meta_de(se, metapod::parallelWilkinson, min.prop = 0.1)
+head(result)
 
 }

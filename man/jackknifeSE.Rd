@@ -9,21 +9,23 @@ jackknifeSE(x, FUN, ...)
 \arguments{
 \item{x}{SummarizedExperiment object to perform jackknife resampling of columns on}
 
-\item{FUN}{function to perform on each resample.}
+\item{FUN}{Function to perform on each resample.}
 
 \item{...}{Additional arguments passed to FUN}
 }
 \value{
-data.table of jackknife resampled results
+List of jackknife resampled results
 }
 \description{
 This function provides a simple wrapper to perform jackknife resampling on
-all columns of a SummarizedExperiment object and a return the calculated
-results. This function is designed to be used to assess the robustness of 
-p-value combination techniques of the included \code{meta_de()} function.
+all columns of a SummarizedExperiment object and returns the results of each 
+resample in a list. This function is designed to be used to assess the 
+robustness of p-value combination techniques of the included \code{meta_de()} 
+function but in theory any arbitrary function which operates on the columns 
+of a SummarizedExperiment object could be used.
 }
 \examples{
-# Define two differential expression dataset data.frames
+# Define three differential expression dataset data.frames
 exp1 <- data.frame(
   feature_id = c("geneA", "geneB", "geneC"),
   PValue = c(0.01, 0.5, 0.05),
@@ -40,13 +42,24 @@ exp2 <- data.frame(
   logCPM = c(14, 10, 2)
 )
 
+exp3 <- data.frame(
+  feature_id = c("geneA", "geneB", "geneC", "geneD"),
+  PValue = c(0.03, 0.3, 0.01, 0.8),
+  FDR = c(0.08, 0.4, 0.04, 0.9),
+  logFC = c(1.5, -2.0, 3.0, 4.1),
+  logCPM = c(14, 10, 1, 2.1)
+)
+
 # Combine into a single list
-l <- list(experiment1 = exp1, experiment2 = exp2)
+l <- list(experiment1 = exp1, experiment2 = exp2, experiment3 = exp3)
 
 # Convert the data to a SummarizedExperiment
 se <- dfs2se(l)
 
 # Perform the jackknife using meta_de on each subset of the data
-results <- jackknifeSE(se, \(x) meta_de(x, metapod::parallelWilkinson, min.prop = 0.5))
+result <- jackknifeSE(se, \(x) meta_de(x, metapod::parallelWilkinson, min.prop = 0.5))
 
+# Combine the results from calling meta_de on each resample and show
+result <- data.table::rbindlist(result, idcol = "Jackknife")
+head(result[order(Feature)])
 }
