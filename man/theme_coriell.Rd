@@ -27,7 +27,8 @@ ggplot(df, aes(X, Y, color = C)) +
     subtitle = "subtitle for default plot",
     x = "X Label",
     y = "Y Label"
-  )
+  ) + 
+  facet_wrap(~C)
 
 # With theme_coriell()
 ggplot(df, aes(X, Y, color = C)) +

@@ -20,7 +20,8 @@
 #'     subtitle = "subtitle for default plot",
 #'     x = "X Label",
 #'     y = "Y Label"
-#'   )
+#'   ) + 
+#'   facet_wrap(~C)
 #'
 #' # With theme_coriell()
 #' ggplot(df, aes(X, Y, color = C)) +
@@ -38,7 +39,7 @@ theme_coriell <- function() {
   ggplot2::theme_light() +
     ggplot2::theme(
 
-      text = ggplot2::element_text(family = "AvantGarde"),
+      text = ggplot2::element_text(family = "Helvetica"),
       
       legend.position = "bottom",
       legend.title = ggplot2::element_text(size = 16, face = "bold"),
