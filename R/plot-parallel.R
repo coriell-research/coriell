@@ -66,9 +66,14 @@ plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
   if (is.null(colBy)) {
     colBy <- ".sample"
   }
+  
+  # Force x axis to be in Group order
+  fct_levels <- dt.m[order(get(colBy))][, unique(.sample)]
+  dt.m[, .sample := factor(.sample, levels = fct_levels)]
 
-  ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".sample"]], y = .data[[".value"]], 
-                                     group = .data[[".feature"]])) +
+  ggplot2::ggplot(dt.m, ggplot2::aes(
+    x = .data[[".sample"]], y = .data[[".value"]], 
+    group = .data[[".feature"]])) +
     ggplot2::geom_line(ggplot2::aes(color = .data[[colBy]]), ...) +
     ggplot2::labs(
       x = NULL,
