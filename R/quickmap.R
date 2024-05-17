@@ -4,9 +4,11 @@
   rng <- range(m)
   
   if (-thresh < rng[1] || thresh > rng[2]) {
+    thresh <- floor(max(abs(rng)))
     msg <- paste0("thresh must be within the range of the matrix. low=", 
-                  round(rng[1], 2), " high=", round(rng[2], 2))
-    stop(msg)
+                  round(rng[1], 2), " high=", round(rng[2], 2), 
+                  ". Setting threshold to +/- ", thresh)
+    warning(msg)
   }
   
   bk <- seq(rng[1], rng[2], length.out = n_breaks)
