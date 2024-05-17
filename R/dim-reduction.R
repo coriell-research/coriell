@@ -209,10 +209,6 @@ UMAP.pca <- function(x, n_neighbors = 15, n_components = 2, metric = "euclidean"
                      a = NA, b = NA, spread = 1, random_state = NA,
                      transform_state = NA, knn = NA, knn_repeats = 1,
                      verbose = FALSE, umap_learn_args = NA) {
-  # Experiment with the code below to more elegantly replace values
-  # params <- umap::umap.defaults
-  # user_args <- c(as.list(environment()))
-  # new_args <- modifyList(params, user_args)
 
   params <- umap::umap.defaults
   params$n_neighbors <- n_neighbors
@@ -294,7 +290,7 @@ UMAP.prcomp <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) return(data)
-  result <- cbind(data, metadata)
+  result <- data.frame(cbind(data, metadata))
   
   return(result)
 }
@@ -346,7 +342,7 @@ UMAP.matrix <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) return(data)
-  result <- cbind(data, metadata)
+  result <- data.frame(cbind(data, metadata))
   
   return(result)
 }
@@ -398,7 +394,7 @@ UMAP.data.frame <- function(x, metadata = NULL, n_neighbors = 15, n_components =
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) return(data)
-  result <- cbind(data, metadata)
+  result <- data.frame(cbind(data, metadata))
   
   return(result)
 }
@@ -451,7 +447,7 @@ UMAP.dist <- function(x, metadata = NULL, n_neighbors = 15, n_components = 2,
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) return(data)
-  result <- cbind(data, metadata)
+  result <- data.frame(cbind(data, metadata))
   
   return(result)
 }
