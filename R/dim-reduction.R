@@ -238,7 +238,7 @@ UMAP.pca <- function(x, n_neighbors = 15, n_components = 2, metric = "euclidean"
   u <- umap::umap(d = x$rotated, params)
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
-  result <- cbind(data, x$metadata)
+  result <- data.frame(cbind(data, x$metadata))
 
   return(result)
 }
