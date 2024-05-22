@@ -29,7 +29,8 @@ be fixed? Since scaling is implied by the use of this argument, the default
 value is set to 1.96 (positive and negative).}
 
 \item{removeVar}{If not NULL, remove this proportion of features based on
-the variance across rows. Default NULL.}
+the variance across rows. Default NULL. Note, if removeVar is used the
+lowest variance features are removed prior to scaling the input data}
 
 \item{...}{args to be passed to \code{pheatmap()} function}
 }

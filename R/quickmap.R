@@ -86,7 +86,8 @@
 #' be fixed? Since scaling is implied by the use of this argument, the default
 #' value is set to 1.96 (positive and negative).
 #' @param removeVar If not NULL, remove this proportion of features based on 
-#' the variance across rows. Default NULL.
+#' the variance across rows. Default NULL. Note, if removeVar is used the 
+#' lowest variance features are removed prior to scaling the input data
 #' @param ... args to be passed to \code{pheatmap()} function
 #' @return pheatmap object. See \code{?pheatmap::pheatmap()} for details
 #' @export
@@ -165,6 +166,6 @@ quickmap <- function(mat, diverging_palette = TRUE, fix_extreme = FALSE,
     hc_col <- .clusterMatrix(t(mat), distance = dcol, method = meth)
     default_args[["cluster_cols"]] <- hc_col
   }
-
+  
   do.call(pheatmap::pheatmap, modifyList(default_args, list(mat = mat)))
 }
