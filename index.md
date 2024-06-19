@@ -29,10 +29,6 @@ devtools::install_github("coriell-research/coriell")
 - [Parallel coordinates plot of expression matrix](https://coriell-research.github.io/coriell/#parallel-coordinates-plot-of-expression-matrix)
 - [Boxplot of expression matrix](https://coriell-research.github.io/coriell/#boxplot-of-expression-matrix)
 - [Density plot of expression matrix](https://coriell-research.github.io/coriell/#density-plot-of-expression-matrix)
-- [Correlate methylation data with age](https://coriell-research.github.io/coriell/#perform-correlation-permutation-test-using-multiple-cores)
-
-For an overview of how to use some of these functions in a typical 
-analysis check out the [RNA-seq vignette](https://coriell-research.github.io/coriell/articles/RNA-seq-workflow.html) (more vignettes to come)
 
 The package also contains many other convenience functions so be sure to check 
 out the [reference](https://coriell-research.github.io/coriell/reference/index.html) page as well.
@@ -359,64 +355,3 @@ plot_density(logcounts, col_df, colBy = "Treatment", size = 2) +
   theme_coriell()
 ```
 ![](man/figures/density2.png)
-
-### Perform correlation permutation test using multiple cores
-
-Note: if the number of possible permutations of your data is less than the 
-desired number of permutations given by the parameter `n_perm` then an exact 
-test on all of the real permutations will be performed instead of random 
-sampling. For example, if you only have 6 samples (720 possible permutations)
-but set `n_perm = 1000` only 720 permutations (i.e. the exact test) will be 
-tested. The `permutation_correlation_test` function will display a message if 
-this occurs. The function accepts a numeric matrix as input or a data.frame that
-can be converted to a numeric matrix. In the case a data.frame is passed to
-argument `X`, the function call will display a message confirming the conversion.
-In most cases this conversion is inconsequential.
-
-```R
-library(coriell)
-library(methylKit)
-
-# define age dataframe -- ages matching column order
-ages = data.frame(age = c(30, 80, 34, 30, 80, 40, 35, 80))
-
-# simulate a methylation dataset
-sim_meth <- dataSim(
-  replicates = 8,
-  sites = 1000,
-  treatment = c(rep(1, 4), rep(0, 4)),
-  covariates = ages,
-  sample.ids = c(paste0("test", 1:4), paste0("ctrl", 1:4))
-)
-
-# extract the methylation as percentages and coerce to data.frame
-perc_meth <- as.data.frame(percMethylation(sim_meth))
-
-head(perc_meth)
->       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4
-> 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231
-> 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000
-> 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329
-> 4 100.00000 100.00000 100.00000 100.00000 86.15385 72.340426 86.666667 100.000000
-> 5   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000  10.526316
-> 6  26.98413  12.63158  23.07692  10.00000 22.22222  0.000000  3.174603   4.166667
-
-# permutation testing -----------------------------------------------------------
-# perform permutation testing using 4 cores and 10000 permutations
-res <- permutation_correlation_test(
-  X = perc_meth, 
-  y = ages$age, 
-  n_cores = 4, 
-  n_perm = 10000,
-  method = "spearman" 
-  )
-
-head(res)
->       test1     test2     test3     test4    ctrl1     ctrl2     ctrl3      ctrl4        cor empirical.p       fdr
-> 1  48.14815  54.05405  45.45455  57.89474 32.46753 24.418605  4.687500  30.769231 -0.3437200      0.1925 0.4812073
-> 2   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000   0.000000         NA          NA        NA
-> 3  38.20598  16.34615  12.50000  60.00000 25.42373  3.636364 18.421053  32.335329 -0.3559957      0.1903 0.4812073
-> 4 100.00000 100.00000 100.00000 100.00000 86.15385 72.340426 86.666667 100.000000 -0.3093992      0.2195 0.4812073
-> 5   0.00000   0.00000   0.00000   0.00000  0.00000  0.000000  0.000000  10.526316  0.4252433      0.3769 0.4812073
-> 6  26.98413  12.63158  23.07692  10.00000 22.22222  0.000000  3.174603   4.166667 -0.2946172      0.2334 0.4812073
-```
