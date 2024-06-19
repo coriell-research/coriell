@@ -1,11 +1,15 @@
+## coriell 0.15.0
+
+- Added an argument for `panther_go()` to include the reference gene list when performing over representation testing. There may still be 
+bugs here.
+- Updated site. Removed some vignettes with older workflows. TODO: add
+new vignettes with current best practices for RNAseq.
+
 ## coriell 0.14.0
 
-- Updated `meta_de()` function to operate strictly on SummarizedExperiment 
-objects. This function is significantly faster than the previous version.
-- Added a helper function, `dfs2se()` to convert a list of data.frames to a 
-SummarizedExperiment object for use by `meta_de()`
-- Added a helper function to perform jackknife resampling on the columns of a 
-SummarizedExperiment, `jackknifeSE()`.
+- Updated `meta_de()` function to operate strictly on SummarizedExperiment objects. This function is significantly faster than the previous version.
+- Added a helper function, `dfs2se()` to convert a list of data.frames to a SummarizedExperiment object for use by `meta_de()`
+- Added a helper function to perform jackknife resampling on the columns of a SummarizedExperiment, `jackknifeSE()`.
 
 ## coriell 0.13.0
 
