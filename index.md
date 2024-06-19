@@ -9,14 +9,12 @@ things are broken** by either raising an issue on Github or contacting me.
 
 ## Installation
 
-Since this package will be constantly changing be sure to install the latest 
-version from Github using:
+The latest version can be installed from Github using:
 
 ```R
-# Make sure you have devtools installed
-install.packages("devtools")
-
-# Then install using devtools::install_github
+if (!require("devtools")) {
+  install.packages("devtools")
+}
 devtools::install_github("coriell-research/coriell")
 ```
 
