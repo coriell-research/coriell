@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="articles/Practical-analysis-with-SummarizedExperiments.html">Practical analysis with SummarizedExperiments</a>
+    <a class="dropdown-item" href="articles/rnaseq-workflow.html">RNAseq Workflow</a>
   </div>
 </li>
 <li class="nav-item">
@@ -70,7 +71,6 @@
 <div class="page-header"><h1 id="coriell">coriell<a class="anchor" aria-label="anchor" href="#coriell"></a>
 </h1></div>
 <p>This package contains helper functions for common bioinformatics tasks (and some not-so-common tasks). If you find yourself reusing old code over and over, let me know and we’ll create a function and put it in this package.</p>
-<p>I will be adding tests, however, <strong>please test functions and let me know when things are broken</strong> by either raising an issue on Github or contacting me.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -93,7 +93,7 @@
 <li><a href="https://coriell-research.github.io/coriell/#boxplot-of-expression-matrix" class="external-link">Boxplot of expression matrix</a></li>
 <li><a href="https://coriell-research.github.io/coriell/#density-plot-of-expression-matrix" class="external-link">Density plot of expression matrix</a></li>
 </ul>
-<p>The package also contains many other convenience functions so be sure to check out the <a href="https://coriell-research.github.io/coriell/reference/index.html" class="external-link">reference</a> page as well.</p>
+<p>The package also contains many other convenience functions so be sure to check out the <a href="https://coriell-research.github.io/coriell/reference/index.html" class="external-link">reference</a> page and articles as well.</p>
 <div class="section level3">
 <h3 id="built-in-datasets">Built-in datasets<a class="anchor" aria-label="anchor" href="#built-in-datasets"></a>
 </h3>
@@ -156,7 +156,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/volcano3.png"></p>
-<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. If <code>label_sig = TRUE</code> then the <code>lab</code> argument must also designate a column containing the names of the items to plot. Additional arguments can be passed to <code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code> via <code>...</code> if you need to modify the behavior of the labels.</p>
+<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. If <code>label_sig = TRUE</code> then the <code>lab</code> argument must also designate a column containing the names of the items to plot. Additional arguments can be passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code> via <code>...</code> if you need to modify the behavior of the labels.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, label_sig <span class="op">=</span> <span class="cn">TRUE</span>, lab <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -201,7 +201,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/md3.png"></p>
-<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. If <code>label_sig = TRUE</code> then the <code>lab</code> argument must also designate a column containing the names of the items to plot. Additional arguments can be passed to <code><a href="https://rdrr.io/pkg/ggrepel/man/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code> via <code>...</code> if you need to modify the behavior of the labels.</p>
+<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. If <code>label_sig = TRUE</code> then the <code>lab</code> argument must also designate a column containing the names of the items to plot. Additional arguments can be passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code> via <code>...</code> if you need to modify the behavior of the labels.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, label_sig <span class="op">=</span> <span class="cn">TRUE</span>, lab <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -241,7 +241,7 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create annotation for columns</span></span>
 <span><span class="va">col_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DMSO"</span>, <span class="st">"THZ1"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create color scheme for treatment conditions</span></span>
 <span><span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DMSO"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"THZ1"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span></span>

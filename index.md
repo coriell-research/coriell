@@ -4,9 +4,6 @@ This package contains helper functions for common bioinformatics tasks (and some
 not-so-common tasks). If you find yourself reusing old code over and over, let 
 me know and we'll create a function and put it in this package. 
 
-I will be adding tests, however, **please test functions and let me know when 
-things are broken** by either raising an issue on Github or contacting me.
-
 ## Installation
 
 The latest version can be installed from Github using:
@@ -29,7 +26,8 @@ devtools::install_github("coriell-research/coriell")
 - [Density plot of expression matrix](https://coriell-research.github.io/coriell/#density-plot-of-expression-matrix)
 
 The package also contains many other convenience functions so be sure to check 
-out the [reference](https://coriell-research.github.io/coriell/reference/index.html) page as well.
+out the [reference](https://coriell-research.github.io/coriell/reference/index.html) 
+page and articles as well.
 
 ### Built-in datasets
 
