@@ -1,6 +1,8 @@
 ---
 title: "Practical analysis with SummarizedExperiments"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Practical analysis with SummarizedExperiments}
   %\VignetteEngine{knitr::rmarkdown}
