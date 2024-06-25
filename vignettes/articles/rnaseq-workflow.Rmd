@@ -1,0 +1,801 @@
+---
+title: "RNAseq Workflow"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{RNAseq Workflow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette outlines some common steps for RNA-seq analysis highlighting 
+functions present in the `coriell` package. In order to illustrate some of the 
+analysis steps I will borrow examples and data from the [rnaseqGene](https://bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html) and [RNAseq123](https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html) Bioconductor workflows. Please check out the above workflows for more details regarding 
+RNA-seq analysis. 
+
+This vignette contains my opinionated notes on performing RNA-seq analyses. 
+I try to closely follow best practices from package authors but if any 
+information is out of date or incorrect, please let me know. 
+
+## Overview
+
+Differential gene expression analysis using RNA-seq typically consists of 
+several steps: 
+
+1. Quality control of the fastq files with a tool like 
+[FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) or 
+[fastp](https://github.com/OpenGene/fastp)
+2. Alignment of fastq files to a reference genome using a splice-aware aligner 
+like [STAR](https://github.com/alexdobin/STAR) *or* transcript quantification 
+using a pseudoaligner like [Salmon](https://combine-lab.github.io/salmon/).
+3. If using a genome aligner, read counting with [Rsubread::featureCounts](https://bioconductor.org/packages/release/bioc/html/Rsubread.html) 
+or [HTSeq count](https://htseq.readthedocs.io/en/release_0.11.1/count.html) to 
+generate gene counts. If using a transcript aligner, importing gene-level counts
+using the appropriate offsets with 
+[tximport](https://bioconductor.org/packages/release/bioc/html/tximport.html) or
+[tximeta](https://bioconductor.org/packages/release/bioc/html/tximeta.html)
+4. Quality control plots of the count level data including PCA, heatmaps, 
+relative-log expression boxplots, density plots of count distributions, and 
+parallel coordinate plots of libraries. Additionally, check the assumptions of 
+global scaling normalization.
+5. Differential expression testing on the raw counts using [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), [baySeq](https://bioconductor.org/packages/release/bioc/html/baySeq.html), or [limma::voom](https://bioconductor.org/packages/release/bioc/html/limma.html)
+6. Creation of results plots such as volcano or MA plots.
+7. Gene ontology analysis of interesting genes.
+8. Gene set enrichment analysis.
+
+## Quality Control
+
+[fastp](https://github.com/OpenGene/fastp) has quickly become my favorite tool 
+for QC'ing fastq files primarily because it is fast and produces nice looking 
+output files that are also amenable to summarization with [MultiQC](https://multiqc.info/). 
+fastp will also perform adapter trimming by default on fastq files. I tend to 
+fall in the camp that believes read quality trimming is 
+[not necessary](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7671312/) for 
+RNA-seq alignment. However, I have never experienced *worse* results after using
+the defaults with fastp so I leave it be and just inspect the output carefully.
+
+A simple bash script for running fastp over a set of fastq files might look 
+something like this:
+
+```{bash eval=FALSE}
+#!/usr/bin/env bash
+#
+# Run fastp on the raw fastq files
+#
+# ----------------------------------------------------------------------------
+set -Eeou pipefail
+
+FQ=/path/to/00_fastq       # Directory containing raw fastq files
+SAMPLES=sample-names.txt   # A text file listing basenames of fastq files
+OUT=/path/to/put/01_fastp  # Where to save the fastp results
+THREADS=8
+
+mkdir -p $OUT
+
+for SAMPLE in $(cat $SAMPLES)
+do
+    fastp -i $FQ/${SAMPLE}_R1.fq.gz \
+          -I $FQ/${SAMPLE}_R2.fq.gz \
+          -o $OUT/${SAMPLE}.trimmed.1.fq.gz \
+          -O $OUT/${SAMPLE}.trimmed.2.fq.gz \
+          -h $OUT/${SAMPLE}.fastp.html \
+          -j $OUT/${SAMPLE}.fastp.json \
+          -w $THREADS
+done
+```
+
+Where `sample-names.txt` is a simple text file with each basename like so:
+
+```
+Control1
+Control2
+Control3
+Treatment1
+Treatment2
+Treatment3
+```
+
+It is important to name the results files with `*.fastp.{json|html}` so that 
+`multiqc` can recognize the extensions and combine the results automatically.
+
+## Alignment and Quantification
+
+### Salmon
+
+I tend to perform quantification with Salmon in order to obtain transcript-level
+counts for each sample. A simple bash script for performing quantification with
+Salmon looks like:
+
+```{bash eval=FALSE}
+#!/usr/bin/env bash
+#
+# Perform transcript quantification with Salmon
+#
+# ----------------------------------------------------------------------------
+set -Eeou pipefail
+
+SAMPLES=sample-names.txt  # Same sample-names.txt file as above  
+IDX=/path/to/salmon-idx   # Index used by Salmon
+FQ=/path/to/01_fastp      # Directory containing the fastp output
+OUT=/path/to/02_quants    # Where to save the Salmon results
+THREADS=12
+
+mkdir -p $OUT
+
+for SAMPLE in $(cat $SAMPLES)
+do
+    salmon quant \
+           -i $IDX \
+           -l A \
+           -1 $FQ/${SAMPLE}.trimmed.1.fq.gz \
+           -2 $FQ/${SAMPLE}.trimmed.2.fq.gz \
+           --validateMappings \
+           --gcBias \
+           --seqBias \
+           --threads $THREADS \
+           -o $OUT/${SAMPLE}_quants
+done
+```
+
+I tend to always use the `--gcBias` and `--seqBias` flags as they don't impair
+accuracy in the absence of biases (quantification just takes a little longer).
+
+### STAR
+
+Sometimes I also need to produce genomic coordinates for alignments. For this 
+purpose I tend to use STAR to generate BAM files as well as produce gene-level 
+counts with it's inbuilt HTSeq-count functionality. A simple bash script for 
+running STAR might look like:
+
+```{bash eval=FALSE}
+#!/usr/bin/env bash
+#
+# Align reads with STAR
+#
+# ----------------------------------------------------------------------------
+set -Eeou pipefail
+
+SAMPLES=sample-names.txt   # Same sample-names.txt file as above
+FQ=/path/to/01_fastp       # Directory containing the fastp output
+OUT=/path/to/03_STAR_outs  # Where to save the STAR results
+IDX=/path/to/STAR-idx      # Index used by STAR for alignment
+THREADS=24
+
+mkdir -p $OUT
+
+for SAMPLE in $(cat $SAMPLES)
+do
+  STAR --runThreadN $THREADS \
+       --genomeDir $IDX \
+       --readFilesIn ${FQ}/${SAMPLE}.trimmed.1.fq.gz ${FQ}/${SAMPLE}.trimmed.2.fq.gz \
+       --readFilesCommand zcat \
+       --outFilterType BySJout \
+       --outFileNamePrefix ${OUT}/${SAMPLE}_ \
+       --alignSJoverhangMin 8 \
+       --alignSJDBoverhangMin 1 \
+       --outFilterMismatchNmax 999 \
+       --outFilterMismatchNoverReadLmax 0.04 \
+       --alignIntronMin 20 \
+       --alignIntronMax 1000000 \
+       --alignMatesGapMax 1000000 \
+       --outMultimapperOrder Random \
+       --outSAMtype BAM SortedByCoordinate \
+       --quantMode GeneCounts;
+done
+```
+
+For STAR I tend to use the ENCODE default parameters above for human samples and 
+also output gene level counts using the `--quantMode GeneCounts` flag.
+
+## Generating a matrix of gene counts
+
+The recommended methods for performing differential expression analysis 
+implemented in [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), [baySeq](https://bioconductor.org/packages/release/bioc/html/baySeq.html), and [limma::voom](https://bioconductor.org/packages/release/bioc/html/limma.html) all require raw 
+count matrices as input data.
+
+### Importing transcript level counts from `Salmon`
+
+We use `R` to import the quant files into the active session. `tximeta` will 
+download the appropriate metadata for the reference genome used and import the 
+results as a `SummarizedExperiment` object. Check out the [tutorial](https://coriell-research.github.io/coriell/articles/Practical-analysis-with-SummarizedExperiments.html) for working with `SummarizedExperiment` objects if you are unfamiliar 
+with their structure.
+
+The code below will create a data.frame mapping sample names to file paths 
+containing quantification results. This data.frame is then used by `tximeta` to
+import `Salmon` quantification results at the transcript level (along with 
+transcript annotations). Then, we use `summarizeToGene()` to summarize the tx
+counts to the gene level. Finally, we transform the `SummarizedExperiment` 
+object to a `DGEList` for use in downstream analysis with `edgeR`
+
+```{r eval=FALSE}
+library(tximeta)
+library(edgeR)
+
+
+quant_files <- list.files(
+  path = "02_quants",
+  pattern = "quant.sf",
+  full.names = TRUE,
+  recursive = TRUE
+)
+
+# Extract samples names from filepaths
+names(quant_files) <- gsub("02_quants", "", quant_files, fixed = TRUE)
+names(quant_files) <- gsub("_quants/quant.sf", "", names(quant_files), fixed = TRUE)
+
+# Create metadata for import
+coldata <- data.frame(
+  names = names(quant_files), 
+  files = quant_files,
+  group = factor(rep(c("Control", "Treatment"), each = 3))
+  )
+
+# Import transcript counts with tximeta
+se <- tximeta(coldata)
+
+# Summarize tx counts to the gene-level
+gse <- summarizeToGene(se)
+
+# Import into edgeR for downstream analysis
+y <- SE2DGEList(gse)
+```
+
+### Importing gene counts from STAR
+
+If you used STAR to generate counts with HTSeq-count then `edgeR` can directly 
+import the results for downstream analysis like so:
+
+```{r eval=FALSE}
+library(edgeR)
+
+
+# Specify the filepaths to gene counts from STAR
+count_files <- list.files(
+  path = "03_STAR_outs", 
+  pattern = "*.ReadsPerGene.out.tab", 
+  full.names = TRUE
+  )
+
+# Name the file with their sample names
+names(count_files) <- gsub(".ReadsPerGene.out.tab", "", basename(count_files))
+
+# Import HTSeq counts into a DGEList 
+y <- readDGE(
+  files = count_files, 
+  columns = c(1, 2),  # Gene name and 'unstranded' count columns
+  group = factor(rep(c("Control", "Treatment"), each = 3)),
+  labels = names(count_files)
+  )
+```
+
+## Test data
+
+We will use data from the [airwway](https://bioconductor.org/packages/3.19/data/experiment/html/airway.html) package to illustrate differential expression analysis steps. Please
+see [Section 2](https://bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html#preparing-quantification-input-to-deseq2) of the *rnaseqGene* workflow for more information.
+
+Below, we load the data from the airway package and use `SE2DGEList` to convert 
+the object to a `DGElist` for use with `edgeR`.
+
+```{r message=FALSE}
+library(airway)
+library(edgeR)
+
+
+# Load the SummarizedExperiment object
+data(airway)
+
+# Set the group levels
+airway$group <- factor(airway$dex, levels = c("untrt", "trt"))
+
+# Convert to a DGEList to be consistent with above steps
+y <- SE2DGEList(airway)
+```
+
+## Library QC
+
+Before we perform differential expression analysis it is important to explore
+the samples' library distributions in order to ensure good quality before 
+downstream analysis. There are several diagnostic plots we can use for this 
+purpose implemented in the `coriell` package. However, first we must remove 
+any features that have too low of counts for meaningful differential expression 
+analysis. This can be achieved using `edgeR::filterByExpr()`. 
+
+```{r}
+# Determine which genes have enough counts to keep around
+keep <- filterByExpr(y)
+
+# Remove the unexpressed genes
+y <- y[keep,,keep.lib.sizes = FALSE]
+```
+
+At this stage it is often wise to perform library QC on the library size 
+normalized counts. This will give us an idea about potential global expression
+differences and potential outliers *before* introducing normalization factors. 
+We can use `edgeR` to generate log2 counts-per-million values for the retained 
+genes.
+
+```{r}
+logcounts <- cpm(y, log = TRUE)
+```
+
+### Relative log expression boxplots
+
+The first diagnostic plot we can look at is a plot of the relative log expression
+values. [RLE plots](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0191629) 
+are good diagnostic tools for evaluating unwanted variation in libraries. 
+
+```{r}
+library(ggplot2)
+library(coriell)
+
+
+plot_boxplot(logcounts, metadata = y$samples, fillBy = "group", rle = TRUE) +
+  labs(title = "Relative Log Expression",
+       x = "Sample",
+       y = "RLE",
+       color = "Treatment Group") +
+  theme_coriell()
+```
+
+We can see from the above RLE plot that the samples are centered around zero and
+have mostly similar distributions. It is also clear that two of the samples, 
+"SRR1039520" and "SRR1039521", have slightly different distributions than the 
+others. 
+
+### Library density plots
+
+Library density plots show the density of reads corresponding to a particular
+magnitude of counts. Shifts of these curves should align with group differences
+and generally samples from the same group should have overlapping density curves
+
+```{r}
+plot_density(logcounts, metadata = y$samples, colBy = "group") +
+  labs(title = "Library Densities",
+       x = "logCPM",
+       y = "Density",
+       color = "Treatment Group") +
+  theme_coriell()
+```
+
+### Sample vs Sample Distances
+
+We can also calculate the euclidean distance between all pairs of samples and 
+display this on a heatmap. Again, samples from the same group should show 
+smaller distances than sample pairs from differing groups.
+
+```{r}
+plot_dist(logcounts, metadata = y$samples[, "group", drop = FALSE])
+```
+
+### Parallel coordinates plot
+
+Parallel coordinates plots are useful for giving you an idea of how the most
+variable genes change between treatment groups. These plots show the expression 
+of each gene as a line on the y-axis traced between samples on the x-axis. 
+
+```{r}
+plot_parallel(logcounts, y$samples, colBy = "group", 
+              removeVar = 0.9, alpha = 0.05) +
+  labs(title = "10% Most Variable Genes",
+       x = "Sample",
+       y = "logCPM",
+       color = "Treatment Group") +
+  theme_coriell()
+```
+
+### PCA
+
+Principal components analysis is an unsupervised method for reducing the 
+dimensionality of a dataset while maintaining its fundamental structure. PCA 
+biplots can be used to examine sample groupings following PCA. These biplots 
+can reveal overall patterns of expression as well as potential problematic 
+samples prior to downstream analysis. For simple analyses we expect to see the
+'main' effect primarily along the first component.
+
+I like to use the [PCAtools](https://bioconductor.org/packages/release/bioc/vignettes/PCAtools/inst/doc/PCAtools.html) package for quickly computing and plotting principal components.
+For more complicated experiments I have also found UMAP (see `coriell::UMAP()`)
+to be useful for dimensionality reduction. 
+
+```{r message=FALSE}
+library(PCAtools)
+
+
+# Perform PCA on the 20% most variable genes
+# Center and scale the variable after selecting most variable
+pca_result <- pca(
+  logcounts, 
+  metadata = y$samples, 
+  center = TRUE, 
+  scale = TRUE, 
+  removeVar = 0.8
+  )
+
+# Show the PCA biplot
+biplot(
+  pca_result, 
+  colby = "group", 
+  hline = 0, 
+  vline = 0, 
+  hlineType = 2, 
+  vlineType = 2, 
+  legendPosition = "bottom",
+  title = "PCA",
+  caption = "20% Most Variable Features"
+  )
+```
+
+### Assessing global scaling normalization assumptions
+
+Most downstream differential expression testing methods apply a global scaling 
+normalization factor to each library prior to DE testing. Applying these 
+normalization factors when there are global expression differences can lead to 
+spurious results. In typical experiments this is usually not a problem but when 
+dealing with cancer or epigenetic drug treatment this can actually lead to many 
+problems if not identified. 
+
+In order to identify potential violations of global scaling normalization I use
+the [quantro](https://www.bioconductor.org/packages/release/bioc/vignettes/quantro/inst/doc/quantro.html) R package. `quantro` uses two data driven approaches to assess the 
+appropriateness of global scaling normalization. The first involves testing if 
+the medians of the distributions differ between groups. These differences could 
+indicate technical or real biological variation. The second test assesses the 
+ratio of between group variability to within group variability using a 
+permutation test similar to an ANOVA. If this value is large, it suggests 
+global adjustment methods might not be appropriate.
+
+```{r message=FALSE, warning=FALSE}
+library(quantro)
+
+
+# Initialize multiple (8) cores for permutation testing
+doParallel::registerDoParallel(cores = 8)
+
+# Compute the qstat on the filtered libraries
+qtest <- quantro(y$counts, groupFactor = y$samples$group, B = 500)
+```
+
+Now we can assess the results. We can use `anova()` to test for differences in 
+medians across groups. Here, they do not significantly differ.
+
+```{r}
+anova(qtest)
+```
+
+We can also plot the results of the permutation test to see the between:within
+group ratios. Again, there are no large differences in this dataset suggesting 
+that global scaling normalization such as TMM is appropriate.
+
+```{r}
+quantroPlot(qtest)
+```
+
+## Differential expression testing with `edgeR`
+
+After removing lowly expressed features and checking the assumptions of 
+normalization we can perform downstream differential expression testing 
+with `edgeR`. The [edgeR manual](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) contains a detailed explanation of all steps involved in 
+differential expression testing.
+
+In short, we need to specify the experimental design, estimate normalization 
+factors, fit the models, and perform DE testing.
+
+### Creating the experimental design
+
+Maybe the most important step in DE analysis is properly constructing a design
+matrix. The details of design matrices are outside of the scope of this tutorial 
+but a good overview can be found [here](https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/designmatrices.html). Generally, your samples will fall nicely into several well defined groups, 
+facilitating the use of a design matrix without an intercept 
+e.g. `design ~ model.matrix(~0 + group, ...)`. This kind of design matrix makes 
+it relatively simple to construct contrasts that describe exactly what pairs of 
+groups you want to compare. 
+
+Since this example experiment is simply comparing treatments to control samples
+we can model the differences in means by using a model *with* an intercept where 
+the intercept is the mean of the control samples and the 2nd coefficient 
+represents the differences in the treatment group. 
+
+```{r}
+# Model with intercept
+design <- model.matrix(~group, data = y$samples)
+```
+
+We can make an equivalent model and test *without* an intercept like so:
+
+```{r eval=FALSE}
+# A means model
+design_no_intercept <- model.matrix(~0 + group, data = y$samples)
+
+# Construct contrasts to test the difference in means between the groups
+cm <- makeContrasts(
+  Treatment_vs_Control = grouptrt - groupuntrt,
+  levels = design_no_intercept
+)
+```
+
+The choice of which design is up to you. I typically use whatever is clearer 
+for the experiment at hand. In this case that is the model with an intercept.
+
+### Estimating normalization factors
+
+We use `edgeR` to calculate trimmed mean of the M-value (TMM) normalization
+factors for each library.
+
+```{r}
+# Estimate TMM normalization factors
+y <- normLibSizes(y)
+```
+
+We can check the normalization by creating MA plots for each library
+
+```{r}
+par(mfrow = c(2, 4))
+for (i in 1:ncol(y)) {
+  plotMD(cpm(y, log = TRUE), column = i)
+  abline(h = 0, lty = 2, col = "red2")
+}
+```
+
+#### What to do if global scaling normalization is violated?
+
+Above I described testing for violations of global scaling normalization. So 
+what should we do if these assumptions are violated and we don't have a good set
+of control genes or spike-ins etc.?
+
+If we believe that the differences we are observing are due to true biological
+phenomena (**this is a big assumption**) then we can try to apply a method such 
+as [smooth quantile normalization](https://academic.oup.com/biostatistics/article/19/2/185/3949169) 
+to the data using the [qsmooth](https://www.bioconductor.org/packages/release/bioc/html/qsmooth.html) 
+package. 
+
+Below I will show how to apply `qsmooth` to our filtered counts and then 
+calculate offsets to be used in downstream DE analysis with `edgeR`. Please note
+**this is not a benchmarked or 'official' workflow** just a method that I have
+implemented based on reading forums and github issues.
+
+```{r eval=FALSE}
+library(qsmooth)
+
+
+# Compute the smooth quantile factors 
+qs <- qsmooth(y$counts, group_factor = y$samples$group)
+
+# Extract the qsmooth transformed data
+qsd <- qsmoothData(qs)
+
+# Calculate offsets to be used by edgeR in place of norm.factors
+# Offsets are on the natural log scale. Add a small offset to avoid
+# taking logs of zero 
+offset <- log1p(y$counts) - log1p(qsd)
+
+# Scale the offsets for internal usage by the DGEList object
+# Now the object is ready for downstream analysis
+y <- scaleOffset(y, offset = offset)
+
+# To create logCPM values with the new norm factors use
+lcpm <- cpm(y, offset = y$offset, log = TRUE)
+```
+
+### Fit the model
+
+New in edgeR 4.0 is the ability to estimate dispersions while performing the
+model fitting step. I typically tend to 'robustify' the fit to outliers. Below I 
+will perform dispersion estimation in legacy mode so that we can use competitive
+gene set testing later. If we want to use the new workflow we can use the 
+following:
+
+```{r eval=FALSE}
+# edgeR 4.0 workflow
+fit <- glmQLFit(y, design, legacy = FALSE, robust = TRUE)
+```
+
+We will continue with the legacy workflow.
+
+```{r}
+y <- estimateDisp(y, design, robust = TRUE)
+fit <- glmQLFit(y, design, robust = TRUE, legacy = TRUE)
+```
+
+It's always a good idea at this step to check some of the diagnostic plots from
+edgeR
+
+```{r}
+# Show the biological coefficient of variation
+plotBCV(y)
+
+# Show the dispersion estimates
+plotQLDisp(fit)
+```
+
+### Test for differential expression
+
+Now that the models have been fit we can test for differential expression. 
+
+```{r}
+# Test the treatment fs control condition
+qlf <- glmQLFTest(fit, coef = 2)
+```
+
+Often it is more biologically relevant to give more weight to higher fold 
+changes. This can be acheived using `glmTreat()`. **NOTE** do not use 
+`glmQLFTest()` and then filter by fold-change - you destroy the FDR correction!
+
+When testing against a fold change we can use relatively modest values since the
+fold change must exceed this threshld before being considered for significance.
+Values such as `log2(1.2)` or `log2(1.5)` work well in practice.
+
+```{r}
+trt_vs_control_fc <- glmTreat(fit, coef = 2, lfc = log2(1.2))
+```
+
+In any case, the results of the differential expression test can be extracted
+to a data.frame for downstream plotting with `coriell::edger_to_df()`
+
+```{r}
+de_result <- edger_to_df(qlf)
+```
+
+## Plotting DE results
+
+The two most common plots for differential expression analysis results are the
+volcano plot and the MA plot. Volcano plots display the negative log10 of the 
+significance value on the y-axis vs the log2 fold-change on the x-axis. MA plots
+show the average expression of the gene on the x-axis vs the log2 fold-change
+of the gene on the y-axis. The `coriell` package includes functions for 
+producing both. 
+
+```{r}
+library(patchwork)
+
+
+# Create a volcano plot of the results
+v <- plot_volcano(de_result, fdr = 0.05) + theme_coriell()
+
+# Create and MA plot of the results
+m <- plot_md(de_result, fdr = 0.05) + theme_coriell()
+
+# Patch both plots together
+(v | m) + 
+  plot_annotation(title = "Treatment vs. Control") &
+  theme_coriell()
+```
+
+## Competitive gene set testing with `camera()`
+
+I've recently become aware of some of the [problems](https://support.bioconductor.org/p/9158100/#9158105) with gene set 
+enrichment analysis using the `fgsea` package. Following Gordon Smyth's advice,
+I have switched all of my pipelines to using competitive gene set testing in 
+`edgeR` to avoid problems with correlated genes.
+
+Below we use the `msigdb` R package to retrieve HALLMARK gene sets and then use
+`edgeR::camera()` for gene set testing.
+
+```{r message=FALSE}
+library(msigdb)
+library(ExperimentHub)
+library(GSEABase)
+
+
+# Get the gene set data
+msigdb_hs <- getMsigdb(org = "hs", id = "SYM", version = "7.5")
+
+# Subset for only the HALLMARK sets
+hallmark <- subsetCollection(msigdb_hs, "h")
+
+# Extract the gene symbols for each set as a list
+msigdb_ids <- geneIds(hallmark)
+
+# Convert the gene sets into lists of indeces for edgeR
+idx <- ids2indices(gene.sets = msigdb_ids, identifiers = y$genes$gene_name)
+```
+
+Perform gene set testing. Note here we can use `edgeR::camera()` or 
+`edgeR::roast()` depending on the workflow. The above setup code provides valid 
+input for either.
+
+```{r}
+# Use camera to perform competitive gene set testing
+head(camera(y, idx, design, contrast = 2, inter.gene.cor = NA))
+```
+
+We can also perform a pre-ranked version of this test using `cameraPR()`. In 
+order to use the pre-ranked version we need to create a ranking statistic. 
+The [suggestion](https://support.bioconductor.org/p/120780/#120785) from Gordon
+Smyth is to derive a z-statistic from the F-scores like so:
+
+```{r}
+t_stat <- sign(de_result$logFC) * sqrt(de_result$`F`)
+z <- zscoreT(t_stat, df = qlf$df.total)
+
+# Name the stat vector with the gene names 
+names(z) <- de_result$gene_name
+
+# Use the z-scores as the ranking stat for cameraPR
+head(cameraPR(z, idx))
+```
+
+## Gene ontology (GO) over representation test
+
+Over representation analysis can be performed with the `clusterProfiler` 
+package. Here, instead of using the entire gene list as input we select 
+separate sets of up and down-regulated genes and test to see of  
+
+```{r message=FALSE}
+library(clusterProfiler)
+library(org.Hs.eg.db)
+
+
+# Split the genes into up and down
+up_genes <- subset(
+  de_result, 
+  FDR < 0.05 & logFC > 0, 
+  "gene_name", 
+  drop = TRUE
+  )
+
+down_genes <- subset(
+  de_result, 
+  FDR < 0.05 & logFC < 0, 
+  "gene_name", 
+  drop = TRUE
+  )
+
+# Extract the list of all genes expressed in the experiment
+# to use as a background set
+universe <- unique(y$genes$gene_name)
+```
+
+Create results objects for each set of genes
+
+```{r}
+ego_up <- enrichGO(
+  gene = up_genes,
+  universe = universe,
+  OrgDb = org.Hs.eg.db,
+  keyType = "SYMBOL",
+  ont = "ALL",
+  pAdjustMethod = "BH",
+  pvalueCutoff = 0.01,
+  qvalueCutoff = 0.05,
+  readable = TRUE
+  )
+
+ego_down <- enrichGO(
+  gene = down_genes,
+  universe = universe,
+  OrgDb = org.Hs.eg.db,
+  keyType = "SYMBOL",
+  ont = "ALL",
+  pAdjustMethod = "BH",
+  pvalueCutoff = 0.01,
+  qvalueCutoff = 0.05,
+  readable = TRUE
+  )
+```
+
+These results can be converted to data.frames with:
+
+```{r}
+head(data.frame(ego_up))
+```
+
+Or the results can be plotted as dotplots with:
+
+```{r fig.width=8, fig.height=6}
+d1 <- dotplot(ego_up) + labs(title = "Up-regulated genes")
+d2 <- dotplot(ego_down) + labs(title = "Down-regulated genes")
+
+d1 | d2
+```
+
+## Session Info
+
+```{r}
+sessionInfo()
+```
