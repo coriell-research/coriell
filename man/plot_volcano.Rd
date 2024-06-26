@@ -86,9 +86,9 @@ plot_volcano(
 
 \item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)}
 
-\item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::xlim(). Default (NULL)}
+\item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 
-\item{y_axis_limits}{numeric vector of axis limits supplied to ggplot2::ylim(). Default (NULL)}
+\item{y_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 
 \item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel}}
 }

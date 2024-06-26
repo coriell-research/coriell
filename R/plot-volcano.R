@@ -26,8 +26,8 @@
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.
 #' @param lab_size numeric. Size of the label if annotate_counts = TRUE. Default 8.
 #' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)
-#' @param x_axis_limits numeric vector of axis limits supplied to ggplot2::xlim(). Default (NULL)
-#' @param y_axis_limits numeric vector of axis limits supplied to ggplot2::ylim(). Default (NULL)
+#' @param x_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
+#' @param y_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
 #' @param ... Additional arguments passed to \code{ggrepel::geom_text_repel}
 #' @return ggplot volcano plot
 #' @import data.table
@@ -78,11 +78,17 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.1,
     coriell::theme_coriell()
 
   # Apply new limits if set
-  if (!is.null(x_axis_limits)) {
-    p <- p + ggplot2::xlim(x_axis_limits)
-  }
-  if (!is.null(y_axis_limits)) {
-    p <- p + ggplot2::ylim(y_axis_limits)
+  if (!is.null(x_axis_limits) & !(is.null(y_axis_limits))) {
+    p <- suppressMessages({
+      p + ggplot2::coord_cartesian(
+        xlim = x_axis_limits,
+        ylim = y_axis_limits
+        )
+      })
+  } else if (!is.null(x_axis_limits)) {
+    p <- suppressMessages(p + ggplot2::coord_cartesian(xlim = x_axis_limits))
+  } else if (!is.null(y_axis_limits)) {
+    p <- suppressMessages(p + ggplot2::coord_cartesian(ylim = y_axis_limits))
   }
 
   # Add text labels to significant genes
