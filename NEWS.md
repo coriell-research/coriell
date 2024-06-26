@@ -4,6 +4,9 @@
 bugs here.
 - Updated site. Removed some vignettes with older workflows. TODO: add
 new vignettes with current best practices for RNAseq.
+- Added new arguments for `plot_volcano()` and `plot_md()` to allow setting axis
+limits prior to determining annotation placement. These functions now also use
+`theme_coriell()` by default.
 
 ## coriell 0.14.0
 
