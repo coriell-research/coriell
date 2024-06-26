@@ -30,6 +30,9 @@ plot_md(
   ymax_label_offset = 0.5,
   ymin_label_offset = 0.5,
   lab_size = 8,
+  lab_digits = 2,
+  x_axis_limits = NULL,
+  y_axis_limits = NULL,
   ...
 )
 }
@@ -83,6 +86,12 @@ plot_md(
 \item{ymin_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label}
 
 \item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 8.}
+
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)}
+
+\item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::xlim(). Default (NULL)}
+
+\item{y_axis_limits}{numeric vector of axis limits supplied to ggplot2::ylim(). Default (NULL)}
 
 \item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel()}}
 }

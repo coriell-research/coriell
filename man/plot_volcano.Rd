@@ -29,6 +29,9 @@ plot_volcano(
   xmax_label_offset = 0.5,
   ymax_label_offset = 0.8,
   lab_size = 8,
+  lab_digits = 2,
+  x_axis_limits = NULL,
+  y_axis_limits = NULL,
   ...
 )
 }
@@ -80,6 +83,12 @@ plot_volcano(
 \item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.}
 
 \item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 8.}
+
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)}
+
+\item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::xlim(). Default (NULL)}
+
+\item{y_axis_limits}{numeric vector of axis limits supplied to ggplot2::ylim(). Default (NULL)}
 
 \item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel}}
 }
