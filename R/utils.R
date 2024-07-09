@@ -274,3 +274,58 @@ remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
   m <- SummarizedExperiment::assay(x, assay)
   remove_var.matrix(m, p = p)
 }
+
+#' Get unique pairwise intersections of a list of vectors
+#' 
+#' This function takes in a list of vectors and performs pairwise set 
+#' intersections for all unique pairs of vectors in the list. 
+#' @param x List of vectors to perform intersections on
+#' @return data.table
+#' @returns a data.table containing columns for the sets being compared, a list column
+#' which contains the actual values in the intersection, and a column with the 
+#' intersection size.
+#' @export
+#' @examples
+#' l <- list(
+#'   Set1 = c("A", "B", "C"), 
+#'   Set2 = c("B", "C", "D"),
+#'   Set3 = c("X", "Y", "Z"),
+#'   Set4 = LETTERS
+#' )
+#' 
+#' pairwise_intersections(l)
+pairwise_intersections <- function(x) {
+  if (!is(x, "list")) {
+    stop("x must be a list")
+  }
+
+  n <- length(x)
+
+  if (is.null(names(x))) {
+    names(x) <- paste0("Set", 1:length(x))
+  }
+
+  n_pairs <- sum(upper.tri(matrix(nrow = n, ncol = n)))
+  s1 <- vector("character", n_pairs)
+  s2 <- vector("character", n_pairs)
+  intersection <- vector("list", n_pairs)
+
+  idx <- 1
+  for (i in 1:(n - 1)) {
+    for (j in (i + 1):n) {
+      s1[[idx]] <- names(x)[i]
+      s2[[idx]] <- names(x)[j]
+      intersection[[idx]] <- intersect(x[[i]], x[[j]])
+      idx <- idx + 1
+    }
+  }
+
+  data.table::data.table(
+    Set1 = s1,
+    Set2 = s2,
+    Intersection = intersection,
+    Elements = vapply(intersection, length, numeric(length = 1L))
+  )
+}
+
+
