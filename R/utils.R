@@ -304,7 +304,8 @@ pairwise_intersections <- function(x) {
   if (is.null(names(x))) {
     names(x) <- paste0("Set", 1:length(x))
   }
-
+  
+  lnames <- names(x)
   n_pairs <- sum(upper.tri(matrix(nrow = n, ncol = n)))
   s1 <- vector("character", n_pairs)
   s2 <- vector("character", n_pairs)
@@ -313,8 +314,8 @@ pairwise_intersections <- function(x) {
   idx <- 1
   for (i in 1:(n - 1)) {
     for (j in (i + 1):n) {
-      s1[[idx]] <- names(x)[i]
-      s2[[idx]] <- names(x)[j]
+      s1[[idx]] <- lnames[i]
+      s2[[idx]] <- lnames[j]
       intersection[[idx]] <- intersect(x[[i]], x[[j]])
       idx <- idx + 1
     }
