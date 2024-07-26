@@ -4,7 +4,7 @@
 \alias{meta_de}
 \title{Perform p-value combination for sets of differential expression tests}
 \usage{
-meta_de(x, FUN, fdr = "FDR", lfc = "logFC", ...)
+meta_de(x, FUN, pval = "PValue", lfc = "logFC", ...)
 }
 \arguments{
 \item{x}{SummarizedExperiment object containing combined differential
@@ -16,7 +16,7 @@ effect sizes to compute (e.g. logFC).}
 of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
 "parallelSimes", "parallelStouffer", or "parallelWilkinson".}
 
-\item{fdr}{assay name in SE object containing the P-values to combine.}
+\item{pval}{assay name in SE object containing the P-values to combine.}
 
 \item{lfc}{assay name in the SE object containing the logFC values to combine.}
 

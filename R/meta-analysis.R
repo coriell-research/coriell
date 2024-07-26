@@ -107,7 +107,7 @@ dfs2se <- function(x, feature_col = "feature_id",
 #' @param FUN One of the 'parallel' functions provided by \code{metapod}. One
 #' of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
 #' "parallelSimes", "parallelStouffer", or "parallelWilkinson".
-#' @param fdr assay name in SE object containing the P-values to combine.
+#' @param pval assay name in SE object containing the P-values to combine.
 #' @param lfc assay name in the SE object containing the logFC values to combine.
 #' @param ... Additional arguments passed to FUN. See the \code{metapod} package
 #' for details.
@@ -149,7 +149,7 @@ dfs2se <- function(x, feature_col = "feature_id",
 #' result <- meta_de(se, metapod::parallelWilkinson, min.prop = 0.1)
 #' head(result)
 #' 
-meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
+meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", ...) {
   stopifnot("SummarizedExperiment object expected" = is(x, "SummarizedExperiment"))
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is required.")
@@ -162,7 +162,7 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
   }
 
   # Split the matrices into lists by sample
-  pval_l <- asplit(SummarizedExperiment::assay(x, fdr), 2)
+  pval_l <- asplit(SummarizedExperiment::assay(x, pval), 2)
   lfc_l <- asplit(SummarizedExperiment::assay(x, lfc), 2)
 
   # Compute the combined p-values
@@ -184,7 +184,7 @@ meta_de <- function(x, FUN, fdr = "FDR", lfc = "logFC", ...) {
     Combined.Pval = comb$p.value,
     Direction = direction,
     Rep.logFC = .getRepresentative(comb$representative, lfc_m),
-    Rep.Pval = .getRepresentative(comb$representative,  SummarizedExperiment::assay(x, fdr)),
+    Rep.Pval = .getRepresentative(comb$representative,  SummarizedExperiment::assay(x, pval)),
     Median.logFC = median_lfc,
     Mean.logFC = avg_lfc,
     Min.logFC = min_lfc,
