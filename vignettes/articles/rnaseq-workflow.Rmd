@@ -278,7 +278,7 @@ y <- readDGE(
 
 ## Test data
 
-We will use data from the [airwway](https://bioconductor.org/packages/3.19/data/experiment/html/airway.html) package to illustrate differential expression analysis steps. Please
+We will use data from the [airway](https://bioconductor.org/packages/3.19/data/experiment/html/airway.html) package to illustrate differential expression analysis steps. Please
 see [Section 2](https://bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html#preparing-quantification-input-to-deseq2) of the *rnaseqGene* workflow for more information.
 
 Below, we load the data from the airway package and use `SE2DGEList` to convert 
@@ -572,7 +572,7 @@ qsd <- qsmoothData(qs)
 # Calculate offsets to be used by edgeR in place of norm.factors
 # Offsets are on the natural log scale. Add a small offset to avoid
 # taking logs of zero 
-offset <- log1p(y$counts) - log1p(qsd)
+offset <- log(y$counts + 0.1) - log(qsd + 0.1)
 
 # Scale the offsets for internal usage by the DGEList object
 # Now the object is ready for downstream analysis
@@ -627,7 +627,7 @@ changes. This can be acheived using `glmTreat()`. **NOTE** do not use
 `glmQLFTest()` and then filter by fold-change - you destroy the FDR correction!
 
 When testing against a fold change we can use relatively modest values since the
-fold change must exceed this threshld before being considered for significance.
+fold change must exceed this threshold before being considered for significance.
 Values such as `log2(1.2)` or `log2(1.5)` work well in practice.
 
 ```{r}
@@ -670,11 +670,11 @@ m <- plot_md(de_result, fdr = 0.05) + theme_coriell()
 
 I've recently become aware of some of the [problems](https://support.bioconductor.org/p/9158100/#9158105) with gene set 
 enrichment analysis using the `fgsea` package. Following Gordon Smyth's advice,
-I have switched all of my pipelines to using competitive gene set testing in 
-`edgeR` to avoid problems with correlated genes.
+I have switched all of my pipelines to using competitive gene set testing 
+(when appropriate) in `limma` to avoid problems with correlated genes.
 
 Below we use the `msigdb` R package to retrieve HALLMARK gene sets and then use
-`edgeR::camera()` for gene set testing.
+`limma::camera()` for gene set testing.
 
 ```{r message=FALSE}
 library(msigdb)
@@ -695,16 +695,30 @@ msigdb_ids <- geneIds(hallmark)
 idx <- ids2indices(gene.sets = msigdb_ids, identifiers = y$genes$gene_name)
 ```
 
-Perform gene set testing. Note here we can use `edgeR::camera()` or 
-`edgeR::roast()` depending on the workflow. The above setup code provides valid 
-input for either.
+Perform gene set testing. Note here we can use `limma::camera()`
+`limma::mroast()`, or `limma::romer()` depending on the hypothesis being tested. 
+The above setup code provides valid input for all of the above functions. 
+
+See this [comment](https://support.bioconductor.org/p/103504/#103505) from Aaron
+Lun describing the difference between `camera` and `roast`. For GSEA like 
+hypothesis we can use `limma::romer()`
+
+> `roast()` performs a self-contained gene set test, where it looks for any DE within the 
+set of genes. `camera()` performs a competitive gene set test, where it compares 
+the DE within the gene set to the DE outside of the gene set.
 
 ```{r}
 # Use camera to perform competitive gene set testing
-head(camera(y, idx, design, contrast = 2, inter.gene.cor = NA))
+camera_result <- camera(y, idx, design, contrast = 2)
+
+# Use mroast for rotational gene set testing - bump up number of rotations
+mroast_result <- mroast(y, idx, design, contrast = 2, nrot = 1e4)
+
+# Use romer for GSEA like hypothesis testing
+romer_result <- romer(y, idx, design, contrast = 2)
 ```
 
-We can also perform a pre-ranked version of this test using `cameraPR()`. In 
+We can also perform a pre-ranked version of the camera test using `cameraPR()`. In 
 order to use the pre-ranked version we need to create a ranking statistic. 
 The [suggestion](https://support.bioconductor.org/p/120780/#120785) from Gordon
 Smyth is to derive a z-statistic from the F-scores like so:
@@ -717,14 +731,38 @@ z <- zscoreT(t_stat, df = qlf$df.total)
 names(z) <- de_result$gene_name
 
 # Use the z-scores as the ranking stat for cameraPR
-head(cameraPR(z, idx))
+camera_pr_result <- cameraPR(z, idx)
+```
+
+Another useful plot to show following gene set testing is a barcodeplot. We
+The barcodeplot displays the enrichment of a given signature for a ranked list
+of genes. The `limma::barcodeplot()` function allows us to easily create these
+plots for any of the gene sets of interest using any ranking stat of our choice.
+
+```{r}
+# Show barcodeplot using the z-scores
+barcodeplot(
+  z, 
+  index = idx[["HALLMARK_ANDROGEN_RESPONSE"]], 
+  main = "HALLMARK_ANDROGEN_RESPONSE",
+  xlab = "z-score"
+  )
+
+# Or you can use the logFC
+barcodeplot(
+  de_result$logFC, 
+  index = idx[["HALLMARK_ANDROGEN_RESPONSE"]], 
+  main = "HALLMARK_ANDROGEN_RESPONSE",
+  xlab = "logFC"
+  )
 ```
 
 ## Gene ontology (GO) over representation test
 
 Over representation analysis can be performed with the `clusterProfiler` 
 package. Here, instead of using the entire gene list as input we select 
-separate sets of up and down-regulated genes and test to see of  
+separate sets of up and down-regulated genes and test to see if these sets are
+enriched in our differentially expressed gene list.
 
 ```{r message=FALSE}
 library(clusterProfiler)
@@ -779,10 +817,16 @@ ego_down <- enrichGO(
   )
 ```
 
-These results can be converted to data.frames with:
+These results can be converted to data.frames and combined with:
 
 ```{r}
-head(data.frame(ego_up))
+ego_up_df <- data.frame(ego_up)
+ego_down_df <- data.frame(ego_down)
+
+ego_df <- data.table::rbindlist(
+  list(up = ego_up_df, down = ego_down_df), 
+  idcol = "Direction"
+  )
 ```
 
 Or the results can be plotted as dotplots with:
@@ -792,6 +836,21 @@ d1 <- dotplot(ego_up) + labs(title = "Up-regulated genes")
 d2 <- dotplot(ego_down) + labs(title = "Down-regulated genes")
 
 d1 | d2
+```
+
+You can also create a nice enrichment map showing similarity between the 
+significant GO terms like so:
+
+```{r}
+em_up <- enrichplot::pairwise_termsim(ego_up)
+em_down <- enrichplot::pairwise_termsim(ego_down)
+
+p1 <- enrichplot::emapplot(em_up, showCategory = 10, edge.params = list(min = 0.5)) +
+  labs(title = "Up-regulated genes")
+p2 <- enrichplot::emapplot(em_down, showCategory = 10, edge.params = list(min = 0.5)) +
+  labs(title = "Down-regulated genes")
+
+p1 | p2
 ```
 
 ## Session Info
