@@ -1,7 +1,7 @@
 pandoc: 3.1.1
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  Practical-analysis-with-SummarizedExperiments: Practical-analysis-with-SummarizedExperiments.html
-last_built: 2024-06-19T20:26Z
-
+  articles/Practical-analysis-with-SummarizedExperiments: Practical-analysis-with-SummarizedExperiments.html
+  articles/rnaseq-workflow: rnaseq-workflow.html
+last_built: 2024-08-08T20:38Z
