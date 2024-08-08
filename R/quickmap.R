@@ -4,7 +4,7 @@
   rng <- range(m)
   
   if (-thresh < rng[1] || thresh > rng[2]) {
-    thresh <- floor(max(abs(rng)))
+    thresh <- floor(min(abs(rng)))
     msg <- paste0("thresh must be within the range of the matrix. low=", 
                   round(rng[1], 2), " high=", round(rng[2], 2), 
                   ". Setting threshold to +/- ", thresh)
