@@ -1,7 +1,7 @@
 # Fix colors at the extreme ends of the color scale
 #
 .getBreaks <- function(m, thresh, n_breaks=30) {
-  rng <- range(m)
+  rng <- range(m[!is.na(m)])
   
   if (-thresh < rng[1] || thresh > rng[2]) {
     thresh <- floor(min(abs(rng)))
