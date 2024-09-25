@@ -280,10 +280,16 @@ remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
 #' This function takes in a list of vectors and performs pairwise set 
 #' intersections for all unique pairs of vectors in the list. 
 #' @param x List of vectors to perform intersections on
+#' @param universe_size Size of the universe of features each set was drawn from.
+#' default NULL. If supplied then a fisher's exact test is performed to assess
+#' the significance of the overlap. Note, the same universe size is used for all
+#' pairwise comparisons. 
 #' @return data.table
 #' @returns a data.table containing columns for the sets being compared, a list column
 #' which contains the actual values in the intersection, a column with the 
-#' intersection size, and a column with the Jaccard index.
+#' intersection size, and a column with the Jaccard index, and optionally a 
+#' P-Value column containing the p-value from a fisher's exact test if 
+#' universe_size is given.
 #' @export
 #' @examples
 #' l <- list(
@@ -294,7 +300,7 @@ remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
 #' )
 #' 
 #' pairwise_intersections(l)
-pairwise_intersections <- function(x) {
+pairwise_intersections <- function(x, universe_size = NULL) {
   if (!is(x, "list")) {
     stop("x must be a list")
   }
@@ -309,9 +315,12 @@ pairwise_intersections <- function(x) {
   n_pairs <- sum(upper.tri(matrix(nrow = n, ncol = n)))
   s1 <- vector("character", n_pairs)
   s2 <- vector("character", n_pairs)
+  s1_size <- vector("numeric", n_pairs)
+  s2_size <- vector("numeric", n_pairs)
   intersection <- vector("list", n_pairs)
   jaccard <- vector("numeric", n_pairs)
   union_size <- vector("numeric", n_pairs)
+  m <- vector("list", n_pairs)
 
   idx <- 1
   for (i in 1:(n - 1)) {
@@ -319,23 +328,48 @@ pairwise_intersections <- function(x) {
       s1[[idx]] <- lnames[i]
       s2[[idx]] <- lnames[j]
       
+      s1_size[[idx]] <- length(x[[i]])
+      s2_size[[idx]] <- length(x[[j]])
+      
       int <- intersection[[idx]] <- intersect(x[[i]], x[[j]])
+      
       u <- union(x[[i]], x[[j]])
       union_size[[idx]] <- length(u)
+      
       jaccard[[idx]] <- length(int) / length(u)
+      
+      if (!is.null(universe_size)) {
+        M <- matrix(c(universe_size - length(u), 
+                      length(x[[j]]) - length(int), 
+                      length(x[[i]]) - length(int), 
+                      length(int)), ncol = 2)
+        rownames(M) <- c('notSet2', 'inSet2')
+        colnames(M) <- c('notSet1', 'inSet1')
+        m[[idx]] <- M
+      }
       
       idx <- idx + 1
     }
   }
-
-  data.table::data.table(
+  
+  result <- data.table::data.table(
     Set1 = s1,
     Set2 = s2,
+    Set1Size = s1_size,
+    Set2Size = s2_size,
     IntersectionSize = vapply(intersection, length, numeric(length = 1L)),
     UnionSize = union_size,
     Jaccard = jaccard,
     Intersection = intersection
   )
+  
+  if (!is.null(universe_size)) {
+    exact_tests <- lapply(m, fisher.test, alternative = "greater")
+    p_vals <- vapply(exact_tests, \(x) x[["p.value"]], FUN.VALUE = numeric(length = 1L))
+    result[, P.Value := p_vals]
+  }
+  
+  return(result)
 }
 
 

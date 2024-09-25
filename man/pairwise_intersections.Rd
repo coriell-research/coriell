@@ -4,17 +4,24 @@
 \alias{pairwise_intersections}
 \title{Get unique pairwise intersections of a list of vectors}
 \usage{
-pairwise_intersections(x)
+pairwise_intersections(x, universe_size = NULL)
 }
 \arguments{
 \item{x}{List of vectors to perform intersections on}
+
+\item{universe_size}{Size of the universe of features each set was drawn from.
+default NULL. If supplied then a fisher's exact test is performed to assess
+the significance of the overlap. Note, the same universe size is used for all
+pairwise comparisons.}
 }
 \value{
 data.table
 
 a data.table containing columns for the sets being compared, a list column
 which contains the actual values in the intersection, a column with the 
-intersection size, and a column with the Jaccard index.
+intersection size, and a column with the Jaccard index, and optionally a 
+P-Value column containing the p-value from a fisher's exact test if 
+universe_size is given.
 }
 \description{
 This function takes in a list of vectors and performs pairwise set 
