@@ -311,15 +311,19 @@ pairwise_intersections <- function(x) {
   s2 <- vector("character", n_pairs)
   intersection <- vector("list", n_pairs)
   jaccard <- vector("numeric", n_pairs)
+  union_size <- vector("numeric", n_pairs)
 
   idx <- 1
   for (i in 1:(n - 1)) {
     for (j in (i + 1):n) {
       s1[[idx]] <- lnames[i]
       s2[[idx]] <- lnames[j]
+      
       int <- intersection[[idx]] <- intersect(x[[i]], x[[j]])
       u <- union(x[[i]], x[[j]])
+      union_size[[idx]] <- length(u)
       jaccard[[idx]] <- length(int) / length(u)
+      
       idx <- idx + 1
     }
   }
@@ -327,7 +331,8 @@ pairwise_intersections <- function(x) {
   data.table::data.table(
     Set1 = s1,
     Set2 = s2,
-    Elements = vapply(intersection, length, numeric(length = 1L)),
+    IntersectionSize = vapply(intersection, length, numeric(length = 1L)),
+    UnionSize = union_size,
     Jaccard = jaccard,
     Intersection = intersection
   )
