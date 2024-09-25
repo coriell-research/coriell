@@ -282,8 +282,8 @@ remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
 #' @param x List of vectors to perform intersections on
 #' @return data.table
 #' @returns a data.table containing columns for the sets being compared, a list column
-#' which contains the actual values in the intersection, and a column with the 
-#' intersection size.
+#' which contains the actual values in the intersection, a column with the 
+#' intersection size, and a column with the Jaccard index.
 #' @export
 #' @examples
 #' l <- list(
@@ -310,13 +310,16 @@ pairwise_intersections <- function(x) {
   s1 <- vector("character", n_pairs)
   s2 <- vector("character", n_pairs)
   intersection <- vector("list", n_pairs)
+  jaccard <- vector("numeric", n_pairs)
 
   idx <- 1
   for (i in 1:(n - 1)) {
     for (j in (i + 1):n) {
       s1[[idx]] <- lnames[i]
       s2[[idx]] <- lnames[j]
-      intersection[[idx]] <- intersect(x[[i]], x[[j]])
+      int <- intersection[[idx]] <- intersect(x[[i]], x[[j]])
+      u <- union(x[[i]], x[[j]])
+      jaccard[[idx]] <- length(int) / length(u)
       idx <- idx + 1
     }
   }
@@ -324,8 +327,9 @@ pairwise_intersections <- function(x) {
   data.table::data.table(
     Set1 = s1,
     Set2 = s2,
-    Intersection = intersection,
-    Elements = vapply(intersection, length, numeric(length = 1L))
+    Elements = vapply(intersection, length, numeric(length = 1L)),
+    Jaccard = jaccard,
+    Intersection = intersection
   )
 }
 

@@ -13,8 +13,8 @@ pairwise_intersections(x)
 data.table
 
 a data.table containing columns for the sets being compared, a list column
-which contains the actual values in the intersection, and a column with the 
-intersection size.
+which contains the actual values in the intersection, a column with the 
+intersection size, and a column with the Jaccard index.
 }
 \description{
 This function takes in a list of vectors and performs pairwise set 
