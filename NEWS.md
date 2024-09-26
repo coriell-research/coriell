@@ -1,3 +1,13 @@
+## coriell 0.16.0
+
+- Changed `theme_coriell()` to drop panel borders and removed angle from x-axis 
+text. 
+- Changed `plot_volcano()` and `plot_md()` defaults to use unaliased points, 
+smaller text sizes for labels, and moved labels further to the sides. 
+- Added some significance testing to the `pairwise_intersections()`. 
+- Added a new function for plotting pairwise correlations between columns in a 
+matrix, `plot_cor_pairs()`
+
 ## coriell 0.15.0
 
 - Added an argument for `panther_go()` to include the reference gene list when performing over representation testing. There may still be 
