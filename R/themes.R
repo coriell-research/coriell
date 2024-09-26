@@ -49,12 +49,14 @@ theme_coriell <- function() {
       plot.subtitle = ggplot2::element_text(size = 18),
       
       axis.title = ggplot2::element_text(size = 16),
-      axis.text.x = ggplot2::element_text(size = 16, angle = 45, hjust = 1),
+      axis.text.x = ggplot2::element_text(size = 16),
       axis.text.y = ggplot2::element_text(size = 16),
       
       strip.text.x = ggplot2::element_text(size = 16, color = "black", face = "bold"),
       strip.text.y = ggplot2::element_text(size = 16, color = "black", face = "bold"),
-      strip.background = ggplot2::element_rect(fill = "white", linewidth = 2)
+      strip.background = ggplot2::element_rect(fill = "white", linewidth = 2),
+      
+      panel.border = ggplot2::element_blank()
       
     )
 }
