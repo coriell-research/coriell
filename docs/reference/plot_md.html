@@ -50,7 +50,7 @@
 <span>  y <span class="op">=</span> <span class="st">"logFC"</span>,</span>
 <span>  sig_col <span class="op">=</span> <span class="st">"FDR"</span>,</span>
 <span>  lab <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fdr <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  fdr <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  lfc <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  annotate_counts <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  label_sig <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -63,14 +63,14 @@
 <span>  up_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  down_size <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  nonde_size <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  up_shape <span class="op">=</span> <span class="fl">19</span>,</span>
-<span>  down_shape <span class="op">=</span> <span class="fl">19</span>,</span>
-<span>  nonde_shape <span class="op">=</span> <span class="fl">19</span>,</span>
-<span>  xmax_label_offset <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>  ymax_label_offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  ymin_label_offset <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  lab_size <span class="op">=</span> <span class="fl">8</span>,</span>
-<span>  lab_digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  up_shape <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  down_shape <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  nonde_shape <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  xmax_label_offset <span class="op">=</span> <span class="fl">0.85</span>,</span>
+<span>  ymax_label_offset <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  ymin_label_offset <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  lab_size <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  lab_digits <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  x_axis_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y_axis_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -178,11 +178,11 @@
 
 
 <dt id="arg-lab-size">lab_size<a class="anchor" aria-label="anchor" href="#arg-lab-size"></a></dt>
-<dd><p>numeric. If annotate_counts = TRUE specify the label size. Default = 8.</p></dd>
+<dd><p>numeric. If annotate_counts = TRUE specify the label size. Default = 6.</p></dd>
 
 
 <dt id="arg-lab-digits">lab_digits<a class="anchor" aria-label="anchor" href="#arg-lab-digits"></a></dt>
-<dd><p>numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)</p></dd>
+<dd><p>numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)</p></dd>
 
 
 <dt id="arg-x-axis-limits">x_axis_limits<a class="anchor" aria-label="anchor" href="#arg-x-axis-limits"></a></dt>

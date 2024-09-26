@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.15.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.16.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="coriell">coriell<a class="anchor" aria-label="anchor" href="#coriell"></a>
 </h1></div>
-<p>This package contains helper functions for common bioinformatics tasks (and some not-so-common tasks). If you find yourself reusing old code over and over, let me know and we’ll create a function and put it in this package.</p>
+<p>This package contains helper functions for common bioinformatics tasks (and some not-so-common tasks).</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -70,20 +70,47 @@
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
-<ul>
-<li><a href="https://coriell-research.github.io/coriell/#summarize-results-from-differential-expression-test" class="external-link">Summarize results from differential expression analysis</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#create-volcano-plot-from-differential-expression-results" class="external-link">Create volcano plot from differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#create-md-plot-from-differential-expression-results" class="external-link">Create md plot from differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#heatmap-with-sensible-defaults" class="external-link">Heatmap with sensible defaults</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#parallel-coordinates-plot-of-expression-matrix" class="external-link">Parallel coordinates plot of expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#boxplot-of-expression-matrix" class="external-link">Boxplot of expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/#density-plot-of-expression-matrix" class="external-link">Density plot of expression matrix</a></li>
-</ul>
-<p>The package also contains many other convenience functions so be sure to check out the <a href="https://coriell-research.github.io/coriell/reference/index.html" class="external-link">reference</a> page and articles as well.</p>
 <div class="section level3">
-<h3 id="built-in-datasets">Built-in datasets<a class="anchor" aria-label="anchor" href="#built-in-datasets"></a>
+<h3 id="plotting-functions">Plotting functions<a class="anchor" aria-label="anchor" href="#plotting-functions"></a>
 </h3>
-<p>These datasets are built into the package for testing purposes and are used below to illustrate some functionality.</p>
+<ul>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_volcano.html" class="external-link">Volcano plot from differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_md.html" class="external-link">MA plot from differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/quickmap.html" class="external-link">Heatmap with sensible defaults for RNA-seq</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_boxplot.html" class="external-link">RLE boxplots of an expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_density.html" class="external-link">Density plot of an expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_parallel.html" class="external-link">Parallel coordinates plot of expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html" class="external-link">Plot pairwise correlations between all samples in a matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_dist.html" class="external-link">Plot heatmap of pairwise distances between all samples in a matrix</a></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="differential-expression-and-meta-analysis">Differential Expression and Meta-Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-and-meta-analysis"></a>
+</h3>
+<ul>
+<li><a href="https://coriell-research.github.io/coriell/reference/meta_de.html" class="external-link">Perform Meta-Analysis across sets of differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/jackknifeSE.html" class="external-link">Perform jackknife resampling on meta-analysis results to assess stability</a></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="dimensionality-reduction">Dimensionality reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a>
+</h3>
+<ul>
+<li><a href="https://coriell-research.github.io/coriell/reference/associate_components.html" class="external-link">Calculate associations between variables and principal components</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/remove_components.html" class="external-link">Remove the effect of principal components from data</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/UMAP.html" class="external-link">Perform UMAP on various objects</a></li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="miscellaneous">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous"></a>
+</h3>
+<p>The package also contains many other convenience functions so be sure to check out the <a href="https://coriell-research.github.io/coriell/reference/index.html" class="external-link">reference</a> page and articles as well.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="built-in-datasets">Built-in datasets<a class="anchor" aria-label="anchor" href="#built-in-datasets"></a>
+</h2>
+<p>These datasets are built into the package for testing purposes and are used to illustrate functionality in reference pages.</p>
 <ul>
 <li>
 <code>GSE161650_de</code> : Differential expression results of THZ1 vs DMSO from GSE161650</li>
@@ -107,203 +134,6 @@
 &gt; AAED1 1.2814586  1.5332476  2.0735095  2.443188 2.1270932  0.9707206
 &gt; AAGAB 6.8747238  6.7396922  6.6670762  6.756664 6.5840839  6.7662317</code></pre>
 <p>See the package documentation <code><a href="reference/GSE161650_de.html">?GSE161650_de</a></code> and <code><a href="reference/GSE161650_lc.html">?GSE161650_lc</a></code> for citation information.</p>
-</div>
-<div class="section level3">
-<h3 id="summarize-results-from-differential-expression-test">Summarize results from differential expression test<a class="anchor" aria-label="anchor" href="#summarize-results-from-differential-expression-test"></a>
-</h3>
-<p>Return a table of up/down/non-de counts and their percentages.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>de <span class="ot">&lt;-</span> GSE161650_de</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">summarize_dge</span>(de, <span class="at">fdr =</span> <span class="fl">0.1</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="sc">&gt;</span>     Direction    N Percent</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">1</span>          Up <span class="dv">2588</span>   <span class="fl">23.52</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">2</span>        Down <span class="dv">3365</span>   <span class="fl">30.59</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="sc">&gt;</span> <span class="dv">3</span> Unperturbed <span class="dv">5049</span>   <span class="fl">45.89</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="create-volcano-plot-from-differential-expression-results">Create volcano plot from differential expression results<a class="anchor" aria-label="anchor" href="#create-volcano-plot-from-differential-expression-results"></a>
-</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">de</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/volcano1.png"></p>
-<p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/volcano2.png"></p>
-<p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/volcano3.png"></p>
-<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. If <code>label_sig = TRUE</code> then the <code>lab</code> argument must also designate a column containing the names of the items to plot. Additional arguments can be passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code> via <code>...</code> if you need to modify the behavior of the labels.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, label_sig <span class="op">=</span> <span class="cn">TRUE</span>, lab <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/volcano4.png"></p>
-<p>All aesthetics of the points can also be changed</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_volcano.html">plot_volcano</a></span><span class="op">(</span><span class="va">de</span>,</span>
-<span>  fdr <span class="op">=</span> <span class="fl">0.01</span>, </span>
-<span>  lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span>  up_color <span class="op">=</span> <span class="st">"firebrick"</span>,</span>
-<span>  down_color <span class="op">=</span> <span class="st">"midnightblue"</span>,</span>
-<span>  nonde_color <span class="op">=</span> <span class="st">"grey80"</span>,</span>
-<span>  up_alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>  down_alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>  nonde_alpha <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>  up_size <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  down_size <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  nonde_size <span class="op">=</span> <span class="fl">0.5</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/volcano5.png"></p>
-</div>
-<div class="section level3">
-<h3 id="create-md-plot-from-differential-expression-results">Create md plot from differential expression results<a class="anchor" aria-label="anchor" href="#create-md-plot-from-differential-expression-results"></a>
-</h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">de</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/md1.png"></p>
-<p>Different significance levels can be used to filter the plotted points. For example, significance levels can be set by specifying the <code>fdr</code> and <code>lfc</code> values.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/md2.png"></p>
-<p>Labels for the counts will be displayed by default. To remove them set <code>annotate_counts = FALSE</code></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, annotate_counts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/md3.png"></p>
-<p>Text labels can also be added for the DE genes by setting <code>label_sig = TRUE</code>. If <code>label_sig = TRUE</code> then the <code>lab</code> argument must also designate a column containing the names of the items to plot. Additional arguments can be passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel()</a></code> via <code>...</code> if you need to modify the behavior of the labels.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">de</span>, fdr <span class="op">=</span> <span class="fl">0.01</span>, lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, label_sig <span class="op">=</span> <span class="cn">TRUE</span>, lab <span class="op">=</span> <span class="st">"feature_id"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/md5.png"></p>
-<p>All aesthetics of the points can also be changed</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_md.html">plot_md</a></span><span class="op">(</span><span class="va">de</span>,</span>
-<span>  fdr <span class="op">=</span> <span class="fl">0.01</span>, </span>
-<span>  lfc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>,</span>
-<span>  up_color <span class="op">=</span> <span class="st">"firebrick"</span>,</span>
-<span>  down_color <span class="op">=</span> <span class="st">"midnightblue"</span>,</span>
-<span>  nonde_color <span class="op">=</span> <span class="st">"grey80"</span>,</span>
-<span>  up_alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>  down_alpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
-<span>  nonde_alpha <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span>  up_size <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  down_size <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  nonde_size <span class="op">=</span> <span class="fl">0.5</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"THZ1 vs Control"</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/md4.png"></p>
-</div>
-<div class="section level3">
-<h3 id="heatmap-with-sensible-defaults">Heatmap with sensible defaults<a class="anchor" aria-label="anchor" href="#heatmap-with-sensible-defaults"></a>
-</h3>
-<p>We often use the same settings when making calls to <code>pheatmap</code>. This function is a wrapper around <code>pheatmap</code> which uses sensible default values for expression data.</p>
-<p>Any of these default values can be overridden by simply supplying the arguments to <code>quickmap</code> as you would <code>pheatmap</code>. This also allows for additional arguments to be passed to the <code>quickmap</code> function for creating row and column annotations.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">logcounts</span> <span class="op">&lt;-</span> <span class="va">GSE161650_lc</span></span>
-<span></span>
-<span><span class="co"># plot a heatmap of the logCPM values</span></span>
-<span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/quickmap1.png"></p>
-<p>Other <code>pheatmap</code> arguments can be passed to the <code>quickmap</code> function as well.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># create annotation for columns</span></span>
-<span><span class="va">col_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DMSO"</span>, <span class="st">"THZ1"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">col_df</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># create color scheme for treatment conditions</span></span>
-<span><span class="va">ann_colors</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DMSO"</span> <span class="op">=</span> <span class="st">"steelblue"</span>, <span class="st">"THZ1"</span> <span class="op">=</span> <span class="st">"firebrick"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># plot the heatmap, passing additional args to pheatmap</span></span>
-<span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span></span>
-<span>  <span class="va">logcounts</span>,</span>
-<span>  annotation_col <span class="op">=</span> <span class="va">col_df</span>,</span>
-<span>  annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"Treatment vs Control"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/quickmap2.png"></p>
-<p>Additional arguments can be set to limit the scales of the heatmap as well as remove low variance features prior to plotting. To remove low variance features set the <code>removeVar</code> argument to the desired proportion of features to drop.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span></span>
-<span>  <span class="va">logcounts</span>,</span>
-<span>  removeVar <span class="op">=</span> <span class="fl">0.9</span>,</span>
-<span>  annotation_col <span class="op">=</span> <span class="va">col_df</span>,</span>
-<span>  annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,</span>
-<span>  main <span class="op">=</span> <span class="st">"THZ1 vs DMSO"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/quickmap3.png"></p>
-<p>The colors of the heatmap scale can also be ‘fixed’ above and below a certain threshold with the <code>fix_extreme</code> and <code>thresh</code> arguments</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/quickmap.html">quickmap</a></span><span class="op">(</span></span>
-<span>    <span class="va">logcounts</span>,</span>
-<span>    removeVar <span class="op">=</span> <span class="fl">0.9</span>,</span>
-<span>    fix_extreme <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>    thresh <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>    annotation_col <span class="op">=</span> <span class="va">col_df</span>,</span>
-<span>    annotation_colors <span class="op">=</span> <span class="va">ann_colors</span>,</span>
-<span>    main <span class="op">=</span> <span class="st">"THZ1 vs DMSO"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/quickmap4.png"></p>
-</div>
-<div class="section level3">
-<h3 id="parallel-coordinates-plot-of-expression-matrix">Parallel coordinates plot of expression matrix<a class="anchor" aria-label="anchor" href="#parallel-coordinates-plot-of-expression-matrix"></a>
-</h3>
-<p>Parallel coordinates plots (PCP), as well as boxplots and density plots (below), can be useful tools for examining expression patterns across samples before and after normalization, for example. To create a PCP with <code>coriell</code> use the <code><a href="reference/plot_parallel.html">plot_parallel()</a></code> function.</p>
-<p>Using <code>logcounts</code> define above:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create PCP plot -- passing additional alpha value to geom_line()</span></span>
-<span><span class="fu"><a href="reference/plot_parallel.html">plot_parallel</a></span><span class="op">(</span><span class="va">logcounts</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/parallel.png"></p>
-<p>If metadata is supplied then the PCP can be colored by the supplied variable name. Using <code>col_df</code> defined above:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_parallel.html">plot_parallel</a></span><span class="op">(</span><span class="va">logcounts</span>, <span class="va">col_df</span>, colBy <span class="op">=</span> <span class="st">"Treatment"</span>, alpha <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/parallel2.png"></p>
-</div>
-<div class="section level3">
-<h3 id="boxplot-of-expression-matrix">Boxplot of expression matrix<a class="anchor" aria-label="anchor" href="#boxplot-of-expression-matrix"></a>
-</h3>
-<p>Likewise, boxplots of the expression values can be visualized in a similar fashion with <code><a href="reference/plot_boxplot.html">plot_boxplot()</a></code></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_boxplot.html">plot_boxplot</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/boxplot.png"></p>
-<p>If metadata are supplied the boxes can be colored by the desired metadata column and additional arguments can be passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot()</a></code> to modify the boxplots.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_boxplot.html">plot_boxplot</a></span><span class="op">(</span><span class="va">logcounts</span>, <span class="va">col_df</span>, fillBy <span class="op">=</span> <span class="st">"Treatment"</span>, outlier.shape <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/boxplot2.png"></p>
-</div>
-<div class="section level3">
-<h3 id="density-plot-of-expression-matrix">Density plot of expression matrix<a class="anchor" aria-label="anchor" href="#density-plot-of-expression-matrix"></a>
-</h3>
-<p>Density plots showing the expression values for samples or groups can be plotted using the <code><a href="reference/plot_density.html">plot_density()</a></code> function.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">logcounts</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/density.png"></p>
-<p>If metadata are supplied, the lines can be colored by the desired metadata column and additional arguments can be passed to <code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html" class="external-link">geom_density()</a></code> to modify the density layer.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_density.html">plot_density</a></span><span class="op">(</span><span class="va">logcounts</span>, <span class="va">col_df</span>, colBy <span class="op">=</span> <span class="st">"Treatment"</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="reference/theme_coriell.html">theme_coriell</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/density2.png"></p>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

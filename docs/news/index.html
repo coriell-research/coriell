@@ -38,6 +38,14 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.16.0" id="coriell-0160">coriell 0.16.0<a class="anchor" aria-label="anchor" href="#coriell-0160"></a></h2>
+<ul><li>Changed <code><a href="../reference/theme_coriell.html">theme_coriell()</a></code> to drop panel borders and removed angle from x-axis text.</li>
+<li>Changed <code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> and <code><a href="../reference/plot_md.html">plot_md()</a></code> defaults to use unaliased points, smaller text sizes for labels, and moved labels further to the sides.</li>
+<li>Added some significance testing to the <code><a href="../reference/pairwise_intersections.html">pairwise_intersections()</a></code>.</li>
+<li>Added a new function for plotting pairwise correlations between columns in a matrix, <code><a href="../reference/plot_cor_pairs.html">plot_cor_pairs()</a></code>
+</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.15.0" id="coriell-0150">coriell 0.15.0<a class="anchor" aria-label="anchor" href="#coriell-0150"></a></h2>
 <ul><li>Added an argument for <code><a href="../reference/panther_go.html">panther_go()</a></code> to include the reference gene list when performing over representation testing. There may still be bugs here.</li>
 <li>Updated site. Removed some vignettes with older workflows. TODO: add new vignettes with current best practices for RNAseq.</li>
@@ -65,7 +73,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.0" id="coriell-0110">coriell 0.11.0<a class="anchor" aria-label="anchor" href="#coriell-0110"></a></h2>
-<ul><li>Internal changes to the <code><a href="../reference/quickmap.html">quickmap()</a></code> function. Avoid <code>pheatmap</code> scaling in favor of vectorized scaling. Speed up removeVar calculations with <code>Rfast::rowVars()</code> or <code><a href="https://rdrr.io/pkg/matrixStats/man/rowVars.html" class="external-link">matrixStats::rowVars()</a></code> if available. Speed up clustering and distance matrix calculations by performing distance matrix calculations with <code>rdist::rdist()</code> and clustering with <code>fastcluster::hclust()</code> if available. Round values in fix_extreme to better maintain original scale limits.</li>
+<ul><li>Internal changes to the <code><a href="../reference/quickmap.html">quickmap()</a></code> function. Avoid <code>pheatmap</code> scaling in favor of vectorized scaling. Speed up removeVar calculations with <code><a href="https://rdrr.io/pkg/Rfast/man/colVars.html" class="external-link">Rfast::rowVars()</a></code> or <code><a href="https://rdrr.io/pkg/matrixStats/man/rowVars.html" class="external-link">matrixStats::rowVars()</a></code> if available. Speed up clustering and distance matrix calculations by performing distance matrix calculations with <code><a href="https://rdrr.io/pkg/rdist/man/rdist.html" class="external-link">rdist::rdist()</a></code> and clustering with <code><a href="https://rdrr.io/pkg/fastcluster/man/hclust.html" class="external-link">fastcluster::hclust()</a></code> if available. Round values in fix_extreme to better maintain original scale limits.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.0" id="coriell-0100">coriell 0.10.0<a class="anchor" aria-label="anchor" href="#coriell-0100"></a></h2>
