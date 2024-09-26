@@ -10,7 +10,7 @@ plot_md(
   y = "logFC",
   sig_col = "FDR",
   lab = NULL,
-  fdr = 0.1,
+  fdr = 0.05,
   lfc = 0,
   annotate_counts = TRUE,
   label_sig = FALSE,
@@ -23,14 +23,14 @@ plot_md(
   up_size = 1,
   down_size = 1,
   nonde_size = 1,
-  up_shape = 19,
-  down_shape = 19,
-  nonde_shape = 19,
-  xmax_label_offset = 0.8,
-  ymax_label_offset = 0.5,
-  ymin_label_offset = 0.5,
-  lab_size = 8,
-  lab_digits = 2,
+  up_shape = 16,
+  down_shape = 16,
+  nonde_shape = ".",
+  xmax_label_offset = 0.85,
+  ymax_label_offset = 0.8,
+  ymin_label_offset = 0.8,
+  lab_size = 6,
+  lab_digits = 1,
   x_axis_limits = NULL,
   y_axis_limits = NULL,
   ...
@@ -85,9 +85,9 @@ plot_md(
 
 \item{ymin_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label}
 
-\item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 8.}
+\item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 6.}
 
-\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)}
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)}
 
 \item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 

@@ -9,7 +9,7 @@ plot_volcano(
   x = "logFC",
   y = "FDR",
   lab = NULL,
-  fdr = 0.1,
+  fdr = 0.05,
   lfc = 0,
   label_sig = FALSE,
   annotate_counts = TRUE,
@@ -22,14 +22,14 @@ plot_volcano(
   up_size = 1,
   down_size = 1,
   nonde_size = 1,
-  up_shape = 19,
-  down_shape = 19,
-  nonde_shape = 19,
-  xmin_label_offset = 0.5,
-  xmax_label_offset = 0.5,
-  ymax_label_offset = 0.8,
-  lab_size = 8,
-  lab_digits = 2,
+  up_shape = 16,
+  down_shape = 16,
+  nonde_shape = ".",
+  xmin_label_offset = 0.8,
+  xmax_label_offset = 0.8,
+  ymax_label_offset = 0.9,
+  lab_size = 6,
+  lab_digits = 1,
   x_axis_limits = NULL,
   y_axis_limits = NULL,
   ...
@@ -82,9 +82,9 @@ plot_volcano(
 
 \item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive to control the y-position of the count labels.}
 
-\item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 8.}
+\item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 6.}
 
-\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (2)}
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)}
 
 \item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 
