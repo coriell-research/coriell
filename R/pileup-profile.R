@@ -79,12 +79,10 @@ pileup_profile <- function(bamfile, x, scan_bam_flag, sample_size = NULL,
 
   if (!is.null(sample_size)) {
     n <- floor(sample_size / 2)
-    
     if (n > length(pos_gr) || n > length(neg_gr)) {
       n <- min(c(length(pos_gr), length(neg_gr)))
       message("subsample size > length of ranges on either strand. Setting n to ", n)
     }
-    
     pos_gr <- pos_gr[sample.int(length(pos_gr), size = n)]
     neg_gr <- neg_gr[sample.int(length(neg_gr), size = n)]
   }
@@ -96,12 +94,13 @@ pileup_profile <- function(bamfile, x, scan_bam_flag, sample_size = NULL,
   np <- .pileup2dt(Rsamtools::pileup(bamfile, scanBamParam = neg_bparam, pileupParam = pparam))
   
   # Start counting from the 5' end
-  pp[, RelativePosition := pos - start]
-  np[, RelativePosition := end - pos]
+  pp[, relative_position := pos - start]
+  np[, relative_position := end - pos]
   df <- rbind(pp, np)
 
-  result <- df[, .(Sum = sum(count), Avg = mean(count), N = .N), by = RelativePosition]
-  data.table::setorder(result, RelativePosition)
+  result <- df[, .(n = .N, total = sum(count), avg = mean(count)), by = relative_position]
+  result[, normalized := coriell::minmax(avg)]
+  data.table::setorder(result, relative_position)
 
   return(result)
 }
