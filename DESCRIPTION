@@ -20,6 +20,7 @@ Imports:
 Suggests: 
     edgeR,
     fastcluster,
+    GenomicRanges,
     ggrepel,
     httr2,
     knitr,
@@ -30,6 +31,7 @@ Suggests:
     rdist,
     Rfast,
     rmarkdown,
+    Rsamtools,
     SummarizedExperiment,
     testthat,
     umap,
