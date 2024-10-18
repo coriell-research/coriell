@@ -8,11 +8,11 @@ pileup_profile(
   bamfile,
   x,
   scan_bam_flag,
-  sample_size = NULL,
   max_depth = 10000,
   min_base_quality = 13,
   min_mapq = 1,
-  min_nucleotide_depth = 0
+  min_nucleotide_depth = 0,
+  return_matrix = FALSE
 )
 }
 \arguments{
@@ -24,38 +24,37 @@ pileup_profile(
 a parameter object influencing what fields and which records are imported 
 from a (binary) BAM file}
 
-\item{sample_size}{Number of records ranges to be randomly subsampled from x. 
-Default NULL, no subsampling.}
-
-\item{max_depth}{integer; maximum number of overlapping alignments considered 
+\item{max_depth}{maximum number of overlapping alignments considered 
 for each position in the pileup. See Rsamtools::PileupParam()}
 
-\item{min_base_quality}{integer; minimum ‘QUAL’ value for each nucleotide 
+\item{min_base_quality}{minimum ‘QUAL’ value for each nucleotide 
 in an alignment. Use phred2ASCIIOffset to help translate numeric or 
 character values to these offsets.}
 
-\item{min_mapq}{integer; minimum ‘MAPQ’ value for an alignment to be included 
+\item{min_mapq}{minimum ‘MAPQ’ value for an alignment to be included 
 in pileup.}
 
-\item{min_nucleotide_depth}{integer(1); minimum count of each nucleotide 
+\item{min_nucleotide_depth}{minimum count of each nucleotide 
 (independent of other nucleotides) at a given position required for said 
 nucleotide to appear in the result.}
+
+\item{return_matrix}{Should the function return a range by position matrix
+containing the pileup counts at each relative position? If FALSE (default) 
+then a data.table of summary stats at each relative position is returned.}
 }
 \value{
-data.table
+data.table or matrix
 }
 \description{
 This function computes pileups for BAM files over a set of GRanges. It 
-returns sum and average counts for all positions relative to the 5' end of 
-the ranges. This function also allows for subsampling of ranges to speed up
-calculations.
+returns pileup stats relative to the 5' to 3' direction taking strandedness 
+of the input range into account.
 }
 \details{
-This function takes in a BAM file and computes a pileup over the given ranges. 
-The data.table which gets returned contains the sum and average count of 
-reads at each position relative to the 5' end of the input ranges. The user 
-can also randomly subsample the input ranges to speed up computation. 
-For both subsampling and pileup computation, ranges are split by positive and 
-negative strand, subsampled at the same depth (if set), and positions in the 
-final data.table are returned relative to the 5' start in the input ranges.
+For pileup computation, ranges are split by positive and negative strand 
+and positions in the final data.table are returned relative to the 5' start
+in the input ranges. If unstranded ranges are supplied then they are treated 
+as positively stranded ranges. The function can also return a range x 
+relative_position matrix containing pileup counts at each position if 
+return_matrix=TRUE.
 }
