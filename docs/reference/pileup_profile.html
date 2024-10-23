@@ -58,7 +58,7 @@ of the input range into account.</p>
 <span>  min_base_quality <span class="op">=</span> <span class="fl">13</span>,</span>
 <span>  min_mapq <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  min_nucleotide_depth <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  return_matrix <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  summarize <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -102,26 +102,47 @@ in pileup.</p></dd>
 nucleotide to appear in the result.</p></dd>
 
 
-<dt id="arg-return-matrix">return_matrix<a class="anchor" aria-label="anchor" href="#arg-return-matrix"></a></dt>
-<dd><p>Should the function return a range by position matrix
-containing the pileup counts at each relative position? If FALSE (default)
-then a data.table of summary stats at each relative position is returned.</p></dd>
+<dt id="arg-summarize">summarize<a class="anchor" aria-label="anchor" href="#arg-summarize"></a></dt>
+<dd><p>Should the summary stats of the pileups at every relative
+position over all ranges be returned? Default TRUE. If FALSE then a data.table
+containing all measured ranges and relative positions is returned.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>data.table or matrix</p>
+    <p>data.table</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>For pileup computation, ranges are split by positive and negative strand
 and positions in the final data.table are returned relative to the 5' start
 in the input ranges. If unstranded ranges are supplied then they are treated
-as positively stranded ranges. The function can also return a range x
-relative_position matrix containing pileup counts at each position if
-return_matrix=TRUE.</p>
+as positively stranded ranges.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Select GRanges to compute pileups over</span></span></span>
+<span class="r-in"><span><span class="va">gtf</span> <span class="op">&lt;-</span> <span class="fu">rtracklayer</span><span class="fu">::</span><span class="fu">import</span><span class="op">(</span><span class="st">"/path/to/annotation.gtf"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">genes</span> <span class="op">&lt;-</span> <span class="va">gtf</span><span class="op">[</span><span class="va">gtf</span><span class="op">$</span><span class="va">type</span> <span class="op">==</span> <span class="st">"gene"</span> <span class="op">&amp;</span> <span class="va">gtf</span><span class="op">$</span><span class="va">gene_biotype</span> <span class="op">==</span> <span class="st">"protein_coding"</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define parameters for reading in BAM files</span></span></span>
+<span class="r-in"><span><span class="va">flags</span> <span class="op">&lt;-</span> <span class="fu">Rsamtools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rsamtools/man/ScanBamParam-class.html" class="external-link">scanBamFlag</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  isPaired <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  isProperPair <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  isUnmappedQuery <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  hasUnmappedMate <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Compute pileups over all gene ranges  </span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">pileup_profile</span><span class="op">(</span><span class="st">"/path/to/sorted.bam"</span>, x <span class="op">=</span> <span class="va">genes</span>, scan_bam_flag <span class="op">=</span> <span class="va">flags</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
