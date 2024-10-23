@@ -34,24 +34,43 @@
 #' @param min_nucleotide_depth minimum count of each nucleotide 
 #' (independent of other nucleotides) at a given position required for said 
 #' nucleotide to appear in the result.
-#' @param return_matrix Should the function return a range by position matrix
-#' containing the pileup counts at each relative position? If FALSE (default) 
-#' then a data.table of summary stats at each relative position is returned.
+#' @param summarize Should the summary stats of the pileups at every relative
+#' position over all ranges be returned? Default TRUE. If FALSE then a data.table
+#' containing all measured ranges and relative positions is returned.
 #' 
 #' @details
 #' For pileup computation, ranges are split by positive and negative strand 
 #' and positions in the final data.table are returned relative to the 5' start
 #' in the input ranges. If unstranded ranges are supplied then they are treated 
-#' as positively stranded ranges. The function can also return a range x 
-#' relative_position matrix containing pileup counts at each position if 
-#' return_matrix=TRUE.  
+#' as positively stranded ranges. 
 #' 
-#' @return data.table or matrix
+#' @return data.table
 #' @import data.table
 #' @export
+#' 
+#' @examples
+#' \dontrun{
+#' 
+#' # Select GRanges to compute pileups over
+#' gtf <- rtracklayer::import("/path/to/annotation.gtf")
+#' genes <- gtf[gtf$type == "gene" & gtf$gene_biotype == "protein_coding", ]
+#' 
+#' # Define parameters for reading in BAM files
+#' flags <- Rsamtools::scanBamFlag(
+#'   isPaired = TRUE,
+#'   isProperPair = TRUE,
+#'   isUnmappedQuery = FALSE,
+#'   hasUnmappedMate = FALSE
+#'   )
+#' 
+#' # Compute pileups over all gene ranges  
+#' result <- pileup_profile("/path/to/sorted.bam", x = genes, scan_bam_flag = flags)
+#'
+#' }
+#' 
 pileup_profile <- function(bamfile, x, scan_bam_flag, max_depth = 1e4, 
                            min_base_quality = 13, min_mapq = 1,
-                           min_nucleotide_depth = 0, return_matrix = FALSE) {
+                           min_nucleotide_depth = 0, summarize = TRUE) {
   
   if (!requireNamespace("Rsamtools", quietly = TRUE)) {
     stop("Rsamtools is required")
@@ -94,16 +113,8 @@ pileup_profile <- function(bamfile, x, scan_bam_flag, max_depth = 1e4,
   
   dt <- rbind(pp, np)
   
-  if (isTRUE(return_matrix)) {
-    m <- data.table::dcast(
-      dt, 
-      which_label ~ relative_position, 
-      value.var = "count", 
-      fill = 0L
-      )
-    m <- as.matrix(m, rownames = "which_label")
-    
-    return(m)
+  if (isFALSE(summarize)) {
+    return(dt) 
   }
   
   result <- dt[, .(n = .N, total = sum(count), avg = mean(count)), by = relative_position]
