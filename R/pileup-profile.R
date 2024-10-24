@@ -97,23 +97,41 @@ pileup_profile <- function(bamfile, x, scan_bam_flag, max_depth = 1e4,
   
   if (length(pos_gr) != 0) {
     pos_bparam <- Rsamtools::ScanBamParam(flag = scan_bam_flag, which = pos_gr)
-    pp <- .pileup2dt(Rsamtools::pileup(bamfile, scanBamParam = pos_bparam, pileupParam = pparam))
-    pp[, relative_position := pos - start]
+    pp <- Rsamtools::pileup(bamfile, scanBamParam = pos_bparam, pileupParam = pparam)
+    
+    if (nrow(pp) > 0) {
+      pp <- .pileup2dt(pp)
+      pp[, relative_position := pos - start]
+    } else {
+      pp <- data.table::data.table()
+    }
   } else {
     pp <- data.table::data.table()
   }
   
   if (length(neg_gr) != 0) {
     neg_bparam <- Rsamtools::ScanBamParam(flag = scan_bam_flag, which = neg_gr)
-    np <- .pileup2dt(Rsamtools::pileup(bamfile, scanBamParam = neg_bparam, pileupParam = pparam))
-    np[, relative_position := end - pos]
+    np <- Rsamtools::pileup(bamfile, scanBamParam = neg_bparam, pileupParam = pparam)
+    
+    if (nrow(np > 0)) {
+      np <- .pileup2dt(np)
+      np[, relative_position := end - pos]
+    } else {
+      np <- data.table::data.table()
+    }
   } else {
     np <- data.table::data.table()
   }
   
   dt <- rbind(pp, np)
   
+  # Both pileups could be empty, if so return NULL
+  if (nrow(dt) == 0) {
+    return(NULL)
+  }
+  
   if (isFALSE(summarize)) {
+    dt[, `:=`(chrom=NULL, start=NULL, end=NULL)]
     return(dt) 
   }
   
