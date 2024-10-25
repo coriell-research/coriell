@@ -113,7 +113,7 @@ pileup_profile <- function(bamfile, x, scan_bam_flag, max_depth = 1e4,
     neg_bparam <- Rsamtools::ScanBamParam(flag = scan_bam_flag, which = neg_gr)
     np <- Rsamtools::pileup(bamfile, scanBamParam = neg_bparam, pileupParam = pparam)
     
-    if (nrow(np > 0)) {
+    if (nrow(np) > 0) {
       np <- .pileup2dt(np)
       np[, relative_position := end - pos]
     } else {
