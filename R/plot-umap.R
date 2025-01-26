@@ -49,6 +49,12 @@ plot_umap <- function(df, x = "UMAP1", y = "UMAP2", colBy = NULL, shapeBy = NULL
     ggplot2::labs(
       color = if (is.null(colBy)) NULL else colBy,
       shape = if (is.null(shapeBy)) NULL else shapeBy) +
-    theme_coriell()
+    theme_coriell() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_blank(), 
+      axis.ticks.x = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank(),
+      axis.ticks.y = ggplot2::element_blank()
+      )
   
 }
