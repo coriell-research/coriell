@@ -4,7 +4,7 @@
 \alias{theme_coriell}
 \title{ggplot2 theme for coriell package}
 \usage{
-theme_coriell()
+theme_coriell(...)
 }
 \description{
 Based on \code{ggplot2::theme_light()} this theme will adjust the plot title,

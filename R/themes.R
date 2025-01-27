@@ -2,6 +2,7 @@
 #'
 #' Based on \code{ggplot2::theme_light()} this theme will adjust the plot title,
 #' legend position (bottom), axis titles, axis ticks, and strip text.
+#' @importFrom ggplot2 %+replace%
 #' @export
 #' @examples
 #' library(ggplot2)
@@ -35,8 +36,8 @@
 #'   facet_wrap(~C) +
 #'   theme_coriell()
 #'
-theme_coriell <- function() {
-  ggplot2::theme_light() +
+theme_coriell <- function(...) {
+  ggplot2::theme_light(...) %+replace%
     ggplot2::theme(
 
       text = ggplot2::element_text(family = "Helvetica"),
@@ -54,9 +55,11 @@ theme_coriell <- function() {
       
       strip.text.x = ggplot2::element_text(size = 16, color = "black", face = "bold"),
       strip.text.y = ggplot2::element_text(size = 16, color = "black", face = "bold"),
-      strip.background = ggplot2::element_rect(fill = "white", linewidth = 2),
+      strip.background = ggplot2::element_blank(),
       
-      panel.border = ggplot2::element_blank()
+      panel.border = ggplot2::element_blank(),
+      
+      complete = TRUE
       
     )
 }
