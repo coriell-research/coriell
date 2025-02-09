@@ -13,11 +13,12 @@ strip_ens(x)
 character vector with trailing IDs removed
 }
 \description{
-Strip version IDs from ENSEMBL identifiers
+This function is simply a wrapper arond gsub for removing trailing IDs from 
+ENSEMBL identifiers. All entries must start with 'ENS'. NAs are tolerated.
 }
 \examples{
 
 ids <- c("ENSG0000001.12", "ENSMUSG00021.3", "ENST00000556.2")
-strip_ids(ids)
+strip_ens(ids)
 
 }
