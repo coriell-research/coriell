@@ -372,4 +372,21 @@ pairwise_intersections <- function(x, universe_size = NULL) {
   return(result)
 }
 
-
+#' Strip version IDs from ENSEMBL identifiers
+#'
+#' @param x character vector containing ENSEMBL IDs
+#'
+#' @return character vector with trailing IDs removed
+#' @export
+#'
+#' @examples
+#' 
+#' ids <- c("ENSG0000001.12", "ENSMUSG00021.3", "ENST00000556.2")
+#' strip_ids(ids)
+#' 
+strip_ens <- function(x) {
+  stopifnot("Not all entries start with 'ENS'. Are these ENSEMBL IDs?" = all(startsWith(x, "ENS")))
+  result <- gsub("\\.[0-9]+$", "", x)
+  
+  return(result)
+}
