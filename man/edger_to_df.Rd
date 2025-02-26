@@ -4,10 +4,10 @@
 \alias{edger_to_df}
 \title{Convert EdgeR results object to a data.frame}
 \usage{
-edger_to_df(res_obj, ...)
+edger_to_df(x, ...)
 }
 \arguments{
-\item{res_obj}{\code{edgeR} results object to be converted}
+\item{x}{\code{edgeR} results object to be converted}
 
 \item{...}{Additional arguments passed to \code{edgeR::topTags()}}
 }
@@ -17,7 +17,8 @@ data.frame
 \description{
 Create a data.frame from an \code{edgeR} results object. This function calls
 \code{edgeR::topTags()} on the object and extracts the \code{table} data.frame
-with all features.
+with all features. This function returns all rows unsorted by default 
+i.e. \code{topTags(..., n=Inf, sort.by="none")}.
 }
 \examples{
 library(edgeR)

@@ -2,9 +2,10 @@
 #'
 #' Create a data.frame from an \code{edgeR} results object. This function calls
 #' \code{edgeR::topTags()} on the object and extracts the \code{table} data.frame
-#' with all features.
+#' with all features. This function returns all rows unsorted by default 
+#' i.e. \code{topTags(..., n=Inf, sort.by="none")}.
 #'
-#' @param res_obj \code{edgeR} results object to be converted
+#' @param x \code{edgeR} results object to be converted
 #' @param ... Additional arguments passed to \code{edgeR::topTags()}
 #' @export
 #' @return data.frame
@@ -37,11 +38,11 @@
 #'
 #' head(res_df)
 #'
-edger_to_df <- function(res_obj, ...) {
+edger_to_df <- function(x, ...) {
   if (!requireNamespace("edgeR", quietly = TRUE)) {
     stop("edgeR package is required.")
   }
-  df <- edgeR::topTags(res_obj, n = Inf, ...)$table
+  df <- edgeR::topTags(x, n = Inf, sort.by = "none", ...)$table
   df <- cbind(feature_id = rownames(df), df)
   rownames(df) <- NULL
 
