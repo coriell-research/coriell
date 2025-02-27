@@ -64,10 +64,11 @@ plot_dist <- function(x, metadata = NULL, method = "euclidean", ...) {
     d <- dist(t(x), method = method)
   }
 
-  # Create row annotations if metadata is present
+  # Create annotations if metadata is present
   if (!is.null(metadata)) {
     stopifnot("rownames(metadata) != colnames(x)" = rownames(metadata) == colnames(x))
     default_args[["annotation_row"]] <- metadata
+    default_args[["annotation_col"]] <- metadata
   }
 
   default_args[["mat"]] <- as.matrix(d)
