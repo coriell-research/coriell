@@ -129,30 +129,22 @@ of the genes of the given organism as the reference list.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">panther_go</span><span class="op">(</span><span class="va">genes</span>, <span class="st">"9606"</span>, <span class="st">"biological_process"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    number_in_list fold_enrichment          fdr  expected</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;int&gt;           &lt;num&gt;        &lt;num&gt;     &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:             14       64.716981 2.675314e-18 0.2163265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:             14       64.716981 2.675314e-18 0.2163265</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:             21       17.958115 3.567391e-18 1.1693878</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:             21       17.958115 3.567391e-18 1.1693878</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:             30        7.067308 1.866696e-17 4.2448980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:             30        7.067308 1.866696e-17 4.2448980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    number_in_reference       pValue         term</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  &lt;int&gt;        &lt;num&gt;       &lt;list&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                 106 1.780101e-22   GO:0060070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                 106 1.780101e-22 canonica....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                 573 4.747344e-22   GO:0048729</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                 573 4.747344e-22 tissue m....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                2080 3.726188e-21   GO:0007166</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                2080 3.726188e-21 cell sur....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plus_minus</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        &lt;char&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:          +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:          +</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    number_in_list fold_enrichment          fdr  expected number_in_reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;int&gt;           &lt;num&gt;        &lt;num&gt;     &lt;num&gt;               &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:             14       64.716981 2.675314e-18 0.2163265                 106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:             14       64.716981 2.675314e-18 0.2163265                 106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:             21       17.958115 3.567391e-18 1.1693878                 573</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:             21       17.958115 3.567391e-18 1.1693878                 573</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:             30        7.067308 1.866696e-17 4.2448980                2080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:             30        7.067308 1.866696e-17 4.2448980                2080</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          pValue         term plus_minus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;num&gt;       &lt;list&gt;     &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1.780101e-22   GO:0060070          +</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1.780101e-22 canonica....          +</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 4.747344e-22   GO:0048729          +</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 4.747344e-22 tissue m....          +</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 3.726188e-21   GO:0007166          +</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 3.726188e-21 cell sur....          +</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

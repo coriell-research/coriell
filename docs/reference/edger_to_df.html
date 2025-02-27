@@ -103,20 +103,13 @@ i.e. <code>topTags(..., n=Inf, sort.by="none")</code>.</p>
 <span class="r-in"><span><span class="va">res_df</span> <span class="op">&lt;-</span> <span class="fu">edger_to_df</span><span class="op">(</span><span class="va">qlf</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   feature_id        logFC    logCPM            F</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      gene1  2.156023236  8.191727 8.984007e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      gene2 -9.220336887 10.963950 8.219136e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      gene3 -0.975198603 11.104462 1.830497e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      gene4  4.466613168  9.785699 3.235222e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      gene5  0.888850776  6.506156 1.466573e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      gene6 -0.003484475 10.391769 2.443854e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       PValue       FDR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.35572249 0.8350293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.01017135 0.6780901</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.67382479 0.9217185</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.08879582 0.6794381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.70621591 0.9292315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 0.99876982 0.9987698</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   feature_id        logFC    logCPM            F     PValue       FDR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      gene1  2.156023236  8.191727 8.984007e-01 0.35572249 0.8350293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2      gene2 -9.220336887 10.963950 8.219136e+00 0.01017135 0.6780901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      gene3 -0.975198603 11.104462 1.830497e-01 0.67382479 0.9217185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4      gene4  4.466613168  9.785699 3.235222e+00 0.08879582 0.6794381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5      gene5  0.888850776  6.506156 1.466573e-01 0.70621591 0.9292315</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6      gene6 -0.003484475 10.391769 2.443854e-06 0.99876982 0.9987698</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
