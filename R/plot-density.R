@@ -64,7 +64,8 @@ plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
       x = NULL,
       y = "Density",
       color = if (colBy == ".sample") "Sample" else colBy
-    )
+      ) + 
+    coriell::theme_coriell()
 }
 
 #' @rdname plot_density

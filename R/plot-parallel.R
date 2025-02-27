@@ -80,6 +80,7 @@ plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
       y = NULL,
       color = if (colBy == ".sample") "Sample" else colBy
     ) +
+    coriell::theme_coriell() +
     ggplot2::guides(color = ggplot2::guide_legend(override.aes = list(alpha = 1)))
 }
 

@@ -85,14 +85,11 @@ plot_boxplot.matrix <- function(x, metadata = NULL, fillBy = NULL, rle = FALSE,
   }
 
   p + ggplot2::geom_hline(
-    yintercept = median(x, na.rm = TRUE),
-    color = "red", linetype = 2
-  ) +
-    ggplot2::labs(
-      x = NULL,
-      y = NULL,
-      fill = if (fillBy == ".sample") "Sample" else fillBy
-    )
+    yintercept = median(x, na.rm = TRUE), color = "red", linetype = 2) +
+    ggplot2::labs(x = NULL,y = NULL,
+      fill = if (fillBy == ".sample") "Sample" else fillBy) +
+    coriell::theme_coriell() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
 }
 
 #' @export
