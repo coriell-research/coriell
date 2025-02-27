@@ -69,7 +69,6 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
     ggplot2::geom_vline(xintercept = lfc, linetype = 3) +
     ggplot2::geom_vline(xintercept = -lfc, linetype = 3) +
     ggplot2::geom_hline(yintercept = -log10(fdr), linetype = 3) +
-    ggplot2::labs(color = "Direction of Expression") +
     ggplot2::labs(
       caption = paste("FDR = ", fdr, "\nlfc cutoff = ", round(lfc, digits = 2)),
       x = "logFC",
