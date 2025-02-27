@@ -47,7 +47,7 @@ theme_coriell <- function(...) {
       legend.text = ggplot2::element_text(size = 14),
       
       plot.title = ggplot2::element_text(hjust = 0, size = 22, face = "bold"),
-      plot.subtitle = ggplot2::element_text(size = 18),
+      plot.subtitle = ggplot2::element_text(size = 18, hjust = 0),
       
       axis.title = ggplot2::element_text(size = 16),
       axis.text.x = ggplot2::element_text(size = 16),
