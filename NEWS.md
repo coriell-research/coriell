@@ -1,3 +1,10 @@
+## coriell 0.17.0
+
+- Make `edger_to_df()` return unsorted results. this is useful for returning 
+results back in the same order that they are present in the original object
+- Make the default theme for plotting function `theme_coriell()`
+- Add function for stripping ENSEMBL version IDs from character vector
+
 ## coriell 0.16.0
 
 - Changed `theme_coriell()` to drop panel borders and removed angle from x-axis 
