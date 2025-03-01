@@ -73,14 +73,11 @@ metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the boxplot by sample
-plot_boxplot(GSE161650_lc) +
-  theme_coriell()
-
+plot_boxplot(GSE161650_lc)
+ 
 # Plot the boxplot by coloring each Group
-plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") +
-  theme_coriell()
+plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") 
 
 # Create a violin plot after RLE transformation
-plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE) +
-  theme_coriell()
+plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE)
 }

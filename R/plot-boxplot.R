@@ -24,16 +24,13 @@
 #' metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 #'
 #' # Plot the boxplot by sample
-#' plot_boxplot(GSE161650_lc) +
-#'   theme_coriell()
-#'
+#' plot_boxplot(GSE161650_lc)
+#'  
 #' # Plot the boxplot by coloring each Group
-#' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") +
-#'   theme_coriell()
+#' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") 
 #'
 #' # Create a violin plot after RLE transformation
-#' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE) +
-#'   theme_coriell()
+#' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE)
 plot_boxplot <- function(x, ...) UseMethod("plot_boxplot")
 
 #' @export
@@ -50,9 +47,14 @@ plot_boxplot.matrix <- function(x, metadata = NULL, fillBy = NULL, rle = FALSE,
   stopifnot("fillBy must be a column in metadata" = fillBy %in% colnames(metadata))
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
 
-  if (rle) {
-    m <- apply(x, 1, median, na.rm = TRUE)
-    x <- x - m
+  if (isTRUE(rle)) {
+    if (requireNamespace("matrixStats", quietly = TRUE)) {
+      m <- matrixStats::rowMedians(x, na.rm = TRUE, useNames = FALSE)
+      x <- x - m
+    } else {
+      m <- apply(x, 1, median, na.rm = TRUE)
+      x <- x - m
+    }
   }
 
   dt <- data.table::as.data.table(x, keep.rownames = ".feature")
@@ -78,7 +80,7 @@ plot_boxplot.matrix <- function(x, metadata = NULL, fillBy = NULL, rle = FALSE,
   dt.m[, .sample := factor(.sample, levels = fct_levels)]
 
   p <- ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".sample"]], y = .data[[".value"]]))
-  if (violin) {
+  if (isTRUE(violin)) {
     p <- p + ggplot2::geom_violin(ggplot2::aes(fill = .data[[fillBy]]), ...)
   } else {
     p <- p + ggplot2::geom_boxplot(ggplot2::aes(fill = .data[[fillBy]]), ...)
