@@ -44,10 +44,9 @@ metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the density by sample
-plot_density(GSE161650_lc) +
-  theme_coriell()
+plot_density(GSE161650_lc)
 
 # Color each sample by their Group in metadata
-plot_density(GSE161650_lc, metadata, colBy = "Group") +
-  theme_coriell()
+plot_density(GSE161650_lc, metadata, colBy = "Group")
+
 }

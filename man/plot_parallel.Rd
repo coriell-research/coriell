@@ -46,10 +46,8 @@ metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the PCP for each sample -- passing alpha value to geom_line()
-plot_parallel(GSE161650_lc, alpha = 0.01) +
-  theme_coriell()
+plot_parallel(GSE161650_lc, alpha = 0.01)
 
 # Plot the PCP by coloring each sample by Group from metadata
-plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01) +
-  theme_coriell()
+plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01)
 }
