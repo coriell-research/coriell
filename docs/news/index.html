@@ -39,7 +39,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.17.0" id="coriell-0170">coriell 0.17.0<a class="anchor" aria-label="anchor" href="#coriell-0170"></a></h2>
-<ul><li>Make <code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> return unsorted results. this is useful for returning results back in the same order that they are present in the original object</li>
+<ul><li>
+<em>Breaking change</em> to <code><a href="../reference/quickmap.html">quickmap()</a></code>. Removed all additional processing, threshold setting, and value clipping except for optional variance removal. The function now simply relays arguments to <code><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap::pheatmap()</a></code>.</li>
+<li>Make <code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> return unsorted results. this is useful for returning results back in the same order that they are present in the original object</li>
 <li>Make the default theme for plotting function <code><a href="../reference/theme_coriell.html">theme_coriell()</a></code>
 </li>
 <li>Add function for stripping ENSEMBL version IDs from character vector</li>

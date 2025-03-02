@@ -1,5 +1,8 @@
 ## coriell 0.17.0
 
+- *Breaking change* to `quickmap()`. Removed all additional processing, 
+threshold setting, and value clipping except for optional variance removal. 
+The function now simply relays arguments to `pheatmap::pheatmap()`. 
 - Make `edger_to_df()` return unsorted results. this is useful for returning 
 results back in the same order that they are present in the original object
 - Make the default theme for plotting function `theme_coriell()`
