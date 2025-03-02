@@ -16,7 +16,8 @@
 #'   * \code{clustering_method = "ward.D2"}
 #'   * \code{angle_col = 315}
 #' }
-#'
+#' @md
+#' 
 #' @param x numeric matrix to be passed onto pheatmap function
 #' @param metadata column metadata to add to heatmap annotation. Default NULL
 #' @param remove_var Remove this proportion of features based on variance 

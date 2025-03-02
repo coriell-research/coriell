@@ -11,7 +11,7 @@ quickmap(x, metadata = NULL, remove_var = NULL, ...)
 
 \item{metadata}{column metadata to add to heatmap annotation. Default NULL}
 
-\item{remove_var}{Remove this proportion of features based on variance 
+\item{remove_var}{Remove this proportion of features based on variance
 across rows. Default NULL.}
 
 \item{...}{args to be passed to \code{pheatmap()} function}
@@ -25,17 +25,19 @@ Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
 \details{
 The default arguments to \code{pheatmap::pheatmap()} are:
 \itemize{
-  * \code{scale = "row"}
-  * \code{show_rownames = FALSE}
-  * \code{border_col = NA}
-  * \code{cluster_rows = TRUE}
-  * \code{cluster_cols = TRUE}
-  * \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(30)}
-  * \code{treeheight_row = 0}
-  * \code{clustering_distance_rows = "correlation"}
-  * \code{clustering_distance_cols = "euclidean"}
-  * \code{clustering_method = "ward.D2"}
-  * \code{angle_col = 315}
+\itemize{
+\item \code{scale = "row"}
+\item \code{show_rownames = FALSE}
+\item \code{border_col = NA}
+\item \code{cluster_rows = TRUE}
+\item \code{cluster_cols = TRUE}
+\item \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(30)}
+\item \code{treeheight_row = 0}
+\item \code{clustering_distance_rows = "correlation"}
+\item \code{clustering_distance_cols = "euclidean"}
+\item \code{clustering_method = "ward.D2"}
+\item \code{angle_col = 315}
+}
 }
 }
 \examples{
