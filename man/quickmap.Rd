@@ -4,33 +4,15 @@
 \alias{quickmap}
 \title{Heatmap with sensible defaults for RNA-seq expression data}
 \usage{
-quickmap(
-  mat,
-  diverging_palette = TRUE,
-  fix_extreme = FALSE,
-  thresh = 1.96,
-  removeVar = NULL,
-  ...
-)
+quickmap(x, metadata = NULL, remove_var = NULL, ...)
 }
 \arguments{
-\item{mat}{numeric matrix to be passed onto pheatmap function}
+\item{x}{numeric matrix to be passed onto pheatmap function}
 
-\item{diverging_palette}{logical. Default(TRUE). Sets the color scale to a
-diverging palette (blue -> white -> red). If FALSE, set the color to a
-continuous color palette \code{viridis::magma()}, useful for un-scaled
-expression data.}
+\item{metadata}{column metadata to add to heatmap annotation. Default NULL}
 
-\item{fix_extreme}{logical. Should the extreme values at the ends of a
-diverging palette be fixed colors? Default FALSE.}
-
-\item{thresh}{If fix_extreme=TRUE then at what value should the color scale
-be fixed? Since scaling is implied by the use of this argument, the default
-value is set to 1.96 (positive and negative).}
-
-\item{removeVar}{If not NULL, remove this proportion of features based on
-the variance across rows. Default NULL. Note, if removeVar is used the
-lowest variance features are removed prior to scaling the input data}
+\item{remove_var}{Remove this proportion of features based on variance 
+across rows. Default NULL.}
 
 \item{...}{args to be passed to \code{pheatmap()} function}
 }
@@ -39,41 +21,29 @@ pheatmap object. See \code{?pheatmap::pheatmap()} for details
 }
 \description{
 Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
-\code{quickmap()} will also attempt to perform vectorized scaling, clustering,
-and distance calculations with functions from the \code{Rfast},
-\code{fastcluster} and \code{rdist} packages in order to speed up
-calculations for large gene expression matrices.
 }
 \details{
 The default arguments to \code{pheatmap::pheatmap()} are:
 \itemize{
-\itemize{
-\item \code{scale = "row"}
-\item \code{show_rownames = FALSE}
-\item \code{border_col = NA}
-\item \code{cluster_rows = TRUE}
-\item \code{cluster_cols = TRUE}
-\item \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(30)} for diverging_palette = TRUE
-\item \code{color = rev(viridisLite::magma(n = 30))} for diverging_palette = FALSE
-\item \code{treeheight_row = 0}
-\item \code{clustering_distance_rows = "correlation"}
-\item \code{clustering_distance_cols = "euclidean"}
-\item \code{clustering_method = "ward.D2"}
-\item \code{angle_col = 315}
-}
-You can pass in additional arguments or simply override the defaults as well.
+  * \code{scale = "row"}
+  * \code{show_rownames = FALSE}
+  * \code{border_col = NA}
+  * \code{cluster_rows = TRUE}
+  * \code{cluster_cols = TRUE}
+  * \code{color = colorRampPalette(c("dodgerblue3", "grey99", "firebrick3"))(30)}
+  * \code{treeheight_row = 0}
+  * \code{clustering_distance_rows = "correlation"}
+  * \code{clustering_distance_cols = "euclidean"}
+  * \code{clustering_method = "ward.D2"}
+  * \code{angle_col = 315}
 }
 }
 \examples{
-# display heatmap of scaled count data and add title to the plot
+
+# Display heatmap of scaled count data and add title to the plot
 quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
 
-# Remove 90\% lowest variance features and fix color scale
-quickmap(
-  GSE161650_lc,
-  removeVar = 0.9,
-  main = "THZ1 vs DMSO",
-  fix_extreme = TRUE,
-  thresh = 1
-)
+# Override quickmap defaults by supplying additional args
+quickmap(GSE161650_lc, cluster_rows = FALSE, cluster_cols = FALSE)
+
 }
