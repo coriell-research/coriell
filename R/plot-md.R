@@ -67,7 +67,7 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL,
     ggplot2::geom_hline(yintercept = lfc, linetype = 2) +
     ggplot2::geom_hline(yintercept = -lfc, linetype = 2) +
     ggplot2::labs(
-      caption = paste0("FDR = ", fdr, "\nlfc cutoff = ", round(lfc, digits = 2)),
+      caption = paste0(sig_col, " = ", fdr, "\nlfc cutoff = ", round(lfc, digits = 2)),
       x = "Average logCPM",
       y = "Log-fold change"
     ) +
