@@ -110,9 +110,9 @@ It is important to name the results files with `*.fastp.{json|html}` so that
 
 ### Salmon
 
-I tend to perform quantification with Salmon in order to obtain transcript-level
-counts for each sample. A simple bash script for performing quantification with
-Salmon looks like:
+I tend to perform quantification with Salmon to obtain transcript-level counts 
+for each sample. A simple bash script for performing quantification with Salmon 
+looks like:
 
 ```{bash eval=FALSE}
 #!/usr/bin/env bash
@@ -242,7 +242,7 @@ coldata <- data.frame(
 se <- tximeta(coldata)
 
 # Summarize tx counts to the gene-level
-gse <- summarizeToGene(se)
+gse <- summarizeToGene(se, countsFromAbundance = "scaledTPM")
 
 # Import into edgeR for downstream analysis
 y <- SE2DGEList(gse)
@@ -337,12 +337,12 @@ library(ggplot2)
 library(coriell)
 
 
-plot_boxplot(logcounts, metadata = y$samples, fillBy = "group", rle = TRUE) +
+plot_boxplot(logcounts, metadata = y$samples, fillBy = "group", 
+             rle = TRUE, outliers = FALSE) +
   labs(title = "Relative Log Expression",
-       x = "Sample",
+       x = NULL,
        y = "RLE",
-       color = "Treatment Group") +
-  theme_coriell()
+       color = "Treatment Group")
 ```
 
 We can see from the above RLE plot that the samples are centered around zero and
@@ -361,8 +361,7 @@ plot_density(logcounts, metadata = y$samples, colBy = "group") +
   labs(title = "Library Densities",
        x = "logCPM",
        y = "Density",
-       color = "Treatment Group") +
-  theme_coriell()
+       color = "Treatment Group")
 ```
 
 ### Sample vs Sample Distances
@@ -387,8 +386,16 @@ plot_parallel(logcounts, y$samples, colBy = "group",
   labs(title = "10% Most Variable Genes",
        x = "Sample",
        y = "logCPM",
-       color = "Treatment Group") +
-  theme_coriell()
+       color = "Treatment Group")
+```
+
+### Correlations between samples
+
+We can also plot the pairwise correlations between all samples. These plots can 
+be useful for identifying technical replicates that deviate from the group
+
+```{r}
+plot_cor_pairs(logcounts, cex_labels = 1)
 ```
 
 ### PCA
@@ -402,7 +409,8 @@ samples prior to downstream analysis. For simple analyses we expect to see the
 
 I like to use the [PCAtools](https://bioconductor.org/packages/release/bioc/vignettes/PCAtools/inst/doc/PCAtools.html) package for quickly computing and plotting principal components.
 For more complicated experiments I have also found UMAP (see `coriell::UMAP()`)
-to be useful for dimensionality reduction. 
+to be useful for dimensionality reduction (although using UMAP is not without 
+its [problems for biologists](https://simplystatistics.org/posts/2024-12-23-biologists-stop-including-umap-plots-in-your-papers/)).  
 
 ```{r message=FALSE}
 library(PCAtools)
@@ -520,7 +528,7 @@ cm <- makeContrasts(
 ```
 
 The choice of which design is up to you. I typically use whatever is clearer 
-for the experiment at hand. In this case that is the model with an intercept.
+for the experiment at hand. In this case, that is the model with an intercept.
 
 ### Estimating normalization factors
 
@@ -532,7 +540,9 @@ factors for each library.
 y <- normLibSizes(y)
 ```
 
-We can check the normalization by creating MA plots for each library
+We can check the normalization by creating MA plots for each library. The bulk
+of the data should be centered on zero without any obvious differences in the 
+logFC as a function of average abundance.
 
 ```{r}
 par(mfrow = c(2, 4))
@@ -603,7 +613,7 @@ fit <- glmQLFit(y, design, robust = TRUE, legacy = TRUE)
 ```
 
 It's always a good idea at this step to check some of the diagnostic plots from
-edgeR
+`edgeR`
 
 ```{r}
 # Show the biological coefficient of variation
@@ -618,16 +628,16 @@ plotQLDisp(fit)
 Now that the models have been fit we can test for differential expression. 
 
 ```{r}
-# Test the treatment fs control condition
+# Test the treatment vs control condition
 qlf <- glmQLFTest(fit, coef = 2)
 ```
 
 Often it is more biologically relevant to give more weight to higher fold 
-changes. This can be acheived using `glmTreat()`. **NOTE** do not use 
+changes. This can be achieved using `glmTreat()`. **NOTE** do not use 
 `glmQLFTest()` and then filter by fold-change - you destroy the FDR correction!
 
-When testing against a fold change we can use relatively modest values since the
-fold change must exceed this threshold before being considered for significance.
+When testing against a fold-change we can use relatively modest values since the
+fold-change must exceed this threshold before being considered for significance.
 Values such as `log2(1.2)` or `log2(1.5)` work well in practice.
 
 ```{r}
@@ -635,7 +645,10 @@ trt_vs_control_fc <- glmTreat(fit, coef = 2, lfc = log2(1.2))
 ```
 
 In any case, the results of the differential expression test can be extracted
-to a data.frame for downstream plotting with `coriell::edger_to_df()`
+to a data.frame for downstream plotting with `coriell::edger_to_df()`. This 
+function simply returns a data.frame of all results from the differential 
+expression object in the same order as `y`. 
+(i.e. `topTags(..., n=Inf, sort.by="none")`)
 
 ```{r}
 de_result <- edger_to_df(qlf)
@@ -655,15 +668,34 @@ library(patchwork)
 
 
 # Create a volcano plot of the results
-v <- plot_volcano(de_result, fdr = 0.05) + theme_coriell()
+v <- plot_volcano(de_result, fdr = 0.05) 
 
 # Create and MA plot of the results
-m <- plot_md(de_result, fdr = 0.05) + theme_coriell()
+m <- plot_md(de_result, fdr = 0.05) 
 
 # Patch both plots together
 (v | m) + 
   plot_annotation(title = "Treatment vs. Control") &
   theme_coriell()
+```
+
+The `coriell` package also has a function for quickly producing heatmaps with 
+nice defaults for RNA-seq. Sometimes it's useful to show the heatmaps of the
+DE genes. 
+
+```{r}
+# Compute logCPM values after normalization
+lcpm <- cpm(y, log = TRUE)
+
+# Determine which of the genes in the result were differentially expressed
+is_de <- de_result$FDR < 0.05
+
+# Produce a heatmap from the DE genes
+quickmap(
+  x = lcpm[is_de, ], 
+  metadata = y$samples[, "group", drop = FALSE],
+  main = "Differentially Expressed Genes"
+  )
 ```
 
 ## Competitive gene set testing with `camera()`
@@ -673,35 +705,30 @@ enrichment analysis using the `fgsea` package. Following Gordon Smyth's advice,
 I have switched all of my pipelines to using competitive gene set testing 
 (when appropriate) in `limma` to avoid problems with correlated genes.
 
-Below we use the `msigdb` R package to retrieve HALLMARK gene sets and then use
-`limma::camera()` for gene set testing.
+Below we use the `msigdbr` R package to retrieve HALLMARK gene sets and then use
+`edgeR::camera()` for gene set testing.
 
 ```{r message=FALSE}
-library(msigdb)
-library(ExperimentHub)
-library(GSEABase)
+library(msigdbr)
 
 
-# Get the gene set data
-msigdb_hs <- getMsigdb(org = "hs", id = "SYM", version = "7.5")
+# Get the HALLMARK gene set data
+msigdb_hs <- msigdbr(species = "Homo sapiens", category = "H")
 
-# Subset for only the HALLMARK sets
-hallmark <- subsetCollection(msigdb_hs, "h")
-
-# Extract the gene symbols for each set as a list
-msigdb_ids <- geneIds(hallmark)
+# Split into list of gene names per HALLMARK pathway
+msigdb_hs <- split(as.character(msigdb_hs$gene_symbol), msigdb_hs$gs_name)
 
 # Convert the gene sets into lists of indeces for edgeR
-idx <- ids2indices(gene.sets = msigdb_ids, identifiers = y$genes$gene_name)
+idx <- ids2indices(gene.sets = msigdb_hs, identifiers = y$genes$gene_name)
 ```
 
-Perform gene set testing. Note here we can use `limma::camera()`
-`limma::mroast()`, or `limma::romer()` depending on the hypothesis being tested. 
+Perform gene set testing. Note here we can use `camera()`
+`mroast()`, or `romer()` depending on the hypothesis being tested. 
 The above setup code provides valid input for all of the above functions. 
 
 See this [comment](https://support.bioconductor.org/p/103504/#103505) from Aaron
-Lun describing the difference between `camera` and `roast`. For GSEA like 
-hypothesis we can use `limma::romer()`
+Lun describing the difference between `camera()` and `roast()`. For GSEA like 
+hypothesis we can use `romer()`
 
 > `roast()` performs a self-contained gene set test, where it looks for any DE within the 
 set of genes. `camera()` performs a competitive gene set test, where it compares 
@@ -718,8 +745,8 @@ mroast_result <- mroast(y, idx, design, contrast = 2, nrot = 1e4)
 romer_result <- romer(y, idx, design, contrast = 2)
 ```
 
-We can also perform a pre-ranked version of the camera test using `cameraPR()`. In 
-order to use the pre-ranked version we need to create a ranking statistic. 
+We can also perform a pre-ranked version of the camera test using `cameraPR()`. 
+To use the pre-ranked version we need to create a ranking statistic. 
 The [suggestion](https://support.bioconductor.org/p/120780/#120785) from Gordon
 Smyth is to derive a z-statistic from the F-scores like so:
 
@@ -757,9 +784,9 @@ barcodeplot(
   )
 ```
 
-## Gene ontology (GO) over representation test
+## Gene ontology (GO) over-representation test
 
-Over representation analysis can be performed with the `clusterProfiler` 
+Over-representation analysis can be performed with the `clusterProfiler` 
 package. Here, instead of using the entire gene list as input we select 
 separate sets of up and down-regulated genes and test to see if these sets are
 enriched in our differentially expressed gene list.
@@ -845,9 +872,9 @@ significant GO terms like so:
 em_up <- enrichplot::pairwise_termsim(ego_up)
 em_down <- enrichplot::pairwise_termsim(ego_down)
 
-p1 <- enrichplot::emapplot(em_up, showCategory = 10, edge.params = list(min = 0.5)) +
+p1 <- enrichplot::emapplot(em_up, showCategory = 10, min_edge = 0.5) +
   labs(title = "Up-regulated genes")
-p2 <- enrichplot::emapplot(em_down, showCategory = 10, edge.params = list(min = 0.5)) +
+p2 <- enrichplot::emapplot(em_down, showCategory = 10, min_edge = 0.5) +
   labs(title = "Down-regulated genes")
 
 p1 | p2
