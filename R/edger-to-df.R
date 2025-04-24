@@ -43,7 +43,14 @@ edger_to_df <- function(x, ...) {
     stop("edgeR package is required.")
   }
   df <- edgeR::topTags(x, n = Inf, sort.by = "none", ...)$table
-  df <- cbind(feature_id = rownames(df), df)
+  
+  # Prevent duplicated colnames when adding feature ids
+  if ("feature_id" %in% colnames(df)) {
+    df <- cbind(feature_id.1 = rownames(df), df)
+  } else {
+    df <- cbind(feature_id = rownames(df), df)
+  }
+  
   rownames(df) <- NULL
 
   return(df)
