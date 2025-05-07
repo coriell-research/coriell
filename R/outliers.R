@@ -1,49 +1,77 @@
-#' Compute outliers by IQR method
+#' Flag outliers by IQR
 #'
-#' Compute outliers for all columns of a numeric matrix using the IQR method.
-#' For each column of the input matrix, a value is called as an outlier if the
-#' value is less than the first quartile i.e. Q1 - IQR * scale factor or greater
-#' than Q3 + IQR * scale factor.
+#' Flag outliers based on the interquartile range
 #'
-#' @param X numeric matrix or data.frame that can be converted to a numeric
-#' matrix with variables in the columns and sample names in the rows.
-#' @param scale_factor numeric. Factor to scale the outlier range. default 1.5.
-#' @return numeric matrix where values of 1L indicates an outlier and 0L indicates
-#' non-outlier
+#' @param x numeric vector
+#' @param threshold threshold for the upper and lower limits, A.K.A. Tukey's fences
+#' @param direction return TRUE if the value is above or below the outlier cutoff. 
+#' default "both", samples above and below the threshold are called outliers.
+#'
+#' @returns boolean vector indicating which values of the input vector are flagged as outliers
 #' @export
+#'
 #' @examples
-#' set.seed(12345)
-#' M <- matrix(
-#'   data = c(rnorm(10, 10, 1), rnorm(10, 100, 15)),
-#'   ncol = 2,
-#'   dimnames = list(paste0("sample", 1:10), c("var1", "var2"))
-#' )
-#'
-#' # Create one outlier in first and last rows
-#' M[1, 1] <- 100
-#' M[1, 2] <- 1000
-#' M[10, 1] <- -10
-#' M[10, 2] <- 0
-#'
-#' # Show outliers on boxplot
-#' boxplot(M)
-#'
-#' # Call outliers in each column
-#' outliers_by_iqr(M)
-#'
-outliers_by_iqr <- function(X, scale_factor = 1.5) {
-  if (!requireNamespace("matrixStats", quietly = TRUE)) {
-    stop("matrixStats package is required.")
-  }
+#' 
+#' x <- c(1, 1, 2, 2, 4, 6, 11)
+#' 
+#' outliers_by_iqr(x)
+#' 
+#' # Using direction="low" disregards outliers above threshold, for example
+#' outliers_by_iqr(x, direction="low")
+#' 
+outliers_by_iqr <- function(x, threshold = 1.5, direction = c("both", "low", "high")) {
+  d <- match.arg(direction)
 
-  if (is(X, "data.frame")) X <- data.matrix(X)
-  iqr <- matrixStats::colIQRs(X, useNames = FALSE)
-  q1 <- matrixStats::colQuantiles(X, probs = 0.25, useNames = FALSE)
-  q3 <- matrixStats::colQuantiles(X, probs = 0.75, useNames = FALSE)
-  lower_thresh <- q1 - (iqr * scale_factor)
-  upper_thresh <- q3 + (iqr * scale_factor)
-  outlier_mat <- t(ifelse(t(X) > upper_thresh | t(X) < lower_thresh, 1L, 0L))
-  dimnames(outlier_mat) <- dimnames(X)
+  iqr <- IQR(x, na.rm = TRUE)
+  q1 <- quantile(x, probs = 0.25, na.rm = TRUE)
+  q3 <- quantile(x, probs = 0.75, na.rm = TRUE)
+  lower <- q1 - (iqr * threshold)
+  upper <- q3 + (iqr * threshold)
 
-  return(outlier_mat)
+  result <- switch(d,
+    "both" = (x > upper) | (x < lower),
+    "low" = x < lower,
+    "high" = x > upper
+  )
+
+  return(result)
+}
+
+
+#' Flag outliers by MAD
+#' 
+#' Flag outliers based on the median absolute deviation
+#'
+#' @param x numeric vector
+#' @param threshold threshold for number of MADs used to determine outlier. default 3
+#' @param direction return TRUE if the value is above or below the outlier cutoff. 
+#' default "both", samples above and below the threshold are called outliers.
+#'
+#' @returns boolean vector indicating which values of the input vector are flagged as outliers
+#' @export
+#'
+#' @examples
+#' 
+#' x <- c(1, 1, 2, 2, 4, 6, 11)
+#' 
+#' outliers_by_mad(x)
+#' 
+#' # Using direction="low" disregards outliers above threshold, for example
+#' outliers_by_mad(x, direction="low")
+#' 
+outliers_by_mad <- function(x, threshold = 3, direction = c("both", "low", "high")) {
+  d <- match.arg(direction)
+
+  MAD <- mad(x, na.rm = TRUE)
+  cmedian <- median(x, na.rm = TRUE)
+  lower <- cmedian - (threshold * MAD)
+  upper <- cmedian + (threshold * MAD)
+
+  result <- switch(d,
+    "both" = (x > upper) | (x < lower),
+    "low" = x < lower,
+    "high" = x > upper
+  )
+
+  return(result)
 }
