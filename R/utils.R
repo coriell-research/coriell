@@ -275,6 +275,17 @@ remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
   remove_var.matrix(m, p = p)
 }
 
+#' @rdname remove_var
+#' @export
+remove_var.DelayedArray <- function(x, p) {
+  if (!requireNamespace("DelayedMatrixStats", quietly = TRUE)) {
+    stop("DelayedMatrixStats package is required.")
+  }
+  v <- DelayedMatrixStats::rowVars(x, na.rm = TRUE, useNames = FALSE)
+  o <- order(v, decreasing = TRUE)
+  head(x[o, ], n = nrow(x) * (1 - p))
+}
+
 #' Get unique pairwise intersections of a list of vectors
 #' 
 #' This function takes in a list of vectors and performs pairwise set 

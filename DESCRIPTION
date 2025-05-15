@@ -18,6 +18,7 @@ Imports:
     data.table,
     ggplot2
 Suggests: 
+    DelayedMatrixStats,
     edgeR,
     fastcluster,
     GenomicRanges,

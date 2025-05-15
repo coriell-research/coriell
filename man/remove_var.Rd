@@ -5,6 +5,7 @@
 \alias{remove_var.matrix}
 \alias{remove_var.data.frame}
 \alias{remove_var.SummarizedExperiment}
+\alias{remove_var.DelayedArray}
 \title{Remove low variance features from a matrix}
 \usage{
 remove_var(x, ...)
@@ -14,6 +15,8 @@ remove_var(x, ...)
 \method{remove_var}{data.frame}(x, p)
 
 \method{remove_var}{SummarizedExperiment}(x, p, assay = "counts")
+
+\method{remove_var}{DelayedArray}(x, p)
 }
 \arguments{
 \item{x}{matrix, numeric data.frame, or SummarizedExperiment object}
