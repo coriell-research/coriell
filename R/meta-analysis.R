@@ -182,11 +182,21 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
   direction <- metapod::summarizeParallelDirection(lfc_l, influential = comb$influential)
 
   # Calculate summary statistics of the logFC
-  median_lfc <- matrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
-  avg_lfc <- matrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
-  min_lfc <- matrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
-  max_lfc <- matrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
-
+  if (is(lfc_m, "DelayedArray")) {
+    if (!requireNamespace("DelayedMatrixStats", quietly = TRUE)) {
+      stop("DelayedMatrixStata package is required.")
+    }
+    median_lfc <- DelayedMatrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
+    avg_lfc <- DelayedMatrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
+    min_lfc <- DelayedMatrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
+    max_lfc <- DelayedMatrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
+  } else {
+    median_lfc <- matrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
+    avg_lfc <- matrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
+    min_lfc <- matrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
+    max_lfc <- matrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
+  }
+  
   # Combine all results into a data.table
   data.table(
     Feature = rownames(x),
