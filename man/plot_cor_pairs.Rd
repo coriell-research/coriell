@@ -20,7 +20,8 @@ plot_cor_pairs(
   scatter_crv_lwd = 2,
   scatter_crv_lty = 1,
   cex_labels = 2,
-  font_labels = 1
+  font_labels = 1,
+  ...
 )
 }
 \arguments{
@@ -60,6 +61,8 @@ returning n colors used in the smoothScatter plots}
 \item{cex_labels}{Text panel graphics parameters passed to `pairs()`}
 
 \item{font_labels}{Text panel graphics parameters passed to `pairs()`}
+
+\item{...}{Additional arguments passed to `pairs()`}
 }
 \value{
 pairs plot
