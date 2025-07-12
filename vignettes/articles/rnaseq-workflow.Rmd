@@ -16,8 +16,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Differential Expression Analysis {.unnumbered}
+
 This vignette outlines some common steps for RNA-seq analysis highlighting 
-functions present in the `coriell` package. In order to illustrate some of the 
+functions present in the `coriell` package. To illustrate some of the 
 analysis steps I will borrow examples and data from the [rnaseqGene](https://bioconductor.org/packages/release/workflows/vignettes/rnaseqGene/inst/doc/rnaseqGene.html) and [RNAseq123](https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html) Bioconductor workflows. Please check out the above workflows for more details regarding 
 RNA-seq analysis. 
 
@@ -56,11 +58,12 @@ global scaling normalization.
 [fastp](https://github.com/OpenGene/fastp) has quickly become my favorite tool 
 for QC'ing fastq files primarily because it is fast and produces nice looking 
 output files that are also amenable to summarization with [MultiQC](https://multiqc.info/). 
-fastp will also perform adapter trimming by default on fastq files. I tend to 
-fall in the camp that believes read quality trimming is 
+fastp can also perform adapter trimming on paired-end reads. I tend to fall in 
+the camp that believes read quality trimming is 
 [not necessary](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7671312/) for 
 RNA-seq alignment. However, I have never experienced *worse* results after using
-the defaults with fastp so I leave it be and just inspect the output carefully.
+the adapter trimming with fastp so I leave it be and just inspect the output 
+carefully.
 
 A simple bash script for running fastp over a set of fastq files might look 
 something like this:
@@ -88,6 +91,7 @@ do
           -O $OUT/${SAMPLE}.trimmed.2.fq.gz \
           -h $OUT/${SAMPLE}.fastp.html \
           -j $OUT/${SAMPLE}.fastp.json \
+          --detect_adapter_for_pe \
           -w $THREADS
 done
 ```
@@ -137,7 +141,6 @@ do
            -l A \
            -1 $FQ/${SAMPLE}.trimmed.1.fq.gz \
            -2 $FQ/${SAMPLE}.trimmed.2.fq.gz \
-           --validateMappings \
            --gcBias \
            --seqBias \
            --threads $THREADS \
@@ -151,9 +154,9 @@ accuracy in the absence of biases (quantification just takes a little longer).
 ### STAR
 
 Sometimes I also need to produce genomic coordinates for alignments. For this 
-purpose I tend to use STAR to generate BAM files as well as produce gene-level 
-counts with it's inbuilt HTSeq-count functionality. A simple bash script for 
-running STAR might look like:
+purpose I tend to use [STAR](https://github.com/alexdobin/STAR) to generate 
+BAM files as well as produce gene-level counts with it's inbuilt HTSeq-count 
+functionality. A simple bash script for running STAR might look like:
 
 ```{bash eval=FALSE}
 #!/usr/bin/env bash
@@ -201,7 +204,7 @@ The recommended methods for performing differential expression analysis
 implemented in [edgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), [baySeq](https://bioconductor.org/packages/release/bioc/html/baySeq.html), and [limma::voom](https://bioconductor.org/packages/release/bioc/html/limma.html) all require raw 
 count matrices as input data.
 
-### Importing transcript level counts from `Salmon`
+### Importing transcript-level counts from `Salmon`
 
 We use `R` to import the quant files into the active session. `tximeta` will 
 download the appropriate metadata for the reference genome used and import the 
@@ -276,6 +279,50 @@ y <- readDGE(
   )
 ```
 
+### Counting reads with `featureCounts()`
+
+Another (preferred) option for generating counts from BAM files is to use the
+function `featureCounts()` from the `Rsubread` R package. `featureCounts()` is
+very fast and has many options to control exactly how reads are counted. 
+`featureCounts()` is also very general. For example, you can use 
+`featureCounts()` to count reads over exons, introns, or arbitrary genomic 
+ranges - it's a very useful tool.
+
+`featureCounts()` can use an inbuilt annotation or take a user supplied GTF 
+file to count reads over. The inbuilt annotation (NCBI RefSeq) works particularly
+well with downstream functions implemented in `edgeR`. 
+See `?Rsubread::featureCounts()` for more information about using your own 
+GTF file.
+
+The resulting object can also be easily coerced to a `DGEList` for downstream 
+analysis.
+
+```{r eval=FALSE}
+library(Rsubread)
+
+
+# Specify the path to the BAM files produced by STAR
+bam_files <- list.files(
+  path = "path/to/bam_files", 
+  pattern = "*.bam$", 
+  full.names = TRUE
+  )
+
+# Optionally name the bam files
+names(bam_files) <- gsub(".bam", "", basename(bam_files))
+
+# Count reads over genes for a paired-end library 
+fc <- featureCounts(
+  files = bam_files,
+  annot.inbuilt = "hg38",
+  isPairedEnd = TRUE,
+  nThreads = 12
+)
+
+# Coerce to DGEList for downstream analysis
+y <- edgeR::featureCounts2DGEList(fc)
+```
+
 ## Test data
 
 We will use data from the [airway](https://bioconductor.org/packages/3.19/data/experiment/html/airway.html) package to illustrate differential expression analysis steps. Please
@@ -302,7 +349,7 @@ y <- SE2DGEList(airway)
 ## Library QC
 
 Before we perform differential expression analysis it is important to explore
-the samples' library distributions in order to ensure good quality before 
+the samples' library distributions to ensure good quality before 
 downstream analysis. There are several diagnostic plots we can use for this 
 purpose implemented in the `coriell` package. However, first we must remove 
 any features that have too low of counts for meaningful differential expression 
@@ -326,7 +373,7 @@ genes.
 logcounts <- cpm(y, log = TRUE)
 ```
 
-### Relative log expression boxplots
+### Relative log-expression boxplots
 
 The first diagnostic plot we can look at is a plot of the relative log expression
 values. [RLE plots](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0191629) 
@@ -449,7 +496,7 @@ spurious results. In typical experiments this is usually not a problem but when
 dealing with cancer or epigenetic drug treatment this can actually lead to many 
 problems if not identified. 
 
-In order to identify potential violations of global scaling normalization I use
+To identify potential violations of global scaling normalization I use
 the [quantro](https://www.bioconductor.org/packages/release/bioc/vignettes/quantro/inst/doc/quantro.html) R package. `quantro` uses two data driven approaches to assess the 
 appropriateness of global scaling normalization. The first involves testing if 
 the medians of the distributions differ between groups. These differences could 
