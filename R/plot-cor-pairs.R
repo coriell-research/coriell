@@ -26,6 +26,7 @@
 #' @param scatter_crv_lty Line type of the lowess lines of the smoothScatter plots
 #' @param cex_labels Text panel graphics parameters passed to `pairs()`
 #' @param font_labels Text panel graphics parameters passed to `pairs()`
+#' @param ... Additional arguments passed to `pairs()`
 #'
 #' @return pairs plot
 #' @export
@@ -41,7 +42,7 @@ plot_cor_pairs <- function(m, hist_breaks = 30, hist_col = "grey50",
                            scatter_ab_col = "red2", scatter_ab_lty = 2,
                            scatter_ab_lwd = 1, scatter_crv_col = "red3", 
                            scatter_crv_lwd = 2, scatter_crv_lty = 1,
-                           cex_labels = 2, font_labels = 1) {
+                           cex_labels = 2, font_labels = 1, ...) {
   panel_hist <- function(x) {
     usr <- par("usr")
     par(usr = c(usr[1:2], 0, 1.5) )
@@ -73,6 +74,7 @@ plot_cor_pairs <- function(m, hist_breaks = 30, hist_col = "grey50",
     diag.panel = panel_hist,
     horOdd = TRUE,
     cex.labels = cex_labels, 
-    font.labels = font_labels
+    font.labels = font_labels,
+    ...
   )
 }
