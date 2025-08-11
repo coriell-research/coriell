@@ -33,6 +33,7 @@ permutations <- function(x) {
 #' containing the correlation of Xi and Y, the empirical p-value of the
 #' permutation test, and the FDR corrected empirical p-value
 #' @keywords internal
+#' @export
 exact_cor_test <- function(X, y, ...) {
   test_stat <- as.numeric(cor(t(X), y, ...))
   Y_perms <- coriell::permutations(y)
