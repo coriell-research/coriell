@@ -102,12 +102,12 @@ panther_go <- function(gene_list,
     data$refOrganism <- data$organism
   }
   
-  resp <- httr2::request(base_url) |>
-    httr2::req_user_agent("coriell (https://coriell-research.github.io/coriell)") |> 
-    httr2::req_method("POST") |>
-    httr2::req_body_form(!!!data) |>
-    httr2::req_headers(Accept = "application/json") |> 
-    httr2::req_perform(verbosity = verbose)
+  resp <- httr2::request(base_url)
+  resp <- httr2::req_user_agent(resp, "coriell (https://coriell-research.github.io/coriell)")
+  resp <- httr2::req_method(resp, "POST")
+  resp <- httr2::req_body_form(resp, !!!data)
+  resp <- httr2::req_headers(resp, Accept = "application/json") 
+  resp <- httr2::req_perform(resp, verbosity = verbose)
   
   if (isTRUE(httr2::resp_is_error(resp))) {
     stop("An error occured in the request")

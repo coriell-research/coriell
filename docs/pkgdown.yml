@@ -1,7 +1,8 @@
-pandoc: 3.1.1
-pkgdown: 2.1.0
+pandoc: '3.4'
+pkgdown: 2.1.3
 pkgdown_sha: ~
-articles:
-  articles/Practical-analysis-with-SummarizedExperiments: Practical-analysis-with-SummarizedExperiments.html
-  articles/rnaseq-workflow: rnaseq-workflow.html
-last_built: 2024-08-08T20:38Z
+articles: {}
+last_built: 2025-08-22T12:33Z
+urls:
+  reference: https://coriell-research.github.io/coriell/reference
+  article: https://coriell-research.github.io/coriell/articles

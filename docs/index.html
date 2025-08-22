@@ -8,8 +8,8 @@
 <title>Convenience Functions for Bioinformatics • coriell</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Convenience Functions for Bioinformatics">
 <meta name="description" content="This package provides many helper functions for common bioinformatics tasks such as plotting and summarizing the results of differential expression analyses, creating heatmaps from expression data, performing permutation tests, selecting outliers, analyzing PCA plots, and many other common tasks.">
 <meta property="og:description" content="This package provides many helper functions for common bioinformatics tasks such as plotting and summarizing the results of differential expression analyses, creating heatmaps from expression data, performing permutation tests, selecting outliers, analyzing PCA plots, and many other common tasks.">
@@ -32,13 +32,6 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/Practical-analysis-with-SummarizedExperiments.html">Practical analysis with SummarizedExperiments</a></li>
-    <li><a class="dropdown-item" href="articles/rnaseq-workflow.html">RNAseq Workflow</a></li>
-  </ul>
-</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -56,7 +49,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="coriell">coriell<a class="anchor" aria-label="anchor" href="#coriell"></a>
 </h1></div>
-<p>This package contains helper functions for common bioinformatics tasks (and some not-so-common tasks).</p>
+<p>This package contains helper functions for common bioinformatics tasks (and some not-so-common tasks). For additional notes and use cases, check out the <a href="https://coriell-research.github.io/coriell-bioinformatics-notes/">Coriell bioinformatics notes</a> Bookdown book.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -74,37 +67,37 @@
 <h3 id="plotting-functions">Plotting functions<a class="anchor" aria-label="anchor" href="#plotting-functions"></a>
 </h3>
 <ul>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_volcano.html" class="external-link">Volcano plot from differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_md.html" class="external-link">MA plot from differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/quickmap.html" class="external-link">Heatmap with sensible defaults for RNA-seq</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_boxplot.html" class="external-link">RLE boxplots of an expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_density.html" class="external-link">Density plot of an expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_parallel.html" class="external-link">Parallel coordinates plot of expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html" class="external-link">Plot pairwise correlations between all samples in a matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_dist.html" class="external-link">Plot heatmap of pairwise distances between all samples in a matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_volcano.html">Volcano plot from differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_md.html">MA plot from differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/quickmap.html">Heatmap with sensible defaults for RNA-seq</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_boxplot.html">RLE boxplots of an expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_density.html">Density plot of an expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_parallel.html">Parallel coordinates plot of expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html">Plot pairwise correlations between all samples in a matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_dist.html">Plot heatmap of pairwise distances between all samples in a matrix</a></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="differential-expression-and-meta-analysis">Differential Expression and Meta-Analysis<a class="anchor" aria-label="anchor" href="#differential-expression-and-meta-analysis"></a>
 </h3>
 <ul>
-<li><a href="https://coriell-research.github.io/coriell/reference/meta_de.html" class="external-link">Perform Meta-Analysis across sets of differential expression results</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/jackknifeSE.html" class="external-link">Perform jackknife resampling on meta-analysis results to assess stability</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/meta_de.html">Perform Meta-Analysis across sets of differential expression results</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/jackknifeSE.html">Perform jackknife resampling on meta-analysis results to assess stability</a></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="dimensionality-reduction">Dimensionality reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"></a>
 </h3>
 <ul>
-<li><a href="https://coriell-research.github.io/coriell/reference/associate_components.html" class="external-link">Calculate associations between variables and principal components</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/remove_components.html" class="external-link">Remove the effect of principal components from data</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/UMAP.html" class="external-link">Perform UMAP on various objects</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/associate_components.html">Calculate associations between variables and principal components</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/remove_components.html">Remove the effect of principal components from data</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/UMAP.html">Perform UMAP on various objects</a></li>
 </ul>
 </div>
 <div class="section level3">
 <h3 id="miscellaneous">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous"></a>
 </h3>
-<p>The package also contains many other convenience functions so be sure to check out the <a href="https://coriell-research.github.io/coriell/reference/index.html" class="external-link">reference</a> page and articles as well.</p>
+<p>The package also contains many other convenience functions so be sure to check out the <a href="https://coriell-research.github.io/coriell/reference/index.html">reference</a> page and articles as well.</p>
 </div>
 </div>
 <div class="section level2">
@@ -163,7 +156,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Gennaro Calendo <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Gennaro Calendo <br><small class="roles"> Author, maintainer </small>   </li>
 </ul>
 </div>
 
@@ -178,7 +171,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

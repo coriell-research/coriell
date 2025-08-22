@@ -1,7 +1,9 @@
 # coriell
 
 This package contains helper functions for common bioinformatics tasks (and some 
-not-so-common tasks). 
+not-so-common tasks). For additional notes and use cases, check out the 
+[Coriell bioinformatics notes](https://coriell-research.github.io/coriell-bioinformatics-notes/)
+Bookdown book. 
 
 ## Installation
 

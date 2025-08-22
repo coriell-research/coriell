@@ -8,8 +8,9 @@ dimensionality reduction helpers, and more.
 Check out the [package website](https://coriell-research.github.io/coriell/) 
 for examples and documentation. 
 
-I will be adding tests, however, **please test functions and let me know when 
-things are broken** by either raising an issue on Github or contacting me.
+Also check out the 
+[Coriell bioinformatics notes](https://coriell-research.github.io/coriell-bioinformatics-notes/) 
+bookdown book.
 
 ## Installation
 

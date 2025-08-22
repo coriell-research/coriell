@@ -10,7 +10,7 @@ Description: This package provides many helper functions for common
     data, performing permutation tests, selecting outliers, analyzing PCA
     plots, and many other common tasks.
 License: MIT + file LICENSE
-URL: https://github.com/coriell-research/coriell
+URL: https://coriell-research.github.io/coriell, https://github.com/coriell-research/coriell
 BugReports: https://github.com/coriell-research/coriell/issues
 Depends: 
     R (>= 2.10)
