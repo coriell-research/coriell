@@ -28,6 +28,7 @@ devtools::install_github("coriell-research/coriell")
 - [Parallel coordinates plot of expression matrix](https://coriell-research.github.io/coriell/reference/plot_parallel.html)
 - [Plot pairwise correlations between all samples in a matrix](https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html)
 - [Plot heatmap of pairwise distances between all samples in a matrix](https://coriell-research.github.io/coriell/reference/plot_dist.html)
+- [Plot GSEA enrichment plots](https://coriell-research.github.io/coriell/reference/plot_enrichment.html)
 
 ### Differential Expression and Meta-Analysis
 
