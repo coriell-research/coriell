@@ -94,10 +94,10 @@ fgsea_res <- fgsea::fgsea(fgsea::examplePathways, fgsea::exampleRanks)
 cell_death <- fgsea_res[pathway == "5991130_Programmed_Cell_Death"]
 
 plot_enrichment(
-  pathway, 
-  stats, 
+  pathway,
+  stats,
   annotate = TRUE,
-  FDR = cell_death[, padj], 
+  FDR = cell_death[, padj],
   ES = cell_death[, ES],
   NES = cell_death[, NES],
   plotTitle = "Programmed Cell Death"

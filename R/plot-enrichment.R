@@ -124,10 +124,17 @@ plot_enrichment <- function(pathway, stats, gseaParam = 1, ticksSize = 0.5,
       "\nES:", round(ES, es_digits),
       "\nNES:", round(NES, nes_digits)
     )
+    
+    # Pick the most extreme y-lim to place the annotation
+    y_lim <- l$y_max
+    if (abs(l$y_min) > abs(l$y_max)) {
+      y_lim <- l$y_min
+    }
+      
     p + ggplot2::annotate(
       "text",
       x = anno_x_pos * l$x_max,
-      y = anno_y_pos * l$y_max,
+      y = anno_y_pos * y_lim,
       label = lab,
       size = anno_size
     )
