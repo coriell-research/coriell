@@ -13,7 +13,7 @@ strip_ens(x)
 character vector with trailing IDs removed
 }
 \description{
-This function is simply a wrapper arond gsub for removing trailing IDs from 
+This function is simply a wrapper around gsub for removing trailing IDs from 
 ENSEMBL identifiers. All entries must start with 'ENS'. NAs are tolerated.
 }
 \examples{

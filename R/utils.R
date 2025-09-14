@@ -385,7 +385,7 @@ pairwise_intersections <- function(x, universe_size = NULL) {
 
 #' Strip version IDs from ENSEMBL identifiers
 #' 
-#' This function is simply a wrapper arond gsub for removing trailing IDs from 
+#' This function is simply a wrapper around gsub for removing trailing IDs from 
 #' ENSEMBL identifiers. All entries must start with 'ENS'. NAs are tolerated.
 #'
 #' @param x character vector containing ENSEMBL IDs
@@ -399,7 +399,11 @@ pairwise_intersections <- function(x, universe_size = NULL) {
 #' strip_ens(ids)
 #' 
 strip_ens <- function(x) {
-  stopifnot("Not all entries start with 'ENS'. Are these ENSEMBL IDs?" = all(startsWith(x, "ENS"), na.rm = TRUE))
+  
+  if (!all(startsWith(x, "ENS"), na.rm = TRUE)) {
+    warning("Not all entries start with 'ENS'. Are these ENSEMBL IDs?")
+  }
+  
   result <- gsub("\\.[0-9]+$", "", x)
   
   return(result)
