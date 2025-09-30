@@ -2,6 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{remove_var}
 \alias{remove_var}
+\alias{remove_var.default}
 \alias{remove_var.matrix}
 \alias{remove_var.data.frame}
 \alias{remove_var.SummarizedExperiment}
@@ -9,6 +10,8 @@
 \title{Remove low variance features from a matrix}
 \usage{
 remove_var(x, ...)
+
+\method{remove_var}{default}(x)
 
 \method{remove_var}{matrix}(x, p)
 

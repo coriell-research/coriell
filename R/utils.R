@@ -239,6 +239,8 @@ impute <- function(x, fun = median) {
 #' removed <- remove_var(GSE161650_lc, p = 0.8)
 remove_var <- function(x, ...) UseMethod("remove_var")
 
+#' @rdname remove_var
+#' @export
 remove_var.default <- function(x) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
@@ -405,6 +407,73 @@ strip_ens <- function(x) {
   }
   
   result <- gsub("\\.[0-9]+$", "", x)
+  
+  return(result)
+}
+
+#' Compute TPM normalized counts
+#' 
+#' Convert counts to TPM values. This function simply performs the computations
+#' for creating TPM normalized counts given a count matrix and any vector of 
+#' lengths. This is useful for quickly computing scaling factors for arbitrary
+#' features and lengths. For RNA-seq, it's better to use a transcript aligner
+#' + tximport to get TPMs. Refer to \url{https://bioconductor.org/packages/release/bioc/html/tximport.html} 
+#' for more information.
+#' 
+#' @param x matrix, numeric data.frame, or SummarizedExperiment object
+#' @param l vector of feature lengths
+#' @param assay if SummarizedExperiment, what assay to use. Default = "counts"
+#' @return matrix containing TPM normalized counts
+#' @export
+#' @examples
+#' 
+#' # Generate some fake data with fake positive feature lengths
+#' counts <- coriell::simulate_counts()$table
+#' gene_lengths <- rbinom(nrow(counts), 1000, 0.9)
+#' 
+#' tpms <- tpm(counts, gene_lengths)
+#' 
+tpm <- function(x, l, ...) UseMethod("tpm")
+
+#' @rdname tpm
+#' @export
+tpm.default <- function(x, l, ...) {
+  stop("Object of type ", class(x), " is not supported by this function")
+}
+
+#' @rdname tpm
+#' @export
+tpm.matrix <- function(x, l) {
+  stopifnot("number of supplied lengths != number of features" = nrow(x) == length(l))
+  xl <- x / l
+  result <- t(t(xl) * 1e6 / colSums(xl))
+  
+  return(result)
+}
+
+#' @rdname tpm
+#' @export
+tpm.data.frame <- function(x, l) {
+  counts <- data.matrix(x)
+  result <- tpm.matrix(counts, l)
+  
+  return(result)
+}
+
+#' @rdname tpm
+#' @export
+tpm.SummarizedExperiment <- function(x, l, assay="counts") {
+  counts <- SummarizedExperiment::assay(x, assay)
+  result <- tpm.matrix(counts, l)
+  
+  return(result)
+}
+
+#' @rdname tpm
+#' @export
+tpm.DelayedArray <- function(x, l) {
+  xl <- x / l
+  result <- DelayedArray::t(DelayedArray::t(xl) * 1e6 / DelayedArray::colSums(xl))
   
   return(result)
 }
