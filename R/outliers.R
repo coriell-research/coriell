@@ -75,3 +75,38 @@ outliers_by_mad <- function(x, threshold = 3, direction = c("both", "low", "high
 
   return(result)
 }
+
+
+#' Flag outliers by z-score
+#' 
+#' Flag outliers that exceed a given z-score value.
+#'
+#' @param x numeric vector
+#' @param threshold threshold for number of SDs used to determine outlier. default 3
+#' @param direction return TRUE if the value is above or below the outlier cutoff. 
+#' default "both", samples above and below the threshold are called outliers.
+#'
+#' @returns boolean vector indicating which values of the input vector are flagged as outliers
+#' @export
+#'
+#' @examples
+#' x <- c(rnorm(10), 100)
+#' 
+#' outliers_by_z(x)
+#' 
+#' # Using direction="low" disregards outliers above threshold, for example
+#' outliers_by_z(x, direction="low")
+#' 
+outliers_by_z <- function(x, threshold = 3, direction = c("both", "low", "high")) {
+  d <- match.arg(direction)
+  
+  z <- as.numeric(scale(x, center = TRUE, scale = TRUE))
+  
+  result <- switch(d,
+                   "both" = (z > threshold) | (z < -threshold),
+                   "low" = z < -threshold,
+                   "high" = z > threshold
+  )
+  
+  return(result)
+}
