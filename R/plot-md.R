@@ -30,6 +30,9 @@
 #' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)
 #' @param x_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
 #' @param y_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
+#' @param raster Should the points in the plot be rasterized? default FALSE. If TRUE, points will be rasterized using `ggrastr`
+#' @param raster_dpi integer Sets the desired resolution in dots per inch (default = 300)
+#' @param raster_dev string Specifies the device used, which can be one of: "cairo", "ragg", "ragg_png" or "cairo_png" (default="cairo")
 #' @param ... Additional arguments passed to \code{ggrepel::geom_text_repel()}
 #' @return ggplot MD plot
 #' @import data.table
@@ -45,7 +48,14 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL,
                     up_shape = 16, down_shape = 16, nonde_shape = ".",
                     xmax_label_offset = 0.85, ymax_label_offset = 0.8,
                     ymin_label_offset = 0.8, lab_size = 6, lab_digits = 1,
-                    x_axis_limits = NULL, y_axis_limits = NULL, ...) {
+                    x_axis_limits = NULL, y_axis_limits = NULL, raster = FALSE,
+                    raster_dpi = 300, raster_dev = "cairo", ...) {
+  if (isTRUE(raster)) {
+    if (!requireNamespace("ggrastr", quietly = TRUE)) {
+      stop("ggrastr package is required when raster=TRUE.")
+    }
+  }
+
   if (label_sig && is.null(lab)) {
     message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
   }
@@ -126,5 +136,10 @@ plot_md <- function(df, x = "logCPM", y = "logFC", sig_col = "FDR", lab = NULL,
         label = paste0(down_count, "\n", down_pct, "%")
       )
   }
+
+  if (isTRUE(raster)) {
+    return(ggrastr::rasterise(p, layers = "Point", dpi = raster_dpi, dev = raster_dev))
+  }
+
   p
 }
