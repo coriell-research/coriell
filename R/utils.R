@@ -378,7 +378,7 @@ pairwise_intersections <- function(x, universe_size = NULL) {
   
   if (!is.null(universe_size)) {
     exact_tests <- lapply(m, fisher.test, alternative = "greater")
-    p_vals <- vapply(exact_tests, \(x) x[["p.value"]], FUN.VALUE = numeric(length = 1L))
+    p_vals <- vapply(exact_tests, `[[`, "p.value", FUN.VALUE = numeric(length = 1L))
     result[, P.Value := p_vals]
   }
   
