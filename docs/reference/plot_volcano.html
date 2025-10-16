@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.17.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.18.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,6 +67,9 @@
 <span>  lab_digits <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  x_axis_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y_axis_limits <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  raster <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  raster_dpi <span class="op">=</span> <span class="fl">300</span>,</span>
+<span>  raster_dev <span class="op">=</span> <span class="st">"cairo"</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -183,6 +186,18 @@
 <dd><p>numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)</p></dd>
 
 
+<dt id="arg-raster">raster<a class="anchor" aria-label="anchor" href="#arg-raster"></a></dt>
+<dd><p>Should the points in the plot be rasterized? default FALSE. If TRUE, points will be rasterized using `ggrastr`</p></dd>
+
+
+<dt id="arg-raster-dpi">raster_dpi<a class="anchor" aria-label="anchor" href="#arg-raster-dpi"></a></dt>
+<dd><p>integer Sets the desired resolution in dots per inch (default = 300)</p></dd>
+
+
+<dt id="arg-raster-dev">raster_dev<a class="anchor" aria-label="anchor" href="#arg-raster-dev"></a></dt>
+<dd><p>string Specifies the device used, which can be one of: "cairo", "ragg", "ragg_png" or "cairo_png" (default="cairo")</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">ggrepel::geom_text_repel</a></code></p></dd>
 
@@ -207,7 +222,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
