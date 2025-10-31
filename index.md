@@ -29,6 +29,7 @@ devtools::install_github("coriell-research/coriell")
 - [Plot pairwise correlations between all samples in a matrix](https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html)
 - [Plot heatmap of pairwise distances between all samples in a matrix](https://coriell-research.github.io/coriell/reference/plot_dist.html)
 - [Plot GSEA enrichment plots](https://coriell-research.github.io/coriell/reference/plot_enrichment.html)
+- [Plot histogram of methylation beta-values](https://coriell-research.github.io/coriell/reference/plot_meth_hist.html)
 
 ### Differential Expression and Meta-Analysis
 
