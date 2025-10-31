@@ -2,9 +2,6 @@
 <url><loc>https://coriell-research.github.io/coriell/404.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/LICENSE-text.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/LICENSE.html</loc></url>
-<url><loc>https://coriell-research.github.io/coriell/articles/Practical-analysis-with-SummarizedExperiments.html</loc></url>
-<url><loc>https://coriell-research.github.io/coriell/articles/index.html</loc></url>
-<url><loc>https://coriell-research.github.io/coriell/articles/rnaseq-workflow.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/authors.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/index.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/news/index.html</loc></url>
@@ -34,6 +31,7 @@
 <url><loc>https://coriell-research.github.io/coriell/reference/minmax.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/outliers_by_iqr.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/outliers_by_mad.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/outliers_by_z.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/pairwise_fisher_test.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/pairwise_intersections.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/panther_go.html</loc></url>
@@ -45,6 +43,7 @@
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_density.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_dist.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/plot_enrichment.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_md.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_parallel.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_umap.html</loc></url>
@@ -61,5 +60,6 @@
 <url><loc>https://coriell-research.github.io/coriell/reference/strip_ens.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/summarize_dge.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/theme_coriell.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/tpm.html</loc></url>
 </urlset>
 

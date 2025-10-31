@@ -33,6 +33,9 @@ plot_md(
   lab_digits = 1,
   x_axis_limits = NULL,
   y_axis_limits = NULL,
+  raster = FALSE,
+  raster_dpi = 300,
+  raster_dev = "cairo",
   ...
 )
 }
@@ -92,6 +95,12 @@ plot_md(
 \item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 
 \item{y_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
+
+\item{raster}{Should the points in the plot be rasterized? default FALSE. If TRUE, points will be rasterized using `ggrastr`}
+
+\item{raster_dpi}{integer Sets the desired resolution in dots per inch (default = 300)}
+
+\item{raster_dev}{string Specifies the device used, which can be one of: "cairo", "ragg", "ragg_png" or "cairo_png" (default="cairo")}
 
 \item{...}{Additional arguments passed to \code{ggrepel::geom_text_repel()}}
 }

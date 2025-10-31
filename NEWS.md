@@ -1,3 +1,9 @@
+## coriell 0.18.0
+
+- `plot_volcano()` and `plot_md()` get a "raster" argument. Setting raster=TRUE
+will allow for the point layers of the plots to be rasterized. this is useful 
+when saving plots as vector graphics.
+
 ## coriell 0.17.0
 
 - *Breaking change* to `quickmap()`. Removed all additional processing, 

@@ -28,6 +28,9 @@
 #' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)
 #' @param x_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
 #' @param y_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
+#' @param raster Should the points in the plot be rasterized? default FALSE. If TRUE, points will be rasterized using `ggrastr`
+#' @param raster_dpi integer Sets the desired resolution in dots per inch (default = 300)
+#' @param raster_dev string Specifies the device used, which can be one of: "cairo", "ragg", "ragg_png" or "cairo_png" (default="cairo")
 #' @param ... Additional arguments passed to \code{ggrepel::geom_text_repel}
 #' @return ggplot volcano plot
 #' @import data.table
@@ -43,7 +46,14 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
                          nonde_shape = ".", xmin_label_offset = 0.8,
                          xmax_label_offset = 0.8, ymax_label_offset = 0.9,
                          lab_size = 6, lab_digits = 1, x_axis_limits = NULL,
-                         y_axis_limits = NULL, ...) {
+                         y_axis_limits = NULL, raster = FALSE, raster_dpi = 300,
+                         raster_dev = "cairo", ...) {
+  if (isTRUE(raster)) {
+    if (!requireNamespace("ggrastr", quietly = TRUE)) {
+      stop("ggrastr package is required when raster=TRUE.")
+    }
+  }
+
   if (label_sig && is.null(lab)) {
     message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
   }
@@ -82,8 +92,8 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
       p + ggplot2::coord_cartesian(
         xlim = x_axis_limits,
         ylim = y_axis_limits
-        )
-      })
+      )
+    })
   } else if (!is.null(x_axis_limits)) {
     p <- suppressMessages(p + ggplot2::coord_cartesian(xlim = x_axis_limits))
   } else if (!is.null(y_axis_limits)) {
@@ -129,5 +139,10 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
         label = paste0(up_count, "\n", up_pct, "%")
       )
   }
+
+  if (isTRUE(raster)) {
+    return(ggrastr::rasterise(p, layers = "Point", dpi = raster_dpi, dev = raster_dev))
+  }
+
   p
 }

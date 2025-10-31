@@ -258,7 +258,8 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
 #' se <- dfs2se(l)
 #' 
 #' # Perform the jackknife using meta_de on each subset of the data
-#' result <- jackknifeSE(se, \(x) meta_de(x, metapod::parallelWilkinson, min.prop = 0.5))
+#' metafun <- function(x) { meta_de(x, metapod::parallelWilkinson) }
+#' result <- jackknifeSE(se, FUN = metafun, min.prop = 0.5)
 #' 
 #' # Combine the results from calling meta_de on each resample and show
 #' result <- data.table::rbindlist(result, idcol = "Jackknife")
