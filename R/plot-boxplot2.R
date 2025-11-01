@@ -1,0 +1,108 @@
+#' Show boxplots for columns of data in a matrix
+#'
+#' This is an alternative to \code{plot_boxplot()} using base R. This function
+#' should work with most matrix or matrix-like objects (which is especially 
+#' useful for \code{DelayedArray} objects). The function also includes an 
+#' option for computing the relative-log-expression of the input data, given the
+#' input data is on the log-scale.   
+#'
+#' @param x feature x sample matrix or matrix-like object.
+#' @param metadata data.frame containing metadata per sample. rownames of metadata
+#' must match the colnames of the input matrix. Default NULL, each sample in the
+#' matrix will be plotted.
+#' @param fillBy metadata column used to color boxplots by the grouping variable. 
+#' Default NULL, each sample in the matrix will be plotted
+#' @param rle should the relative-log-expression value be plotted. Requires 
+#' input matrix to be on the log-scale. Default = FALSE
+#' @param hcl_palette color palette applied to 'fillBy' variable. One of the 
+#' \code{hcl.pals()}. Default "Zissou"
+#' @param plot_title title of the plot. Default NULL
+#' @param x_label title of th x-axis. Default NULL
+#' @param y_label title of the y-axis. Default NULL
+#' @param show_outliers should boxplot outliers be shown. Default TRUE
+#' @param legend_position location keyword for the legend. One of "bottomright",
+#'  "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and 
+#'  "center". Default "topright"
+#' @param ... other arguments not currently used
+#'
+#' @returns boxplots of the column data
+#' @export
+#'
+#' @examples
+#' 
+#' # Create metadata for plotting
+#' metadata <- data.frame(row.names = colnames(GSE161650_lc))
+#' metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
+#' 
+#' # Plot the boxplot by sample
+#' plot_boxplot2(GSE161650_lc)
+#' 
+#' # Plot the boxplot by coloring each Group and transforming values
+#' #  to relative-log-expression
+#' plot_boxplot2(
+#'   GSE161650_lc, 
+#'   metadata, 
+#'   fillBy = "Group",
+#'   rle = TRUE,
+#'   plot_title = "Relative log-expression",
+#'   y_label = "RLE",
+#'   show_outliers = FALSE
+#'   )
+#' 
+plot_boxplot2 <- function(x, metadata = NULL, fillBy = NULL, 
+                          rle = FALSE, hcl_palette = "Zissou",
+                          plot_title = NULL, x_label = NULL, 
+                          y_label = NULL, show_outliers = TRUE, 
+                          legend_position = "top", ...) {
+  
+  stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
+  stopifnot("fillBy must be a column in metadata" = fillBy %in% colnames(metadata))
+  
+  if (isTRUE(rle)) {
+    m <- apply(x, 1, median, na.rm = TRUE)
+    x <- x - m
+  }
+  
+  # Manually compute boxplot stats (for DelayedArrays mostly)
+  stats_list <- apply(x, 2, grDevices::boxplot.stats, simplify = FALSE)
+  stats_matrix <- sapply(stats_list, '[[', 'stats')
+  n_vec <- sapply(stats_list, '[[', 'n')
+  out_vec <- unlist(sapply(stats_list, '[[', 'out'))
+  out_group_vec <- rep(1:ncol(x), times = sapply(stats_list, function(x) length(x$out)))
+  col_names <- colnames(x)
+  
+  bxp_data <- list(
+    stats = stats_matrix,
+    n = n_vec,
+    out = out_vec,
+    group = out_group_vec,
+    names = col_names
+  )
+  
+  if (!is.null(fillBy)) {
+    g <- as.factor(metadata[[fillBy]])
+    cols <- grDevices::hcl.colors(n = nlevels(g), palette = hcl_palette)
+    names(cols) <- levels(g)
+  }
+  
+  bxp(
+    bxp_data,
+    outline = show_outliers,
+    main = plot_title,
+    ylab = y_label,
+    xlab = x_label,
+    frame.plot = FALSE,
+    las = 1,
+    boxfill = if (is.null(fillBy)) "lightgrey" else cols[g] 
+  )
+  
+  if (isTRUE(rle)) {
+    abline(h = 0, lty = 2, col = "black")
+  }
+  
+  if (!is.null(fillBy)) {
+    legend(legend_position, legend = levels(g), fill = cols, 
+           bty = "n", horiz = TRUE)
+  }
+  
+}

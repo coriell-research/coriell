@@ -12,7 +12,7 @@
 #' @param colBy metadata column used to color density lines. Default NULL,
 #' each sample in the matrix will be plotted.
 #' @param hcl_palette color palette applied to 'colBy' variable. One of the 
-#' `hcl.pals()`. Default "Zissou"
+#' \code{hcl.pals()}. Default "Zissou"
 #' @param plot_title title of the plot. Default NULL
 #' @param x_label x-axis title. Default ""
 #' @param y_label y-axis title. Default "Density"

@@ -29,7 +29,7 @@ matrix will be plotted.}
 each sample in the matrix will be plotted.}
 
 \item{hcl_palette}{color palette applied to 'colBy' variable. One of the 
-`hcl.pals()`. Default "Zissou"}
+\code{hcl.pals()}. Default "Zissou"}
 
 \item{plot_title}{title of the plot. Default NULL}
 
