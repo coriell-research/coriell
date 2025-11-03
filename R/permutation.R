@@ -85,16 +85,26 @@ exact_cor_test <- function(X, y, ...) {
 permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
   X <- if (is.data.frame(X)) as.matrix(X) else X
   if (factorial(length(y)) < n_perm) {
-    message(paste0("The number of permutations of y (", factorial(length(y)), ") is less than n_perm (", n_perm, "). Performing exact test on all permutations."))
+    message(paste0(
+      "The number of permutations of y (",
+      factorial(length(y)),
+      ") is less than n_perm (",
+      n_perm,
+      "). Performing exact test on all permutations."
+    ))
     df <- coriell::exact_cor_test(X, y, ...)
     return(df)
   }
 
   test_stat <- as.numeric(cor(t(X), y, ...))
   y_perms <- replicate(n_perm, sample(y), simplify = FALSE)
-  perm_cors <- parallel::mclapply(y_perms, FUN = function(y) {
-    cor(t(X), y, ...)
-  }, mc.cores = n_core)
+  perm_cors <- parallel::mclapply(
+    y_perms,
+    FUN = function(y) {
+      cor(t(X), y, ...)
+    },
+    mc.cores = n_core
+  )
   perm_cors <- do.call(cbind, perm_cors)
   empirical_p <- vector("numeric", length = nrow(X))
   for (i in seq_along(test_stat)) {
@@ -139,15 +149,12 @@ permutation_correlation_test <- function(X, y, n_perm = 1e4, n_core = 1, ...) {
 sample_n_random_cor <- function(X, y, n = 1e4, ...) {
   X <- if (is.data.frame(X)) as.matrix(X) else X
   random_rows <- sample.int(nrow(X), n, replace = TRUE)
-  cor_results <- apply(X[random_rows, ],
-    MARGIN = 1,
-    FUN = function(x) {
-      cor(
-        as.numeric(x),
-        y = sample(y),
-        ...
-      )
-    }
-  )
+  cor_results <- apply(X[random_rows, ], MARGIN = 1, FUN = function(x) {
+    cor(
+      as.numeric(x),
+      y = sample(y),
+      ...
+    )
+  })
   cor_results
 }

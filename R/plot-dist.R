@@ -2,7 +2,7 @@
 #'
 #' Create a column-vs-column heatmap of a matrix
 #' @param x numeric matrix or data.frame that can be converted to one. Samples
-#' in columns, features in rows. 
+#' in columns, features in rows.
 #' @param metadata data.frame containing metadata to be used as row labels.
 #' Default NULL.
 #' @param method distance method to be used. Must be one of the distance
@@ -14,21 +14,21 @@
 #' @examples
 #' # Generate a matrix of simulated counts
 #' counts <- simulate_counts()$table
-#' 
+#'
 #' # Create annotation metadata
 #' df <- data.frame(
-#'   row.names = colnames(counts), 
+#'   row.names = colnames(counts),
 #'   Group = rep(c("Control", "Treatment"), each = 3)
 #'   )
-#' 
+#'
 #' # Show the sample-vs-sample distances
 #' plot_dist(counts)
-#' 
+#'
 #' # Additional arguments can be passed to the function
 #' plot_dist(
-#'   x = counts, 
-#'   metadata = df, 
-#'   main = "Sample-vs-Sample Distance", 
+#'   x = counts,
+#'   metadata = df,
+#'   main = "Sample-vs-Sample Distance",
 #'   color = viridisLite::rocket(n = 50),
 #'   annotation_colors = list(Group = c("Treatment" = "firebrick2", "Control" = "grey80"))
 #'   )
@@ -66,7 +66,9 @@ plot_dist <- function(x, metadata = NULL, method = "euclidean", ...) {
 
   # Create annotations if metadata is present
   if (!is.null(metadata)) {
-    stopifnot("rownames(metadata) != colnames(x)" = rownames(metadata) == colnames(x))
+    stopifnot(
+      "rownames(metadata) != colnames(x)" = rownames(metadata) == colnames(x)
+    )
     default_args[["annotation_row"]] <- metadata
     default_args[["annotation_col"]] <- metadata
   }

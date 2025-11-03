@@ -23,7 +23,7 @@
 #'
 #' # Color each sample by their Group in metadata
 #' plot_density(GSE161650_lc, metadata, colBy = "Group")
-#' 
+#'
 plot_density <- function(x, ...) UseMethod("plot_density")
 
 #' @rdname plot_density
@@ -35,8 +35,14 @@ plot_density.default <- function(x) {
 #' @rdname plot_density
 #' @export
 plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
-  stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
-  stopifnot("colBy must be a column in metadata" = colBy %in% colnames(metadata))
+  stopifnot(
+    "colnames(x) do not match rownames(metadata)" = all(
+      colnames(x) == rownames(metadata)
+    )
+  )
+  stopifnot(
+    "colBy must be a column in metadata" = colBy %in% colnames(metadata)
+  )
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
 
   dt <- data.table::as.data.table(x, keep.rownames = ".feature")
@@ -57,13 +63,16 @@ plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
     colBy <- ".sample"
   }
 
-  ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".value"]], group = .data[[".sample"]])) +
+  ggplot2::ggplot(
+    dt.m,
+    ggplot2::aes(x = .data[[".value"]], group = .data[[".sample"]])
+  ) +
     ggplot2::geom_density(ggplot2::aes(color = .data[[colBy]]), ...) +
     ggplot2::labs(
       x = NULL,
       y = "Density",
       color = if (colBy == ".sample") "Sample" else colBy
-      ) + 
+    ) +
     coriell::theme_coriell()
 }
 
@@ -71,7 +80,9 @@ plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
 #' @export
 plot_density.data.frame <- function(x, metadata = NULL, colBy = NULL, ...) {
   if (is(x, "tbl_df") || is(x, "data.table")) {
-    stop("You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)")
+    stop(
+      "You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)"
+    )
   }
   m <- data.matrix(x)
   plot_density.matrix(m, metadata, colBy, ...)
@@ -79,7 +90,12 @@ plot_density.data.frame <- function(x, metadata = NULL, colBy = NULL, ...) {
 
 #' @rdname plot_density
 #' @export
-plot_density.SummarizedExperiment <- function(x, assay = "counts", colBy = NULL, ...) {
+plot_density.SummarizedExperiment <- function(
+  x,
+  assay = "counts",
+  colBy = NULL,
+  ...
+) {
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is not installed.")
   }

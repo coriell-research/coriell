@@ -35,11 +35,22 @@
 #' # Percent methylation
 #' l$Percent
 #' }
-read_bismark <- function(files, coverage = 1, prop_samples = 1, remove_zero_var = FALSE, return_mats = FALSE) {
+read_bismark <- function(
+  files,
+  coverage = 1,
+  prop_samples = 1,
+  remove_zero_var = FALSE,
+  return_mats = FALSE
+) {
   stopifnot("Coverage must be >= 0" = coverage >= 0)
-  stopifnot("prop_samples must be between 0 and 1" = prop_samples > 0 & prop_samples <= 1)
+  stopifnot(
+    "prop_samples must be between 0 and 1" = prop_samples > 0 &
+      prop_samples <= 1
+  )
   if (is.null(names(files))) {
-    warning("files are not named. Samples in the output data.table will be labelled with their index in files.")
+    warning(
+      "files are not named. Samples in the output data.table will be labelled with their index in files."
+    )
   }
 
   message("\nReading in files...")
@@ -48,9 +59,18 @@ read_bismark <- function(files, coverage = 1, prop_samples = 1, remove_zero_var 
   dt[, Coverage := Me + Un]
 
   # Filter for coverage
-  message(paste0("Filtering for Coverage >= ", coverage, " in ", prop_samples * 100, "% of samples..."))
+  message(paste0(
+    "Filtering for Coverage >= ",
+    coverage,
+    " in ",
+    prop_samples * 100,
+    "% of samples..."
+  ))
   keep_n <- length(files) * prop_samples
-  keep <- dt[Coverage >= coverage, .N, by = .(Chrom, Start)][N >= keep_n, .(Chrom, Start)]
+  keep <- dt[Coverage >= coverage, .N, by = .(Chrom, Start)][
+    N >= keep_n,
+    .(Chrom, Start)
+  ]
   dt <- dt[keep, on = .(Chrom, Start), nomatch = 0L]
 
   # Filter for zero variance features
@@ -63,16 +83,39 @@ read_bismark <- function(files, coverage = 1, prop_samples = 1, remove_zero_var 
   result <- dt
   if (return_mats) {
     message("Coercing data to matrices...")
-    Coverage <- dcast(dt, Chrom + Start ~ Sample, value.var = "Coverage", fill = 0L)
-    Percent <- dcast(dt, Chrom + Start ~ Sample, value.var = "Percent", fill = NA)
+    Coverage <- dcast(
+      dt,
+      Chrom + Start ~ Sample,
+      value.var = "Coverage",
+      fill = 0L
+    )
+    Percent <- dcast(
+      dt,
+      Chrom + Start ~ Sample,
+      value.var = "Percent",
+      fill = NA
+    )
     Methylated <- dcast(dt, Chrom + Start ~ Sample, value.var = "Me", fill = NA)
-    Unmethylated <- dcast(dt, Chrom + Start ~ Sample, value.var = "Un", fill = NA)
+    Unmethylated <- dcast(
+      dt,
+      Chrom + Start ~ Sample,
+      value.var = "Un",
+      fill = NA
+    )
 
     # Add unique row names and remove extraneous columns
-    Coverage[, Location := paste(Chrom, Start, sep = ".")][, c("Chrom", "Start") := NULL]
-    Percent[, Location := paste(Chrom, Start, sep = ".")][, c("Chrom", "Start") := NULL]
-    Methylated[, Location := paste(Chrom, Start, sep = ".")][, c("Chrom", "Start") := NULL]
-    Unmethylated[, Location := paste(Chrom, Start, sep = ".")][, c("Chrom", "Start") := NULL]
+    Coverage[, Location := paste(Chrom, Start, sep = ".")][,
+      c("Chrom", "Start") := NULL
+    ]
+    Percent[, Location := paste(Chrom, Start, sep = ".")][,
+      c("Chrom", "Start") := NULL
+    ]
+    Methylated[, Location := paste(Chrom, Start, sep = ".")][,
+      c("Chrom", "Start") := NULL
+    ]
+    Unmethylated[, Location := paste(Chrom, Start, sep = ".")][,
+      c("Chrom", "Start") := NULL
+    ]
 
     # Convert to matrices
     Coverage <- as.matrix(Coverage, rownames = "Location")
@@ -80,7 +123,12 @@ read_bismark <- function(files, coverage = 1, prop_samples = 1, remove_zero_var 
     Methylated <- as.matrix(Methylated, rownames = "Location")
     Unmethylated <- as.matrix(Unmethylated, rownames = "Location")
 
-    result <- list(Coverage = Coverage, Percent = Percent, Methylated = Methylated, Unmethylated = Unmethylated)
+    result <- list(
+      Coverage = Coverage,
+      Percent = Percent,
+      Methylated = Methylated,
+      Unmethylated = Unmethylated
+    )
   }
   message("Done.")
 

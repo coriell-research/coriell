@@ -25,9 +25,9 @@
 #'
 #' # Plot the boxplot by sample
 #' plot_boxplot(GSE161650_lc)
-#'  
+#'
 #' # Plot the boxplot by coloring each Group
-#' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group") 
+#' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group")
 #'
 #' # Create a violin plot after RLE transformation
 #' plot_boxplot(GSE161650_lc, metadata, fillBy = "Group", rle = TRUE, violin = TRUE)
@@ -41,10 +41,22 @@ plot_boxplot.default <- function(x) {
 
 #' @export
 #' @rdname plot_boxplot
-plot_boxplot.matrix <- function(x, metadata = NULL, fillBy = NULL, rle = FALSE,
-                                violin = FALSE, ...) {
-  stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
-  stopifnot("fillBy must be a column in metadata" = fillBy %in% colnames(metadata))
+plot_boxplot.matrix <- function(
+  x,
+  metadata = NULL,
+  fillBy = NULL,
+  rle = FALSE,
+  violin = FALSE,
+  ...
+) {
+  stopifnot(
+    "colnames(x) do not match rownames(metadata)" = all(
+      colnames(x) == rownames(metadata)
+    )
+  )
+  stopifnot(
+    "fillBy must be a column in metadata" = fillBy %in% colnames(metadata)
+  )
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
 
   if (isTRUE(rle)) {
@@ -79,27 +91,45 @@ plot_boxplot.matrix <- function(x, metadata = NULL, fillBy = NULL, rle = FALSE,
   fct_levels <- dt.m[order(get(fillBy))][, unique(.sample)]
   dt.m[, .sample := factor(.sample, levels = fct_levels)]
 
-  p <- ggplot2::ggplot(dt.m, ggplot2::aes(x = .data[[".sample"]], y = .data[[".value"]]))
+  p <- ggplot2::ggplot(
+    dt.m,
+    ggplot2::aes(x = .data[[".sample"]], y = .data[[".value"]])
+  )
   if (isTRUE(violin)) {
     p <- p + ggplot2::geom_violin(ggplot2::aes(fill = .data[[fillBy]]), ...)
   } else {
     p <- p + ggplot2::geom_boxplot(ggplot2::aes(fill = .data[[fillBy]]), ...)
   }
 
-  p + ggplot2::geom_hline(
-    yintercept = median(x, na.rm = TRUE), color = "red", linetype = 2) +
-    ggplot2::labs(x = NULL,y = NULL,
-      fill = if (fillBy == ".sample") "Sample" else fillBy) +
+  p +
+    ggplot2::geom_hline(
+      yintercept = median(x, na.rm = TRUE),
+      color = "red",
+      linetype = 2
+    ) +
+    ggplot2::labs(
+      x = NULL,
+      y = NULL,
+      fill = if (fillBy == ".sample") "Sample" else fillBy
+    ) +
     coriell::theme_coriell() +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 1))
 }
 
 #' @export
 #' @rdname plot_boxplot
-plot_boxplot.data.frame <- function(x, metadata = NULL, fillBy = NULL,
-                                    rle = FALSE, violin = FALSE, ...) {
+plot_boxplot.data.frame <- function(
+  x,
+  metadata = NULL,
+  fillBy = NULL,
+  rle = FALSE,
+  violin = FALSE,
+  ...
+) {
   if (is(x, "tbl_df") || is(x, "data.table")) {
-    stop("You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)")
+    stop(
+      "You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)"
+    )
   }
   m <- data.matrix(x)
   plot_boxplot.matrix(m, metadata, fillBy, rle, violin, ...)
@@ -107,12 +137,18 @@ plot_boxplot.data.frame <- function(x, metadata = NULL, fillBy = NULL,
 
 #' @export
 #' @rdname plot_boxplot
-plot_boxplot.SummarizedExperiment <- function(x, assay = "counts", fillBy = NULL,
-                                              rle = FALSE, violin = FALSE, ...) {
+plot_boxplot.SummarizedExperiment <- function(
+  x,
+  assay = "counts",
+  fillBy = NULL,
+  rle = FALSE,
+  violin = FALSE,
+  ...
+) {
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is not installed.")
   }
-  
+
   m <- SummarizedExperiment::assay(x, assay)
   metadata <- data.frame(SummarizedExperiment::colData(x))
   plot_boxplot.matrix(m, metadata, fillBy, rle, violin, ...)

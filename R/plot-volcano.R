@@ -37,17 +37,39 @@
 #' @export
 #' @examples
 #' plot_volcano(GSE161650_de, fdr = 0.01, lfc = log2(2))
-plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
-                         lfc = 0, label_sig = FALSE, annotate_counts = TRUE,
-                         up_color = "red2", down_color = "royalblue2",
-                         nonde_color = "grey40", up_alpha = 1, down_alpha = 1,
-                         nonde_alpha = 1, up_size = 1, down_size = 1,
-                         nonde_size = 1, up_shape = 16, down_shape = 16,
-                         nonde_shape = ".", xmin_label_offset = 0.8,
-                         xmax_label_offset = 0.8, ymax_label_offset = 0.9,
-                         lab_size = 6, lab_digits = 1, x_axis_limits = NULL,
-                         y_axis_limits = NULL, raster = FALSE, raster_dpi = 300,
-                         raster_dev = "cairo", ...) {
+plot_volcano <- function(
+  df,
+  x = "logFC",
+  y = "FDR",
+  lab = NULL,
+  fdr = 0.05,
+  lfc = 0,
+  label_sig = FALSE,
+  annotate_counts = TRUE,
+  up_color = "red2",
+  down_color = "royalblue2",
+  nonde_color = "grey40",
+  up_alpha = 1,
+  down_alpha = 1,
+  nonde_alpha = 1,
+  up_size = 1,
+  down_size = 1,
+  nonde_size = 1,
+  up_shape = 16,
+  down_shape = 16,
+  nonde_shape = ".",
+  xmin_label_offset = 0.8,
+  xmax_label_offset = 0.8,
+  ymax_label_offset = 0.9,
+  lab_size = 6,
+  lab_digits = 1,
+  x_axis_limits = NULL,
+  y_axis_limits = NULL,
+  raster = FALSE,
+  raster_dpi = 300,
+  raster_dev = "cairo",
+  ...
+) {
   if (isTRUE(raster)) {
     if (!requireNamespace("ggrastr", quietly = TRUE)) {
       stop("ggrastr package is required when raster=TRUE.")
@@ -55,7 +77,9 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
   }
 
   if (label_sig && is.null(lab)) {
-    message("'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels.")
+    message(
+      "'label_sig = TRUE' but 'lab = NULL'. Please specifiy a column name of features in order to plot labels."
+    )
   }
 
   dt <- as.data.table(df)
@@ -63,18 +87,39 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
   # Modify the input df for plotting
   dt[, `:=`(
     direction = fcase(
-      get(y) < ..fdr & abs(get(x)) > ..lfc & get(x) > 0, "Up",
-      get(y) < ..fdr & abs(get(x)) > ..lfc & get(x) < 0, "Down",
+      get(y) < ..fdr & abs(get(x)) > ..lfc & get(x) > 0 , "Up"   ,
+      get(y) < ..fdr & abs(get(x)) > ..lfc & get(x) < 0 , "Down" ,
       default = "Unperturbed"
     ),
     logPval = -log10(get(y))
   )]
 
   # Set up the base plot object
-  p <- ggplot2::ggplot(data = dt, ggplot2::aes(x = .data[[x]], y = .data[["logPval"]])) +
-    ggplot2::geom_point(data = dt[direction == "Unperturbed"], color = nonde_color, alpha = nonde_alpha, size = nonde_size, shape = nonde_shape) +
-    ggplot2::geom_point(data = dt[direction == "Down"], color = down_color, alpha = down_alpha, size = down_size, shape = down_shape) +
-    ggplot2::geom_point(data = dt[direction == "Up"], color = up_color, alpha = up_alpha, size = up_size, shape = up_shape) +
+  p <- ggplot2::ggplot(
+    data = dt,
+    ggplot2::aes(x = .data[[x]], y = .data[["logPval"]])
+  ) +
+    ggplot2::geom_point(
+      data = dt[direction == "Unperturbed"],
+      color = nonde_color,
+      alpha = nonde_alpha,
+      size = nonde_size,
+      shape = nonde_shape
+    ) +
+    ggplot2::geom_point(
+      data = dt[direction == "Down"],
+      color = down_color,
+      alpha = down_alpha,
+      size = down_size,
+      shape = down_shape
+    ) +
+    ggplot2::geom_point(
+      data = dt[direction == "Up"],
+      color = up_color,
+      alpha = up_alpha,
+      size = up_size,
+      shape = up_shape
+    ) +
     ggplot2::geom_vline(xintercept = 0, linetype = 2) +
     ggplot2::geom_vline(xintercept = lfc, linetype = 3) +
     ggplot2::geom_vline(xintercept = -lfc, linetype = 3) +
@@ -89,10 +134,11 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
   # Apply new limits if set
   if (!is.null(x_axis_limits) & !(is.null(y_axis_limits))) {
     p <- suppressMessages({
-      p + ggplot2::coord_cartesian(
-        xlim = x_axis_limits,
-        ylim = y_axis_limits
-      )
+      p +
+        ggplot2::coord_cartesian(
+          xlim = x_axis_limits,
+          ylim = y_axis_limits
+        )
     })
   } else if (!is.null(x_axis_limits)) {
     p <- suppressMessages(p + ggplot2::coord_cartesian(xlim = x_axis_limits))
@@ -116,12 +162,24 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
 
   # Add DE count annotations
   if (annotate_counts) {
-    d <- coriell::summarize_dge(df, fdr_col = y, lfc_col = x, fdr = fdr, lfc = lfc)
+    d <- coriell::summarize_dge(
+      df,
+      fdr_col = y,
+      lfc_col = x,
+      fdr = fdr,
+      lfc = lfc
+    )
     plot_lims <- coriell::get_axis_limits(p)
     up_count <- d[d$Direction == "Up", "N", drop = TRUE]
     down_count <- d[d$Direction == "Down", "N", drop = TRUE]
-    up_pct <- round(d[d$Direction == "Up", "Percent", drop = TRUE], digits = lab_digits)
-    down_pct <- round(d[d$Direction == "Down", "Percent", drop = TRUE], digits = lab_digits)
+    up_pct <- round(
+      d[d$Direction == "Up", "Percent", drop = TRUE],
+      digits = lab_digits
+    )
+    down_pct <- round(
+      d[d$Direction == "Down", "Percent", drop = TRUE],
+      digits = lab_digits
+    )
 
     p <- p +
       ggplot2::annotate(
@@ -141,7 +199,12 @@ plot_volcano <- function(df, x = "logFC", y = "FDR", lab = NULL, fdr = 0.05,
   }
 
   if (isTRUE(raster)) {
-    return(ggrastr::rasterise(p, layers = "Point", dpi = raster_dpi, dev = raster_dev))
+    return(ggrastr::rasterise(
+      p,
+      layers = "Point",
+      dpi = raster_dpi,
+      dev = raster_dev
+    ))
   }
 
   p

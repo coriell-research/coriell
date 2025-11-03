@@ -19,7 +19,9 @@ list_to_matrix <- function(sets) {
   union_all <- Reduce(union, sets)
 
   if (anyNA(union_all)) {
-    message("NA values present in union of all sets. NA values will be dropped in final matrix")
+    message(
+      "NA values present in union of all sets. NA values will be dropped in final matrix"
+    )
     union_all <- union_all[!is.na(union_all)]
   }
 

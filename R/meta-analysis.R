@@ -64,20 +64,28 @@
 #'
 #' # Data is converted to assays
 #' SummarizedExperiment::assays(se)
-dfs2se <- function(x, feature_col = "feature_id",
-                   import = c("logFC", "logCPM", "PValue", "FDR"),
-                   complete = FALSE) {
+dfs2se <- function(
+  x,
+  feature_col = "feature_id",
+  import = c("logFC", "logCPM", "PValue", "FDR"),
+  complete = FALSE
+) {
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is required.")
   }
   same_cols <- all(sapply(x, function(l) all(colnames(l) == colnames(x[[1]]))))
   stopifnot("All column names must match across experiments" = same_cols)
   has_cols <- all(import %in% colnames(x[[1]]))
-  stopifnot("One of the needed columns is missing from the data.frames" = has_cols)
+  stopifnot(
+    "One of the needed columns is missing from the data.frames" = has_cols
+  )
 
   universe <- NULL
   if (isTRUE(complete)) {
-    universe <- Reduce(base::intersect, lapply(x, function(df) df[[feature_col]]))
+    universe <- Reduce(
+      base::intersect,
+      lapply(x, function(df) df[[feature_col]])
+    )
   }
 
   dt <- data.table::rbindlist(x, idcol = "Experiment")
@@ -109,9 +117,9 @@ dfs2se <- function(x, feature_col = "feature_id",
 #' "parallelSimes", "parallelStouffer", or "parallelWilkinson".
 #' @param pval assay name in SE object containing the P-values to combine.
 #' @param lfc assay name in the SE object containing the logFC values to combine.
-#' @param impute_missing TRUE/FALSE should missing values in the logFC and P-Value 
-#' assays be imputed prior p-value combination? Default TRUE, missing p-values 
-#' are imputed with 1 and missing logFCs are imputed with 0.  
+#' @param impute_missing TRUE/FALSE should missing values in the logFC and P-Value
+#' assays be imputed prior p-value combination? Default TRUE, missing p-values
+#' are imputed with 1 and missing logFCs are imputed with 0.
 #' @param ... Additional arguments passed to FUN. See the \code{metapod} package
 #' for details.
 #' @return data.table with summary stats of the p-value combination of all
@@ -151,9 +159,18 @@ dfs2se <- function(x, feature_col = "feature_id",
 #' #  using Wilkinson's method and passing additional values
 #' result <- meta_de(se, metapod::parallelWilkinson, min.prop = 0.1)
 #' head(result)
-#' 
-meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRUE, ...) {
-  stopifnot("SummarizedExperiment object expected" = is(x, "SummarizedExperiment"))
+#'
+meta_de <- function(
+  x,
+  FUN,
+  pval = "PValue",
+  lfc = "logFC",
+  impute_missing = TRUE,
+  ...
+) {
+  stopifnot(
+    "SummarizedExperiment object expected" = is(x, "SummarizedExperiment")
+  )
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is required.")
   }
@@ -163,7 +180,7 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
   if (!requireNamespace("matrixStats", quietly = TRUE)) {
     stop("matrixStats package is required.")
   }
-  
+
   lfc_m <- SummarizedExperiment::assay(x, lfc)
   pval_m <- SummarizedExperiment::assay(x, pval)
   if (isTRUE(impute_missing)) {
@@ -179,24 +196,43 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
   comb <- do.call(FUN, list(p.values = pval_l, ...))
 
   # Summarize the direction
-  direction <- metapod::summarizeParallelDirection(lfc_l, influential = comb$influential)
+  direction <- metapod::summarizeParallelDirection(
+    lfc_l,
+    influential = comb$influential
+  )
 
   # Calculate summary statistics of the logFC
   if (is(lfc_m, "DelayedArray")) {
     if (!requireNamespace("DelayedMatrixStats", quietly = TRUE)) {
       stop("DelayedMatrixStata package is required.")
     }
-    median_lfc <- DelayedMatrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
-    avg_lfc <- DelayedMatrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
-    min_lfc <- DelayedMatrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
-    max_lfc <- DelayedMatrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
+    median_lfc <- DelayedMatrixStats::rowMedians(
+      lfc_m,
+      na.rm = TRUE,
+      useNames = FALSE
+    )
+    avg_lfc <- DelayedMatrixStats::rowMeans2(
+      lfc_m,
+      na.rm = TRUE,
+      useNames = FALSE
+    )
+    min_lfc <- DelayedMatrixStats::rowMins(
+      lfc_m,
+      na.rm = TRUE,
+      useNames = FALSE
+    )
+    max_lfc <- DelayedMatrixStats::rowMaxs(
+      lfc_m,
+      na.rm = TRUE,
+      useNames = FALSE
+    )
   } else {
     median_lfc <- matrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
     avg_lfc <- matrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
     min_lfc <- matrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
     max_lfc <- matrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
   }
-  
+
   # Combine all results into a data.table
   data.table(
     Feature = rownames(x),
@@ -212,14 +248,14 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
 }
 
 #' Perform jackknife resampling on all columns of a SummarizeExperiment object
-#' 
+#'
 #' This function provides a simple wrapper to perform jackknife resampling on
-#' all columns of a SummarizedExperiment object and returns the results of each 
-#' resample in a list. This function is designed to be used to assess the 
-#' robustness of p-value combination techniques of the included \code{meta_de()} 
-#' function but in theory any arbitrary function which operates on the columns 
+#' all columns of a SummarizedExperiment object and returns the results of each
+#' resample in a list. This function is designed to be used to assess the
+#' robustness of p-value combination techniques of the included \code{meta_de()}
+#' function but in theory any arbitrary function which operates on the columns
 #' of a SummarizedExperiment object could be used.
-#' 
+#'
 #' @param x SummarizedExperiment object to perform jackknife resampling of columns on
 #' @param FUN Function to perform on each resample.
 #' @param ... Additional arguments passed to FUN
@@ -242,7 +278,7 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
 #'   logFC = c(1.5, -2.0, 3.0),
 #'   logCPM = c(14, 10, 2)
 #' )
-#' 
+#'
 #' exp3 <- data.frame(
 #'   feature_id = c("geneA", "geneB", "geneC", "geneD"),
 #'   PValue = c(0.03, 0.3, 0.01, 0.8),
@@ -256,16 +292,18 @@ meta_de <- function(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRU
 #'
 #' # Convert the data to a SummarizedExperiment
 #' se <- dfs2se(l)
-#' 
+#'
 #' # Perform the jackknife using meta_de on each subset of the data
 #' metafun <- function(x) { meta_de(x, metapod::parallelWilkinson) }
 #' result <- jackknifeSE(se, FUN = metafun, min.prop = 0.5)
-#' 
+#'
 #' # Combine the results from calling meta_de on each resample and show
 #' result <- data.table::rbindlist(result, idcol = "Jackknife")
 #' head(result[order(Feature)])
 jackknifeSE <- function(x, FUN, ...) {
-  stopifnot("SummarizedExperiment object expected" = is(x, "SummarizedExperiment"))
+  stopifnot(
+    "SummarizedExperiment object expected" = is(x, "SummarizedExperiment")
+  )
   idx <- 1:ncol(x)
   lapply(idx, function(i) do.call(FUN, list(x = x[, setdiff(idx, i)]), ...))
 }

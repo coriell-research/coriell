@@ -55,7 +55,9 @@ distinct_rgb_palette <- function(n, alpha = 1.0, ...) {
   space <- expand.grid(rep(list(0:255), 3))
   res <- do.call(stats::kmeans, c(list(x = space, centers = n), default_args))
   centers <- floor(res$centers)
-  pal <- apply(centers, 1, function(x) rgb(x[1], x[2], x[3], maxColorValue = 255, alpha = (255 * alpha)))
+  pal <- apply(centers, 1, function(x) {
+    rgb(x[1], x[2], x[3], maxColorValue = 255, alpha = (255 * alpha))
+  })
 
   return(pal)
 }

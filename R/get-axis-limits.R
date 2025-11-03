@@ -6,20 +6,19 @@
 #' @export
 #' @return list with elements for x and y limits
 get_axis_limits <- function(p) {
-  
   b <- ggplot2::ggplot_build(p)
-  
+
   x_range <- b$layout$panel_scales_x[[1]]$range$range
   y_range <- b$layout$panel_scales_y[[1]]$range$range
   xmin <- x_range[1]
   xmax <- x_range[2]
   ymin <- y_range[1]
   ymax <- y_range[2]
-  
+
   # Get limits if the ranges have been reset by coord_
   x_limits <- b$layout$coord$limits$x
   y_limits <- b$layout$coord$limits$y
-  
+
   if (!is.null(x_limits)) {
     xmin <- x_limits[1]
     xmax <- x_limits[2]

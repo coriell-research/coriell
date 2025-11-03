@@ -7,12 +7,12 @@
 #' @export
 #' @examples
 #' minmax(c(0, 1, 10, 100))
-#' 
+#'
 #' # Use a scale outside of the range of x
 #' minmax(c(0, 1, 10, 100), min = 0, max = 1000)
 minmax <- function(x, min = NA, max = NA) {
-  (x - min(c(x, min), na.rm = TRUE)) / 
-  (max(c(x, max), na.rm = TRUE) - min(c(x, min), na.rm = TRUE))
+  (x - min(c(x, min), na.rm = TRUE)) /
+    (max(c(x, max), na.rm = TRUE) - min(c(x, min), na.rm = TRUE))
 }
 
 #' Linear interpolation of a value
@@ -64,53 +64,56 @@ clamp <- Vectorize(.clamp)
 
 #' Geometric mean of a vector
 #'
-#' Calculate the geometric mean of a vector. This function is valid for 
+#' Calculate the geometric mean of a vector. This function is valid for
 #' non-negative, non-NA containing vectors.
 #'
 #' @param x numeric vector of non-negative values
 #' @param zero_propagate logical. Should zeros be included in the calculation. Default FALSE.
-#' @param ignore_zero logical. Should zero values be ignored in the calculation of the mean? Default TRUE. 
+#' @param ignore_zero logical. Should zero values be ignored in the calculation of the mean? Default TRUE.
 #' @return geometric mean of the vector
 #' @export
 #' @examples
 #' # Normal case
 #' geometric_mean(c(2, 5, 95, 5))
-#' 
+#'
 #' # Default ignores 0s entirely
 #' geometric_mean(c(2, 5, 95, 5, 0, 0, 0, 0))
-#' 
+#'
 #' # Ignore zero = FALSE -- zero is used in mean calculation
 #' geometric_mean(c(2, 5, 95, 5, 0, 0, 0, 0), ignore_zero = FALSE)
-#' 
+#'
 #' # Case with NA -- Returns NA
 #' geometric_mean(c(NA, 1, 2, 3))
-#' 
+#'
 #' # Case with 0 propagation -- Returns 0
 #' geometric_mean(c(0, 1, 2, 3), zero_propagate = TRUE)
-#' 
+#'
 #' # Case with negative -- Returns NaN
 #' geometric_mean(c(-1, 2, 3))
 geometric_mean <- function(x, zero_propagate = FALSE, ignore_zero = TRUE) {
-  if (any(is.na(x)))
+  if (any(is.na(x))) {
     return(NA)
-  
-  if (any(x < 0, na.rm = TRUE))
+  }
+
+  if (any(x < 0, na.rm = TRUE)) {
     return(NaN)
-  
+  }
+
   if (isTRUE(zero_propagate)) {
     if (any(x == 0, na.rm = TRUE)) {
       return(0)
     }
   }
-  
+
   # Get the length of the vector WITH 0 values
   l <- length(x)
   x <- x[x > 0]
-  
+
   # Use zero values in mean calculation
-  if (isFALSE(ignore_zero)) 
-    return(exp( sum(log(x)) / l ))
-  
+  if (isFALSE(ignore_zero)) {
+    return(exp(sum(log(x)) / l))
+  }
+
   return(exp(mean(log(x))))
 }
 
@@ -152,9 +155,15 @@ clr <- function(x, base = 2) {
 colmean <- function(x, group, na.rm = FALSE) {
   stopifnot("x must be a numeric matrix" = is.numeric(x))
   stopifnot("group must be a factor variable" = is.factor(group))
-  stopifnot("length of grouping factor must equal number of columns" = length(group) == ncol(x))
+  stopifnot(
+    "length of grouping factor must equal number of columns" = length(group) ==
+      ncol(x)
+  )
 
-  t(rowsum(t(x), group = group, reorder = FALSE, na.rm = na.rm) / as.vector(table(group)))
+  t(
+    rowsum(t(x), group = group, reorder = FALSE, na.rm = na.rm) /
+      as.vector(table(group))
+  )
 }
 
 #' Extract variable from an environment and remove that environment
@@ -193,7 +202,7 @@ env2global <- function(x, remove = TRUE) {
 }
 
 #' Perform simple imputation on rows of a matrix
-#' 
+#'
 #' Impute NA values for each row of a matrix.
 #' @param x numeric matrix or data.frame that can be converted to a numeric matrix
 #' @param fun Imputation function to apply to rows of the matrix. Default median
@@ -204,28 +213,34 @@ env2global <- function(x, remove = TRUE) {
 #' X <- matrix(runif(25), 5, dimnames = list(paste0("CpG", 1:5), paste0("Sample", 1:5)))
 #' X[sample.int(25, 5)] <- NA
 #' X
-#' 
+#'
 #' # Impute missing values with row medians
 #' impute(X)
-#' 
+#'
 #' # Impute missing values with row mins
 #' impute(X, min)
 impute <- function(x, fun = median) {
-  if (is(x, "data.frame"))
+  if (is(x, "data.frame")) {
     x <- data.matrix(x)
-  
-  imputed <- apply(x, 1, function(i) { 
-    i[which(is.na(i))] <- do.call(fun, list(i, na.rm = TRUE))
-    return(i)
-  }, simplify = FALSE)
+  }
+
+  imputed <- apply(
+    x,
+    1,
+    function(i) {
+      i[which(is.na(i))] <- do.call(fun, list(i, na.rm = TRUE))
+      return(i)
+    },
+    simplify = FALSE
+  )
   m <- do.call(rbind, imputed)
   dimnames(m) <- dimnames(x)
   m
 }
 
 #' Remove low variance features from a matrix
-#' 
-#' This function removes the p lowest variance features from a matrix. The 
+#'
+#' This function removes the p lowest variance features from a matrix. The
 #' function expects features in rows and samples in columns (e.g. an expression
 #' matrix).
 #' @param x matrix, numeric data.frame, or SummarizedExperiment object
@@ -234,7 +249,7 @@ impute <- function(x, fun = median) {
 #' @return matrix with lowest variance features removed
 #' @export
 #' @examples
-#' 
+#'
 #' # Remove 80% lowest variance features
 #' removed <- remove_var(GSE161650_lc, p = 0.8)
 remove_var <- function(x, ...) UseMethod("remove_var")
@@ -249,7 +264,7 @@ remove_var.default <- function(x) {
 #' @export
 remove_var.matrix <- function(x, p) {
   stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
-  message("Removing ", p*100, "% lowest variance features...")
+  message("Removing ", p * 100, "% lowest variance features...")
   if (requireNamespace("matrixStats", quietly = TRUE)) {
     v <- matrixStats::rowVars(x, na.rm = TRUE, useNames = FALSE)
   } else if (requireNamespace("Rfast", quietly = TRUE)) {
@@ -289,29 +304,29 @@ remove_var.DelayedArray <- function(x, p) {
 }
 
 #' Get unique pairwise intersections of a list of vectors
-#' 
-#' This function takes in a list of vectors and performs pairwise set 
-#' intersections for all unique pairs of vectors in the list. 
+#'
+#' This function takes in a list of vectors and performs pairwise set
+#' intersections for all unique pairs of vectors in the list.
 #' @param x List of vectors to perform intersections on
 #' @param universe_size Size of the universe of features each set was drawn from.
 #' default NULL. If supplied then a fisher's exact test is performed to assess
 #' the significance of the overlap. Note, the same universe size is used for all
-#' pairwise comparisons. 
+#' pairwise comparisons.
 #' @return data.table
 #' @returns a data.table containing columns for the sets being compared, a list column
-#' which contains the actual values in the intersection, a column with the 
-#' intersection size, and a column with the Jaccard index, and optionally a 
-#' P-Value column containing the p-value from a fisher's exact test if 
+#' which contains the actual values in the intersection, a column with the
+#' intersection size, and a column with the Jaccard index, and optionally a
+#' P-Value column containing the p-value from a fisher's exact test if
 #' universe_size is given.
 #' @export
 #' @examples
 #' l <- list(
-#'   Set1 = c("A", "B", "C"), 
+#'   Set1 = c("A", "B", "C"),
 #'   Set2 = c("B", "C", "D"),
 #'   Set3 = c("X", "Y", "Z"),
 #'   Set4 = LETTERS
 #' )
-#' 
+#'
 #' pairwise_intersections(l)
 pairwise_intersections <- function(x, universe_size = NULL) {
   if (!is(x, "list")) {
@@ -323,7 +338,7 @@ pairwise_intersections <- function(x, universe_size = NULL) {
   if (is.null(names(x))) {
     names(x) <- paste0("Set", 1:length(x))
   }
-  
+
   lnames <- names(x)
   n_pairs <- sum(upper.tri(matrix(nrow = n, ncol = n)))
   s1 <- vector("character", n_pairs)
@@ -340,31 +355,36 @@ pairwise_intersections <- function(x, universe_size = NULL) {
     for (j in (i + 1):n) {
       s1[[idx]] <- lnames[i]
       s2[[idx]] <- lnames[j]
-      
+
       s1_size[[idx]] <- length(x[[i]])
       s2_size[[idx]] <- length(x[[j]])
-      
+
       int <- intersection[[idx]] <- intersect(x[[i]], x[[j]])
-      
+
       u <- union(x[[i]], x[[j]])
       union_size[[idx]] <- length(u)
-      
+
       jaccard[[idx]] <- length(int) / length(u)
-      
+
       if (!is.null(universe_size)) {
-        M <- matrix(c(universe_size - length(u), 
-                      length(x[[j]]) - length(int), 
-                      length(x[[i]]) - length(int), 
-                      length(int)), ncol = 2)
+        M <- matrix(
+          c(
+            universe_size - length(u),
+            length(x[[j]]) - length(int),
+            length(x[[i]]) - length(int),
+            length(int)
+          ),
+          ncol = 2
+        )
         rownames(M) <- c('notSet2', 'inSet2')
         colnames(M) <- c('notSet1', 'inSet1')
         m[[idx]] <- M
       }
-      
+
       idx <- idx + 1
     }
   }
-  
+
   result <- data.table::data.table(
     Set1 = s1,
     Set2 = s2,
@@ -375,19 +395,24 @@ pairwise_intersections <- function(x, universe_size = NULL) {
     Jaccard = jaccard,
     Intersection = intersection
   )
-  
+
   if (!is.null(universe_size)) {
     exact_tests <- lapply(m, fisher.test, alternative = "greater")
-    p_vals <- vapply(exact_tests, `[[`, "p.value", FUN.VALUE = numeric(length = 1L))
+    p_vals <- vapply(
+      exact_tests,
+      `[[`,
+      "p.value",
+      FUN.VALUE = numeric(length = 1L)
+    )
     result[, P.Value := p_vals]
   }
-  
+
   return(result)
 }
 
 #' Strip version IDs from ENSEMBL identifiers
-#' 
-#' This function is simply a wrapper around gsub for removing trailing IDs from 
+#'
+#' This function is simply a wrapper around gsub for removing trailing IDs from
 #' ENSEMBL identifiers. All entries must start with 'ENS'. NAs are tolerated.
 #'
 #' @param x character vector containing ENSEMBL IDs
@@ -396,43 +421,42 @@ pairwise_intersections <- function(x, universe_size = NULL) {
 #' @export
 #'
 #' @examples
-#' 
+#'
 #' ids <- c("ENSG0000001.12", "ENSMUSG00021.3", "ENST00000556.2")
 #' strip_ens(ids)
-#' 
+#'
 strip_ens <- function(x) {
-  
   if (!all(startsWith(x, "ENS"), na.rm = TRUE)) {
     warning("Not all entries start with 'ENS'. Are these ENSEMBL IDs?")
   }
-  
+
   result <- gsub("\\.[0-9]+$", "", x)
-  
+
   return(result)
 }
 
 #' Compute TPM normalized counts
-#' 
+#'
 #' Convert counts to TPM values. This function simply performs the computations
-#' for creating TPM normalized counts given a count matrix and any vector of 
+#' for creating TPM normalized counts given a count matrix and any vector of
 #' lengths. This is useful for quickly computing scaling factors for arbitrary
 #' features and lengths. For RNA-seq, it's better to use a transcript aligner
-#' + tximport to get TPMs. Refer to \url{https://bioconductor.org/packages/release/bioc/html/tximport.html} 
+#' + tximport to get TPMs. Refer to \url{https://bioconductor.org/packages/release/bioc/html/tximport.html}
 #' for more information.
-#' 
+#'
 #' @param x matrix, numeric data.frame, or SummarizedExperiment object
 #' @param l vector of feature lengths
 #' @param assay if SummarizedExperiment, what assay to use. Default = "counts"
 #' @return matrix containing TPM normalized counts
 #' @export
 #' @examples
-#' 
+#'
 #' # Generate some fake data with fake positive feature lengths
 #' counts <- coriell::simulate_counts()$table
 #' gene_lengths <- rbinom(nrow(counts), 1000, 0.9)
-#' 
+#'
 #' tpms <- tpm(counts, gene_lengths)
-#' 
+#'
 tpm <- function(x, l, ...) UseMethod("tpm")
 
 #' @rdname tpm
@@ -444,10 +468,12 @@ tpm.default <- function(x, l, ...) {
 #' @rdname tpm
 #' @export
 tpm.matrix <- function(x, l) {
-  stopifnot("number of supplied lengths != number of features" = nrow(x) == length(l))
+  stopifnot(
+    "number of supplied lengths != number of features" = nrow(x) == length(l)
+  )
   xl <- x / l
   result <- t(t(xl) * 1e6 / colSums(xl))
-  
+
   return(result)
 }
 
@@ -456,16 +482,16 @@ tpm.matrix <- function(x, l) {
 tpm.data.frame <- function(x, l) {
   counts <- data.matrix(x)
   result <- tpm.matrix(counts, l)
-  
+
   return(result)
 }
 
 #' @rdname tpm
 #' @export
-tpm.SummarizedExperiment <- function(x, l, assay="counts") {
+tpm.SummarizedExperiment <- function(x, l, assay = "counts") {
   counts <- SummarizedExperiment::assay(x, assay)
   result <- tpm.matrix(counts, l)
-  
+
   return(result)
 }
 
@@ -473,7 +499,9 @@ tpm.SummarizedExperiment <- function(x, l, assay="counts") {
 #' @export
 tpm.DelayedArray <- function(x, l) {
   xl <- x / l
-  result <- DelayedArray::t(DelayedArray::t(xl) * 1e6 / DelayedArray::colSums(xl))
-  
+  result <- DelayedArray::t(
+    DelayedArray::t(xl) * 1e6 / DelayedArray::colSums(xl)
+  )
+
   return(result)
 }

@@ -21,7 +21,7 @@
 #'     subtitle = "subtitle for default plot",
 #'     x = "X Label",
 #'     y = "Y Label"
-#'   ) + 
+#'   ) +
 #'   facet_wrap(~C)
 #'
 #' # With theme_coriell()
@@ -29,7 +29,7 @@
 #'   geom_point() +
 #'   labs(
 #'     title = "Plot using theme_coriell()",
-#'     subtitle = "Show facets and plot legend",     
+#'     subtitle = "Show facets and plot legend",
 #'     x = "X Label",
 #'     y = "Y Label"
 #'   ) +
@@ -39,27 +39,33 @@
 theme_coriell <- function(...) {
   ggplot2::theme_light(...) %+replace%
     ggplot2::theme(
-
       text = ggplot2::element_text(family = "Helvetica"),
-      
+
       legend.position = "bottom",
       legend.title = ggplot2::element_text(size = 16, face = "bold"),
       legend.text = ggplot2::element_text(size = 14),
-      
+
       plot.title = ggplot2::element_text(hjust = 0, size = 22, face = "bold"),
       plot.subtitle = ggplot2::element_text(size = 18, hjust = 0),
-      
+
       axis.title = ggplot2::element_text(size = 16),
       axis.text.x = ggplot2::element_text(size = 16),
       axis.text.y = ggplot2::element_text(size = 16),
-      
-      strip.text.x = ggplot2::element_text(size = 16, color = "black", face = "bold"),
-      strip.text.y = ggplot2::element_text(size = 16, color = "black", face = "bold"),
+
+      strip.text.x = ggplot2::element_text(
+        size = 16,
+        color = "black",
+        face = "bold"
+      ),
+      strip.text.y = ggplot2::element_text(
+        size = 16,
+        color = "black",
+        face = "bold"
+      ),
       strip.background = ggplot2::element_blank(),
-      
+
       panel.border = ggplot2::element_blank(),
-      
+
       complete = TRUE
-      
     )
 }

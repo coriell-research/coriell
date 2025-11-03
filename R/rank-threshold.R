@@ -48,7 +48,13 @@ rank_threshold <- function(x, show = FALSE) {
   y_thresh <- x[which.max(distances)]
 
   if (show) {
-    plot(rnk, x, xlab = "rank", ylab = "value", main = "Estimated Thresholds (red lines)")
+    plot(
+      rnk,
+      x,
+      xlab = "rank",
+      ylab = "value",
+      main = "Estimated Thresholds (red lines)"
+    )
     abline(reg = line, col = "black", lty = 2)
     abline(v = x_thresh, col = "red", lty = 3)
     abline(h = y_thresh, col = "red", lty = 3)

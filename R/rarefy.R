@@ -23,7 +23,11 @@
 #' colSums(rarefied)
 rarefy <- function(x, depth) {
   stopifnot("NAs present in input matrix" = !any(apply(x, 2, anyNA)))
-  stopifnot("depth is greater than smallest library size" = !any(depth > min(colSums(x))))
+  stopifnot(
+    "depth is greater than smallest library size" = !any(
+      depth > min(colSums(x))
+    )
+  )
   subsample <- function(x, d) {
     n <- length(x)
     idx <- 1:n

@@ -37,14 +37,26 @@ plot_parallel.default <- function(x) {
 
 #' @rdname plot_parallel
 #' @export
-plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
-                                 removeVar = NULL, ...) {
-  stopifnot("colnames(x) do not match rownames(metadata)" = all(colnames(x) == rownames(metadata)))
-  stopifnot("colBy must be a column in metadata" = colBy %in% colnames(metadata))
+plot_parallel.matrix <- function(
+  x,
+  metadata = NULL,
+  colBy = NULL,
+  removeVar = NULL,
+  ...
+) {
+  stopifnot(
+    "colnames(x) do not match rownames(metadata)" = all(
+      colnames(x) == rownames(metadata)
+    )
+  )
+  stopifnot(
+    "colBy must be a column in metadata" = colBy %in% colnames(metadata)
+  )
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
-  
-  if (!is.null(removeVar))
+
+  if (!is.null(removeVar)) {
     x <- remove_var(x, p = removeVar)
+  }
 
   # Coerce data into plot-friendly shape
   dt <- data.table::as.data.table(x, keep.rownames = ".feature")
@@ -64,14 +76,19 @@ plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
   if (is.null(colBy)) {
     colBy <- ".sample"
   }
-  
+
   # Force x axis to be in Group order
   fct_levels <- dt.m[order(get(colBy))][, unique(.sample)]
   dt.m[, .sample := factor(.sample, levels = fct_levels)]
 
-  ggplot2::ggplot(dt.m, ggplot2::aes(
-    x = .data[[".sample"]], y = .data[[".value"]], 
-    group = .data[[".feature"]])) +
+  ggplot2::ggplot(
+    dt.m,
+    ggplot2::aes(
+      x = .data[[".sample"]],
+      y = .data[[".value"]],
+      group = .data[[".feature"]]
+    )
+  ) +
     ggplot2::geom_line(ggplot2::aes(color = .data[[colBy]]), ...) +
     ggplot2::labs(
       x = NULL,
@@ -79,15 +96,24 @@ plot_parallel.matrix <- function(x, metadata = NULL, colBy = NULL,
       color = if (colBy == ".sample") "Sample" else colBy
     ) +
     coriell::theme_coriell() +
-    ggplot2::guides(color = ggplot2::guide_legend(override.aes = list(alpha = 1)))
+    ggplot2::guides(
+      color = ggplot2::guide_legend(override.aes = list(alpha = 1))
+    )
 }
 
 #' @rdname plot_parallel
 #' @export
-plot_parallel.data.frame <- function(x, metadata = NULL, colBy = NULL,
-                                     removeVar = NULL, ...) {
+plot_parallel.data.frame <- function(
+  x,
+  metadata = NULL,
+  colBy = NULL,
+  removeVar = NULL,
+  ...
+) {
   if (is(x, "tbl_df") || is(x, "data.table")) {
-    stop("You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)")
+    stop(
+      "You supplied a tibble or a data.table. Please use base::data.frame objects with rownames(x) == colnames(metadata)"
+    )
   }
   m <- data.matrix(x)
   plot_parallel.matrix(m, metadata, colBy, removeVar, ...)
@@ -96,8 +122,13 @@ plot_parallel.data.frame <- function(x, metadata = NULL, colBy = NULL,
 
 #' @rdname plot_parallel
 #' @export
-plot_parallel.SummarizedExperiment <- function(x, assay = "counts", colBy = NULL,
-                                               removeVar = NULL, ...) {
+plot_parallel.SummarizedExperiment <- function(
+  x,
+  assay = "counts",
+  colBy = NULL,
+  removeVar = NULL,
+  ...
+) {
   if (!requireNamespace("SummarizedExperiment", quietly = TRUE)) {
     stop("SummarizedExperiment package is not installed.")
   }

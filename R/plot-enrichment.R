@@ -50,14 +50,32 @@
 #'   plotTitle = "Programmed Cell Death"
 #' )
 #'
-plot_enrichment <- function(pathway, stats, gseaParam = 1, ticksSize = 0.5,
-                            annotate = FALSE, FDR = NULL, ES = NULL, NES = NULL,
-                            tickAlpha = 1, tickColor = "black",
-                            lineWidth = 1, lineColor = NULL, lineAlpha = 1,
-                            hlinesColor = "black", hlinesType = 2,
-                            anno_x_pos = 0.8, anno_y_pos = 0.7, anno_size = 10,
-                            fdr_digits = 3, es_digits = 2, nes_digits = 2,
-                            plotTitle = NULL, xlab = "Rank", ylab = "Enrichment Score") {
+plot_enrichment <- function(
+  pathway,
+  stats,
+  gseaParam = 1,
+  ticksSize = 0.5,
+  annotate = FALSE,
+  FDR = NULL,
+  ES = NULL,
+  NES = NULL,
+  tickAlpha = 1,
+  tickColor = "black",
+  lineWidth = 1,
+  lineColor = NULL,
+  lineAlpha = 1,
+  hlinesColor = "black",
+  hlinesType = 2,
+  anno_x_pos = 0.8,
+  anno_y_pos = 0.7,
+  anno_size = 10,
+  fdr_digits = 3,
+  es_digits = 2,
+  nes_digits = 2,
+  plotTitle = NULL,
+  xlab = "Rank",
+  ylab = "Enrichment Score"
+) {
   if (!requireNamespace("fgsea", quietly = TRUE)) {
     stop("fgsea package is required.")
   }
@@ -78,7 +96,11 @@ plot_enrichment <- function(pathway, stats, gseaParam = 1, ticksSize = 0.5,
 
   # Determine the base plot
   p <- ggplot2::ggplot(pd$curve, ggplot2::aes(x = rank, y = ES)) +
-    ggplot2::geom_line(linewidth = lineWidth, color = lineColor, alpha = lineAlpha) +
+    ggplot2::geom_line(
+      linewidth = lineWidth,
+      color = lineColor,
+      alpha = lineAlpha
+    ) +
     ggplot2::geom_segment(
       data = pd$ticks,
       mapping = ggplot2::aes(
@@ -91,8 +113,16 @@ plot_enrichment <- function(pathway, stats, gseaParam = 1, ticksSize = 0.5,
       color = tickColor,
       alpha = tickAlpha,
     ) +
-    ggplot2::geom_hline(yintercept = pd$posES, colour = hlinesColor, linetype = hlinesType) +
-    ggplot2::geom_hline(yintercept = pd$negES, colour = hlinesColor, linetype = hlinesType) +
+    ggplot2::geom_hline(
+      yintercept = pd$posES,
+      colour = hlinesColor,
+      linetype = hlinesType
+    ) +
+    ggplot2::geom_hline(
+      yintercept = pd$negES,
+      colour = hlinesColor,
+      linetype = hlinesType
+    ) +
     ggplot2::geom_hline(yintercept = 0, colour = "black") +
     coriell::theme_coriell() +
     ggplot2::theme(
@@ -120,24 +150,28 @@ plot_enrichment <- function(pathway, stats, gseaParam = 1, ticksSize = 0.5,
     }
 
     lab <- paste(
-      "FDR:", round(FDR, fdr_digits),
-      "\nES:", round(ES, es_digits),
-      "\nNES:", round(NES, nes_digits)
+      "FDR:",
+      round(FDR, fdr_digits),
+      "\nES:",
+      round(ES, es_digits),
+      "\nNES:",
+      round(NES, nes_digits)
     )
-    
+
     # Pick the most extreme y-lim to place the annotation
     y_lim <- l$y_max
     if (abs(l$y_min) > abs(l$y_max)) {
       y_lim <- l$y_min
     }
-      
-    p + ggplot2::annotate(
-      "text",
-      x = anno_x_pos * l$x_max,
-      y = anno_y_pos * y_lim,
-      label = lab,
-      size = anno_size
-    )
+
+    p +
+      ggplot2::annotate(
+        "text",
+        x = anno_x_pos * l$x_max,
+        y = anno_y_pos * y_lim,
+        label = lab,
+        size = anno_size
+      )
   } else {
     p
   }
