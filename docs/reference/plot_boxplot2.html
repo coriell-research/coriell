@@ -54,7 +54,7 @@ input data is on the log-scale.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_boxplot2</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fillBy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fill_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rle <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  hcl_palette <span class="op">=</span> <span class="st">"Zissou"</span>,</span>
 <span>  plot_title <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -80,7 +80,7 @@ must match the colnames of the input matrix. Default NULL, each sample in the
 matrix will be plotted.</p></dd>
 
 
-<dt id="arg-fillby">fillBy<a class="anchor" aria-label="anchor" href="#arg-fillby"></a></dt>
+<dt id="arg-fill-by">fill_by<a class="anchor" aria-label="anchor" href="#arg-fill-by"></a></dt>
 <dd><p>metadata column used to color boxplots by the grouping variable.
 Default NULL, each sample in the matrix will be plotted</p></dd>
 
@@ -91,7 +91,7 @@ input matrix to be on the log-scale. Default = FALSE</p></dd>
 
 
 <dt id="arg-hcl-palette">hcl_palette<a class="anchor" aria-label="anchor" href="#arg-hcl-palette"></a></dt>
-<dd><p>color palette applied to 'fillBy' variable. One of the
+<dd><p>color palette applied to 'fill_by' variable. One of the
 <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.pals()</a></code>. Default "Zissou"</p></dd>
 
 
@@ -118,7 +118,7 @@ input matrix to be on the log-scale. Default = FALSE</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>other arguments not currently used</p></dd>
+<dd><p>additional arguments passed to <code><a href="https://rdrr.io/r/graphics/bxp.html" class="external-link">bxp()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -140,9 +140,9 @@ input matrix to be on the log-scale. Default = FALSE</p></dd>
 <span class="r-in"><span><span class="co"># Plot the boxplot by coloring each Group and transforming values</span></span></span>
 <span class="r-in"><span><span class="co">#  to relative-log-expression</span></span></span>
 <span class="r-in"><span><span class="fu">plot_boxplot2</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="va">GSE161650_lc</span>, </span></span>
-<span class="r-in"><span>  <span class="va">metadata</span>, </span></span>
-<span class="r-in"><span>  fillBy <span class="op">=</span> <span class="st">"Group"</span>,</span></span>
+<span class="r-in"><span>  <span class="va">GSE161650_lc</span>,</span></span>
+<span class="r-in"><span>  <span class="va">metadata</span>,</span></span>
+<span class="r-in"><span>  fill_by <span class="op">=</span> <span class="st">"Group"</span>,</span></span>
 <span class="r-in"><span>  rle <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  plot_title <span class="op">=</span> <span class="st">"Relative log-expression"</span>,</span></span>
 <span class="r-in"><span>  y_label <span class="op">=</span> <span class="st">"RLE"</span>,</span></span>
