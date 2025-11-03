@@ -7,7 +7,7 @@
 plot_density2(
   x,
   metadata = NULL,
-  colBy = NULL,
+  col_by = NULL,
   hcl_palette = "Zissou",
   plot_title = NULL,
   x_label = "",
@@ -25,10 +25,10 @@ plot_density2(
 must match the colnames of the input matrix. Default NULL, each sample in the
 matrix will be plotted.}
 
-\item{colBy}{metadata column used to color density lines. Default NULL,
+\item{col_by}{metadata column used to color density lines. Default NULL,
 each sample in the matrix will be plotted.}
 
-\item{hcl_palette}{color palette applied to 'colBy' variable. One of the 
+\item{hcl_palette}{color palette applied to 'col_by' variable. One of the
 \code{hcl.pals()}. Default "Zissou"}
 
 \item{plot_title}{title of the plot. Default NULL}
@@ -38,7 +38,7 @@ each sample in the matrix will be plotted.}
 \item{y_label}{y-axis title. Default "Density"}
 
 \item{legend_position}{location keyword for the legend. One of "bottomright",
-"bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and 
+"bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 "center". Default "topright"}
 
 \item{line_weight}{line weight of the density lines. Default 1}
@@ -53,7 +53,7 @@ density plot of matrix columns
 \description{
 This is an alternate to the \code{plot_density()} function using base graphics.
 The advantage of this function is that it should work with most matrix-like
-objects. This is especially helpful for \code{DelayedArrays}, which 
+objects. This is especially helpful for \code{DelayedArrays}, which
 \code{plot_density()} does not handle.
 }
 \examples{
@@ -67,10 +67,10 @@ plot_density2(GSE161650_lc)
 
 # Color each sample by their Group in metadata
 plot_density2(
-  GSE161650_lc, 
-  metadata, 
-  colBy = "Group", 
-  x_label = "log2 CPMs", 
+  GSE161650_lc,
+  metadata,
+  col_by = "Group",
+  x_label = "log2 CPMs",
   plot_title = "Distribution of logCPM values"
   )
 
