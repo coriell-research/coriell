@@ -7,7 +7,7 @@
 plot_boxplot2(
   x,
   metadata = NULL,
-  fillBy = NULL,
+  fill_by = NULL,
   rle = FALSE,
   hcl_palette = "Zissou",
   plot_title = NULL,
@@ -25,13 +25,13 @@ plot_boxplot2(
 must match the colnames of the input matrix. Default NULL, each sample in the
 matrix will be plotted.}
 
-\item{fillBy}{metadata column used to color boxplots by the grouping variable. 
+\item{fill_by}{metadata column used to color boxplots by the grouping variable.
 Default NULL, each sample in the matrix will be plotted}
 
-\item{rle}{should the relative-log-expression value be plotted. Requires 
+\item{rle}{should the relative-log-expression value be plotted. Requires
 input matrix to be on the log-scale. Default = FALSE}
 
-\item{hcl_palette}{color palette applied to 'fillBy' variable. One of the 
+\item{hcl_palette}{color palette applied to 'fill_by' variable. One of the
 \code{hcl.pals()}. Default "Zissou"}
 
 \item{plot_title}{title of the plot. Default NULL}
@@ -43,18 +43,18 @@ input matrix to be on the log-scale. Default = FALSE}
 \item{show_outliers}{should boxplot outliers be shown. Default TRUE}
 
 \item{legend_position}{location keyword for the legend. One of "bottomright",
-"bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and 
+"bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 "center". Default "topright"}
 
-\item{...}{other arguments not currently used}
+\item{...}{additional arguments passed to \code{bxp()}}
 }
 \value{
 boxplots of the column data
 }
 \description{
 This is an alternative to \code{plot_boxplot()} using base R. This function
-should work with most matrix or matrix-like objects (which is especially 
-useful for \code{DelayedArray} objects). The function also includes an 
+should work with most matrix or matrix-like objects (which is especially
+useful for \code{DelayedArray} objects). The function also includes an
 option for computing the relative-log-expression of the input data, given the
 input data is on the log-scale.
 }
@@ -70,9 +70,9 @@ plot_boxplot2(GSE161650_lc)
 # Plot the boxplot by coloring each Group and transforming values
 #  to relative-log-expression
 plot_boxplot2(
-  GSE161650_lc, 
-  metadata, 
-  fillBy = "Group",
+  GSE161650_lc,
+  metadata,
+  fill_by = "Group",
   rle = TRUE,
   plot_title = "Relative log-expression",
   y_label = "RLE",
