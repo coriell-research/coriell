@@ -56,12 +56,16 @@ input data is on the log-scale.</p>
 <span>  metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  fill_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rle <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  hcl_palette <span class="op">=</span> <span class="st">"Zissou"</span>,</span>
+<span>  hcl_palette <span class="op">=</span> <span class="st">"Dark 3"</span>,</span>
 <span>  plot_title <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  x_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y_label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  show_outliers <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  legend_position <span class="op">=</span> <span class="st">"top"</span>,</span>
+<span>  legend_horiz <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend_cex <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  legend_ncol <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -92,7 +96,7 @@ input matrix to be on the log-scale. Default = FALSE</p></dd>
 
 <dt id="arg-hcl-palette">hcl_palette<a class="anchor" aria-label="anchor" href="#arg-hcl-palette"></a></dt>
 <dd><p>color palette applied to 'fill_by' variable. One of the
-<code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.pals()</a></code>. Default "Zissou"</p></dd>
+<code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.pals()</a></code>. Default "Dark 3"</p></dd>
 
 
 <dt id="arg-plot-title">plot_title<a class="anchor" aria-label="anchor" href="#arg-plot-title"></a></dt>
@@ -111,10 +115,28 @@ input matrix to be on the log-scale. Default = FALSE</p></dd>
 <dd><p>should boxplot outliers be shown. Default TRUE</p></dd>
 
 
+<dt id="arg-show-legend">show_legend<a class="anchor" aria-label="anchor" href="#arg-show-legend"></a></dt>
+<dd><p>should the legend be drawn on the plot when fill_by is set? Default TRUE</p></dd>
+
+
 <dt id="arg-legend-position">legend_position<a class="anchor" aria-label="anchor" href="#arg-legend-position"></a></dt>
 <dd><p>location keyword for the legend. One of "bottomright",
 "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 "center". Default "topright"</p></dd>
+
+
+<dt id="arg-legend-horiz">legend_horiz<a class="anchor" aria-label="anchor" href="#arg-legend-horiz"></a></dt>
+<dd><p>logical; if TRUE, set the legend horizontally rather than vertically.
+Default TRUE</p></dd>
+
+
+<dt id="arg-legend-cex">legend_cex<a class="anchor" aria-label="anchor" href="#arg-legend-cex"></a></dt>
+<dd><p>character expansion factor for legend text relative to current par. Default 0.8</p></dd>
+
+
+<dt id="arg-legend-ncol">legend_ncol<a class="anchor" aria-label="anchor" href="#arg-legend-ncol"></a></dt>
+<dd><p>number of columns to set the legend items. Default 1. This is not used if
+legend_horiz=TRUE</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
