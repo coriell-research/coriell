@@ -26,6 +26,7 @@ Suggests:
     ggrepel,
     httr2,
     knitr,
+    MASS,
     matrixStats,
     metapod,
     PCAtools,
