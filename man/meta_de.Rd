@@ -20,8 +20,8 @@ of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
 
 \item{lfc}{assay name in the SE object containing the logFC values to combine.}
 
-\item{impute_missing}{TRUE/FALSE should missing values in the logFC and P-Value 
-assays be imputed prior p-value combination? Default TRUE, missing p-values 
+\item{impute_missing}{TRUE/FALSE should missing values in the logFC and P-Value
+assays be imputed prior p-value combination? Default TRUE, missing p-values
 are imputed with 1 and missing logFCs are imputed with 0.}
 
 \item{...}{Additional arguments passed to FUN. See the \code{metapod} package

@@ -32,7 +32,7 @@ remove_var(x, ...)
 matrix with lowest variance features removed
 }
 \description{
-This function removes the p lowest variance features from a matrix. The 
+This function removes the p lowest variance features from a matrix. The
 function expects features in rows and samples in columns (e.g. an expression
 matrix).
 }

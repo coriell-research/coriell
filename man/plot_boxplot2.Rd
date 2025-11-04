@@ -9,12 +9,16 @@ plot_boxplot2(
   metadata = NULL,
   fill_by = NULL,
   rle = FALSE,
-  hcl_palette = "Zissou",
+  hcl_palette = "Dark 3",
   plot_title = NULL,
   x_label = NULL,
   y_label = NULL,
   show_outliers = TRUE,
+  show_legend = TRUE,
   legend_position = "top",
+  legend_horiz = TRUE,
+  legend_cex = 0.8,
+  legend_ncol = 1,
   ...
 )
 }
@@ -32,7 +36,7 @@ Default NULL, each sample in the matrix will be plotted}
 input matrix to be on the log-scale. Default = FALSE}
 
 \item{hcl_palette}{color palette applied to 'fill_by' variable. One of the
-\code{hcl.pals()}. Default "Zissou"}
+\code{hcl.pals()}. Default "Dark 3"}
 
 \item{plot_title}{title of the plot. Default NULL}
 
@@ -42,9 +46,19 @@ input matrix to be on the log-scale. Default = FALSE}
 
 \item{show_outliers}{should boxplot outliers be shown. Default TRUE}
 
+\item{show_legend}{should the legend be drawn on the plot when fill_by is set? Default TRUE}
+
 \item{legend_position}{location keyword for the legend. One of "bottomright",
 "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 "center". Default "topright"}
+
+\item{legend_horiz}{logical; if TRUE, set the legend horizontally rather than vertically.
+Default TRUE}
+
+\item{legend_cex}{character expansion factor for legend text relative to current par. Default 0.8}
+
+\item{legend_ncol}{number of columns to set the legend items. Default 1. This is not used if
+legend_horiz=TRUE}
 
 \item{...}{additional arguments passed to \code{bxp()}}
 }

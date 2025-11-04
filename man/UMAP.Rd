@@ -225,11 +225,11 @@ messages. Default FALSE}
 \item{umap_learn_args}{vector of arguments to python package umap-learn.
 Default NA}
 
-\item{metadata}{Optional data.frame with sample-level metadata. Used if a 
+\item{metadata}{Optional data.frame with sample-level metadata. Used if a
 prcomp object or data.frame/matrix is supplied. Default NULL}
 }
 \value{
-data.frame with the UMAP embeddings. If metadata was supplied then 
+data.frame with the UMAP embeddings. If metadata was supplied then
 metadata columns are added to the results.
 }
 \description{

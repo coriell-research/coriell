@@ -11,7 +11,7 @@ outliers_by_iqr(x, threshold = 1.5, direction = c("both", "low", "high"))
 
 \item{threshold}{threshold for the upper and lower limits, A.K.A. Tukey's fences}
 
-\item{direction}{return TRUE if the value is above or below the outlier cutoff. 
+\item{direction}{return TRUE if the value is above or below the outlier cutoff.
 default "both", samples above and below the threshold are called outliers.}
 }
 \value{

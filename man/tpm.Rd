@@ -33,10 +33,10 @@ matrix containing TPM normalized counts
 }
 \description{
 Convert counts to TPM values. This function simply performs the computations
-for creating TPM normalized counts given a count matrix and any vector of 
+for creating TPM normalized counts given a count matrix and any vector of
 lengths. This is useful for quickly computing scaling factors for arbitrary
 features and lengths. For RNA-seq, it's better to use a transcript aligner
-+ tximport to get TPMs. Refer to \url{https://bioconductor.org/packages/release/bioc/html/tximport.html} 
++ tximport to get TPMs. Refer to \url{https://bioconductor.org/packages/release/bioc/html/tximport.html}
 for more information.
 }
 \examples{

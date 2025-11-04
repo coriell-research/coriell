@@ -11,7 +11,7 @@ outliers_by_z(x, threshold = 3, direction = c("both", "low", "high"))
 
 \item{threshold}{threshold for number of SDs used to determine outlier. default 3}
 
-\item{direction}{return TRUE if the value is above or below the outlier cutoff. 
+\item{direction}{return TRUE if the value is above or below the outlier cutoff.
 default "both", samples above and below the threshold are called outliers.}
 }
 \value{

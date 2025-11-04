@@ -31,7 +31,7 @@ counts <- simulate_counts()$table
 
 # Create annotation metadata
 df <- data.frame(
-  row.names = colnames(counts), 
+  row.names = colnames(counts),
   Group = rep(c("Control", "Treatment"), each = 3)
   )
 
@@ -40,9 +40,9 @@ plot_dist(counts)
 
 # Additional arguments can be passed to the function
 plot_dist(
-  x = counts, 
-  metadata = df, 
-  main = "Sample-vs-Sample Distance", 
+  x = counts,
+  metadata = df,
+  main = "Sample-vs-Sample Distance",
   color = viridisLite::rocket(n = 50),
   annotation_colors = list(Group = c("Treatment" = "firebrick2", "Control" = "grey80"))
   )

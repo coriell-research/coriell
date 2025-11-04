@@ -45,7 +45,7 @@ plot_umap(
 ggplot object
 }
 \description{
-This function creates a simple plot of the data.frame returned by the 
+This function creates a simple plot of the data.frame returned by the
 \code{umap()} function.
 }
 \examples{

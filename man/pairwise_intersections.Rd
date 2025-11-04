@@ -18,18 +18,18 @@ pairwise comparisons.}
 data.table
 
 a data.table containing columns for the sets being compared, a list column
-which contains the actual values in the intersection, a column with the 
-intersection size, and a column with the Jaccard index, and optionally a 
-P-Value column containing the p-value from a fisher's exact test if 
+which contains the actual values in the intersection, a column with the
+intersection size, and a column with the Jaccard index, and optionally a
+P-Value column containing the p-value from a fisher's exact test if
 universe_size is given.
 }
 \description{
-This function takes in a list of vectors and performs pairwise set 
+This function takes in a list of vectors and performs pairwise set
 intersections for all unique pairs of vectors in the list.
 }
 \examples{
 l <- list(
-  Set1 = c("A", "B", "C"), 
+  Set1 = c("A", "B", "C"),
   Set2 = c("B", "C", "D"),
   Set3 = c("X", "Y", "Z"),
   Set4 = LETTERS

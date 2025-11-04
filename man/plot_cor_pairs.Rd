@@ -31,19 +31,19 @@ plot_cor_pairs(
 
 \item{hist_col}{Color of the histogram bars}
 
-\item{cor_method}{Method to use for calculating correlations. One of 
+\item{cor_method}{Method to use for calculating correlations. One of
 "pearson" (default), "kendall", or "spearman": can be abbreviated}
 
-\item{cor_use}{an optional character string giving a method for computing 
-covariances in the presence of missing values. This must be 
-(an abbreviation of) one of the strings "everything", "all.obs", 
+\item{cor_use}{an optional character string giving a method for computing
+covariances in the presence of missing values. This must be
+(an abbreviation of) one of the strings "everything", "all.obs",
 "complete.obs", "na.or.complete", or "pairwise.complete.obs".}
 
 \item{cor_digits}{Number of digits to report in correlations}
 
 \item{cor_cex}{Character expansion size for correlation values}
 
-\item{scatter_colramp}{function accepting an integer n as an argument and 
+\item{scatter_colramp}{function accepting an integer n as an argument and
 returning n colors used in the smoothScatter plots}
 
 \item{scatter_ab_col}{Color of the abline of the smoothScatter plots}
@@ -68,8 +68,8 @@ returning n colors used in the smoothScatter plots}
 pairs plot
 }
 \description{
-Plot the pairwise correlations between pairs of samples in a matrix. 
-Histograms, correlation values, and smooth scatters with loess fits are 
+Plot the pairwise correlations between pairs of samples in a matrix.
+Histograms, correlation values, and smooth scatters with loess fits are
 visualized in each panel. Inspired by `methylKit::getCorrelation(..., plot=TRUE)`
 and examples in `pairs()`
 }

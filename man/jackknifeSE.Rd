@@ -18,10 +18,10 @@ List of jackknife resampled results
 }
 \description{
 This function provides a simple wrapper to perform jackknife resampling on
-all columns of a SummarizedExperiment object and returns the results of each 
-resample in a list. This function is designed to be used to assess the 
-robustness of p-value combination techniques of the included \code{meta_de()} 
-function but in theory any arbitrary function which operates on the columns 
+all columns of a SummarizedExperiment object and returns the results of each
+resample in a list. This function is designed to be used to assess the
+robustness of p-value combination techniques of the included \code{meta_de()}
+function but in theory any arbitrary function which operates on the columns
 of a SummarizedExperiment object could be used.
 }
 \examples{

@@ -31,7 +31,7 @@ MOUSE, "10116" for RAT). To get list of available taxon IDs see:
 \preformatted{curl -X POST "https://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"}
 for full descriptions.}
 
-\item{ref_input_list}{Reference set of genes for the specified organism. If 
+\item{ref_input_list}{Reference set of genes for the specified organism. If
 NULL (default) then PANTHER will use all genes for the specified organism.}
 
 \item{enrichment_test_type}{character string. One of c("fisher", "binomial").

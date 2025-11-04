@@ -17,7 +17,7 @@ geometric_mean(x, zero_propagate = FALSE, ignore_zero = TRUE)
 geometric mean of the vector
 }
 \description{
-Calculate the geometric mean of a vector. This function is valid for 
+Calculate the geometric mean of a vector. This function is valid for
 non-negative, non-NA containing vectors.
 }
 \examples{

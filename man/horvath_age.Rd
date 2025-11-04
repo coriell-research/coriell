@@ -9,7 +9,7 @@ horvath_age(x, adult_age = 20, inverse = FALSE)
 \arguments{
 \item{x}{numeric vector of ages}
 
-\item{adult_age}{Age of the adult of the species. From the original manuscript, 
+\item{adult_age}{Age of the adult of the species. From the original manuscript,
 20 for humans and 15 for chimpanzees.}
 
 \item{inverse}{If TRUE, return transformed ages to the original scale}
@@ -18,12 +18,12 @@ horvath_age(x, adult_age = 20, inverse = FALSE)
 transformed ages
 }
 \description{
-Transform age in years using the log transformation defined in Horvath (2013). 
-This function can also be used to convert transformed ages back to the 
+Transform age in years using the log transformation defined in Horvath (2013).
+This function can also be used to convert transformed ages back to the
 original scale.
 }
 \details{
-\href{https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115}{Horvath, S. DNA methylation age of human tissues and cell types. 
+\href{https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115}{Horvath, S. DNA methylation age of human tissues and cell types.
 Genome Biol 14, 3156 (2013). https://doi.org/10.1186/gb-2013-14-10-r115}
 }
 \examples{

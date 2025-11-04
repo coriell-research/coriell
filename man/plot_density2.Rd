@@ -8,13 +8,17 @@ plot_density2(
   x,
   metadata = NULL,
   col_by = NULL,
-  hcl_palette = "Zissou",
+  hcl_palette = "Dark 3",
   plot_title = NULL,
-  x_label = "",
+  x_label = NULL,
   y_label = "Density",
-  legend_position = "topright",
   line_weight = 1,
   line_type = 1,
+  show_legend = TRUE,
+  legend_position = "topright",
+  legend_horiz = FALSE,
+  legend_cex = 0.8,
+  legend_ncol = 1,
   ...
 )
 }
@@ -29,21 +33,31 @@ matrix will be plotted.}
 each sample in the matrix will be plotted.}
 
 \item{hcl_palette}{color palette applied to 'col_by' variable. One of the
-\code{hcl.pals()}. Default "Zissou"}
+\code{hcl.pals()}. Default "Dark 3"}
 
 \item{plot_title}{title of the plot. Default NULL}
 
-\item{x_label}{x-axis title. Default ""}
+\item{x_label}{x-axis title. Default NULL}
 
 \item{y_label}{y-axis title. Default "Density"}
+
+\item{line_weight}{line weight of the density lines. Default 1}
+
+\item{line_type}{line type of the density lines. Default 1}
+
+\item{show_legend}{should the legend be displayed on the plot if fill_by is set? Default TRUE}
 
 \item{legend_position}{location keyword for the legend. One of "bottomright",
 "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 "center". Default "topright"}
 
-\item{line_weight}{line weight of the density lines. Default 1}
+\item{legend_horiz}{logical; if TRUE, set the legend horizontally rather than vertically.
+Default FALSE}
 
-\item{line_type}{line type of the density lines. Default 1}
+\item{legend_cex}{character expansion factor for legend text relative to current par. Default 0.8}
+
+\item{legend_ncol}{number of columns to set the legend items. Default 1. This is not used if
+legend_horiz=TRUE}
 
 \item{...}{Additional arguments not currently used.}
 }

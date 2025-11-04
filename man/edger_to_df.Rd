@@ -17,7 +17,7 @@ data.frame
 \description{
 Create a data.frame from an \code{edgeR} results object. This function calls
 \code{edgeR::topTags()} on the object and extracts the \code{table} data.frame
-with all features. This function returns all rows unsorted by default 
+with all features. This function returns all rows unsorted by default
 i.e. \code{topTags(..., n=Inf, sort.by="none")}.
 }
 \examples{

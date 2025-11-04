@@ -55,7 +55,7 @@ m <- replicate(6, rbeta(1e4, 0.5, 0.8))
 colnames(m) <- paste("Sample", 1:6)
 
 # Create a square grid
-n <- ncol(m) 
+n <- ncol(m)
 ncols <- ceiling(sqrt(n))
 nrows <- ceiling(n / ncols)
 
