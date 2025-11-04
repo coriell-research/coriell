@@ -12,15 +12,21 @@
 #' @param col_by metadata column used to color density lines. Default NULL,
 #' each sample in the matrix will be plotted.
 #' @param hcl_palette color palette applied to 'col_by' variable. One of the
-#' \code{hcl.pals()}. Default "Zissou"
+#' \code{hcl.pals()}. Default "Dark 3"
 #' @param plot_title title of the plot. Default NULL
-#' @param x_label x-axis title. Default ""
+#' @param x_label x-axis title. Default NULL
 #' @param y_label y-axis title. Default "Density"
+#' @param line_weight line weight of the density lines. Default 1
+#' @param line_type line type of the density lines. Default 1
+#' @param show_legend should the legend be displayed on the plot if fill_by is set? Default TRUE
 #' @param legend_position location keyword for the legend. One of "bottomright",
 #'  "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 #'  "center". Default "topright"
-#' @param line_weight line weight of the density lines. Default 1
-#' @param line_type line type of the density lines. Default 1
+#' @param legend_horiz logical; if TRUE, set the legend horizontally rather than vertically.
+#' Default FALSE
+#' @param legend_cex character expansion factor for legend text relative to current par. Default 0.8
+#' @param legend_ncol number of columns to set the legend items. Default 1. This is not used if
+#' legend_horiz=TRUE
 #' @param ... Additional arguments not currently used.
 #'
 #' @returns density plot of matrix columns
@@ -48,13 +54,17 @@ plot_density2 <- function(
   x,
   metadata = NULL,
   col_by = NULL,
-  hcl_palette = "Zissou",
+  hcl_palette = "Dark 3",
   plot_title = NULL,
-  x_label = "",
+  x_label = NULL,
   y_label = "Density",
-  legend_position = "topright",
   line_weight = 1,
   line_type = 1,
+  show_legend = TRUE,
+  legend_position = "topright",
+  legend_horiz = FALSE,
+  legend_cex = 0.8,
+  legend_ncol = 1,
   ...
 ) {
   stopifnot(
@@ -110,7 +120,10 @@ plot_density2 <- function(
       col = cols,
       lty = line_type,
       lwd = line_weight,
-      bty = "n"
+      bty = "n",
+      horiz = legend_horiz,
+      ncol = legend_ncol,
+      cex = legend_cex
     )
   }
 }

@@ -15,14 +15,20 @@
 #' @param rle should the relative-log-expression value be plotted. Requires
 #' input matrix to be on the log-scale. Default = FALSE
 #' @param hcl_palette color palette applied to 'fill_by' variable. One of the
-#' \code{hcl.pals()}. Default "Zissou"
+#' \code{hcl.pals()}. Default "Dark 3"
 #' @param plot_title title of the plot. Default NULL
 #' @param x_label title of th x-axis. Default NULL
 #' @param y_label title of the y-axis. Default NULL
 #' @param show_outliers should boxplot outliers be shown. Default TRUE
+#' @param show_legend should the legend be drawn on the plot when fill_by is set? Default TRUE
 #' @param legend_position location keyword for the legend. One of "bottomright",
 #'  "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 #'  "center". Default "topright"
+#' @param legend_horiz logical; if TRUE, set the legend horizontally rather than vertically.
+#' Default TRUE
+#' @param legend_cex character expansion factor for legend text relative to current par. Default 0.8
+#' @param legend_ncol number of columns to set the legend items. Default 1. This is not used if
+#' legend_horiz=TRUE
 #' @param ... additional arguments passed to \code{bxp()}
 #'
 #' @returns boxplots of the column data
@@ -54,12 +60,16 @@ plot_boxplot2 <- function(
   metadata = NULL,
   fill_by = NULL,
   rle = FALSE,
-  hcl_palette = "Zissou",
+  hcl_palette = "Dark 3",
   plot_title = NULL,
   x_label = NULL,
   y_label = NULL,
   show_outliers = TRUE,
+  show_legend = TRUE,
   legend_position = "top",
+  legend_horiz = TRUE,
+  legend_cex = 0.8,
+  legend_ncol = 1,
   ...
 ) {
   stopifnot(
@@ -117,12 +127,16 @@ plot_boxplot2 <- function(
   }
 
   if (!is.null(fill_by)) {
-    legend(
-      legend_position,
-      legend = levels(g),
-      fill = cols,
-      bty = "n",
-      horiz = TRUE
-    )
+    if (isTRUE(show_legend)) {
+      legend(
+        legend_position,
+        legend = levels(g),
+        fill = cols,
+        bty = "n",
+        horiz = legend_horiz,
+        ncol = legend_ncol,
+        cex = legend_cex
+      )
+    }
   }
 }
