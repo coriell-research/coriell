@@ -36,7 +36,7 @@ the umap defaults as function arguments."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>This function provides a wrapper around <code><a href="https://rdrr.io/pkg/umap/man/umap.html" class="external-link">umap::umap()</a></code> that exposes
+    <p>This function provides a wrapper around <code>umap::umap()</code> that exposes
 the umap defaults as function arguments.</p>
     </div>
 
@@ -342,19 +342,15 @@ metadata columns are added to the results.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Perform UMAP on each data type</span></span></span>
 <span class="r-in"><span><span class="va">udata</span> <span class="op">&lt;-</span> <span class="fu">UMAP</span><span class="op">(</span><span class="va">p</span>, n_neighbors <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called 'umap'</span>
 <span class="r-in"><span><span class="va">udata2</span> <span class="op">&lt;-</span> <span class="fu">UMAP</span><span class="op">(</span><span class="va">pr</span>, <span class="va">metadata</span>, n_neighbors <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called 'umap'</span>
 <span class="r-in"><span><span class="va">udata3</span> <span class="op">&lt;-</span> <span class="fu">UMAP</span><span class="op">(</span><span class="va">d</span>, <span class="va">metadata</span>, n_neighbors <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called 'umap'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Also on raw data</span></span></span>
 <span class="r-in"><span><span class="va">udata4</span> <span class="op">&lt;-</span> <span class="fu">UMAP</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">GSE161650_lc</span><span class="op">)</span>, <span class="va">metadata</span>, n_neighbors <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>failed creating initial embedding; using random embedding instead</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in loadNamespace(x):</span> there is no package called 'umap'</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
