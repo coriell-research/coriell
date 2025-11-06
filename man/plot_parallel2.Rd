@@ -10,6 +10,9 @@ plot_parallel2(
   scale = TRUE,
   color = "black",
   alpha = 0.1,
+  plot_title = NULL,
+  x_label = NULL,
+  y_label = NULL,
   ...
 )
 }
@@ -25,15 +28,18 @@ before plotting. Default 0.9}
 
 \item{alpha}{numeric. Alpha value used to add transparency to lines. Default 0.1}
 
-\item{...}{Additional variables passed to \code{MASS:parcoord()}}
+\item{plot_title}{character. title of the plot. Default NULL}
+
+\item{x_label}{character. x-axis label}
+
+\item{y_label}{character. y-axis label}
 }
 \value{
 Parallel coordinate plot of scaled matrix data
 }
 \description{
 Create a parallel coordinates (scaled expression data on y-axis, samples on x-axis)
-for a matrix of data. This function calls \code{MASS::parcoord()} after optionally
-removing the low variance features and scaling the data.
+for a matrix of data.
 }
 \examples{
 
