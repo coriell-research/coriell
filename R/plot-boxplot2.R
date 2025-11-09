@@ -84,13 +84,11 @@ plot_boxplot2 <- function(
   if (isTRUE(rle)) {
     if (is(x, "DelayedMatrix")) {
       if (requireNamespace("DelayedMatrixStats", quietly = TRUE)) {
-        message("Running DelayedMatrixStats...")
         m <- DelayedMatrixStats::rowMedians(x, na.rm = TRUE)
         x <- x - m
       }
     } else {
       if (requireNamespace("matrixStats", quietly = TRUE)) {
-        message("running matrixStats...")
         m <- matrixStats::rowMedians(x, na.rm = TRUE)
         x <- x - m
       } else {
