@@ -82,8 +82,22 @@ plot_boxplot2 <- function(
   )
 
   if (isTRUE(rle)) {
-    m <- apply(x, 1, median, na.rm = TRUE)
-    x <- x - m
+    if (is(x, "DelayedMatrix")) {
+      if (requireNamespace("DelayedMatrixStats", quietly = TRUE)) {
+        message("Running DelayedMatrixStats...")
+        m <- DelayedMatrixStats::rowMedians(x, na.rm = TRUE)
+        x <- x - m
+      }
+    } else {
+      if (requireNamespace("matrixStats", quietly = TRUE)) {
+        message("running matrixStats...")
+        m <- matrixStats::rowMedians(x, na.rm = TRUE)
+        x <- x - m
+      } else {
+        m <- apply(x, 1, median, na.rm = TRUE)
+        x <- x - m
+      }
+    }
   }
 
   # Manually compute boxplot stats (for DelayedArrays mostly)
