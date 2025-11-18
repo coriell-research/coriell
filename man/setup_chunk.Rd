@@ -4,20 +4,22 @@
 \alias{setup_chunk}
 \title{Setup Chunk Generator}
 \usage{
-setup_chunk(extra_libs = NULL, dir_name = "01")
+setup_chunk(extra_libs = NULL, dir_name = "01", quiet = FALSE)
 }
 \arguments{
 \item{extra_libs}{Character vector. Additional library names to load.}
 
 \item{dir_name}{Character string. The specific subdirectory for results (e.g., "01", "02").}
+
+\item{quiet}{boolean. If TRUE do not print the code chunk to the console (only attempt to copy to clipboard).}
 }
 \value{
 Prints formatted code to console. Returns the character vector invisibly.
 }
 \description{
-This function prints R code to the console that can be copied and pasted
-into an analysis script or RMarkdown file. It sets up standard libraries
-and directory paths.
+This function prints R code to the console that can be copied and pasted into an analysis script
+or quarto file. It sets up standard libraries and directory paths. If installed, \code{clipr} is
+used to copy the code chuck to the clipboard.
 }
 \examples{
 \dontrun{
