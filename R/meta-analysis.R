@@ -117,6 +117,7 @@ dfs2se <- function(
 #' "parallelSimes", "parallelStouffer", or "parallelWilkinson".
 #' @param pval assay name in SE object containing the P-values to combine.
 #' @param lfc assay name in the SE object containing the logFC values to combine.
+#' @param se assay name in SE object containing standard error of logFC values. Default NULL.
 #' @param impute_missing TRUE/FALSE should missing values in the logFC and P-Value
 #' assays be imputed prior p-value combination? Default TRUE, missing p-values
 #' are imputed with 1 and missing logFCs are imputed with 0.
@@ -165,6 +166,7 @@ meta_de <- function(
   FUN,
   pval = "PValue",
   lfc = "logFC",
+  se = NULL,
   impute_missing = TRUE,
   ...
 ) {
@@ -183,6 +185,12 @@ meta_de <- function(
 
   lfc_m <- SummarizedExperiment::assay(x, lfc)
   pval_m <- SummarizedExperiment::assay(x, pval)
+
+  # Gather the SE values if given
+  if (!is.null(se)) {
+    se_m <- SummarizedExperiment::assay(x, se)
+  }
+
   if (isTRUE(impute_missing)) {
     lfc_m[is.na(lfc_m)] <- 0
     pval_m[is.na(pval_m)] <- 1
@@ -226,11 +234,30 @@ meta_de <- function(
       na.rm = TRUE,
       useNames = FALSE
     )
+
+    # Compute fixed-effect meta logFC value
+    if (!is.null(se)) {
+      w_m <- 1 / (se_m^2)
+      sum_w_beta <- DelayedMatrixStats::rowSums2(w_m * lfc_m, na.rm = TRUE)
+      sum_w <- DelayedMatrixStats::rowSums2(w_m, na.rm = TRUE)
+      meta_lfc <- sum_w_beta / sum_w
+    } else {
+      meta_lfc <- NULL
+    }
   } else {
     median_lfc <- matrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
     avg_lfc <- matrixStats::rowMeans2(lfc_m, na.rm = TRUE, useNames = FALSE)
     min_lfc <- matrixStats::rowMins(lfc_m, na.rm = TRUE, useNames = FALSE)
     max_lfc <- matrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
+
+    if (!is.null(se)) {
+      w_m <- 1 / (se_m^2)
+      sum_w_beta <- rowSums(w_m * lfc_m, na.rm = TRUE)
+      sum_w <- rowSums(w_m, na.rm = TRUE)
+      meta_lfc <- sum_w_beta / sum_w
+    } else {
+      meta_lfc <- NA
+    }
   }
 
   # Combine all results into a data.table
@@ -243,7 +270,8 @@ meta_de <- function(
     Median.logFC = median_lfc,
     Mean.logFC = avg_lfc,
     Min.logFC = min_lfc,
-    Max.logFC = max_lfc
+    Max.logFC = max_lfc,
+    Meta.logFC = meta_lfc
   )
 }
 

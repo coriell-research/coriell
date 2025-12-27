@@ -4,7 +4,15 @@
 \alias{meta_de}
 \title{Perform p-value combination for sets of differential expression tests}
 \usage{
-meta_de(x, FUN, pval = "PValue", lfc = "logFC", impute_missing = TRUE, ...)
+meta_de(
+  x,
+  FUN,
+  pval = "PValue",
+  lfc = "logFC",
+  se = NULL,
+  impute_missing = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{SummarizedExperiment object containing combined differential
@@ -19,6 +27,8 @@ of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
 \item{pval}{assay name in SE object containing the P-values to combine.}
 
 \item{lfc}{assay name in the SE object containing the logFC values to combine.}
+
+\item{se}{assay name in SE object containing standard error of logFC values. Default NULL.}
 
 \item{impute_missing}{TRUE/FALSE should missing values in the logFC and P-Value
 assays be imputed prior p-value combination? Default TRUE, missing p-values
