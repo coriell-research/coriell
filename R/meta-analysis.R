@@ -105,7 +105,12 @@ dfs2se <- function(
 #' Perform p-value combination for sets of differential expression tests
 #'
 #' This function performs p-value combination for all genes and estimates summary
-#' statistics for average effect sizes for all experiments in the input
+#' statistics for average effect sizes for all experiments in the input. The p-value combination
+#' methods are performed using the \code{metapod} package. The direction of effect is summarized
+#' using the representative values determined by the given p-value combination function. See the
+#' \code{metapod} package for details. If standard error values are available for the logFC then
+#' these values can be used to compute fixed effect meta-analysis statistics.
+#'
 #' \code{SummarizedExperiment} object.
 #'
 #' @param x SummarizedExperiment object containing combined differential
@@ -126,39 +131,52 @@ dfs2se <- function(
 #' @return data.table with summary stats of the p-value combination of all
 #' experiments. Please see the documentation in the \code{metapod} package for
 #' more details. The returned columns, "Rep.LogFC" and "Rep.Pval" contain the
-#' results of extracting the representative effect and P=value from all
+#' results of extracting the representative effect and p-value from all
 #' influential tests. These are individual tests in the data that are particularly
-#' important for calculating the combined effects.
+#' important for calculating the combined effects. The "meta-analysis" results returned
+#' when standard errors are provided assume fixed effects. This may not be appropriate.
 #' @export
 #' @examples
-#' # Example taken from ?dfs2se()
 #'
-#' # Define two differential expression dataset data.frames
+# Experiment 1
 #' exp1 <- data.frame(
 #'   feature_id = c("geneA", "geneB", "geneC"),
-#'   PValue = c(0.01, 0.5, 0.05),
-#'   FDR = c(0.02, 0.5, 0.07),
-#'   logFC = c(1.2, -2.5, 3.7),
-#'   logCPM = c(12, 9, 0)
+#'   PValue = c(0.01, 0.04, 0.5),
+#'   FDR = c(0.02, 0.06, 0.6),
+#'   logFC = c(2.0, -1.5, 0.1),  # geneA UP, geneB DOWN
+#'   SE = c(0.5, 0.4, 1.0),
+#'   logCPM = c(12, 11, 5)
 #' )
 #'
+#' # Experiment 2 (Similar to Exp 1)
 #' exp2 <- data.frame(
 #'   feature_id = c("geneA", "geneB", "geneD"),
-#'   PValue = c(0.07, 0.3, 0.8),
-#'   FDR = c(0.08, 0.4, 1.0),
-#'   logFC = c(1.5, -2.0, 3.0),
-#'   logCPM = c(14, 10, 2)
+#'   PValue = c(0.02, 0.05, 0.8),
+#'   FDR = c(0.03, 0.07, 0.9),
+#'   logFC = c(2.2, -1.4, 0.2),  # Very close to Exp 1
+#'   SE = c(0.6, 0.45, 1.2),
+#'   logCPM = c(12.5, 10.5, 4)
+#' )
+#'
+#' # Experiment 3 (Similar to Exp 1 & 2)
+#' exp3 <- data.frame(
+#'   feature_id = c("geneA", "geneB", "geneC"),
+#'   PValue = c(0.005, 0.01, 0.4),
+#'   FDR = c(0.01, 0.02, 0.5),
+#'   logFC = c(1.9, -1.6, -0.1), # Very close to Exp 1 & 2
+#'   SE = c(0.4, 0.35, 0.9),
+#'   logCPM = c(11.8, 11.2, 5.2)
 #' )
 #'
 #' # Combine into a single list
-#' l <- list(experiment1 = exp1, experiment2 = exp2)
+#' l <- list(experiment1 = exp1, experiment2 = exp2, experiment3 = exp3)
 #'
 #' # Convert the data to a SummarizedExperiment
-#' se <- dfs2se(l)
+#' se <- dfs2se(l, import = c("PValue", "logFC", "SE"))
 #'
 #' # Perform p-value combination across experiments for each gene
-#' #  using Wilkinson's method and passing additional values
-#' result <- meta_de(se, metapod::parallelWilkinson, min.prop = 0.1)
+#' # Perform meta-analysis on SEs by passing assay name
+#' result <- meta_de(se, metapod::parallelFisher, se = "SE")
 #' head(result)
 #'
 meta_de <- function(
@@ -185,11 +203,6 @@ meta_de <- function(
 
   lfc_m <- SummarizedExperiment::assay(x, lfc)
   pval_m <- SummarizedExperiment::assay(x, pval)
-
-  # Gather the SE values if given
-  if (!is.null(se)) {
-    se_m <- SummarizedExperiment::assay(x, se)
-  }
 
   if (isTRUE(impute_missing)) {
     lfc_m[is.na(lfc_m)] <- 0
@@ -237,12 +250,18 @@ meta_de <- function(
 
     # Compute fixed-effect meta logFC value
     if (!is.null(se)) {
+      se_m <- SummarizedExperiment::assay(x, se)
       w_m <- 1 / (se_m^2)
       sum_w_beta <- DelayedMatrixStats::rowSums2(w_m * lfc_m, na.rm = TRUE)
       sum_w <- DelayedMatrixStats::rowSums2(w_m, na.rm = TRUE)
+      meta_se <- sqrt(1 / sum_w)
       meta_lfc <- sum_w_beta / sum_w
+      meta_z <- meta_lfc / meta_se
+      meta_p <- 2 * pnorm(-abs(meta_z))
     } else {
-      meta_lfc <- NULL
+      meta_lfc <- NA
+      meta_z <- NA
+      meta_p <- NA
     }
   } else {
     median_lfc <- matrixStats::rowMedians(lfc_m, na.rm = TRUE, useNames = FALSE)
@@ -251,12 +270,18 @@ meta_de <- function(
     max_lfc <- matrixStats::rowMaxs(lfc_m, na.rm = TRUE, useNames = FALSE)
 
     if (!is.null(se)) {
+      se_m <- SummarizedExperiment::assay(x, se)
       w_m <- 1 / (se_m^2)
       sum_w_beta <- rowSums(w_m * lfc_m, na.rm = TRUE)
       sum_w <- rowSums(w_m, na.rm = TRUE)
+      meta_se <- sqrt(1 / sum_w)
       meta_lfc <- sum_w_beta / sum_w
+      meta_z <- meta_lfc / meta_se
+      meta_p <- 2 * pnorm(-abs(meta_z))
     } else {
       meta_lfc <- NA
+      meta_z <- NA
+      meta_p <- NA
     }
   }
 
@@ -271,7 +296,9 @@ meta_de <- function(
     Mean.logFC = avg_lfc,
     Min.logFC = min_lfc,
     Max.logFC = max_lfc,
-    Meta.logFC = meta_lfc
+    Meta.logFC = meta_lfc,
+    Meta.Pval = meta_p,
+    Meta.z = meta_z
   )
 }
 
