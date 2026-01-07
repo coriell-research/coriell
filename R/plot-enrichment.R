@@ -68,8 +68,8 @@ plot_enrichment <- function(
   hlinesType = 2,
   anno_x_pos = 0.8,
   anno_y_pos = 0.7,
-  anno_size = 10,
-  fdr_digits = 3,
+  anno_size = 8,
+  fdr_digits = 2,
   es_digits = 2,
   nes_digits = 2,
   plotTitle = NULL,
@@ -151,7 +151,7 @@ plot_enrichment <- function(
 
     lab <- paste(
       "FDR:",
-      round(FDR, fdr_digits),
+      formatC(FDR, digits = fdr_digits, format = "e"),
       "\nES:",
       round(ES, es_digits),
       "\nNES:",
