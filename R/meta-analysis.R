@@ -349,8 +349,8 @@ meta_de <- function(
 #' se <- dfs2se(l)
 #'
 #' # Perform the jackknife using meta_de on each subset of the data
-#' metafun <- function(x) { meta_de(x, metapod::parallelWilkinson) }
-#' result <- jackknifeSE(se, FUN = metafun, min.prop = 0.5)
+#' metafun <- function(x) { meta_de(x, metapod::parallelFisher) }
+#' result <- jackknifeSE(se, FUN = metafun)
 #'
 #' # Combine the results from calling meta_de on each resample and show
 #' result <- data.table::rbindlist(result, idcol = "Jackknife")
@@ -360,5 +360,8 @@ jackknifeSE <- function(x, FUN, ...) {
     "SummarizedExperiment object expected" = is(x, "SummarizedExperiment")
   )
   idx <- 1:ncol(x)
-  lapply(idx, function(i) do.call(FUN, list(x = x[, setdiff(idx, i)]), ...))
+  lapply(idx, function(i) {
+    subset_data <- x[, setdiff(idx, i)]
+    FUN(subset_data, ...)
+  })
 }
