@@ -1,6 +1,6 @@
-#' Density plot of expression values
+#' Show density distributions for columns of data in a matrix
 #'
-#' Create a density plot of expression values for the given expression matrix.
+#' Create a density plot of values for columns in the given expression matrix.
 #'
 #' @param x gene by sample matrix or \code{SummarizedExperiment} object
 #' @param assay assay of the SummarizedExperiment object. Default "counts"

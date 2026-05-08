@@ -1,0 +1,81 @@
+# Generate simulated RNA-seq data for testing purposes
+
+Simulate an RNASeq count matrix. Adapted from edgeR documentation. This
+function is not meant for any serious modelling. It's really used mostly
+for testing plotting and summarizing functions internally. It's good for
+generating test data.
+
+## Usage
+
+``` r
+simulate_counts(
+  n_genes = 1000,
+  n_up = 50,
+  n_down = 50,
+  n_samples = 6,
+  groups = c("ctl", "trt"),
+  de_group = "trt",
+  mu = 10,
+  phi = 0.1,
+  count_offset = 10
+)
+```
+
+## Arguments
+
+- n_genes:
+
+  integer. The number of gene to simulate
+
+- n_up:
+
+  integer. The number of genes the count offset will be added to
+
+- n_down:
+
+  integer. the number of genes the count offset will be subtracted from.
+  Negative numbers will be coerced to zeros.
+
+- n_samples:
+
+  integer. The number of samples to simulate
+
+- groups:
+
+  character vector. Character vector specifying the names of the groups
+  to simulate
+
+- de_group:
+
+  character. The name of the group to be differentially expressed
+
+- mu:
+
+  numeric. Mean value of counts
+
+- phi:
+
+  numeric. Dispersion parameter
+
+- count_offset:
+
+  numeric. Count offset to be applied to the up/down genes.
+
+## Value
+
+list containing the count matrix and a vectors indicating which rows
+were modified.
+
+## Examples
+
+``` r
+# simulate counts using default parameters
+sim <- simulate_counts()
+
+# extract the count matrix from the simulation result
+counts <- sim$table
+
+# show rows where counts were modified
+counts[sim$de_genes, ]
+#>      ctl.1 ctl.2 ctl.3 trt.1 trt.2 trt.3
+```

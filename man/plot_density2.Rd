@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-density2.R
 \name{plot_density2}
 \alias{plot_density2}
-\title{Create a density plot from the columns of a matrix}
+\title{Show density distributions for columns of data in a matrix}
 \usage{
 plot_density2(
   x,

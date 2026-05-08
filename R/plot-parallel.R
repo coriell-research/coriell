@@ -1,4 +1,4 @@
-#' Parallel coordinates plot of expression data
+#' Parallel coordinates plot of row data for each column in a matrix
 #'
 #' The parallel coordinates plot will display a line plot showing the expression
 #' value for gene on the y-axis by each sample on the x-axis.

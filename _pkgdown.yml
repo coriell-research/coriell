@@ -3,3 +3,70 @@ url: https://coriell-research.github.io/coriell
 template:
   bootstrap: 5
   bootswatch: simplex
+
+reference:
+- title: "Plotting"
+  contents: 
+  - starts_with("plot")
+  - quickmap
+  - theme_coriell
+  - random_rgb_palette
+  - distinct_rgb_palette
+- title: "Differential expression helpers"
+  desc: "Convenience functions useful when performing differential expression analysis"
+  contents:
+  - edger_to_df
+  - normalize_counts
+  - panther_go
+  - simulate_counts
+  - strip_ens
+  - summarize_dge
+- title: "Meta-analysis"
+  desc: "Functions for performing and evaluating meta-analysis on differential expression results"
+  contents:
+  - dfs2se
+  - meta_de
+  - jackknifeSE
+- title: "Outlier detection"
+  desc: "Functions for simple outlier detection"
+  contents:
+  - starts_with("outliers")
+  - rank_threshold
+- title: "Dimensionality reduction"
+  desc: "Functions to perform and examine dimensionality reduction"
+  contents:
+  - associate_components
+  - remove_components
+  - remove_var
+  - UMAP
+- title: "Utility functions"
+  desc: "Data transformations and general utility functions"
+  contents:
+  - clamp
+  - clr
+  - colmean
+  - env2global
+  - geometric_mean
+  - horvath_age
+  - impute
+  - lerp
+  - list_to_matrix
+  - map_value
+  - minmax
+  - pairwise_intersections
+  - permutations
+  - rarefy
+  - read_bismark
+  - sample_n_random_cor
+  - setup_chunk
+  - tpm
+- title: "Tests"
+  desc: "Statistical tests (use with caution)"
+  contents:
+  - pairwise_fisher_test
+  - permutation_correlation_test
+- title: "Package data"
+  desc: "Built-in example datasets"
+  contents: 
+  - GSE161650_de
+  - GSE161650_lc

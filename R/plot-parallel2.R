@@ -1,4 +1,4 @@
-#' Parallel coordinates plot
+#' Parallel coordinates plot of row data for each column in a matrix
 #'
 #' Create a parallel coordinates (scaled expression data on y-axis, samples on x-axis)
 #' for a matrix of data.

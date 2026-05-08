@@ -1,4 +1,4 @@
-#' Create a density plot from the columns of a matrix
+#' Show density distributions for columns of data in a matrix
 #'
 #' This is an alternate to the \code{plot_density()} function using base graphics.
 #' The advantage of this function is that it should work with most matrix-like

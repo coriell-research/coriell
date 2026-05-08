@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot-parallel2.R
 \name{plot_parallel2}
 \alias{plot_parallel2}
-\title{Parallel coordinates plot}
+\title{Parallel coordinates plot of row data for each column in a matrix}
 \usage{
 plot_parallel2(
   x,

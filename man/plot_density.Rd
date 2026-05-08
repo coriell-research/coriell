@@ -6,7 +6,7 @@
 \alias{plot_density.matrix}
 \alias{plot_density.data.frame}
 \alias{plot_density.SummarizedExperiment}
-\title{Density plot of expression values}
+\title{Show density distributions for columns of data in a matrix}
 \usage{
 plot_density(x, ...)
 
@@ -36,7 +36,7 @@ each sample in the matrix will be plotted.}
 ggplot object
 }
 \description{
-Create a density plot of expression values for the given expression matrix.
+Create a density plot of values for columns in the given expression matrix.
 }
 \examples{
 # Create metadata for plotting

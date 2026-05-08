@@ -29,6 +29,7 @@
 <url><loc>https://coriell-research.github.io/coriell/reference/map_value.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/meta_de.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/minmax.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/normalize_counts.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/outliers_by_iqr.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/outliers_by_mad.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/outliers_by_z.html</loc></url>
@@ -40,12 +41,16 @@
 <url><loc>https://coriell-research.github.io/coriell/reference/pileup_profile.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_beads.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_boxplot.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/plot_boxplot2.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_density.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/plot_density2.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_dist.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_enrichment.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_md.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/plot_meth_hist.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_parallel.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/plot_parallel2.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_umap.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/plot_volcano.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/quickmap.html</loc></url>
@@ -56,6 +61,7 @@
 <url><loc>https://coriell-research.github.io/coriell/reference/remove_components.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/remove_var.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/sample_n_random_cor.html</loc></url>
+<url><loc>https://coriell-research.github.io/coriell/reference/setup_chunk.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/simulate_counts.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/strip_ens.html</loc></url>
 <url><loc>https://coriell-research.github.io/coriell/reference/summarize_dge.html</loc></url>

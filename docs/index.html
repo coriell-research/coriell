@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Convenience Functions for Bioinformatics • coriell</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="deps/jquery-3.6.1/jquery-3.6.1.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -55,10 +55,10 @@
 </h2>
 <p>The latest version can be installed from Github using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://pak.r-lib.org/" class="external-link">"pak"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"coriell-research/coriell"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"coriell-research/coriell"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
@@ -70,9 +70,9 @@
 <li><a href="https://coriell-research.github.io/coriell/reference/plot_volcano.html">Volcano plot from differential expression results</a></li>
 <li><a href="https://coriell-research.github.io/coriell/reference/plot_md.html">MA plot from differential expression results</a></li>
 <li><a href="https://coriell-research.github.io/coriell/reference/quickmap.html">Heatmap with sensible defaults for RNA-seq</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_boxplot.html">RLE boxplots of an expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_density.html">Density plot of an expression matrix</a></li>
-<li><a href="https://coriell-research.github.io/coriell/reference/plot_parallel.html">Parallel coordinates plot of expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_boxplot2.html">RLE boxplots of an expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_density2.html">Density plot of an expression matrix</a></li>
+<li><a href="https://coriell-research.github.io/coriell/reference/plot_parallel2.html">Parallel coordinates plot of expression matrix</a></li>
 <li><a href="https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html">Plot pairwise correlations between all samples in a matrix</a></li>
 <li><a href="https://coriell-research.github.io/coriell/reference/plot_dist.html">Plot heatmap of pairwise distances between all samples in a matrix</a></li>
 <li><a href="https://coriell-research.github.io/coriell/reference/plot_enrichment.html">Plot GSEA enrichment plots</a></li>
@@ -173,7 +173,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

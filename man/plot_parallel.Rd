@@ -6,7 +6,7 @@
 \alias{plot_parallel.matrix}
 \alias{plot_parallel.data.frame}
 \alias{plot_parallel.SummarizedExperiment}
-\title{Parallel coordinates plot of expression data}
+\title{Parallel coordinates plot of row data for each column in a matrix}
 \usage{
 plot_parallel(x, ...)
 

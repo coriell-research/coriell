@@ -1,7 +1,7 @@
-#' Create boxplot from expression data
+#' Show boxplots for columns of data in a matrix
 #'
-#' Create a boxplot (or violin plot) of expression distributions for the given
-#' expression matrix. Optionally plot the relative log expression of the matrix.
+#' Create a boxplot (or violin plot) of distributions for the given matrix. Optionally plot the
+#' relative log expression of the matrix.
 #'
 #' @param x matrix of expression values or \code{SummarizedExperiment} object
 #' @param assay If a SummarizedExperiment is supplied what assay is used. Default "counts"

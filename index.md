@@ -10,10 +10,10 @@ Bookdown book.
 The latest version can be installed from Github using:
 
 ```R
-if (!require("devtools")) {
-  install.packages("devtools")
+if (!require("pak")) {
+  install.packages("pak")
 }
-devtools::install_github("coriell-research/coriell")
+pak::pkg_install("coriell-research/coriell")
 ```
 
 ## Examples
@@ -23,9 +23,9 @@ devtools::install_github("coriell-research/coriell")
 - [Volcano plot from differential expression results](https://coriell-research.github.io/coriell/reference/plot_volcano.html)
 - [MA plot from differential expression results](https://coriell-research.github.io/coriell/reference/plot_md.html)
 - [Heatmap with sensible defaults for RNA-seq](https://coriell-research.github.io/coriell/reference/quickmap.html)
-- [RLE boxplots of an expression matrix](https://coriell-research.github.io/coriell/reference/plot_boxplot.html)
-- [Density plot of an expression matrix](https://coriell-research.github.io/coriell/reference/plot_density.html)
-- [Parallel coordinates plot of expression matrix](https://coriell-research.github.io/coriell/reference/plot_parallel.html)
+- [RLE boxplots of an expression matrix](https://coriell-research.github.io/coriell/reference/plot_boxplot2.html)
+- [Density plot of an expression matrix](https://coriell-research.github.io/coriell/reference/plot_density2.html)
+- [Parallel coordinates plot of expression matrix](https://coriell-research.github.io/coriell/reference/plot_parallel2.html)
 - [Plot pairwise correlations between all samples in a matrix](https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html)
 - [Plot heatmap of pairwise distances between all samples in a matrix](https://coriell-research.github.io/coriell/reference/plot_dist.html)
 - [Plot GSEA enrichment plots](https://coriell-research.github.io/coriell/reference/plot_enrichment.html)

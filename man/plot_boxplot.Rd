@@ -6,7 +6,7 @@
 \alias{plot_boxplot.matrix}
 \alias{plot_boxplot.data.frame}
 \alias{plot_boxplot.SummarizedExperiment}
-\title{Create boxplot from expression data}
+\title{Show boxplots for columns of data in a matrix}
 \usage{
 plot_boxplot(x, ...)
 
@@ -64,8 +64,8 @@ input matrix prior to setting this option.}
 ggplot object
 }
 \description{
-Create a boxplot (or violin plot) of expression distributions for the given
-expression matrix. Optionally plot the relative log expression of the matrix.
+Create a boxplot (or violin plot) of distributions for the given matrix. Optionally plot the
+relative log expression of the matrix.
 }
 \examples{
 # Create metadata for plotting

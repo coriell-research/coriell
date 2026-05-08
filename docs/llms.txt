@@ -1,0 +1,262 @@
+# coriell
+
+This package contains helper functions for common bioinformatics tasks
+(and some not-so-common tasks). For additional notes and use cases,
+check out the [Coriell bioinformatics
+notes](https://coriell-research.github.io/coriell-bioinformatics-notes/)
+Bookdown book.
+
+## Installation
+
+The latest version can be installed from Github using:
+
+``` r
+if (!require("pak")) {
+  install.packages("pak")
+}
+pak::pkg_install("coriell-research/coriell")
+```
+
+## Examples
+
+### Plotting functions
+
+- [Volcano plot from differential expression
+  results](https://coriell-research.github.io/coriell/reference/plot_volcano.html)
+- [MA plot from differential expression
+  results](https://coriell-research.github.io/coriell/reference/plot_md.html)
+- [Heatmap with sensible defaults for
+  RNA-seq](https://coriell-research.github.io/coriell/reference/quickmap.html)
+- [RLE boxplots of an expression
+  matrix](https://coriell-research.github.io/coriell/reference/plot_boxplot2.html)
+- [Density plot of an expression
+  matrix](https://coriell-research.github.io/coriell/reference/plot_density2.html)
+- [Parallel coordinates plot of expression
+  matrix](https://coriell-research.github.io/coriell/reference/plot_parallel2.html)
+- [Plot pairwise correlations between all samples in a
+  matrix](https://coriell-research.github.io/coriell/reference/plot_cor_pairs.html)
+- [Plot heatmap of pairwise distances between all samples in a
+  matrix](https://coriell-research.github.io/coriell/reference/plot_dist.html)
+- [Plot GSEA enrichment
+  plots](https://coriell-research.github.io/coriell/reference/plot_enrichment.html)
+- [Plot histogram of methylation
+  beta-values](https://coriell-research.github.io/coriell/reference/plot_meth_hist.html)
+
+### Differential Expression and Meta-Analysis
+
+- [Perform Meta-Analysis across sets of differential expression
+  results](https://coriell-research.github.io/coriell/reference/meta_de.html)
+- [Perform jackknife resampling on meta-analysis results to assess
+  stability](https://coriell-research.github.io/coriell/reference/jackknifeSE.html)
+
+### Dimensionality reduction
+
+- [Calculate associations between variables and principal
+  components](https://coriell-research.github.io/coriell/reference/associate_components.html)
+- [Remove the effect of principal components from
+  data](https://coriell-research.github.io/coriell/reference/remove_components.html)
+- [Perform UMAP on various
+  objects](https://coriell-research.github.io/coriell/reference/UMAP.html)
+
+### Miscellaneous
+
+The package also contains many other convenience functions so be sure to
+check out the
+[reference](https://coriell-research.github.io/coriell/reference/index.html)
+page and articles as well.
+
+## Built-in datasets
+
+These datasets are built into the package for testing purposes and are
+used to illustrate functionality in reference pages.
+
+- `GSE161650_de` : Differential expression results of THZ1 vs DMSO from
+  GSE161650
+- `GSE161650_lc` : Normalized log2 counts from THZ1 vs DMSO replicates
+  from GSE161650
+
+The head of `GSE161650_de` looks like:
+
+    >   feature_id     logFC unshrunk.logFC    logCPM       PValue          FDR
+    > 1        JUN  5.759233       5.759908  9.079350 2.919097e-14 1.990666e-10
+    > 2       IER5  3.931325       3.931420 10.158336 3.365738e-14 1.990666e-10
+    > 3    GADD45B  5.813030       5.814071  8.432432 6.435666e-14 2.537583e-10
+    > 4       IER2  4.457981       4.458016 12.223835 1.528890e-13 4.521309e-10
+    > 5     PIK3R3 -4.018325      -4.019603  7.124408 2.122484e-13 4.752097e-10
+    > 6     HEXIM1  4.497345       4.497844  8.275561 2.696985e-13 4.752097e-10
+
+And `GSE161650_lc`:
+
+    >          DMSO.1     DMSO.2     DMSO.3    THZ1.1    THZ1.2     THZ1.3
+    > A1BG  5.3323512  5.4576081  5.2876011  6.703752 6.8090471  6.7908595
+    > AAAS  3.8738768  3.8839857  3.5242625  3.768811 4.1406003  3.7454773
+    > AACS  2.1381539  2.3748462  2.2761971  3.769163 3.4352003  3.4064114
+    > AADAT 0.8240013 -0.2391457 -0.8699138 -1.342273 0.1967574 -0.8355924
+    > AAED1 1.2814586  1.5332476  2.0735095  2.443188 2.1270932  0.9707206
+    > AAGAB 6.8747238  6.7396922  6.6670762  6.756664 6.5840839  6.7662317
+
+See the package documentation
+[`?GSE161650_de`](https://coriell-research.github.io/coriell/reference/GSE161650_de.md)
+and
+[`?GSE161650_lc`](https://coriell-research.github.io/coriell/reference/GSE161650_lc.md)
+for citation information.
+
+# Package index
+
+## Plotting
+
+- [`plot_beads()`](https://coriell-research.github.io/coriell/reference/plot_beads.md)
+  : Create a methylation bead plot
+- [`plot_boxplot()`](https://coriell-research.github.io/coriell/reference/plot_boxplot.md)
+  : Show boxplots for columns of data in a matrix
+- [`plot_boxplot2()`](https://coriell-research.github.io/coriell/reference/plot_boxplot2.md)
+  : Show boxplots for columns of data in a matrix
+- [`plot_cor_pairs()`](https://coriell-research.github.io/coriell/reference/plot_cor_pairs.md)
+  : Plot pairwise correlations between columns of a matrix
+- [`plot_density()`](https://coriell-research.github.io/coriell/reference/plot_density.md)
+  : Show density distributions for columns of data in a matrix
+- [`plot_density2()`](https://coriell-research.github.io/coriell/reference/plot_density2.md)
+  : Show density distributions for columns of data in a matrix
+- [`plot_dist()`](https://coriell-research.github.io/coriell/reference/plot_dist.md)
+  : Plot the distance between all columns of a matrix
+- [`plot_enrichment()`](https://coriell-research.github.io/coriell/reference/plot_enrichment.md)
+  : GSEA enrichment plot
+- [`plot_md()`](https://coriell-research.github.io/coriell/reference/plot_md.md)
+  : Create an MD plot from expression data
+- [`plot_meth_hist()`](https://coriell-research.github.io/coriell/reference/plot_meth_hist.md)
+  : Create a binned histogram of methylation percentage statistics
+- [`plot_parallel()`](https://coriell-research.github.io/coriell/reference/plot_parallel.md)
+  : Parallel coordinates plot of row data for each column in a matrix
+- [`plot_parallel2()`](https://coriell-research.github.io/coriell/reference/plot_parallel2.md)
+  : Parallel coordinates plot of row data for each column in a matrix
+- [`plot_umap()`](https://coriell-research.github.io/coriell/reference/plot_umap.md)
+  : Plot results of UMAP
+- [`plot_volcano()`](https://coriell-research.github.io/coriell/reference/plot_volcano.md)
+  : Create a volcano plot from expression data
+- [`quickmap()`](https://coriell-research.github.io/coriell/reference/quickmap.md)
+  : Heatmap with sensible defaults for RNA-seq expression data
+- [`theme_coriell()`](https://coriell-research.github.io/coriell/reference/theme_coriell.md)
+  : ggplot2 theme for coriell package
+- [`random_rgb_palette()`](https://coriell-research.github.io/coriell/reference/random_rgb_palette.md)
+  : Generate random RGB color palette
+- [`distinct_rgb_palette()`](https://coriell-research.github.io/coriell/reference/distinct_rgb_palette.md)
+  : Generate a distinct RGB color palette
+
+## Differential expression helpers
+
+Convenience functions useful when performing differential expression
+analysis
+
+- [`edger_to_df()`](https://coriell-research.github.io/coriell/reference/edger_to_df.md)
+  : Convert EdgeR results object to a data.frame
+- [`normalize_counts()`](https://coriell-research.github.io/coriell/reference/normalize_counts.md)
+  : Normalize counts in a DGEList object
+- [`panther_go()`](https://coriell-research.github.io/coriell/reference/panther_go.md)
+  : Perform GO analysis with PANTHER
+- [`simulate_counts()`](https://coriell-research.github.io/coriell/reference/simulate_counts.md)
+  : Generate simulated RNA-seq data for testing purposes
+- [`strip_ens()`](https://coriell-research.github.io/coriell/reference/strip_ens.md)
+  : Strip version IDs from ENSEMBL identifiers
+- [`summarize_dge()`](https://coriell-research.github.io/coriell/reference/summarize_dge.md)
+  : Summarize RNA-seq expression results
+
+## Meta-analysis
+
+Functions for performing and evaluating meta-analysis on differential
+expression results
+
+- [`dfs2se()`](https://coriell-research.github.io/coriell/reference/dfs2se.md)
+  : Convert a list of differential expression data.frames to a
+  SummarizedExperiment
+- [`meta_de()`](https://coriell-research.github.io/coriell/reference/meta_de.md)
+  : Perform p-value combination for sets of differential expression
+  tests
+- [`jackknifeSE()`](https://coriell-research.github.io/coriell/reference/jackknifeSE.md)
+  : Perform jackknife resampling on all columns of a SummarizeExperiment
+  object
+
+## Outlier detection
+
+Functions for simple outlier detection
+
+- [`outliers_by_iqr()`](https://coriell-research.github.io/coriell/reference/outliers_by_iqr.md)
+  : Flag outliers by IQR
+- [`outliers_by_mad()`](https://coriell-research.github.io/coriell/reference/outliers_by_mad.md)
+  : Flag outliers by MAD
+- [`outliers_by_z()`](https://coriell-research.github.io/coriell/reference/outliers_by_z.md)
+  : Flag outliers by z-score
+- [`rank_threshold()`](https://coriell-research.github.io/coriell/reference/rank_threshold.md)
+  : Calculate threshold value on ranked input
+
+## Dimensionality reduction
+
+Functions to perform and examine dimensionality reduction
+
+- [`associate_components()`](https://coriell-research.github.io/coriell/reference/associate_components.md)
+  : Calculate associations between variables and principal components
+- [`remove_components()`](https://coriell-research.github.io/coriell/reference/remove_components.md)
+  : Remove principal components from data
+- [`remove_var()`](https://coriell-research.github.io/coriell/reference/remove_var.md)
+  : Remove low variance features from a matrix
+- [`UMAP()`](https://coriell-research.github.io/coriell/reference/UMAP.md)
+  : Perform UMAP
+
+## Utility functions
+
+Data transformations and general utility functions
+
+- [`clamp()`](https://coriell-research.github.io/coriell/reference/clamp.md)
+  : Limit values to a given range
+- [`clr()`](https://coriell-research.github.io/coriell/reference/clr.md)
+  : Centered Log-ratio transformation
+- [`colmean()`](https://coriell-research.github.io/coriell/reference/colmean.md)
+  : Give means of rows of matrix based on column grouping variable
+- [`env2global()`](https://coriell-research.github.io/coriell/reference/env2global.md)
+  : Extract variable from an environment and remove that environment
+- [`geometric_mean()`](https://coriell-research.github.io/coriell/reference/geometric_mean.md)
+  : Geometric mean of a vector
+- [`horvath_age()`](https://coriell-research.github.io/coriell/reference/horvath_age.md)
+  : Transform ages using Horvath's method
+- [`impute()`](https://coriell-research.github.io/coriell/reference/impute.md)
+  : Perform simple imputation on rows of a matrix
+- [`lerp()`](https://coriell-research.github.io/coriell/reference/lerp.md)
+  : Linear interpolation of a value
+- [`list_to_matrix()`](https://coriell-research.github.io/coriell/reference/list_to_matrix.md)
+  : Convert a list of vectors to a binary matrix
+- [`map_value()`](https://coriell-research.github.io/coriell/reference/map_value.md)
+  : Map a value in one range to a value in another
+- [`minmax()`](https://coriell-research.github.io/coriell/reference/minmax.md)
+  : Min-Max normalize a value within a given range
+- [`pairwise_intersections()`](https://coriell-research.github.io/coriell/reference/pairwise_intersections.md)
+  : Get unique pairwise intersections of a list of vectors
+- [`permutations()`](https://coriell-research.github.io/coriell/reference/permutations.md)
+  : Generate all permutations of a vector
+- [`rarefy()`](https://coriell-research.github.io/coriell/reference/rarefy.md)
+  : Rarefy (subsample) a matrix
+- [`read_bismark()`](https://coriell-research.github.io/coriell/reference/read_bismark.md)
+  : Read in and Filter Bismark Coverage Files
+- [`sample_n_random_cor()`](https://coriell-research.github.io/coriell/reference/sample_n_random_cor.md)
+  : Generate a null distribution of correlation values
+- [`setup_chunk()`](https://coriell-research.github.io/coriell/reference/setup_chunk.md)
+  : Setup Chunk Generator
+- [`tpm()`](https://coriell-research.github.io/coriell/reference/tpm.md)
+  : Compute TPM normalized counts
+
+## Tests
+
+Statistical tests (use with caution)
+
+- [`pairwise_fisher_test()`](https://coriell-research.github.io/coriell/reference/pairwise_fisher_test.md)
+  : Perform pairwise fisher.tests on an input matrix
+- [`permutation_correlation_test()`](https://coriell-research.github.io/coriell/reference/permutation_correlation_test.md)
+  : Perform a permutation correlation test on every row of a matrix
+
+## Package data
+
+Built-in example datasets
+
+- [`GSE161650_de`](https://coriell-research.github.io/coriell/reference/GSE161650_de.md)
+  : Differential expression results from GSE161650
+- [`GSE161650_lc`](https://coriell-research.github.io/coriell/reference/GSE161650_lc.md)
+  : Normalized log2 counts from GSE161650
+
