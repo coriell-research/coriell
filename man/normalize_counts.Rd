@@ -40,6 +40,9 @@ vector of length nrow(object).}
 distribution of log-ratios (M-values) before computing the mean. Used by method="TMM" for each
 pair of samples.}
 
+\item{sumTrim}{fraction (0 to 0.5) of observations to be trimmed from each tail of the
+distribution of A-values before computing the mean. Used by method="TMM" for each pair of samples.}
+
 \item{doWeighting}{logical, whether to use (asymptotic binomial precision) weights when computing
 the mean M-values. Used by method="TMM" for each pair of samples.}
 
@@ -84,9 +87,6 @@ lowess is called? Applies even if all weights are all zero. Default = TRUE. Used
 
 \item{loess_method}{method used for weighted lowess. Possibilities are "weightedLowess",
 "loess" or "locfit". Used in loess.}
-
-\item{sumTrimthe}{fraction (0 to 0.5) of observations to be trimmed from each tail of the
-distribution of A-values before computing the mean. Used by method="TMM" for each pair of samples.}
 }
 \value{
 DGEList with norm.factors or offset matrix

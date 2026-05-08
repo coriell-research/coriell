@@ -93,6 +93,11 @@ distribution of log-ratios (M-values) before computing the mean. Used by method=
 pair of samples.</p></dd>
 
 
+<dt id="arg-sumtrim">sumTrim<a class="anchor" aria-label="anchor" href="#arg-sumtrim"></a></dt>
+<dd><p>fraction (0 to 0.5) of observations to be trimmed from each tail of the
+distribution of A-values before computing the mean. Used by method="TMM" for each pair of samples.</p></dd>
+
+
 <dt id="arg-doweighting">doWeighting<a class="anchor" aria-label="anchor" href="#arg-doweighting"></a></dt>
 <dd><p>logical, whether to use (asymptotic binomial precision) weights when computing
 the mean M-values. Used by method="TMM" for each pair of samples.</p></dd>
@@ -166,11 +171,6 @@ lowess is called? Applies even if all weights are all zero. Default = TRUE. Used
 <dt id="arg-loess-method">loess_method<a class="anchor" aria-label="anchor" href="#arg-loess-method"></a></dt>
 <dd><p>method used for weighted lowess. Possibilities are "weightedLowess",
 "loess" or "locfit". Used in loess.</p></dd>
-
-
-<dt id="arg-sumtrimthe">sumTrimthe<a class="anchor" aria-label="anchor" href="#arg-sumtrimthe"></a></dt>
-<dd><p>fraction (0 to 0.5) of observations to be trimmed from each tail of the
-distribution of A-values before computing the mean. Used by method="TMM" for each pair of samples.</p></dd>
 
 </dl></div>
     <div class="section level2">

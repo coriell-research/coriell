@@ -18,7 +18,7 @@
 #' @param logratioTrim the fraction (0 to 0.5) of observations to be trimmed from each tail of the
 #' distribution of log-ratios (M-values) before computing the mean. Used by method="TMM" for each
 #' pair of samples.
-#' @param sumTrimthe fraction (0 to 0.5) of observations to be trimmed from each tail of the
+#' @param sumTrim fraction (0 to 0.5) of observations to be trimmed from each tail of the
 #' distribution of A-values before computing the mean. Used by method="TMM" for each pair of samples.
 #' @param doWeighting logical, whether to use (asymptotic binomial precision) weights when computing
 #' the mean M-values. Used by method="TMM" for each pair of samples.
