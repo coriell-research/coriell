@@ -217,8 +217,8 @@ env2global <- function(x, remove = TRUE) {
 #' # Impute missing values with row medians
 #' impute(X)
 #'
-#' # Impute missing values with row mins
-#' impute(X, min)
+#' # Impute missing values with arbitrary function
+#' impute(X, fun = function(x) { -1} )
 impute <- function(x, fun = median) {
   if (is(x, "data.frame")) {
     x <- data.matrix(x)
@@ -228,14 +228,19 @@ impute <- function(x, fun = median) {
     x,
     1,
     function(i) {
-      i[which(is.na(i))] <- do.call(fun, list(i, na.rm = TRUE))
+      na_idx <- is.na(i)
+      if (any(na_idx)) {
+        i[na_idx] <- fun(i[!na_idx])
+      }
       return(i)
     },
     simplify = FALSE
   )
+
   m <- do.call(rbind, imputed)
   dimnames(m) <- dimnames(x)
-  m
+
+  return(m)
 }
 
 #' Remove low variance features from a matrix

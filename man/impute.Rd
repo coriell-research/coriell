@@ -26,6 +26,6 @@ X
 # Impute missing values with row medians
 impute(X)
 
-# Impute missing values with row mins
-impute(X, min)
+# Impute missing values with arbitrary function
+impute(X, fun = function(x) { -1} )
 }
