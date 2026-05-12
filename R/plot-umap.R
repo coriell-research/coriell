@@ -22,7 +22,7 @@
 #'
 #' # PCA with PCAtools
 #' p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
-#' udata <- coriell::UMAP(p, n_neighbors = 2)
+#' udata <- suppressWarnings(coriell::UMAP(p, n_neighbors = 2))
 #' plot_umap(udata, colBy = "Group")
 plot_umap <- function(
   df,

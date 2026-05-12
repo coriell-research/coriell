@@ -252,11 +252,11 @@ pr <- prcomp(t(GSE161650_lc), center = TRUE, scale. = FALSE)
 d <- dist(t(GSE161650_lc))
 
 # Perform UMAP on each data type
-udata <- UMAP(p, n_neighbors = 2)
-udata2 <- UMAP(pr, metadata, n_neighbors = 2)
-udata3 <- UMAP(d, metadata, n_neighbors = 2)
+udata <- suppressWarnings(UMAP(p, n_neighbors = 2))
+udata2 <- suppressWarnings(UMAP(pr, metadata, n_neighbors = 2))
+udata3 <- suppressWarnings(UMAP(d, metadata, n_neighbors = 2))
 
 # Also on raw data
-udata4 <- UMAP(t(GSE161650_lc), metadata, n_neighbors = 2)
+udata4 <- suppressWarnings(UMAP(t(GSE161650_lc), metadata, n_neighbors = 2))
 
 }
