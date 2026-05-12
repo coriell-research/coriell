@@ -18,9 +18,8 @@ Since this package will be constantly changing be sure to install the latest
 version from Github using:
 
 ```R
-# Make sure you have devtools installed
-install.packages("devtools")
-
-# Then install using devtools::install_github
-devtools::install_github("coriell-research/coriell")
+if (!require("pak")) {
+  install.packages("pak")
+}
+pak::pkg_install("coriell-research/coriell")
 ```
