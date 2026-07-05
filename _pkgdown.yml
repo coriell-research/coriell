@@ -39,6 +39,7 @@ reference:
   - remove_components
   - remove_var
   - UMAP
+  - dsc
 - title: "Utility functions"
   desc: "Data transformations and general utility functions"
   contents:

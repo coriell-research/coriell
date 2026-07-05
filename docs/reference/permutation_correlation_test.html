@@ -93,27 +93,27 @@ p-value.</p>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">permutation_correlation_test</span><span class="op">(</span><span class="va">X</span>, <span class="va">y</span>, n_perm <span class="op">=</span> <span class="fl">1e3</span>, n_core <span class="op">=</span> <span class="fl">8</span>, method <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             sample.1  sample.2   sample.3  sample.4  sample.5   sample.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.88776958 0.5287509 0.52534493 0.4714122 0.5600067 0.05079063</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.60973271 0.7499077 0.13934146 0.7577911 0.9422215 0.15216337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.72935218 0.6258708 0.09341653 0.6242353 0.9244045 0.21640077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.30077489 0.7821802 0.72793197 0.2810700 0.5259212 0.38674096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.34060712 0.2926655 0.32752380 0.3647919 0.9685592 0.52973834</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.02557859 0.1189060 0.62369842 0.7502761 0.5291743 0.09080587</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            sample.7  sample.8  sample.9  sample.10         cor empirical.p</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.3677616 0.1206362 0.8202867 0.61420133 -0.12727273       0.357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.7759316 0.8384177 0.2240106 0.15639422  0.01818182       0.470</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.9740257 0.4975912 0.9488369 0.02835764 -0.07878788       0.394</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.3350775 0.1998726 0.1103619 0.07449522 -0.70909091       0.014</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.8874792 0.9321687 0.8972810 0.45942028  0.64848485       0.022</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.4261961 0.4126758 0.5614466 0.86681060  0.44242424       0.084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            sample.1  sample.2  sample.3   sample.4  sample.5  sample.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.8083622 0.8383412 0.1309728 0.08066313 0.4570966 0.8303105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.1862091 0.6485302 0.5776029 0.73453357 0.6566667 0.3617257</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.6550341 0.7636185 0.6608876 0.49824185 0.3085832 0.5314102</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.6083527 0.1596689 0.1662174 0.57505885 0.9627974 0.5769995</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.8929753 0.7293678 0.4999551 0.20110452 0.7460042 0.0604303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.1571574 0.1973273 0.2653899 0.12052447 0.6094003 0.7215492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            sample.7   sample.8   sample.9 sample.10         cor empirical.p</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.5623403 0.39973106 0.76813744 0.8876729  0.16363636       0.295</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.7827487 0.79909107 0.05683166 0.7807953  0.35757576       0.147</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.5906869 0.47597199 0.18499534 0.5399923 -0.60000000       0.037</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.1440349 0.56141709 0.13912811 0.3610715 -0.34545455       0.160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.8143201 0.19901102 0.91171531 0.5939837 -0.05454545       0.433</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.6647761 0.07689694 0.27017436 0.1215346  0.01818182       0.440</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 FDR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.4862385</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.4876289</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.4862385</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.4102564</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.4735294</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.4735294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.1 0.4851974</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.2 0.4608434</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.3 0.4062500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.4 0.4655172</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.5 0.4963274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> feature.6 0.4963274</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
