@@ -54,11 +54,11 @@ by method="upperquartile".}
 
 \item{group_factor}{a group level continuous or categorial covariate associated with each sample
 or column in the object. The order of the group_factor must match the order of the columns in
-object. Used in qsmooth normalization}
+object. Used in qsmooth normalization.}
 
 \item{batch}{(Optional) batch covariate (multiple batches are not allowed). If batch covariate
-is provided, \code{Combat()} from sva is used prior to qsmooth normalization to remove batch effects.
-See \code{Combat()} for more details. Used in qsmooth.}
+is provided, \code{ComBat()} from sva is used prior to qsmooth normalization to remove batch effects.
+See \code{ComBat()} for more details. Used in qsmooth.}
 
 \item{norm_factors}{optional normalization scaling factors. Used in qsmooth.}
 
@@ -69,7 +69,7 @@ object. Default is 0.05. Used in qsmooth.}
 in qsmooth.}
 
 \item{weights}{numeric vector of non-negative prior weights. Missing values are treated as zero.
-Default = NULL, Used in loess.}
+Default = NULL. Used in loess.}
 
 \item{span}{positive numeric value between 0 and 1 specifying proportion of data to be used in
 the local regression moving window. Larger numbers give smoother fits. Default = 0.3. Used in
@@ -89,12 +89,12 @@ lowess is called? Applies even if all weights are all zero. Default = TRUE. Used
 "loess" or "locfit". Used in loess.}
 }
 \value{
-DGEList with norm.factors or offset matrix
+DGEList with updated norm.factors (for standard methods) or an observation-level offset matrix in x$offset (for qsmooth and loess).
 }
 \description{
 This function wraps additional normalization methods (qsmooth and cyclic loess) for a given
 DGEList object in addition to the standard normalization methods implemented by
-\code{edgeR::normlibSizes()}.
+\code{edgeR::normLibSizes()}.
 }
 \details{
 If "TMM", "TMMwsp", "RLE", "upperquartile", or "none" is selected, then

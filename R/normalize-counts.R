@@ -2,7 +2,7 @@
 #'
 #' This function wraps additional normalization methods (qsmooth and cyclic loess) for a given
 #' DGEList object in addition to the standard normalization methods implemented by
-#' \code{edgeR::normlibSizes()}.
+#' \code{edgeR::normLibSizes()}.
 #'
 #' @details
 #' If "TMM", "TMMwsp", "RLE", "upperquartile", or "none" is selected, then
@@ -28,17 +28,17 @@
 #' by method="upperquartile".
 #' @param group_factor a group level continuous or categorial covariate associated with each sample
 #' or column in the object. The order of the group_factor must match the order of the columns in
-#' object. Used in qsmooth normalization
+#' object. Used in qsmooth normalization.
 #' @param batch (Optional) batch covariate (multiple batches are not allowed). If batch covariate
-#' is provided, \code{Combat()} from sva is used prior to qsmooth normalization to remove batch effects.
-#' See \code{Combat()} for more details. Used in qsmooth.
+#' is provided, \code{ComBat()} from sva is used prior to qsmooth normalization to remove batch effects.
+#' See \code{ComBat()} for more details. Used in qsmooth.
 #' @param norm_factors optional normalization scaling factors. Used in qsmooth.
 #' @param window window size for running median which is a fraction of the number of rows in
 #' object. Default is 0.05. Used in qsmooth.
 #' @param prior_count prior count to add to 0 counts when computing offsets. Default = 0.1. Used
 #' in qsmooth.
 #' @param weights numeric vector of non-negative prior weights. Missing values are treated as zero.
-#' Default = NULL, Used in loess.
+#' Default = NULL. Used in loess.
 #' @param span positive numeric value between 0 and 1 specifying proportion of data to be used in
 #' the local regression moving window. Larger numbers give smoother fits. Default = 0.3. Used in
 #' loess.
@@ -51,7 +51,7 @@
 #' @param loess_method method used for weighted lowess. Possibilities are "weightedLowess",
 #' "loess" or "locfit". Used in loess.
 #'
-#' @returns DGEList with norm.factors or offset matrix
+#' @returns DGEList with updated norm.factors (for standard methods) or an observation-level offset matrix in x$offset (for qsmooth and loess).
 #' @export
 #' @examples
 #' counts <- matrix(rnbinom(1e3, mu = 10, size = 20), ncol = 20)
@@ -100,8 +100,11 @@ normalize_counts <- function(
   equal.weights.as.null = TRUE,
   loess_method = c("weightedLowess", "loess", "locfit")
 ) {
-  if (!is(x, "DGEList")) {
-    stop(paste("Expected DGEList as input. x is ", class(x)))
+  method <- match.arg(method)
+  loess_method <- match.arg(loess_method)
+
+  if (!inherits(x, "DGEList")) {
+    stop(paste("Expected DGEList as input. x is", class(x)[1]))
   }
 
   if (method %in% c("TMM", "TMMwsp", "RLE", "upperquartile", "none")) {
@@ -127,7 +130,13 @@ normalize_counts <- function(
     if (is.null(group_factor)) {
       stop("group_factor must be supplied for method='qsmooth'")
     }
-    qs <- qsmooth::qsmooth(x$counts, group_factor = group_factor)
+    qs <- qsmooth::qsmooth(
+      x$counts,
+      group_factor = group_factor,
+      batch = batch,
+      norm_factors = norm_factors,
+      window = window
+    )
     qsd <- qsmooth::qsmoothData(qs)
     offset <- log(x$counts + prior_count) - log(qsd + prior_count)
     result <- edgeR::scaleOffset(x, offset)
