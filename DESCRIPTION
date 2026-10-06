@@ -13,7 +13,8 @@ License: MIT + file LICENSE
 URL: https://coriell-research.github.io/coriell, https://github.com/coriell-research/coriell
 BugReports: https://github.com/coriell-research/coriell/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10),
+    tinyplot
 Imports: 
     data.table,
     ggplot2
@@ -42,5 +43,4 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-Config/roxygen2/version: 8.0.0
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0
