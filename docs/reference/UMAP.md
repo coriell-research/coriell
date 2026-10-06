@@ -1,7 +1,8 @@
 # Perform UMAP
 
-This function provides a wrapper around `umap::umap()` that exposes the
-umap defaults as function arguments.
+This function provides a wrapper around
+[`umap::umap()`](https://rdrr.io/pkg/umap/man/umap.html) that exposes
+the umap defaults as function arguments.
 
 ## Usage
 
@@ -282,6 +283,7 @@ metadata columns are added to the results.
 ## Examples
 
 ``` r
+
 # Create metadata for plotting
 metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
@@ -296,14 +298,10 @@ pr <- prcomp(t(GSE161650_lc), center = TRUE, scale. = FALSE)
 d <- dist(t(GSE161650_lc))
 
 # Perform UMAP on each data type
-udata <- UMAP(p, n_neighbors = 2)
-#> Error in loadNamespace(x): there is no package called ‘umap’
-udata2 <- UMAP(pr, metadata, n_neighbors = 2)
-#> Error in loadNamespace(x): there is no package called ‘umap’
-udata3 <- UMAP(d, metadata, n_neighbors = 2)
-#> Error in loadNamespace(x): there is no package called ‘umap’
+udata <- suppressWarnings(UMAP(p, n_neighbors = 2))
+udata2 <- suppressWarnings(UMAP(pr, metadata, n_neighbors = 2))
+udata3 <- suppressWarnings(UMAP(d, metadata, n_neighbors = 2))
 
 # Also on raw data
-udata4 <- UMAP(t(GSE161650_lc), metadata, n_neighbors = 2)
-#> Error in loadNamespace(x): there is no package called ‘umap’
+udata4 <- suppressWarnings(UMAP(t(GSE161650_lc), metadata, n_neighbors = 2))
 ```

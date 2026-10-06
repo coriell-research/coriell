@@ -90,18 +90,18 @@ result <- panther_go(genes, "9606", "biological_process")
 head(result)
 #>    number_in_list fold_enrichment          fdr  expected number_in_reference
 #>             <int>           <num>        <num>     <num>               <int>
-#> 1:             31        7.098131 5.430217e-18 4.3673469                2140
-#> 2:             31        7.098131 5.430217e-18 4.3673469                2140
-#> 3:             13       74.941176 6.559692e-18 0.1734694                  85
-#> 4:             13       74.941176 6.559692e-18 0.1734694                  85
-#> 5:             17       30.851852 5.603654e-18 0.5510204                 270
-#> 6:             17       30.851852 5.603654e-18 0.5510204                 270
-#>          pValue                                    term plus_minus
-#>           <num>                                  <list>     <char>
-#> 1: 3.735959e-22                              GO:0007166          +
-#> 2: 3.735959e-22 cell surface receptor signaling pathway          +
-#> 3: 9.026064e-22                              GO:0060070          +
-#> 4: 9.026064e-22         canonical Wnt signaling pathway          +
-#> 5: 1.156585e-21                              GO:0016055          +
-#> 6: 1.156585e-21                   Wnt signaling pathway          +
+#> 1:             30        7.302534 1.988037e-17 4.1081633                2013
+#> 2:             30        7.302534 1.988037e-17 4.1081633                2013
+#> 3:             11      110.000000 1.161814e-16 0.1000000                  49
+#> 4:             11      110.000000 1.161814e-16 0.1000000                  49
+#> 5:             12       78.400000 1.013277e-16 0.1530612                  75
+#> 6:             12       78.400000 1.013277e-16 0.1530612                  75
+#>          pValue                            term plus_minus
+#>           <num>                          <list>     <char>
+#> 1: 1.444689e-21                      GO:0048513          +
+#> 2: 1.444689e-21        animal organ development          +
+#> 3: 1.688561e-20                      GO:0007219          +
+#> 4: 1.688561e-20         Notch signaling pathway          +
+#> 5: 2.209020e-20                      GO:0060070          +
+#> 6: 2.209020e-20 canonical Wnt signaling pathway          +
 ```

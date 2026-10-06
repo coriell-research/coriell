@@ -68,6 +68,7 @@ histogram with methylation statistics
 ## Examples
 
 ``` r
+
 # Example methylation data (single column of a matrix)
 data <- rbeta(runif(1e4), 0.6, 0.8)
 plot_meth_hist(data, plot_title="Percentage Methylated CpGs per Binned beta-value")

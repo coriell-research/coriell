@@ -20,8 +20,8 @@ pak::pkg_install("coriell-research/coriell")
 
 ### Plotting functions
 
-- [Volcano plot from differential expression results](https://coriell-research.github.io/coriell/reference/plot_volcano.html)
-- [MA plot from differential expression results](https://coriell-research.github.io/coriell/reference/plot_md.html)
+- [Volcano plot from differential expression results](https://coriell-research.github.io/coriell/reference/plot_volcano2.html)
+- [MA plot from differential expression results](https://coriell-research.github.io/coriell/reference/plot_md2.html)
 - [Heatmap with sensible defaults for RNA-seq](https://coriell-research.github.io/coriell/reference/quickmap.html)
 - [RLE boxplots of an expression matrix](https://coriell-research.github.io/coriell/reference/plot_boxplot2.html)
 - [Density plot of an expression matrix](https://coriell-research.github.io/coriell/reference/plot_density2.html)

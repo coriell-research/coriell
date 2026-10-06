@@ -20,6 +20,8 @@
   : GSEA enrichment plot
 - [`plot_md()`](https://coriell-research.github.io/coriell/reference/plot_md.md)
   : Create an MD plot from expression data
+- [`plot_md2()`](https://coriell-research.github.io/coriell/reference/plot_md2.md)
+  : Create an MD plot from expression data using base R
 - [`plot_meth_hist()`](https://coriell-research.github.io/coriell/reference/plot_meth_hist.md)
   : Create a binned histogram of methylation percentage statistics
 - [`plot_parallel()`](https://coriell-research.github.io/coriell/reference/plot_parallel.md)
@@ -30,6 +32,8 @@
   : Plot results of UMAP
 - [`plot_volcano()`](https://coriell-research.github.io/coriell/reference/plot_volcano.md)
   : Create a volcano plot from expression data
+- [`plot_volcano2()`](https://coriell-research.github.io/coriell/reference/plot_volcano2.md)
+  : Create a volcano plot from expression data using base R
 - [`quickmap()`](https://coriell-research.github.io/coriell/reference/quickmap.md)
   : Heatmap with sensible defaults for RNA-seq expression data
 - [`theme_coriell()`](https://coriell-research.github.io/coriell/reference/theme_coriell.md)
@@ -97,6 +101,8 @@ Functions to perform and examine dimensionality reduction
   : Remove low variance features from a matrix
 - [`UMAP()`](https://coriell-research.github.io/coriell/reference/UMAP.md)
   : Perform UMAP
+- [`dsc()`](https://coriell-research.github.io/coriell/reference/dsc.md)
+  : Calculate the Dispersion Separability Criterion (DSC)
 
 ## Utility functions
 

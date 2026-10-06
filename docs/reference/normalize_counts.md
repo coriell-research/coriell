@@ -2,7 +2,8 @@
 
 This function wraps additional normalization methods (qsmooth and cyclic
 loess) for a given DGEList object in addition to the standard
-normalization methods implemented by `edgeR::normlibSizes()`.
+normalization methods implemented by
+[`edgeR::normLibSizes()`](https://rdrr.io/pkg/edgeR/man/calcNormFactors.html).
 
 ## Usage
 
@@ -53,6 +54,12 @@ normalize_counts(
   of the distribution of log-ratios (M-values) before computing the
   mean. Used by method="TMM" for each pair of samples.
 
+- sumTrim:
+
+  fraction (0 to 0.5) of observations to be trimmed from each tail of
+  the distribution of A-values before computing the mean. Used by
+  method="TMM" for each pair of samples.
+
 - doWeighting:
 
   logical, whether to use (asymptotic binomial precision) weights when
@@ -74,13 +81,13 @@ normalize_counts(
   a group level continuous or categorial covariate associated with each
   sample or column in the object. The order of the group_factor must
   match the order of the columns in object. Used in qsmooth
-  normalization
+  normalization.
 
 - batch:
 
   (Optional) batch covariate (multiple batches are not allowed). If
-  batch covariate is provided, `Combat()` from sva is used prior to
-  qsmooth normalization to remove batch effects. See `Combat()` for more
+  batch covariate is provided, `ComBat()` from sva is used prior to
+  qsmooth normalization to remove batch effects. See `ComBat()` for more
   details. Used in qsmooth.
 
 - norm_factors:
@@ -100,7 +107,7 @@ normalize_counts(
 - weights:
 
   numeric vector of non-negative prior weights. Missing values are
-  treated as zero. Default = NULL, Used in loess.
+  treated as zero. Default = NULL. Used in loess.
 
 - span:
 
@@ -134,15 +141,10 @@ normalize_counts(
   method used for weighted lowess. Possibilities are "weightedLowess",
   "loess" or "locfit". Used in loess.
 
-- sumTrimthe:
-
-  fraction (0 to 0.5) of observations to be trimmed from each tail of
-  the distribution of A-values before computing the mean. Used by
-  method="TMM" for each pair of samples.
-
 ## Value
 
-DGEList with norm.factors or offset matrix
+DGEList with updated norm.factors (for standard methods) or an
+observation-level offset matrix in x\$offset (for qsmooth and loess).
 
 ## Details
 

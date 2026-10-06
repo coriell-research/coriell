@@ -60,7 +60,6 @@ plot_md2 <- function(
   y_axis_limits = NULL,
   ...
 ) {
-  # Basic validation
   if (!is.data.frame(df)) {
     stop("df must be a data.frame.")
   }
@@ -100,7 +99,6 @@ plot_md2 <- function(
     )
   }
 
-  # Extract relevant columns
   plot_data <- data.frame(
     abundance = as.numeric(df[[x]]),
     effect = as.numeric(df[[y]]),
@@ -203,7 +201,11 @@ plot_md2 <- function(
       # Rank by adjusted p-value and by |logFC| (1 = most extreme); keep the best combined ranks
       score <- rank(sig$p_adjusted, ties.method = "average") +
         rank(-abs(sig$effect), ties.method = "average")
-      sig <- sig[order(score)[seq_len(min(n_labels, nrow(sig)))], , drop = FALSE]
+      sig <- sig[
+        order(score)[seq_len(min(n_labels, nrow(sig)))],
+        ,
+        drop = FALSE
+      ]
       text(sig$abundance, sig$effect, labels = sig$label, pos = 3)
     }
   }

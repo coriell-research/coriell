@@ -46,6 +46,7 @@ matrix with lowest variance features removed
 ## Examples
 
 ``` r
+
 # Remove 80% lowest variance features
 removed <- remove_var(GSE161650_lc, p = 0.8)
 #> Removing 80% lowest variance features...

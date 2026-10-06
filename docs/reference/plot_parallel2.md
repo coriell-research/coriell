@@ -61,6 +61,7 @@ Parallel coordinate plot of scaled matrix data
 ## Examples
 
 ``` r
+
 plot_parallel2(GSE161650_lc, main = "10% Most Variable Genes")
 #> Removing 90% lowest variance features...
 

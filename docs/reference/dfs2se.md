@@ -48,6 +48,7 @@ SummarizedExperiment object containing assays for each of the columns in
 ## Examples
 
 ``` r
+
 # data.frames containing differential expression data
 exp1 <- data.frame(
   feature_id = c("geneA", "geneB", "geneC"),

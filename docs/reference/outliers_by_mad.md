@@ -31,6 +31,7 @@ as outliers
 ## Examples
 
 ``` r
+
 x <- c(1, 1, 2, 2, 4, 6, 11)
 
 outliers_by_mad(x)

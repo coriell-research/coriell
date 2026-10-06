@@ -112,6 +112,7 @@ boxplots of the column data
 ## Examples
 
 ``` r
+
 # Create metadata for plotting
 metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)

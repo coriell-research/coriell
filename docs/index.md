@@ -11,6 +11,7 @@ Bookdown book.
 The latest version can be installed from Github using:
 
 ``` r
+
 if (!require("pak")) {
   install.packages("pak")
 }
@@ -22,9 +23,9 @@ pak::pkg_install("coriell-research/coriell")
 ### Plotting functions
 
 - [Volcano plot from differential expression
-  results](https://coriell-research.github.io/coriell/reference/plot_volcano.html)
+  results](https://coriell-research.github.io/coriell/reference/plot_volcano2.html)
 - [MA plot from differential expression
-  results](https://coriell-research.github.io/coriell/reference/plot_md.html)
+  results](https://coriell-research.github.io/coriell/reference/plot_md2.html)
 - [Heatmap with sensible defaults for
   RNA-seq](https://coriell-research.github.io/coriell/reference/quickmap.html)
 - [RLE boxplots of an expression

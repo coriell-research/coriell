@@ -81,6 +81,7 @@ assume fixed effects. This may not be appropriate.
 ## Examples
 
 ``` r
+
 exp1 <- data.frame(
   feature_id = c("geneA", "geneB", "geneC"),
   PValue = c(0.01, 0.04, 0.5),

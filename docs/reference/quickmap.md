@@ -62,6 +62,7 @@ are:
 ## Examples
 
 ``` r
+
 # Display heatmap of scaled count data and add title to the plot
 quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
 

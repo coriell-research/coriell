@@ -50,6 +50,7 @@ matrix containing TPM normalized counts
 ## Examples
 
 ``` r
+
 # Generate some fake data with fake positive feature lengths
 counts <- coriell::simulate_counts()$table
 gene_lengths <- rbinom(nrow(counts), 1000, 0.9)

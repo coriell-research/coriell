@@ -23,6 +23,7 @@ character vector with trailing IDs removed
 ## Examples
 
 ``` r
+
 ids <- c("ENSG0000001.12", "ENSMUSG00021.3", "ENST00000556.2")
 strip_ens(ids)
 #> [1] "ENSG0000001"  "ENSMUSG00021" "ENST00000556"

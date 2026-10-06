@@ -80,8 +80,6 @@ metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # PCA with PCAtools
 p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
-udata <- coriell::UMAP(p, n_neighbors = 2)
-#> Error in loadNamespace(x): there is no package called ‘umap’
+udata <- suppressWarnings(coriell::UMAP(p, n_neighbors = 2))
 plot_umap(udata, colBy = "Group")
-#> Error: object 'udata' not found
 ```

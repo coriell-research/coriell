@@ -135,6 +135,7 @@ ggplot2 object
 ## Examples
 
 ``` r
+
 pathway <- fgsea::examplePathways[["5991130_Programmed_Cell_Death"]]
 stats <- fgsea::exampleRanks
 plot_enrichment(pathway, stats)
