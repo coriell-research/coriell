@@ -14,6 +14,9 @@
 #' @param label_sig TRUE/FALSE. Label significant features with the values in \code{lab} using \code{text()}.
 #' @param n_labels integer. Maximum number of features to label when label_sig = TRUE. Since base R cannot repel labels, only the \code{n_labels} significant features with the most extreme combined rank of adjusted p-value and absolute logFC are labeled. Default 10
 #' @param annotate_counts TRUE/FALSE. Write the summarized feature counts beneath the plot. Default TRUE
+#' @param add_grid TRUE/FALSE. Draw a background grid with \code{grid()} beneath the points. Default FALSE
+#' @param lab_size numeric. Size (cex) of the count labels beneath the plot when annotate_counts = TRUE. Default 1
+#' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts = TRUE. Default 1
 #' @param up_color Point color of the up-regulated features
 #' @param down_color Point color of the down-regulated features
 #' @param nonde_color Point color of the unperturbed features
@@ -44,6 +47,9 @@ plot_md2 <- function(
   label_sig = FALSE,
   n_labels = 10,
   annotate_counts = TRUE,
+  add_grid = FALSE,
+  lab_size = 1,
+  lab_digits = 1,
   up_color = "red2",
   down_color = "royalblue2",
   nonde_color = "grey40",
@@ -85,6 +91,14 @@ plot_md2 <- function(
 
   if (length(n_labels) != 1 || is.na(n_labels) || n_labels < 0) {
     stop("n_labels must be a single non-negative number.")
+  }
+
+  if (length(lab_size) != 1 || is.na(lab_size) || lab_size <= 0) {
+    stop("lab_size must be a single positive number.")
+  }
+
+  if (length(lab_digits) != 1 || is.na(lab_digits) || lab_digits < 0) {
+    stop("lab_digits must be a single non-negative number.")
   }
 
   for (lim in list(x_axis_limits, y_axis_limits)) {
@@ -152,7 +166,7 @@ plot_md2 <- function(
   }
 
   # Leave room beneath the plot for the annotations
-  old_par <- par(mar = c(if (annotate_counts) 7 else 5, 4.5, 2, 1))
+  old_par <- par(mar = c(if (annotate_counts) 5.75 + 1.25 * lab_size else 5, 4.5, 2, 1))
   on.exit(par(old_par), add = TRUE)
 
   # Empty plot, then draw groups in order so significant points sit on top
@@ -169,6 +183,10 @@ plot_md2 <- function(
     list(...)
   )
   do.call(plot, plot_args)
+
+  if (isTRUE(add_grid)) {
+    grid()
+  }
 
   draw_group <- function(group, color, alpha, size, shape) {
     d <- plot_data[plot_data$group == group, , drop = FALSE]
@@ -212,22 +230,36 @@ plot_md2 <- function(
 
   # Annotations beneath the plot
   if (annotate_counts) {
-    mtext(
+    n_total <- nrow(plot_data)
+    usr <- par("usr")
+    label_at <- usr[1] + c(0.25, 0.75) * (usr[2] - usr[1])
+
+    count_label <- function(direction) {
       sprintf(
-        "Down-regulated (%s)",
-        format(counts[["Down"]], big.mark = ",")
-      ),
+        "%s%% (%s) %s",
+        formatC(100 * counts[[direction]] / n_total, format = "f", digits = lab_digits),
+        format(counts[[direction]], big.mark = ","),
+        if (direction == "Up") "up-regulated" else "down-regulated"
+      )
+    }
+
+    mtext(
+      count_label("Down"),
       side = 1,
       line = 4.5,
-      adj = 0.15,
+      at = label_at[1],
+      adj = 0.5,
+      cex = lab_size,
       col = down_color,
       font = 2
     )
     mtext(
-      sprintf("Up-regulated (%s)", format(counts[["Up"]], big.mark = ",")),
+      count_label("Up"),
       side = 1,
       line = 4.5,
-      adj = 0.85,
+      at = label_at[2],
+      adj = 0.5,
+      cex = lab_size,
       col = up_color,
       font = 2
     )
@@ -236,7 +268,7 @@ plot_md2 <- function(
   mtext(
     sprintf("%s < %.3g; lfc cutoff = %.2f", sig_col, fdr, lfc),
     side = 1,
-    line = if (annotate_counts) 5.75 else 4,
+    line = if (annotate_counts) 4.5 + 1.25 * lab_size else 4,
     cex = 0.8
   )
 

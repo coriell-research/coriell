@@ -15,6 +15,9 @@ plot_md2(
   label_sig = FALSE,
   n_labels = 10,
   annotate_counts = TRUE,
+  add_grid = FALSE,
+  lab_size = 1,
+  lab_digits = 1,
   up_color = "red2",
   down_color = "royalblue2",
   nonde_color = "grey40",
@@ -52,6 +55,12 @@ plot_md2(
 \item{n_labels}{integer. Maximum number of features to label when label_sig = TRUE. Since base R cannot repel labels, only the \code{n_labels} significant features with the most extreme combined rank of adjusted p-value and absolute logFC are labeled. Default 10}
 
 \item{annotate_counts}{TRUE/FALSE. Write the summarized feature counts beneath the plot. Default TRUE}
+
+\item{add_grid}{TRUE/FALSE. Draw a background grid with \code{grid()} beneath the points. Default FALSE}
+
+\item{lab_size}{numeric. Size (cex) of the count labels beneath the plot when annotate_counts = TRUE. Default 1}
+
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts = TRUE. Default 1}
 
 \item{up_color}{Point color of the up-regulated features}
 
