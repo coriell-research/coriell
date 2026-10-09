@@ -16,6 +16,9 @@ plot_volcano2(
   n_labels = 10,
   annotate_counts = TRUE,
   add_grid = FALSE,
+  xmin_label_offset = 0.8,
+  xmax_label_offset = 0.8,
+  ymax_label_offset = 0.9,
   lab_size = 1,
   lab_digits = 1,
   up_color = "red2",
@@ -54,11 +57,17 @@ plot_volcano2(
 
 \item{n_labels}{integer. Maximum number of features to label when label_sig = TRUE. Since base R cannot repel labels, only the \code{n_labels} significant features with the most extreme combined rank of p-value and absolute logFC are labeled. Default 10}
 
-\item{annotate_counts}{TRUE/FALSE. Write the summarized feature counts beneath the plot. Default TRUE}
+\item{annotate_counts}{TRUE/FALSE. Annotate the plot area with the percentage and count of up- and down-regulated features. Default TRUE}
 
 \item{add_grid}{TRUE/FALSE. Draw a background grid with \code{grid()} beneath the points. Default FALSE}
 
-\item{lab_size}{numeric. Size (cex) of the count labels beneath the plot when annotate_counts = TRUE. Default 1}
+\item{xmin_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the x-position of the 'down' count label as a fraction of the left x-axis limit}
+
+\item{xmax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the x-position of the 'up' count label as a fraction of the right x-axis limit}
+
+\item{ymax_label_offset}{numeric. Value between 0 and 1 inclusive. Controls the y-position of the count labels as a fraction of the upper y-axis limit}
+
+\item{lab_size}{numeric. Size (cex) of the count labels when annotate_counts = TRUE. Default 1}
 
 \item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts = TRUE. Default 1}
 
@@ -99,8 +108,8 @@ Invisibly, a list with the plotted data, group counts, raw p-value cutoff and y-
 This function differs from \code{plot_volcano()} as it produces a plot in base R.
 The defaults are also slightly different in that raw p-values are shown on the y-axis
 however, significance thresholds are computed on the adjusted p-values. Points are
-colored by adjusted p-value (and logFC) significance, and the up/down counts are
-written beneath the plot rather than on the plot area.
+colored by adjusted p-value (and logFC) significance, and the percentage and
+count of up/down features are annotated on the plot area.
 }
 \examples{
 plot_volcano2(GSE161650_de, fdr = 0.01, lfc = log2(2))

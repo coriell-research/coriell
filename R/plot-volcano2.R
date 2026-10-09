@@ -3,8 +3,8 @@
 #' This function differs from \code{plot_volcano()} as it produces a plot in base R.
 #' The defaults are also slightly different in that raw p-values are shown on the y-axis
 #' however, significance thresholds are computed on the adjusted p-values. Points are
-#' colored by adjusted p-value (and logFC) significance, and the up/down counts are
-#' written beneath the plot rather than on the plot area.
+#' colored by adjusted p-value (and logFC) significance, and the percentage and
+#' count of up/down features are annotated on the plot area.
 #'
 #' @param df data.frame containing columns for features, significance testing values, corrected significance testing values, and effect sizes
 #' @param x Variable to plot on the x-axis, Default "logFC"
@@ -15,9 +15,12 @@
 #' @param lfc logFC threshold for considering significant features. Features must have abs(logFC) greater than lfc. Default log2(1).
 #' @param label_sig TRUE/FALSE. Label significant features with the values in \code{lab} using \code{text()}.
 #' @param n_labels integer. Maximum number of features to label when label_sig = TRUE. Since base R cannot repel labels, only the \code{n_labels} significant features with the most extreme combined rank of p-value and absolute logFC are labeled. Default 10
-#' @param annotate_counts TRUE/FALSE. Write the summarized feature counts beneath the plot. Default TRUE
+#' @param annotate_counts TRUE/FALSE. Annotate the plot area with the percentage and count of up- and down-regulated features. Default TRUE
 #' @param add_grid TRUE/FALSE. Draw a background grid with \code{grid()} beneath the points. Default FALSE
-#' @param lab_size numeric. Size (cex) of the count labels beneath the plot when annotate_counts = TRUE. Default 1
+#' @param xmin_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the 'down' count label as a fraction of the left x-axis limit
+#' @param xmax_label_offset numeric. Value between 0 and 1 inclusive. Controls the x-position of the 'up' count label as a fraction of the right x-axis limit
+#' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the count labels as a fraction of the upper y-axis limit
+#' @param lab_size numeric. Size (cex) of the count labels when annotate_counts = TRUE. Default 1
 #' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts = TRUE. Default 1
 #' @param up_color Point color of the up-regulated features
 #' @param down_color Point color of the down-regulated features
@@ -50,6 +53,9 @@ plot_volcano2 <- function(
   n_labels = 10,
   annotate_counts = TRUE,
   add_grid = FALSE,
+  xmin_label_offset = 0.8,
+  xmax_label_offset = 0.8,
+  ymax_label_offset = 0.9,
   lab_size = 1,
   lab_digits = 1,
   up_color = "red2",
@@ -188,8 +194,8 @@ plot_volcano2 <- function(
     y_axis_limits <- c(0, y_max * 1.05)
   }
 
-  # Leave room beneath the plot for the annotations
-  old_par <- par(mar = c(if (annotate_counts) 5.75 + 1.25 * lab_size else 5, 4.5, 2, 1))
+  # Leave room beneath the plot for the threshold text
+  old_par <- par(mar = c(5, 4.5, 2, 1))
   on.exit(par(old_par), add = TRUE)
 
   # Empty plot, then draw groups in order so significant points sit on top
@@ -251,41 +257,29 @@ plot_volcano2 <- function(
     }
   }
 
-  # Annotations beneath the plot
+  # Percent and count annotations drawn on the plot area
   if (annotate_counts) {
     n_total <- nrow(plot_data)
     usr <- par("usr")
-    label_at <- usr[1] + c(0.25, 0.75) * (usr[2] - usr[1])
 
     count_label <- function(direction) {
       sprintf(
-        "%s%% (%s) %s",
-        formatC(100 * counts[[direction]] / n_total, format = "f", digits = lab_digits),
+        "%s\n%s%%",
         format(counts[[direction]], big.mark = ","),
-        if (direction == "Up") "up-regulated" else "down-regulated"
+        formatC(100 * counts[[direction]] / n_total, format = "f", digits = lab_digits)
       )
     }
 
-    mtext(
-      count_label("Down"),
-      side = 1,
-      line = 4.5,
-      at = label_at[1],
-      adj = 0.5,
-      cex = lab_size,
-      col = down_color,
-      font = 2
-    )
-    mtext(
-      count_label("Up"),
-      side = 1,
-      line = 4.5,
-      at = label_at[2],
-      adj = 0.5,
-      cex = lab_size,
-      col = up_color,
-      font = 2
-    )
+    # Boxed label centered on (x, y), similar to ggplot2's geom_label
+    box_label <- function(x, y, label) {
+      pad_x <- strwidth(label, cex = lab_size) / 2 + strwidth("m", cex = lab_size) / 2
+      pad_y <- strheight(label, cex = lab_size) / 2 + strheight("m", cex = lab_size) / 3
+      rect(x - pad_x, y - pad_y, x + pad_x, y + pad_y, col = "white", border = "black")
+      text(x, y, labels = label, cex = lab_size)
+    }
+
+    box_label(xmin_label_offset * usr[1], ymax_label_offset * usr[4], count_label("Down"))
+    box_label(xmax_label_offset * usr[2], ymax_label_offset * usr[4], count_label("Up"))
   }
 
   threshold_text <- if (!is.na(raw_p_cutoff)) {
@@ -308,7 +302,7 @@ plot_volcano2 <- function(
   mtext(
     threshold_text,
     side = 1,
-    line = if (annotate_counts) 4.5 + 1.25 * lab_size else 4,
+    line = 4,
     cex = 0.8
   )
 
