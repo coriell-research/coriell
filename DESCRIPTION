@@ -13,8 +13,7 @@ License: MIT + file LICENSE
 URL: https://coriell-research.github.io/coriell, https://github.com/coriell-research/coriell
 BugReports: https://github.com/coriell-research/coriell/issues
 Depends: 
-    R (>= 2.10),
-    tinyplot
+    R (>= 2.10)
 Imports: 
     data.table,
     ggplot2
