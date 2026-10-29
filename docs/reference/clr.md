@@ -18,6 +18,11 @@ clr(x, base = 2)
 
   integer base of the log function. Default 2.
 
+## Value
+
+numeric vector of CLR transformed values. Non-finite values (e.g. from
+zeros) are set to 0.
+
 ## Examples
 
 ``` r

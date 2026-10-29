@@ -17,7 +17,7 @@ these values can be used to compute fixed effect meta-analysis statistics."></he
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,9 @@ of "parallelBerger", "parallelFisher", "parallelHolmMin", "parallelPearson",
 <dt id="arg-impute-missing">impute_missing<a class="anchor" aria-label="anchor" href="#arg-impute-missing"></a></dt>
 <dd><p>TRUE/FALSE should missing values in the logFC and P-Value
 assays be imputed prior p-value combination? Default TRUE, missing p-values
-are imputed with 1 and missing logFCs are imputed with 0.</p></dd>
+are imputed with 1 and missing logFCs are imputed with 0. Imputed logFCs are
+included in the Median/Mean/Min/Max logFC summaries but are given no weight in
+the fixed-effect meta estimate.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

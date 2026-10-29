@@ -11,6 +11,13 @@ titles, axis ticks, and strip text.
 theme_coriell(...)
 ```
 
+## Arguments
+
+- ...:
+
+  Additional arguments passed to
+  [`ggplot2::theme_light()`](https://ggplot2.tidyverse.org/reference/ggtheme.html)
+
 ## Examples
 
 ``` r

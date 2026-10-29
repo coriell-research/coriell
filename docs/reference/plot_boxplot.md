@@ -9,7 +9,7 @@ Optionally plot the relative log expression of the matrix.
 plot_boxplot(x, ...)
 
 # Default S3 method
-plot_boxplot(x)
+plot_boxplot(x, ...)
 
 # S3 method for class 'matrix'
 plot_boxplot(

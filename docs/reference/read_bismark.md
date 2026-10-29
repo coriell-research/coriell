@@ -42,8 +42,12 @@ read_bismark(
 
 ## Value
 
-Either a data.table of filtered data with additional columns for
-Coverage and Variance or a list of matrices of filtered data
+Either a data.table of filtered data in bismark format with an added
+Coverage column (Me + Un) and, if remove_zero_var = TRUE, a Var column
+with the per-site variance of Percent; or, if return_mats = TRUE, a list
+of matrices of the filtered data with columns in the order of `files`.
+Note that when prop_samples \< 1, sites are filtered as a whole: rows
+from samples below the coverage threshold are kept at sites that pass.
 
 ## Details
 

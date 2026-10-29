@@ -9,7 +9,7 @@ matrix.
 plot_density(x, ...)
 
 # Default S3 method
-plot_density(x)
+plot_density(x, ...)
 
 # S3 method for class 'matrix'
 plot_density(x, metadata = NULL, colBy = NULL, ...)

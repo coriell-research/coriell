@@ -29,7 +29,8 @@ colmean(x, group, na.rm = FALSE)
 
 ## Value
 
-variable x nLevels(group) matrix
+variable x group matrix with one column per group present in `group`
+(unused factor levels are dropped), in order of first appearance.
 
 ## Examples
 

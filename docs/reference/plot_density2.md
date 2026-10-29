@@ -75,7 +75,7 @@ plot_density2(
 
 - show_legend:
 
-  should the legend be displayed on the plot if fill_by is set? Default
+  should the legend be displayed on the plot if col_by is set? Default
   TRUE
 
 - legend_position:

@@ -10,6 +10,11 @@ lerp(x, min, max)
 
 ## Arguments
 
+- x:
+
+  numeric. Normalized input value to be transformed. Value must be
+  between 0-1.
+
 - min:
 
   numeric. Minimum of the desired range.
@@ -17,11 +22,6 @@ lerp(x, min, max)
 - max:
 
   numeric. Maximum of the desired range.
-
-- x.:
-
-  numeric. Normalized input value to be transformed. Value must be
-  between 0-1.
 
 ## Value
 

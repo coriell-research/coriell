@@ -149,7 +149,8 @@ plot_volcano(
 - lab_digits:
 
   numeric. The number of digits used when rounding percentage values
-  when annotate_counts=TRUE. Default (1)
+  when annotate_counts=TRUE. Percentages are computed out of features
+  with non-missing x and y values. Default (1)
 
 - x_axis_limits:
 

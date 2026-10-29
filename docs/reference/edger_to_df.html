@@ -13,7 +13,7 @@ i.e. topTags(..., n=Inf, sort.by="none").'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +60,9 @@ i.e. <code>topTags(..., n=Inf, sort.by="none")</code>.</p>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/edgeR/man/topTags.html" class="external-link">edgeR::topTags()</a></code></p></dd>
+<dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/edgeR/man/topTags.html" class="external-link">edgeR::topTags()</a></code>. <code>n</code> and
+<code>sort.by</code> are fixed and cannot be supplied. If filtering arguments (e.g.
+<code>p.value</code>) leave no rows, a 0-row data.frame is returned.</p></dd>
 
 </dl></div>
     <div class="section level2">

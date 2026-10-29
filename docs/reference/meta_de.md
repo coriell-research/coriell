@@ -56,7 +56,9 @@ meta_de(
 
   TRUE/FALSE should missing values in the logFC and P-Value assays be
   imputed prior p-value combination? Default TRUE, missing p-values are
-  imputed with 1 and missing logFCs are imputed with 0.
+  imputed with 1 and missing logFCs are imputed with 0. Imputed logFCs
+  are included in the Median/Mean/Min/Max logFC summaries but are given
+  no weight in the fixed-effect meta estimate.
 
 - ...:
 

@@ -16,4 +16,6 @@ get_axis_limits(p)
 
 ## Value
 
-list with elements for x and y limits
+list with elements for x and y limits. These are the coordinate limits
+if set with `coord_cartesian()`, otherwise the trained range of the
+data. Limits set on scales (e.g. `xlim()`) are ignored.

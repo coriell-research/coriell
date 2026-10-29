@@ -22,7 +22,9 @@ geometric_mean(x, zero_propagate = FALSE, ignore_zero = TRUE)
 - ignore_zero:
 
   logical. Should zero values be ignored in the calculation of the mean?
-  Default TRUE.
+  Default TRUE. If FALSE, zeros are dropped from the log-sum but still
+  counted in the number of observations, i.e. the result is
+  `exp(sum(log(x[x > 0])) / length(x))`.
 
 ## Value
 

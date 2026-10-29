@@ -9,7 +9,7 @@ coverage and feature-wise variance."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,7 +77,12 @@ coverage and feature-wise variance.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Either a data.table of filtered data with additional columns for Coverage and Variance or a list of matrices of filtered data</p>
+    <p>Either a data.table of filtered data in bismark format with an added
+Coverage column (Me + Un) and, if remove_zero_var = TRUE, a Var column with the
+per-site variance of Percent; or, if return_mats = TRUE, a list of matrices of
+the filtered data with columns in the order of <code>files</code>. Note that
+when prop_samples &lt; 1, sites are filtered as a whole: rows from samples below
+the coverage threshold are kept at sites that pass.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>

@@ -59,7 +59,7 @@ plot_meth_hist(
 
 - y_axis_label:
 
-  name of the y-axis. Default = 'Number of CpGs'
+  name of the y-axis. Default = 'Number CpGs'
 
 ## Value
 

@@ -2,7 +2,7 @@
 
 Calculate a threshold value of a vector based on the unimodal threshold
 method described by [Rosin
-2001](https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf%22)
+2001](https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf)
 for image thresholding. Conceptually, the method attempts to draw a line
 from the peak of the distribution to the tail and calculates the maximum
 distance from a point to that line. The point where the distance is
@@ -20,7 +20,7 @@ rank_threshold(x, show = FALSE)
 
   numeric vector of values.
 
-- show_plot:
+- show:
 
   logical. default (FALSE). Show the scatter plot for the given
   distribution.

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,34 @@
       <small>Source: <a href="https://github.com/coriell-research/coriell/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.20.0" id="coriell-0200">coriell 0.20.0<a class="anchor" aria-label="anchor" href="#coriell-0200"></a></h2>
+<ul><li>
+<em>Breaking change</em>: <code><a href="../reference/UMAP.html">UMAP()</a></code> now always returns a data.frame, as documented. Previously a matrix was returned when no metadata was supplied. Metadata column names are no longer altered by <code>check.names</code>.</li>
+<li>
+<em>Breaking change</em>: <code><a href="../reference/plot_meth_hist.html">plot_meth_hist()</a></code> now uses fixed bins on [0, 1] (<code>breaks = seq(0, 1, 0.1)</code>) and errors on values outside that range.</li>
+<li>
+<code><a href="../reference/remove_var.html">remove_var()</a></code> now keeps <code>round(nrow(x) * (1 - p))</code> features. Floating-point truncation previously dropped an extra feature (e.g. 10 rows with p = 0.8 kept 1).</li>
+<li>Fixed <code><a href="../reference/colmean.html">colmean()</a></code> dividing by the wrong group sizes when groups were not in factor-level order, when factors had unused levels, or when <code>na.rm = TRUE</code>.</li>
+<li>Fixed <code><a href="../reference/meta_de.html">meta_de()</a></code> fixed-effect estimates being biased towards 0 when a logFC was missing but its SE was present.</li>
+<li>Fixed exact <code><a href="../reference/exact_cor_test.html">exact_cor_test()</a></code> / <code><a href="../reference/permutation_correlation_test.html">permutation_correlation_test()</a></code> p-values when <code>y</code> contains values that are nearly, but not exactly, tied.</li>
+<li>Fixed <code><a href="../reference/list_to_matrix.html">list_to_matrix()</a></code> for numeric and factor sets, <code><a href="../reference/pairwise_intersections.html">pairwise_intersections()</a></code> with duplicated elements or a single set, <code><a href="../reference/rank_threshold.html">rank_threshold()</a></code> with tied maxima, <code><a href="../reference/dsc.html">dsc()</a></code> with NA batch labels, and <code><a href="../reference/rarefy.html">rarefy()</a></code> with single-read columns or a single-row input.</li>
+<li>Fixed <code><a href="../reference/read_bismark.html">read_bismark()</a></code> dropping sites due to floating-point error in <code>prop_samples</code>, and <code>return_mats = TRUE</code> now keeps columns in the order of <code>files</code>.</li>
+<li>
+<code><a href="../reference/plot_volcano.html">plot_volcano()</a></code> and <code><a href="../reference/plot_md.html">plot_md()</a></code> percent annotations are now rounded once and computed out of features with non-missing values, matching <code><a href="../reference/plot_volcano2.html">plot_volcano2()</a></code> and <code><a href="../reference/plot_md2.html">plot_md2()</a></code>.</li>
+<li>
+<code><a href="../reference/plot_dist.html">plot_dist()</a></code> gives the same result whether or not <code>rdist</code> is installed.</li>
+<li>Fixed errors in <code><a href="../reference/plot_parallel.html">plot_parallel()</a></code> for SummarizedExperiment objects; <code><a href="../reference/plot_boxplot.html">plot_boxplot()</a></code>, <code><a href="../reference/plot_density.html">plot_density()</a></code>, and <code><a href="../reference/plot_parallel.html">plot_parallel()</a></code> for matrices without rownames; <code><a href="../reference/remove_components.html">remove_components()</a></code> when keeping a single PC or removing the last PC; <code><a href="../reference/associate_components.html">associate_components()</a></code> with <code>N = 1</code>; <code><a href="../reference/sample_n_random_cor.html">sample_n_random_cor()</a></code> with <code>n = 1</code>; and <code><a href="../reference/dfs2se.html">dfs2se()</a></code> with columns named “rows” or “cols”.</li>
+<li>
+<code><a href="../reference/dfs2se.html">dfs2se()</a></code> now errors on duplicated feature ids within an experiment instead of silently filling the assay with counts.</li>
+<li>
+<code><a href="../reference/edger_to_df.html">edger_to_df()</a></code> returns a 0-row data.frame instead of NULL when filtering leaves no rows. <code><a href="../reference/setup_chunk.html">setup_chunk()</a></code> invisibly returns the chunk text. <code><a href="../reference/clamp.html">clamp()</a></code> returns <code>numeric(0)</code> for empty input.</li>
+<li>
+<code><a href="../reference/plot_density2.html">plot_density2()</a></code> respects <code>show_legend</code>. <code><a href="../reference/plot_cor_pairs.html">plot_cor_pairs()</a></code> uses <code>scatter_colramp</code>, and <code>cor_digits</code> now sets the number of decimal places.</li>
+<li>S3 methods now accept <code>...</code> consistently with their generics.</li>
+<li>Documentation fixes and missing Suggests (clipr, csaw, DelayedArray, fgsea, KernSmooth, limma, qsmooth) added to DESCRIPTION.</li>
+<li>Greatly expanded the test suite to cover all exported functions.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.19.0" id="coriell-0190">coriell 0.19.0<a class="anchor" aria-label="anchor" href="#coriell-0190"></a></h2>
 <ul><li>
@@ -91,7 +119,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.11.0" id="coriell-0110">coriell 0.11.0<a class="anchor" aria-label="anchor" href="#coriell-0110"></a></h2>
-<ul><li>Internal changes to the <code><a href="../reference/quickmap.html">quickmap()</a></code> function. Avoid <code>pheatmap</code> scaling in favor of vectorized scaling. Speed up removeVar calculations with <code>Rfast::rowVars()</code> or <code><a href="https://rdrr.io/pkg/matrixStats/man/rowVars.html" class="external-link">matrixStats::rowVars()</a></code> if available. Speed up clustering and distance matrix calculations by performing distance matrix calculations with <code>rdist::rdist()</code> and clustering with <code>fastcluster::hclust()</code> if available. Round values in fix_extreme to better maintain original scale limits.</li>
+<ul><li>Internal changes to the <code><a href="../reference/quickmap.html">quickmap()</a></code> function. Avoid <code>pheatmap</code> scaling in favor of vectorized scaling. Speed up removeVar calculations with <code><a href="https://rdrr.io/pkg/Rfast/man/colVars.html" class="external-link">Rfast::rowVars()</a></code> or <code><a href="https://rdrr.io/pkg/matrixStats/man/rowVars.html" class="external-link">matrixStats::rowVars()</a></code> if available. Speed up clustering and distance matrix calculations by performing distance matrix calculations with <code><a href="https://rdrr.io/pkg/rdist/man/rdist.html" class="external-link">rdist::rdist()</a></code> and clustering with <code><a href="https://rdrr.io/pkg/fastcluster/man/hclust.html" class="external-link">fastcluster::hclust()</a></code> if available. Round values in fix_extreme to better maintain original scale limits.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.0" id="coriell-0100">coriell 0.10.0<a class="anchor" aria-label="anchor" href="#coriell-0100"></a></h2>

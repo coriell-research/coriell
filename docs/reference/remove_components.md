@@ -20,7 +20,8 @@ remove_components(x, components = 1, ...)
 
 - components:
 
-  numeric vector of components to remove from original data. Default (1)
+  numeric vector of components to remove from original data. Must be
+  between 1 and the number of principal components. Default (1)
 
 - ...:
 

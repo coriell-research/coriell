@@ -10,19 +10,19 @@ expression matrix).
 remove_var(x, ...)
 
 # Default S3 method
-remove_var(x)
+remove_var(x, ...)
 
 # S3 method for class 'matrix'
-remove_var(x, p)
+remove_var(x, p, ...)
 
 # S3 method for class 'data.frame'
-remove_var(x, p)
+remove_var(x, p, ...)
 
 # S3 method for class 'SummarizedExperiment'
-remove_var(x, p, assay = "counts")
+remove_var(x, p, assay = "counts", ...)
 
 # S3 method for class 'DelayedArray'
-remove_var(x, p)
+remove_var(x, p, ...)
 ```
 
 ## Arguments
@@ -30,6 +30,10 @@ remove_var(x, p)
 - x:
 
   matrix, numeric data.frame, or SummarizedExperiment object
+
+- ...:
+
+  Additional arguments passed to methods
 
 - p:
 
@@ -41,7 +45,8 @@ remove_var(x, p)
 
 ## Value
 
-matrix with lowest variance features removed
+matrix with lowest variance features removed. The number of retained
+features is `round(nrow(x) * (1 - p))`.
 
 ## Examples
 

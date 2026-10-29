@@ -54,6 +54,10 @@ plot_parallel2(
 
   character. y-axis label
 
+- ...:
+
+  Not currently used
+
 ## Value
 
 Parallel coordinate plot of scaled matrix data
@@ -62,7 +66,7 @@ Parallel coordinate plot of scaled matrix data
 
 ``` r
 
-plot_parallel2(GSE161650_lc, main = "10% Most Variable Genes")
+plot_parallel2(GSE161650_lc, plot_title = "10% Most Variable Genes")
 #> Removing 90% lowest variance features...
 
 ```

@@ -9,6 +9,9 @@ the umap defaults as function arguments.
 ``` r
 UMAP(x, ...)
 
+# Default S3 method
+UMAP(x, ...)
+
 # S3 method for class 'pca'
 UMAP(
   x,
@@ -33,7 +36,8 @@ UMAP(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 # S3 method for class 'prcomp'
@@ -61,7 +65,8 @@ UMAP(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 # S3 method for class 'matrix'
@@ -89,7 +94,8 @@ UMAP(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 # S3 method for class 'data.frame'
@@ -117,7 +123,8 @@ UMAP(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 # S3 method for class 'dist'
@@ -145,7 +152,8 @@ UMAP(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 ```
 
@@ -155,6 +163,10 @@ UMAP(
 
   PCA object, prcomp object, or numeric matrix/data.frame that can be
   converted to a numeric matrix
+
+- ...:
+
+  Additional arguments passed to methods
 
 - n_neighbors:
 

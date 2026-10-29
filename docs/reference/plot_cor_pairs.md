@@ -57,7 +57,7 @@ plot_cor_pairs(
 
 - cor_digits:
 
-  Number of digits to report in correlations
+  Number of decimal places to report in correlations
 
 - cor_cex:
 

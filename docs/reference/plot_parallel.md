@@ -9,7 +9,7 @@ expression value for gene on the y-axis by each sample on the x-axis.
 plot_parallel(x, ...)
 
 # Default S3 method
-plot_parallel(x)
+plot_parallel(x, ...)
 
 # S3 method for class 'matrix'
 plot_parallel(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)

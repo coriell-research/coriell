@@ -9,7 +9,7 @@ the umap defaults as function arguments."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,9 @@ the umap defaults as function arguments.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">UMAP</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Default S3 method</span></span>
+<span><span class="fu">UMAP</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for class 'pca'</span></span>
 <span><span class="fu">UMAP</span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
@@ -68,7 +71,8 @@ the umap defaults as function arguments.</p>
 <span>  knn <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  knn_repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'prcomp'</span></span>
@@ -96,7 +100,8 @@ the umap defaults as function arguments.</p>
 <span>  knn <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  knn_repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'matrix'</span></span>
@@ -124,7 +129,8 @@ the umap defaults as function arguments.</p>
 <span>  knn <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  knn_repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'data.frame'</span></span>
@@ -152,7 +158,8 @@ the umap defaults as function arguments.</p>
 <span>  knn <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  knn_repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'dist'</span></span>
@@ -180,7 +187,8 @@ the umap defaults as function arguments.</p>
 <span>  knn <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  knn_repeats <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span></span>
+<span>  umap_learn_args <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -191,6 +199,10 @@ the umap defaults as function arguments.</p>
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>PCA object, prcomp object, or numeric matrix/data.frame that can be
 converted to a numeric matrix</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Additional arguments passed to methods</p></dd>
 
 
 <dt id="arg-n-neighbors">n_neighbors<a class="anchor" aria-label="anchor" href="#arg-n-neighbors"></a></dt>

@@ -17,16 +17,16 @@ tpm(x, l, ...)
 tpm(x, l, ...)
 
 # S3 method for class 'matrix'
-tpm(x, l)
+tpm(x, l, ...)
 
 # S3 method for class 'data.frame'
-tpm(x, l)
+tpm(x, l, ...)
 
 # S3 method for class 'SummarizedExperiment'
-tpm(x, l, assay = "counts")
+tpm(x, l, assay = "counts", ...)
 
 # S3 method for class 'DelayedArray'
-tpm(x, l)
+tpm(x, l, ...)
 ```
 
 ## Arguments
@@ -38,6 +38,10 @@ tpm(x, l)
 - l:
 
   vector of feature lengths
+
+- ...:
+
+  Additional arguments passed to methods
 
 - assay:
 

@@ -9,7 +9,7 @@ non-negative, non-NA containing vectors."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.19.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,9 @@ non-negative, non-NA containing vectors.</p>
 
 
 <dt id="arg-ignore-zero">ignore_zero<a class="anchor" aria-label="anchor" href="#arg-ignore-zero"></a></dt>
-<dd><p>logical. Should zero values be ignored in the calculation of the mean? Default TRUE.</p></dd>
+<dd><p>logical. Should zero values be ignored in the calculation of the mean? Default TRUE.
+If FALSE, zeros are dropped from the log-sum but still counted in the number of
+observations, i.e. the result is <code>exp(sum(log(x[x &gt; 0])) / length(x))</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

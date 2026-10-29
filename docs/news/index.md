@@ -1,5 +1,95 @@
 # Changelog
 
+## coriell 0.20.0
+
+- *Breaking change*:
+  [`UMAP()`](https://coriell-research.github.io/coriell/reference/UMAP.md)
+  now always returns a data.frame, as documented. Previously a matrix
+  was returned when no metadata was supplied. Metadata column names are
+  no longer altered by `check.names`.
+- *Breaking change*:
+  [`plot_meth_hist()`](https://coriell-research.github.io/coriell/reference/plot_meth_hist.md)
+  now uses fixed bins on \[0, 1\] (`breaks = seq(0, 1, 0.1)`) and errors
+  on values outside that range.
+- [`remove_var()`](https://coriell-research.github.io/coriell/reference/remove_var.md)
+  now keeps `round(nrow(x) * (1 - p))` features. Floating-point
+  truncation previously dropped an extra feature (e.g. 10 rows with p =
+  0.8 kept 1).
+- Fixed
+  [`colmean()`](https://coriell-research.github.io/coriell/reference/colmean.md)
+  dividing by the wrong group sizes when groups were not in factor-level
+  order, when factors had unused levels, or when `na.rm = TRUE`.
+- Fixed
+  [`meta_de()`](https://coriell-research.github.io/coriell/reference/meta_de.md)
+  fixed-effect estimates being biased towards 0 when a logFC was missing
+  but its SE was present.
+- Fixed exact
+  [`exact_cor_test()`](https://coriell-research.github.io/coriell/reference/exact_cor_test.md)
+  /
+  [`permutation_correlation_test()`](https://coriell-research.github.io/coriell/reference/permutation_correlation_test.md)
+  p-values when `y` contains values that are nearly, but not exactly,
+  tied.
+- Fixed
+  [`list_to_matrix()`](https://coriell-research.github.io/coriell/reference/list_to_matrix.md)
+  for numeric and factor sets,
+  [`pairwise_intersections()`](https://coriell-research.github.io/coriell/reference/pairwise_intersections.md)
+  with duplicated elements or a single set,
+  [`rank_threshold()`](https://coriell-research.github.io/coriell/reference/rank_threshold.md)
+  with tied maxima,
+  [`dsc()`](https://coriell-research.github.io/coriell/reference/dsc.md)
+  with NA batch labels, and
+  [`rarefy()`](https://coriell-research.github.io/coriell/reference/rarefy.md)
+  with single-read columns or a single-row input.
+- Fixed
+  [`read_bismark()`](https://coriell-research.github.io/coriell/reference/read_bismark.md)
+  dropping sites due to floating-point error in `prop_samples`, and
+  `return_mats = TRUE` now keeps columns in the order of `files`.
+- [`plot_volcano()`](https://coriell-research.github.io/coriell/reference/plot_volcano.md)
+  and
+  [`plot_md()`](https://coriell-research.github.io/coriell/reference/plot_md.md)
+  percent annotations are now rounded once and computed out of features
+  with non-missing values, matching
+  [`plot_volcano2()`](https://coriell-research.github.io/coriell/reference/plot_volcano2.md)
+  and
+  [`plot_md2()`](https://coriell-research.github.io/coriell/reference/plot_md2.md).
+- [`plot_dist()`](https://coriell-research.github.io/coriell/reference/plot_dist.md)
+  gives the same result whether or not `rdist` is installed.
+- Fixed errors in
+  [`plot_parallel()`](https://coriell-research.github.io/coriell/reference/plot_parallel.md)
+  for SummarizedExperiment objects;
+  [`plot_boxplot()`](https://coriell-research.github.io/coriell/reference/plot_boxplot.md),
+  [`plot_density()`](https://coriell-research.github.io/coriell/reference/plot_density.md),
+  and
+  [`plot_parallel()`](https://coriell-research.github.io/coriell/reference/plot_parallel.md)
+  for matrices without rownames;
+  [`remove_components()`](https://coriell-research.github.io/coriell/reference/remove_components.md)
+  when keeping a single PC or removing the last PC;
+  [`associate_components()`](https://coriell-research.github.io/coriell/reference/associate_components.md)
+  with `N = 1`;
+  [`sample_n_random_cor()`](https://coriell-research.github.io/coriell/reference/sample_n_random_cor.md)
+  with `n = 1`; and
+  [`dfs2se()`](https://coriell-research.github.io/coriell/reference/dfs2se.md)
+  with columns named “rows” or “cols”.
+- [`dfs2se()`](https://coriell-research.github.io/coriell/reference/dfs2se.md)
+  now errors on duplicated feature ids within an experiment instead of
+  silently filling the assay with counts.
+- [`edger_to_df()`](https://coriell-research.github.io/coriell/reference/edger_to_df.md)
+  returns a 0-row data.frame instead of NULL when filtering leaves no
+  rows.
+  [`setup_chunk()`](https://coriell-research.github.io/coriell/reference/setup_chunk.md)
+  invisibly returns the chunk text.
+  [`clamp()`](https://coriell-research.github.io/coriell/reference/clamp.md)
+  returns `numeric(0)` for empty input.
+- [`plot_density2()`](https://coriell-research.github.io/coriell/reference/plot_density2.md)
+  respects `show_legend`.
+  [`plot_cor_pairs()`](https://coriell-research.github.io/coriell/reference/plot_cor_pairs.md)
+  uses `scatter_colramp`, and `cor_digits` now sets the number of
+  decimal places.
+- S3 methods now accept `...` consistently with their generics.
+- Documentation fixes and missing Suggests (clipr, csaw, DelayedArray,
+  fgsea, KernSmooth, limma, qsmooth) added to DESCRIPTION.
+- Greatly expanded the test suite to cover all exported functions.
+
 ## coriell 0.19.0
 
 - *Breaking change*: removed unused functions `random_rgb_palette()`,
@@ -127,12 +217,16 @@
 - Internal changes to the
   [`quickmap()`](https://coriell-research.github.io/coriell/reference/quickmap.md)
   function. Avoid `pheatmap` scaling in favor of vectorized scaling.
-  Speed up removeVar calculations with `Rfast::rowVars()` or
+  Speed up removeVar calculations with
+  [`Rfast::rowVars()`](https://rdrr.io/pkg/Rfast/man/colVars.html) or
   [`matrixStats::rowVars()`](https://rdrr.io/pkg/matrixStats/man/rowVars.html)
   if available. Speed up clustering and distance matrix calculations by
-  performing distance matrix calculations with `rdist::rdist()` and
-  clustering with `fastcluster::hclust()` if available. Round values in
-  fix_extreme to better maintain original scale limits.
+  performing distance matrix calculations with
+  [`rdist::rdist()`](https://rdrr.io/pkg/rdist/man/rdist.html) and
+  clustering with
+  [`fastcluster::hclust()`](https://rdrr.io/pkg/fastcluster/man/hclust.html)
+  if available. Round values in fix_extreme to better maintain original
+  scale limits.
 
 ## coriell 0.10.0
 

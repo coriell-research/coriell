@@ -110,7 +110,7 @@ plot_enrichment(
 - anno_y_pos:
 
   if annotate=TRUE, relative y-position of the text annotation on the
-  plot. default (0.8)
+  plot. default (0.7)
 
 - anno_size:
 
@@ -127,6 +127,18 @@ plot_enrichment(
 - nes_digits:
 
   if annotate=TRUE, number of digits to round supplied NES value by
+
+- plotTitle:
+
+  title of the plot. Default NULL
+
+- xlab:
+
+  x-axis label. Default "Rank"
+
+- ylab:
+
+  y-axis label. Default "Enrichment Score"
 
 ## Value
 

@@ -21,7 +21,9 @@ edger_to_df(x, ...)
 - ...:
 
   Additional arguments passed to
-  [`edgeR::topTags()`](https://rdrr.io/pkg/edgeR/man/topTags.html)
+  [`edgeR::topTags()`](https://rdrr.io/pkg/edgeR/man/topTags.html). `n`
+  and `sort.by` are fixed and cannot be supplied. If filtering arguments
+  (e.g. `p.value`) leave no rows, a 0-row data.frame is returned.
 
 ## Value
 

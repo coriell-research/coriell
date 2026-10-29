@@ -83,7 +83,7 @@ plot_boxplot2(
 
   location keyword for the legend. One of "bottomright", "bottom",
   "bottomleft", "left", "topleft", "top", "topright", "right" and
-  "center". Default "topright"
+  "center". Default "top"
 
 - legend_horiz:
 

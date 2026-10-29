@@ -26,7 +26,9 @@ minmax(x, min = NA, max = NA)
 
 ## Value
 
-Normalized value (0-1) of x in the range given by min, max.
+Normalized value (0-1) of x in the range given by min, max. If x
+contains values outside of \[min, max\] the range is widened to the
+range of x.
 
 ## Examples
 

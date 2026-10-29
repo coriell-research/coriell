@@ -43,7 +43,8 @@ dfs2se(
 ## Value
 
 SummarizedExperiment object containing assays for each of the columns in
-'import'.
+'import'. An error is thrown if a feature id is duplicated within any
+experiment.
 
 ## Examples
 
