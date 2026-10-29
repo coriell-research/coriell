@@ -10,7 +10,7 @@
 \usage{
 plot_density(x, ...)
 
-\method{plot_density}{default}(x)
+\method{plot_density}{default}(x, ...)
 
 \method{plot_density}{matrix}(x, metadata = NULL, colBy = NULL, ...)
 

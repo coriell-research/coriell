@@ -7,11 +7,11 @@
 lerp(x, min, max)
 }
 \arguments{
+\item{x}{numeric. Normalized input value to be transformed. Value must be between 0-1.}
+
 \item{min}{numeric. Minimum of the desired range.}
 
 \item{max}{numeric. Maximum of the desired range.}
-
-\item{x.}{numeric. Normalized input value to be transformed. Value must be between 0-1.}
 }
 \value{
 Value of x within the desired range given by min, max.

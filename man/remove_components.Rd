@@ -9,7 +9,8 @@ remove_components(x, components = 1, ...)
 \arguments{
 \item{x}{data.frame or matrix of original data.}
 
-\item{components}{numeric vector of components to remove from original data. Default (1)}
+\item{components}{numeric vector of components to remove from original data.
+Must be between 1 and the number of principal components. Default (1)}
 
 \item{...}{Additional arguments passed to \code{prcomp()}}
 }

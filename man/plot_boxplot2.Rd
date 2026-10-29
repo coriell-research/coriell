@@ -50,7 +50,7 @@ input matrix to be on the log-scale. Default = FALSE}
 
 \item{legend_position}{location keyword for the legend. One of "bottomright",
 "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
-"center". Default "topright"}
+"center". Default "top"}
 
 \item{legend_horiz}{logical; if TRUE, set the legend horizontally rather than vertically.
 Default TRUE}

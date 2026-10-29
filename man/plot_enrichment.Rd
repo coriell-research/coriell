@@ -65,7 +65,7 @@ depending on the max observed ES}
 
 \item{anno_x_pos}{if annotate=TRUE, relative x-position of the text annotation on the plot. default (0.8)}
 
-\item{anno_y_pos}{if annotate=TRUE, relative y-position of the text annotation on the plot. default (0.8)}
+\item{anno_y_pos}{if annotate=TRUE, relative y-position of the text annotation on the plot. default (0.7)}
 
 \item{anno_size}{if annotate=TRUE, size of the text annotation}
 
@@ -74,6 +74,12 @@ depending on the max observed ES}
 \item{es_digits}{if annotate=TRUE, number of digits to round supplied ES value by}
 
 \item{nes_digits}{if annotate=TRUE, number of digits to round supplied NES value by}
+
+\item{plotTitle}{title of the plot. Default NULL}
+
+\item{xlab}{x-axis label. Default "Rank"}
+
+\item{ylab}{y-axis label. Default "Enrichment Score"}
 }
 \value{
 ggplot2 object

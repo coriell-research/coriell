@@ -9,7 +9,9 @@ edger_to_df(x, ...)
 \arguments{
 \item{x}{\code{edgeR} results object to be converted}
 
-\item{...}{Additional arguments passed to \code{edgeR::topTags()}}
+\item{...}{Additional arguments passed to \code{edgeR::topTags()}. \code{n} and
+\code{sort.by} are fixed and cannot be supplied. If filtering arguments (e.g.
+\code{p.value}) leave no rows, a 0-row data.frame is returned.}
 }
 \value{
 data.frame

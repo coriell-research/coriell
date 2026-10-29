@@ -1,7 +1,7 @@
 Type: Package
 Package: coriell
 Title: Convenience Functions for Bioinformatics
-Version: 0.19.0
+Version: 0.20.0
 Authors@R: 
     person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre"))
 Description: This package provides many helper functions for common
@@ -19,18 +19,25 @@ Imports:
     ggplot2,
     parallel
 Suggests: 
+    clipr,
+    csaw,
+    DelayedArray,
     DelayedMatrixStats,
     edgeR,
     fastcluster,
+    fgsea,
     GenomicRanges,
     ggrastr (>= 0.2.0),
     ggrepel,
     httr2,
+    KernSmooth,
     knitr,
+    limma,
     matrixStats,
     metapod,
     PCAtools,
     pheatmap,
+    qsmooth,
     rdist,
     Rfast,
     rmarkdown,
@@ -40,6 +47,7 @@ Suggests:
     testthat,
     umap,
     viridisLite
+biocViews:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

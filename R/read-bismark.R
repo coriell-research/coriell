@@ -13,7 +13,12 @@
 #' @param prop_samples Proportion of samples that site must be covered to be retained. Default (1)
 #' @param remove_zero_var Should zero variance features be removed after filtering for coverage? Default (FALSE)
 #' @param return_mats if TRUE, return matrices of the filtered data in a list. Else, return the filtered data.table in bismark format. Default (FALSE)
-#' @return Either a data.table of filtered data with additional columns for Coverage and Variance or a list of matrices of filtered data
+#' @return Either a data.table of filtered data in bismark format with an added
+#' Coverage column (Me + Un) and, if remove_zero_var = TRUE, a Var column with the
+#' per-site variance of Percent; or, if return_mats = TRUE, a list of matrices of
+#' the filtered data with columns in the order of \code{files}. Note that
+#' when prop_samples < 1, sites are filtered as a whole: rows from samples below
+#' the coverage threshold are kept at sites that pass.
 #' @export
 #' @examples
 #' \dontrun{
@@ -66,7 +71,8 @@ read_bismark <- function(
     prop_samples * 100,
     "% of samples..."
   ))
-  keep_n <- length(files) * prop_samples
+  # Integer number of samples, tolerant of floating point error
+  keep_n <- ceiling(length(files) * prop_samples - sqrt(.Machine$double.eps))
   keep <- dt[Coverage >= coverage, .N, by = .(Chrom, Start)][
     N >= keep_n,
     .(Chrom, Start)
@@ -83,6 +89,9 @@ read_bismark <- function(
   result <- dt
   if (return_mats) {
     message("Coercing data to matrices...")
+    # Keep samples in input file order (dcast orders columns by factor levels)
+    sample_ids <- if (is.null(names(files))) seq_along(files) else names(files)
+    dt[, Sample := factor(Sample, levels = unique(sample_ids))]
     Coverage <- dcast(
       dt,
       Chrom + Start ~ Sample,

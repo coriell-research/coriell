@@ -10,7 +10,7 @@
 \usage{
 plot_boxplot(x, ...)
 
-\method{plot_boxplot}{default}(x)
+\method{plot_boxplot}{default}(x, ...)
 
 \method{plot_boxplot}{matrix}(
   x,

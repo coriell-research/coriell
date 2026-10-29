@@ -36,7 +36,7 @@ plot_meth_hist(
 
 \item{x_axis_cex}{size of the x-axis values. Default = 0.8}
 
-\item{y_axis_label}{name of the y-axis. Default = 'Number of CpGs'}
+\item{y_axis_label}{name of the y-axis. Default = 'Number CpGs'}
 }
 \value{
 histogram with methylation statistics

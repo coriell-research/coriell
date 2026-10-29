@@ -13,18 +13,20 @@ tpm(x, l, ...)
 
 \method{tpm}{default}(x, l, ...)
 
-\method{tpm}{matrix}(x, l)
+\method{tpm}{matrix}(x, l, ...)
 
-\method{tpm}{data.frame}(x, l)
+\method{tpm}{data.frame}(x, l, ...)
 
-\method{tpm}{SummarizedExperiment}(x, l, assay = "counts")
+\method{tpm}{SummarizedExperiment}(x, l, assay = "counts", ...)
 
-\method{tpm}{DelayedArray}(x, l)
+\method{tpm}{DelayedArray}(x, l, ...)
 }
 \arguments{
 \item{x}{matrix, numeric data.frame, or SummarizedExperiment object}
 
 \item{l}{vector of feature lengths}
+
+\item{...}{Additional arguments passed to methods}
 
 \item{assay}{if SummarizedExperiment, what assay to use. Default = "counts"}
 }

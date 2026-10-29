@@ -49,7 +49,7 @@ associate_components <- function(x, metadata, N = 10, ...) {
 
   # Test only the specified number of PCs
   keep_cols <- if (N > ncol(res$rotation)) ncol(res$rotation) else N
-  rotation <- res$rotation[, 1:keep_cols]
+  rotation <- res$rotation[, seq_len(keep_cols), drop = FALSE]
 
   # Test the association of each metadata column with each PC rotation
   results <- matrix(data = NA, nrow = ncol(metadata), ncol = ncol(rotation))
@@ -81,7 +81,8 @@ associate_components <- function(x, metadata, N = 10, ...) {
 #' the specified principal components. The source code for this function was
 #' stolen from \href{https://stats.stackexchange.com/questions/57467/how-to-perform-dimensionality-reduction-with-pca-in-r/57478#57478}{stack exchange}
 #' @param x data.frame or matrix of original data.
-#' @param components numeric vector of components to remove from original data. Default (1)
+#' @param components numeric vector of components to remove from original data.
+#' Must be between 1 and the number of principal components. Default (1)
 #' @param ... Additional arguments passed to \code{prcomp()}
 #' @export
 #' @return data.frame of values in the original units after removing components
@@ -95,14 +96,16 @@ associate_components <- function(x, metadata, N = 10, ...) {
 #' # reconstructed data
 #' head(trunc)
 remove_components <- function(x, components = 1, ...) {
-  stopifnot(
-    "Cannot remove more components than columns in data" = max(components) <
-      ncol(x)
-  )
-
   res <- prcomp(x, ...)
-  keep <- setdiff(1:ncol(res$x), components)
-  trunc <- res$x[, keep] %*% t(res$rotation[, keep])
+  n_pc <- ncol(res$x)
+  stopifnot(
+    "components must be between 1 and the number of principal components" = all(
+      components >= 1 & components <= n_pc
+    )
+  )
+  keep <- setdiff(seq_len(n_pc), components)
+  trunc <- res$x[, keep, drop = FALSE] %*%
+    t(res$rotation[, keep, drop = FALSE])
 
   if (res$scale[[1]] != FALSE & length(res$scale) > 1) {
     trunc <- scale(trunc, center = FALSE, scale = 1 / res$scale)
@@ -174,6 +177,7 @@ remove_components <- function(x, components = 1, ...) {
 #' @param knn_repeats number of times to restart knn search. Default 1
 #' @param verbose logical or integer; determines whether to show progress
 #' messages. Default FALSE
+#' @param ... Additional arguments passed to methods
 #' @param umap_learn_args vector of arguments to python package umap-learn.
 #' Default NA
 #' @export
@@ -204,7 +208,9 @@ remove_components <- function(x, components = 1, ...) {
 #'
 UMAP <- function(x, ...) UseMethod("UMAP")
 
-UMAP.default <- function(x) {
+#' @export
+#' @rdname UMAP
+UMAP.default <- function(x, ...) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
 
@@ -234,7 +240,8 @@ UMAP.pca <- function(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 ) {
   params <- umap::umap.defaults
   params$n_neighbors <- n_neighbors
@@ -264,7 +271,10 @@ UMAP.pca <- function(
   u <- umap::umap(d = x$rotated, params)
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
-  result <- data.frame(cbind(data, x$metadata))
+  if (is.null(x$metadata)) {
+    return(as.data.frame(data))
+  }
+  result <- data.frame(data, x$metadata, check.names = FALSE)
 
   return(result)
 }
@@ -296,7 +306,8 @@ UMAP.prcomp <- function(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 ) {
   if (!is.null(metadata)) {
     if (!all(rownames(x$x) == rownames(metadata))) {
@@ -333,9 +344,9 @@ UMAP.prcomp <- function(
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) {
-    return(data)
+    return(as.data.frame(data))
   }
-  result <- data.frame(cbind(data, metadata))
+  result <- data.frame(data, metadata, check.names = FALSE)
 
   return(result)
 }
@@ -367,7 +378,8 @@ UMAP.matrix <- function(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 ) {
   if (!is.null(metadata)) {
     if (!all(rownames(x) == rownames(metadata))) {
@@ -404,9 +416,9 @@ UMAP.matrix <- function(
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) {
-    return(data)
+    return(as.data.frame(data))
   }
-  result <- data.frame(cbind(data, metadata))
+  result <- data.frame(data, metadata, check.names = FALSE)
 
   return(result)
 }
@@ -438,7 +450,8 @@ UMAP.data.frame <- function(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 ) {
   m <- data.matrix(x)
   if (!is.null(metadata)) {
@@ -476,9 +489,9 @@ UMAP.data.frame <- function(
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) {
-    return(data)
+    return(as.data.frame(data))
   }
-  result <- data.frame(cbind(data, metadata))
+  result <- data.frame(data, metadata, check.names = FALSE)
 
   return(result)
 }
@@ -510,7 +523,8 @@ UMAP.dist <- function(
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 ) {
   if (!is.null(metadata)) {
     if (!all(attr(x, "Labels") == rownames(metadata))) {
@@ -548,9 +562,9 @@ UMAP.dist <- function(
   data <- u$layout
   colnames(data) <- paste0("UMAP", 1:ncol(data))
   if (is.null(metadata)) {
-    return(data)
+    return(as.data.frame(data))
   }
-  result <- data.frame(cbind(data, metadata))
+  result <- data.frame(data, metadata, check.names = FALSE)
 
   return(result)
 }

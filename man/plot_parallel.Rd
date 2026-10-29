@@ -10,7 +10,7 @@
 \usage{
 plot_parallel(x, ...)
 
-\method{plot_parallel}{default}(x)
+\method{plot_parallel}{default}(x, ...)
 
 \method{plot_parallel}{matrix}(x, metadata = NULL, colBy = NULL, removeVar = NULL, ...)
 

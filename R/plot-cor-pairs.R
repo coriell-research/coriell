@@ -14,7 +14,7 @@
 #' covariances in the presence of missing values. This must be
 #' (an abbreviation of) one of the strings "everything", "all.obs",
 #' "complete.obs", "na.or.complete", or "pairwise.complete.obs".
-#' @param cor_digits Number of digits to report in correlations
+#' @param cor_digits Number of decimal places to report in correlations
 #' @param cor_cex Character expansion size for correlation values
 #' @param scatter_colramp function accepting an integer n as an argument and
 #' returning n colors used in the smoothScatter plots
@@ -68,12 +68,12 @@ plot_cor_pairs <- function(
   panel_cor <- function(x, y, ...) {
     par(usr = c(0, 1, 0, 1))
     r <- cor(x, y, method = cor_method, use = cor_use)
-    txt <- format(r, nsmall = 2, digits = cor_digits)
+    txt <- formatC(r, format = "f", digits = cor_digits)
     text(0.5, 0.5, txt, cex = cor_cex)
   }
 
   panel_smoothScatter <- function(x, y) {
-    smoothScatter(x, y, nrpoints = 0, add = TRUE, colramp = hcl.colors)
+    smoothScatter(x, y, nrpoints = 0, add = TRUE, colramp = scatter_colramp)
     abline(
       0,
       1,

@@ -10,7 +10,9 @@ get_axis_limits(p)
 \item{p}{\code{ggplot} plot object}
 }
 \value{
-list with elements for x and y limits
+list with elements for x and y limits. These are the coordinate limits
+if set with \code{coord_cartesian()}, otherwise the trained range of the data.
+Limits set on scales (e.g. \code{xlim()}) are ignored.
 }
 \description{
 Internal helper function used to get the axis limits of a plot

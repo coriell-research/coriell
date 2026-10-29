@@ -21,7 +21,10 @@
 #' @param hlinesColor color of the min/max horizontal ES lines
 #' @param hlinesType linetype of the min/max horizontal ES lines
 #' @param anno_x_pos if annotate=TRUE, relative x-position of the text annotation on the plot. default (0.8)
-#' @param anno_y_pos if annotate=TRUE, relative y-position of the text annotation on the plot. default (0.8)
+#' @param anno_y_pos if annotate=TRUE, relative y-position of the text annotation on the plot. default (0.7)
+#' @param plotTitle title of the plot. Default NULL
+#' @param xlab x-axis label. Default "Rank"
+#' @param ylab y-axis label. Default "Enrichment Score"
 #' @param anno_size if annotate=TRUE, size of the text annotation
 #' @param fdr_digits if annotate=TRUE, number of digits to round supplied FDR value by
 #' @param es_digits if annotate=TRUE, number of digits to round supplied ES value by

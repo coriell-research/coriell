@@ -14,7 +14,8 @@ colmean(x, group, na.rm = FALSE)
 \item{na.rm}{Logical (TRUE or FALSE). Should NA (including NaN) values be discarded?}
 }
 \value{
-variable x nLevels(group) matrix
+variable x group matrix with one column per group present in
+\code{group} (unused factor levels are dropped), in order of first appearance.
 }
 \description{
 Inspired by \code{edgeR::sumTechReps} and \code{base::rowsum()}, this function

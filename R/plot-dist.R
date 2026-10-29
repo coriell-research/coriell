@@ -58,7 +58,13 @@ plot_dist <- function(x, metadata = NULL, method = "euclidean", ...) {
   user_args <- list(...)
   default_args[names(user_args)] <- user_args
 
-  if (requireNamespace("rdist", quietly = TRUE)) {
+  # rdist only matches stats::dist for these metrics and when there are no NAs
+  rdist_methods <- c("euclidean", "maximum", "manhattan", "minkowski")
+  if (
+    method %in% rdist_methods &&
+      !anyNA(x) &&
+      requireNamespace("rdist", quietly = TRUE)
+  ) {
     d <- rdist::rdist(t(x), metric = method)
   } else {
     d <- dist(t(x), method = method)

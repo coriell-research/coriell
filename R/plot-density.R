@@ -28,7 +28,7 @@ plot_density <- function(x, ...) UseMethod("plot_density")
 
 #' @rdname plot_density
 #' @export
-plot_density.default <- function(x) {
+plot_density.default <- function(x, ...) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
 
@@ -45,6 +45,9 @@ plot_density.matrix <- function(x, metadata = NULL, colBy = NULL, ...) {
   )
   stopifnot("non-numeric columns in x" = all(apply(x, 2, is.numeric)))
 
+  if (is.null(rownames(x))) {
+    rownames(x) <- seq_len(nrow(x))
+  }
   dt <- data.table::as.data.table(x, keep.rownames = ".feature")
   dt.m <- data.table::melt(
     dt,

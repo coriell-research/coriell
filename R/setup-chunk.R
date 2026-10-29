@@ -61,8 +61,9 @@ setup_chunk <- function(extra_libs = NULL, dir_name = "01", quiet = FALSE) {
   }
 
   if (isTRUE(quiet)) {
-    return(invisible(NULL))
+    return(invisible(final_output))
   }
 
   cat(final_output, sep = "\n")
+  invisible(final_output)
 }

@@ -2,8 +2,9 @@
 #' @noRd
 #' @keywords internal
 .col2assay <- function(df, rows, cols, vals) {
-  m <- dcast(df, get(rows) ~ get(cols), value.var = vals, fill = NA)
-  as.matrix(m, rownames = "rows")
+  f <- stats::as.formula(paste0("`", rows, "` ~ `", cols, "`"))
+  m <- dcast(df, f, value.var = vals, fill = NA)
+  as.matrix(m, rownames = rows)
 }
 
 #' Helper function for extracting representative results for summary stats
@@ -35,7 +36,8 @@
 #' @param complete Use only features found across all datasets. Default FALSE,
 #' i.e. fill data for missing features with NAs.
 #' @return SummarizedExperiment object containing assays for each of the columns
-#' in 'import'.
+#' in 'import'. An error is thrown if a feature id is duplicated within any
+#' experiment.
 #' @export
 #' @examples
 #'
@@ -79,6 +81,17 @@ dfs2se <- function(
   stopifnot(
     "One of the needed columns is missing from the data.frames" = has_cols
   )
+  dup <- vapply(
+    x,
+    function(df) anyDuplicated(df[[feature_col]]) > 0L,
+    logical(1)
+  )
+  if (any(dup)) {
+    stop(
+      "Duplicate feature ids found within experiment(s): ",
+      paste(if (is.null(names(x))) which(dup) else names(x)[dup], collapse = ", ")
+    )
+  }
 
   universe <- NULL
   if (isTRUE(complete)) {
@@ -125,7 +138,9 @@ dfs2se <- function(
 #' @param se assay name in SE object containing standard error of logFC values. Default NULL.
 #' @param impute_missing TRUE/FALSE should missing values in the logFC and P-Value
 #' assays be imputed prior p-value combination? Default TRUE, missing p-values
-#' are imputed with 1 and missing logFCs are imputed with 0.
+#' are imputed with 1 and missing logFCs are imputed with 0. Imputed logFCs are
+#' included in the Median/Mean/Min/Max logFC summaries but are given no weight in
+#' the fixed-effect meta estimate.
 #' @param ... Additional arguments passed to FUN. See the \code{metapod} package
 #' for details.
 #' @return data.table with summary stats of the p-value combination of all
@@ -203,6 +218,7 @@ meta_de <- function(
 
   lfc_m <- SummarizedExperiment::assay(x, lfc)
   pval_m <- SummarizedExperiment::assay(x, pval)
+  lfc_na <- is.na(lfc_m)
 
   if (isTRUE(impute_missing)) {
     lfc_m[is.na(lfc_m)] <- 0
@@ -252,8 +268,10 @@ meta_de <- function(
     if (!is.null(se)) {
       se_m <- SummarizedExperiment::assay(x, se)
       w_m <- 1 / (se_m^2)
+      w_m[lfc_na] <- NA
       sum_w_beta <- DelayedMatrixStats::rowSums2(w_m * lfc_m, na.rm = TRUE)
       sum_w <- DelayedMatrixStats::rowSums2(w_m, na.rm = TRUE)
+      sum_w[sum_w == 0] <- NA
       meta_se <- sqrt(1 / sum_w)
       meta_lfc <- sum_w_beta / sum_w
       meta_z <- meta_lfc / meta_se
@@ -272,8 +290,10 @@ meta_de <- function(
     if (!is.null(se)) {
       se_m <- SummarizedExperiment::assay(x, se)
       w_m <- 1 / (se_m^2)
+      w_m[lfc_na] <- NA
       sum_w_beta <- rowSums(w_m * lfc_m, na.rm = TRUE)
       sum_w <- rowSums(w_m, na.rm = TRUE)
+      sum_w[sum_w == 0] <- NA
       meta_se <- sqrt(1 / sum_w)
       meta_lfc <- sum_w_beta / sum_w
       meta_z <- meta_lfc / meta_se

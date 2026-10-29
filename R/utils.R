@@ -3,7 +3,8 @@
 #' @param x numeric. Value to be transformed (normalized).
 #' @param min numeric. Minimum value of range. Default NA, use the min of the supplied vector
 #' @param max numeric. Maximum value of range. Default NA, use the max of the supplied vector
-#' @return Normalized value (0-1) of x in the range given by min, max.
+#' @return Normalized value (0-1) of x in the range given by min, max. If x
+#' contains values outside of [min, max] the range is widened to the range of x.
 #' @export
 #' @examples
 #' minmax(c(0, 1, 10, 100))
@@ -17,7 +18,7 @@ minmax <- function(x, min = NA, max = NA) {
 
 #' Linear interpolation of a value
 #'
-#' @param x. numeric. Normalized input value to be transformed. Value must be between 0-1.
+#' @param x numeric. Normalized input value to be transformed. Value must be between 0-1.
 #' @param min numeric. Minimum of the desired range.
 #' @param max numeric. Maximum of the desired range.
 #' @return Value of x within the desired range given by min, max.
@@ -45,8 +46,6 @@ map_value <- function(x, old_min, old_max, new_min, new_max) {
   lerp(minmax(x, old_min, old_max), new_min, new_max)
 }
 
-.clamp <- function(x, min, max) min(c(max(c(x, min)), max))
-
 #' Limit values to a given range
 #'
 #' This function is useful for input validation. If the value of x is in the given
@@ -60,7 +59,7 @@ map_value <- function(x, old_min, old_max, new_min, new_max) {
 #' @export
 #' @examples
 #' clamp(c(-1, 121, 10, 15), min = 0, max = 100)
-clamp <- Vectorize(.clamp)
+clamp <- function(x, min, max) pmin(pmax(x, min), max)
 
 #' Geometric mean of a vector
 #'
@@ -70,6 +69,8 @@ clamp <- Vectorize(.clamp)
 #' @param x numeric vector of non-negative values
 #' @param zero_propagate logical. Should zeros be included in the calculation. Default FALSE.
 #' @param ignore_zero logical. Should zero values be ignored in the calculation of the mean? Default TRUE.
+#' If FALSE, zeros are dropped from the log-sum but still counted in the number of
+#' observations, i.e. the result is \code{exp(sum(log(x[x > 0])) / length(x))}.
 #' @return geometric mean of the vector
 #' @export
 #' @examples
@@ -123,6 +124,8 @@ geometric_mean <- function(x, zero_propagate = FALSE, ignore_zero = TRUE) {
 #'
 #' @param x numeric vector
 #' @param base integer base of the log function. Default 2.
+#' @return numeric vector of CLR transformed values. Non-finite values (e.g.
+#' from zeros) are set to 0.
 #' @export
 #' @examples
 #' x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 1500)
@@ -142,7 +145,8 @@ clr <- function(x, base = 2) {
 #' @param x variable (gene) by sample numeric matrix
 #' @param group Factor specifying the grouping level to by averaged
 #' @param na.rm Logical (TRUE or FALSE). Should NA (including NaN) values be discarded?
-#' @return variable x nLevels(group) matrix
+#' @return variable x group matrix with one column per group present in
+#' \code{group} (unused factor levels are dropped), in order of first appearance.
 #' @export
 #' @examples
 #' # Specify the Group levels
@@ -160,10 +164,14 @@ colmean <- function(x, group, na.rm = FALSE) {
       ncol(x)
   )
 
-  t(
-    rowsum(t(x), group = group, reorder = FALSE, na.rm = na.rm) /
-      as.vector(table(group))
-  )
+  s <- rowsum(t(x), group = group, reorder = FALSE, na.rm = na.rm)
+  n <- if (isTRUE(na.rm)) {
+    rowsum(t(!is.na(x)) * 1, group = group, reorder = FALSE)
+  } else {
+    as.vector(table(group)[rownames(s)])
+  }
+
+  t(s / n)
 }
 
 #' Perform simple imputation on rows of a matrix
@@ -216,7 +224,9 @@ impute <- function(x, fun = median) {
 #' @param x matrix, numeric data.frame, or SummarizedExperiment object
 #' @param p proportion of low variance features to remove
 #' @param assay if SummarizedExperiment, what assay to use. Default = "counts"
-#' @return matrix with lowest variance features removed
+#' @param ... Additional arguments passed to methods
+#' @return matrix with lowest variance features removed. The number of retained
+#' features is \code{round(nrow(x) * (1 - p))}.
 #' @export
 #' @examples
 #'
@@ -226,13 +236,13 @@ remove_var <- function(x, ...) UseMethod("remove_var")
 
 #' @rdname remove_var
 #' @export
-remove_var.default <- function(x) {
+remove_var.default <- function(x, ...) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
 
 #' @rdname remove_var
 #' @export
-remove_var.matrix <- function(x, p) {
+remove_var.matrix <- function(x, p, ...) {
   stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
   message("Removing ", p * 100, "% lowest variance features...")
   if (requireNamespace("matrixStats", quietly = TRUE)) {
@@ -243,12 +253,13 @@ remove_var.matrix <- function(x, p) {
     v <- apply(x, 1, var, na.rm = TRUE)
   }
   o <- order(v, decreasing = TRUE)
-  head(x[o, ], n = nrow(x) * (1 - p))
+  n_keep <- round(nrow(x) * (1 - p))
+  x[head(o, n_keep), , drop = FALSE]
 }
 
 #' @rdname remove_var
 #' @export
-remove_var.data.frame <- function(x, p) {
+remove_var.data.frame <- function(x, p, ...) {
   stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
   m <- data.matrix(x)
   remove_var.matrix(m, p = p)
@@ -256,7 +267,7 @@ remove_var.data.frame <- function(x, p) {
 
 #' @rdname remove_var
 #' @export
-remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
+remove_var.SummarizedExperiment <- function(x, p, assay = "counts", ...) {
   stopifnot("p must be between 0 and 1" = p > 0 & p < 1)
   m <- SummarizedExperiment::assay(x, assay)
   remove_var.matrix(m, p = p)
@@ -264,13 +275,14 @@ remove_var.SummarizedExperiment <- function(x, p, assay = "counts") {
 
 #' @rdname remove_var
 #' @export
-remove_var.DelayedArray <- function(x, p) {
+remove_var.DelayedArray <- function(x, p, ...) {
   if (!requireNamespace("DelayedMatrixStats", quietly = TRUE)) {
     stop("DelayedMatrixStats package is required.")
   }
   v <- DelayedMatrixStats::rowVars(x, na.rm = TRUE, useNames = FALSE)
   o <- order(v, decreasing = TRUE)
-  head(x[o, ], n = nrow(x) * (1 - p))
+  n_keep <- round(nrow(x) * (1 - p))
+  x[head(o, n_keep), , drop = FALSE]
 }
 
 #' Get unique pairwise intersections of a list of vectors
@@ -303,6 +315,7 @@ pairwise_intersections <- function(x, universe_size = NULL) {
     stop("x must be a list")
   }
 
+  x <- lapply(x, unique)
   n <- length(x)
 
   if (is.null(names(x))) {
@@ -321,8 +334,8 @@ pairwise_intersections <- function(x, universe_size = NULL) {
   m <- vector("list", n_pairs)
 
   idx <- 1
-  for (i in 1:(n - 1)) {
-    for (j in (i + 1):n) {
+  for (i in seq_len(n - 1)) {
+    for (j in seq.int(i + 1, length.out = n - i)) {
       s1[[idx]] <- lnames[i]
       s2[[idx]] <- lnames[j]
 
@@ -417,6 +430,7 @@ strip_ens <- function(x) {
 #' @param x matrix, numeric data.frame, or SummarizedExperiment object
 #' @param l vector of feature lengths
 #' @param assay if SummarizedExperiment, what assay to use. Default = "counts"
+#' @param ... Additional arguments passed to methods
 #' @return matrix containing TPM normalized counts
 #' @export
 #' @examples
@@ -437,7 +451,7 @@ tpm.default <- function(x, l, ...) {
 
 #' @rdname tpm
 #' @export
-tpm.matrix <- function(x, l) {
+tpm.matrix <- function(x, l, ...) {
   stopifnot(
     "number of supplied lengths != number of features" = nrow(x) == length(l)
   )
@@ -449,7 +463,7 @@ tpm.matrix <- function(x, l) {
 
 #' @rdname tpm
 #' @export
-tpm.data.frame <- function(x, l) {
+tpm.data.frame <- function(x, l, ...) {
   counts <- data.matrix(x)
   result <- tpm.matrix(counts, l)
 
@@ -458,7 +472,7 @@ tpm.data.frame <- function(x, l) {
 
 #' @rdname tpm
 #' @export
-tpm.SummarizedExperiment <- function(x, l, assay = "counts") {
+tpm.SummarizedExperiment <- function(x, l, assay = "counts", ...) {
   counts <- SummarizedExperiment::assay(x, assay)
   result <- tpm.matrix(counts, l)
 
@@ -467,7 +481,7 @@ tpm.SummarizedExperiment <- function(x, l, assay = "counts") {
 
 #' @rdname tpm
 #' @export
-tpm.DelayedArray <- function(x, l) {
+tpm.DelayedArray <- function(x, l, ...) {
   xl <- x / l
   result <- DelayedArray::t(
     DelayedArray::t(xl) * 1e6 / DelayedArray::colSums(xl)

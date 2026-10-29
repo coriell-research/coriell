@@ -12,11 +12,12 @@
 #' @param plot_title character. title of the plot. Default NULL
 #' @param x_label character. x-axis label
 #' @param y_label character. y-axis label
+#' @param ... Not currently used
 #' @returns Parallel coordinate plot of scaled matrix data
 #' @export
 #' @examples
 #'
-#' plot_parallel2(GSE161650_lc, main = "10% Most Variable Genes")
+#' plot_parallel2(GSE161650_lc, plot_title = "10% Most Variable Genes")
 #'
 plot_parallel2 <- function(
   x,

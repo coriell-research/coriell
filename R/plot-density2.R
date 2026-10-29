@@ -18,7 +18,7 @@
 #' @param y_label y-axis title. Default "Density"
 #' @param line_weight line weight of the density lines. Default 1
 #' @param line_type line type of the density lines. Default 1
-#' @param show_legend should the legend be displayed on the plot if fill_by is set? Default TRUE
+#' @param show_legend should the legend be displayed on the plot if col_by is set? Default TRUE
 #' @param legend_position location keyword for the legend. One of "bottomright",
 #'  "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
 #'  "center". Default "topright"
@@ -113,7 +113,7 @@ plot_density2 <- function(
   axis(2, lwd = 0)
   title(main = plot_title, xlab = x_label, ylab = y_label)
 
-  if (!is.null(col_by)) {
+  if (!is.null(col_by) && isTRUE(show_legend)) {
     legend(
       legend_position,
       legend = levels(g),

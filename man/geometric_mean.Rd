@@ -11,7 +11,9 @@ geometric_mean(x, zero_propagate = FALSE, ignore_zero = TRUE)
 
 \item{zero_propagate}{logical. Should zeros be included in the calculation. Default FALSE.}
 
-\item{ignore_zero}{logical. Should zero values be ignored in the calculation of the mean? Default TRUE.}
+\item{ignore_zero}{logical. Should zero values be ignored in the calculation of the mean? Default TRUE.
+If FALSE, zeros are dropped from the log-sum but still counted in the number of
+observations, i.e. the result is \code{exp(sum(log(x[x > 0])) / length(x))}.}
 }
 \value{
 geometric mean of the vector

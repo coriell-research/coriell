@@ -45,7 +45,7 @@ each sample in the matrix will be plotted.}
 
 \item{line_type}{line type of the density lines. Default 1}
 
-\item{show_legend}{should the legend be displayed on the plot if fill_by is set? Default TRUE}
+\item{show_legend}{should the legend be displayed on the plot if col_by is set? Default TRUE}
 
 \item{legend_position}{location keyword for the legend. One of "bottomright",
 "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and

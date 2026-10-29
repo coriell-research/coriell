@@ -90,7 +90,8 @@ plot_md(
 
 \item{lab_size}{numeric. If annotate_counts = TRUE specify the label size. Default = 6.}
 
-\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)}
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE.
+Percentages are computed out of features with non-missing x and y values. Default (1)}
 
 \item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 

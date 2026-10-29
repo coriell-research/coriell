@@ -26,7 +26,8 @@ i.e. fill data for missing features with NAs.}
 }
 \value{
 SummarizedExperiment object containing assays for each of the columns
-in 'import'.
+in 'import'. An error is thrown if a feature id is duplicated within any
+experiment.
 }
 \description{
 This function takes as input a list of data.frames containing

@@ -23,6 +23,12 @@
 #'
 dsc <- function(x, g) {
   x <- as.matrix(x)
+  keep <- !is.na(g)
+  if (!all(keep)) {
+    warning(sum(!keep), " sample(s) with NA batch label dropped")
+    x <- x[, keep, drop = FALSE]
+    g <- g[keep]
+  }
   g <- as.factor(g)
   N <- ncol(x)
   global_mean <- rowMeans(x, na.rm = TRUE)

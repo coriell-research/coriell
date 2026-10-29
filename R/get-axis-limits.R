@@ -4,7 +4,9 @@
 #' @param p \code{ggplot} plot object
 #' @keywords internal
 #' @export
-#' @return list with elements for x and y limits
+#' @return list with elements for x and y limits. These are the coordinate limits
+#' if set with \code{coord_cartesian()}, otherwise the trained range of the data.
+#' Limits set on scales (e.g. \code{xlim()}) are ignored.
 get_axis_limits <- function(p) {
   b <- ggplot2::ggplot_build(p)
 

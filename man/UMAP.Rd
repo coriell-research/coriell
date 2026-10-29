@@ -2,6 +2,7 @@
 % Please edit documentation in R/dim-reduction.R
 \name{UMAP}
 \alias{UMAP}
+\alias{UMAP.default}
 \alias{UMAP.pca}
 \alias{UMAP.prcomp}
 \alias{UMAP.matrix}
@@ -10,6 +11,8 @@
 \title{Perform UMAP}
 \usage{
 UMAP(x, ...)
+
+\method{UMAP}{default}(x, ...)
 
 \method{UMAP}{pca}(
   x,
@@ -34,7 +37,8 @@ UMAP(x, ...)
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 \method{UMAP}{prcomp}(
@@ -61,7 +65,8 @@ UMAP(x, ...)
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 \method{UMAP}{matrix}(
@@ -88,7 +93,8 @@ UMAP(x, ...)
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 \method{UMAP}{data.frame}(
@@ -115,7 +121,8 @@ UMAP(x, ...)
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 
 \method{UMAP}{dist}(
@@ -142,12 +149,15 @@ UMAP(x, ...)
   knn = NA,
   knn_repeats = 1,
   verbose = FALSE,
-  umap_learn_args = NA
+  umap_learn_args = NA,
+  ...
 )
 }
 \arguments{
 \item{x}{PCA object, prcomp object, or numeric matrix/data.frame that can be
 converted to a numeric matrix}
+
+\item{...}{Additional arguments passed to methods}
 
 \item{n_neighbors}{Number of nearest neighbors. Default 15}
 

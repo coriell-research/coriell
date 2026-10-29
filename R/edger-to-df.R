@@ -6,7 +6,9 @@
 #' i.e. \code{topTags(..., n=Inf, sort.by="none")}.
 #'
 #' @param x \code{edgeR} results object to be converted
-#' @param ... Additional arguments passed to \code{edgeR::topTags()}
+#' @param ... Additional arguments passed to \code{edgeR::topTags()}. \code{n} and
+#' \code{sort.by} are fixed and cannot be supplied. If filtering arguments (e.g.
+#' \code{p.value}) leave no rows, a 0-row data.frame is returned.
 #' @export
 #' @return data.frame
 #' @examples
@@ -42,7 +44,16 @@ edger_to_df <- function(x, ...) {
   if (!requireNamespace("edgeR", quietly = TRUE)) {
     stop("edgeR package is required.")
   }
-  df <- edgeR::topTags(x, n = Inf, sort.by = "none", ...)$table
+  tt <- edgeR::topTags(x, n = Inf, sort.by = "none", ...)
+  if (inherits(tt, "TopTags")) {
+    df <- tt$table
+  } else {
+    # Filtering left no rows: return a 0-row data.frame with the usual columns
+    args <- list(...)
+    args[c("p.value", "lfc")] <- NULL
+    tt <- do.call(edgeR::topTags, c(list(x, n = Inf, sort.by = "none"), args))
+    df <- tt$table[0, , drop = FALSE]
+  }
 
   # Prevent duplicated colnames when adding feature ids
   if ("feature_id" %in% colnames(df)) {

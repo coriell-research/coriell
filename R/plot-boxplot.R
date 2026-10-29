@@ -35,7 +35,7 @@ plot_boxplot <- function(x, ...) UseMethod("plot_boxplot")
 
 #' @export
 #' @rdname plot_boxplot
-plot_boxplot.default <- function(x) {
+plot_boxplot.default <- function(x, ...) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
 
@@ -69,6 +69,9 @@ plot_boxplot.matrix <- function(
     }
   }
 
+  if (is.null(rownames(x))) {
+    rownames(x) <- seq_len(nrow(x))
+  }
   dt <- data.table::as.data.table(x, keep.rownames = ".feature")
   dt.m <- data.table::melt(
     dt,

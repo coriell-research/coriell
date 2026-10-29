@@ -39,7 +39,7 @@ covariances in the presence of missing values. This must be
 (an abbreviation of) one of the strings "everything", "all.obs",
 "complete.obs", "na.or.complete", or "pairwise.complete.obs".}
 
-\item{cor_digits}{Number of digits to report in correlations}
+\item{cor_digits}{Number of decimal places to report in correlations}
 
 \item{cor_cex}{Character expansion size for correlation values}
 

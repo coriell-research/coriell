@@ -11,25 +11,28 @@
 \usage{
 remove_var(x, ...)
 
-\method{remove_var}{default}(x)
+\method{remove_var}{default}(x, ...)
 
-\method{remove_var}{matrix}(x, p)
+\method{remove_var}{matrix}(x, p, ...)
 
-\method{remove_var}{data.frame}(x, p)
+\method{remove_var}{data.frame}(x, p, ...)
 
-\method{remove_var}{SummarizedExperiment}(x, p, assay = "counts")
+\method{remove_var}{SummarizedExperiment}(x, p, assay = "counts", ...)
 
-\method{remove_var}{DelayedArray}(x, p)
+\method{remove_var}{DelayedArray}(x, p, ...)
 }
 \arguments{
 \item{x}{matrix, numeric data.frame, or SummarizedExperiment object}
+
+\item{...}{Additional arguments passed to methods}
 
 \item{p}{proportion of low variance features to remove}
 
 \item{assay}{if SummarizedExperiment, what assay to use. Default = "counts"}
 }
 \value{
-matrix with lowest variance features removed
+matrix with lowest variance features removed. The number of retained
+features is \code{round(nrow(x) * (1 - p))}.
 }
 \description{
 This function removes the p lowest variance features from a matrix. The

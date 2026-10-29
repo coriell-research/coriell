@@ -14,7 +14,8 @@ minmax(x, min = NA, max = NA)
 \item{max}{numeric. Maximum value of range. Default NA, use the max of the supplied vector}
 }
 \value{
-Normalized value (0-1) of x in the range given by min, max.
+Normalized value (0-1) of x in the range given by min, max. If x
+contains values outside of [min, max] the range is widened to the range of x.
 }
 \description{
 Min-Max normalize a value within a given range

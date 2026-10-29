@@ -11,6 +11,10 @@ clr(x, base = 2)
 
 \item{base}{integer base of the log function. Default 2.}
 }
+\value{
+numeric vector of CLR transformed values. Non-finite values (e.g.
+from zeros) are set to 0.
+}
 \description{
 Calculate the centered log-ratio transformation of a vector
 }

@@ -27,7 +27,8 @@
 #' @param ymax_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'up' count label
 #' @param ymin_label_offset numeric. Value between 0 and 1 inclusive. Controls the y-position of the 'down' count label
 #' @param lab_size numeric. If annotate_counts = TRUE specify the label size. Default = 6.
-#' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)
+#' @param lab_digits numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE.
+#' Percentages are computed out of features with non-missing x and y values. Default (1)
 #' @param x_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
 #' @param y_axis_limits numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)
 #' @param raster Should the points in the plot be rasterized? default FALSE. If TRUE, points will be rasterized using `ggrastr`
@@ -168,24 +169,15 @@ plot_md <- function(
 
   # Add DE count annotations
   if (annotate_counts) {
-    d <- coriell::summarize_dge(
-      df,
-      fdr_col = sig_col,
-      lfc_col = y,
-      fdr = fdr,
-      lfc = lfc
-    )
+    # Count from the plotted classification; restrict the denominator to
+    # complete rows (consistent with the base-R *2 versions)
+    complete <- !is.na(dt[[sig_col]]) & !is.na(dt[[y]])
+    n_total <- sum(complete)
     plot_lims <- coriell::get_axis_limits(p)
-    up_count <- d[d$Direction == "Up", "N", drop = TRUE]
-    down_count <- d[d$Direction == "Down", "N", drop = TRUE]
-    up_pct <- round(
-      d[d$Direction == "Up", "Percent", drop = TRUE],
-      digits = lab_digits
-    )
-    down_pct <- round(
-      d[d$Direction == "Down", "Percent", drop = TRUE],
-      digits = lab_digits
-    )
+    up_count <- sum(dt$direction == "Up")
+    down_count <- sum(dt$direction == "Down")
+    up_pct <- round(100 * up_count / n_total, digits = lab_digits)
+    down_pct <- round(100 * down_count / n_total, digits = lab_digits)
 
     p <- p +
       ggplot2::annotate(

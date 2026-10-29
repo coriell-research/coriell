@@ -23,7 +23,7 @@
 #' @param show_legend should the legend be drawn on the plot when fill_by is set? Default TRUE
 #' @param legend_position location keyword for the legend. One of "bottomright",
 #'  "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and
-#'  "center". Default "topright"
+#'  "center". Default "top"
 #' @param legend_horiz logical; if TRUE, set the legend horizontally rather than vertically.
 #' Default TRUE
 #' @param legend_cex character expansion factor for legend text relative to current par. Default 0.8

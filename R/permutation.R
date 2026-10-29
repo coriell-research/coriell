@@ -127,8 +127,9 @@ perm_cor_test <- function(X, y, n_perm, method, alternative,
   test_stat <- drop(Xs %*% ys)
   test_stat[!is.finite(test_stat)] <- NA
 
-  # Number of distinct permutations of y (accounting for ties)
-  total_nperm <- round(exp(lfactorial(n) - sum(lfactorial(table(y)))))
+  # Number of distinct permutations of y (accounting for exact ties)
+  yi <- match(y, unique(y))
+  total_nperm <- round(exp(lfactorial(n) - sum(lfactorial(tabulate(yi)))))
   tol <- sqrt(.Machine$double.eps)
 
   if (total_nperm <= n_perm) {
@@ -140,7 +141,7 @@ perm_cor_test <- function(X, y, n_perm, method, alternative,
       ))
     }
     idx <- permutations(seq_len(n))
-    idx <- idx[!duplicated(matrix(y[idx], ncol = n)), , drop = FALSE]
+    idx <- idx[!duplicated(matrix(yi[idx], ncol = n)), , drop = FALSE]
     Yp <- matrix(ys[t(idx)], nrow = n)
     count <- count_extreme(Xs %*% Yp, test_stat, alternative, tol)
     empirical_p <- count / total_nperm
@@ -232,7 +233,7 @@ sampled_pvalue <- function(count, n_perm, total_nperm) {
 sample_n_random_cor <- function(X, y, n = 1e4, ...) {
   X <- if (is.data.frame(X)) as.matrix(X) else X
   random_rows <- sample.int(nrow(X), n, replace = TRUE)
-  cor_results <- apply(X[random_rows, ], MARGIN = 1, FUN = function(x) {
+  cor_results <- apply(X[random_rows, , drop = FALSE], MARGIN = 1, FUN = function(x) {
     cor(
       as.numeric(x),
       y = sample(y),

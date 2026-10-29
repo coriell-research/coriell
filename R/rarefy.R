@@ -32,10 +32,10 @@ rarefy <- function(x, depth) {
     n <- length(x)
     idx <- 1:n
     pool <- rep(idx, x)
-    rarefied <- sample(pool, size = d)
+    rarefied <- pool[sample.int(length(pool), size = d)]
     tabulate(rarefied, nbins = n)
   }
-  m <- apply(x, 2, subsample, d = depth)
+  m <- matrix(apply(x, 2, subsample, d = depth), nrow = nrow(x))
   dimnames(m) <- list(rownames(x), colnames(x))
   m
 }

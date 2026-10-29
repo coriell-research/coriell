@@ -87,7 +87,8 @@ plot_volcano(
 
 \item{lab_size}{numeric. Size of the label if annotate_counts = TRUE. Default 6.}
 
-\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE. Default (1)}
+\item{lab_digits}{numeric. The number of digits used when rounding percentage values when annotate_counts=TRUE.
+Percentages are computed out of features with non-missing x and y values. Default (1)}
 
 \item{x_axis_limits}{numeric vector of axis limits supplied to ggplot2::coord_cartesian(). Default (NULL)}
 

@@ -2,6 +2,7 @@
 #'
 #' Based on \code{ggplot2::theme_light()} this theme will adjust the plot title,
 #' legend position (bottom), axis titles, axis ticks, and strip text.
+#' @param ... Additional arguments passed to \code{ggplot2::theme_light()}
 #' @importFrom ggplot2 %+replace%
 #' @export
 #' @examples

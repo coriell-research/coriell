@@ -16,6 +16,7 @@
 #' list_to_matrix(sets)
 list_to_matrix <- function(sets) {
   stopifnot("List of vectors must be supplied" = is(sets, "list"))
+  sets <- lapply(sets, as.character)
   union_all <- Reduce(union, sets)
 
   if (anyNA(union_all)) {

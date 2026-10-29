@@ -24,7 +24,12 @@ read_bismark(
 \item{return_mats}{if TRUE, return matrices of the filtered data in a list. Else, return the filtered data.table in bismark format. Default (FALSE)}
 }
 \value{
-Either a data.table of filtered data with additional columns for Coverage and Variance or a list of matrices of filtered data
+Either a data.table of filtered data in bismark format with an added
+Coverage column (Me + Un) and, if remove_zero_var = TRUE, a Var column with the
+per-site variance of Percent; or, if return_mats = TRUE, a list of matrices of
+the filtered data with columns in the order of \code{files}. Note that
+when prop_samples < 1, sites are filtered as a whole: rows from samples below
+the coverage threshold are kept at sites that pass.
 }
 \description{
 This function will read in Bismark coverage files and optionally filter for

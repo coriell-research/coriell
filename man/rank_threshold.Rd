@@ -9,14 +9,14 @@ rank_threshold(x, show = FALSE)
 \arguments{
 \item{x}{numeric vector of values.}
 
-\item{show_plot}{logical. default (FALSE). Show the scatter plot for the given distribution.}
+\item{show}{logical. default (FALSE). Show the scatter plot for the given distribution.}
 }
 \value{
 named vector containing "x" and "y" position of calculated threshold
 }
 \description{
 Calculate a threshold value of a vector based on the unimodal threshold method
-described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"}{Rosin 2001}
+described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf}{Rosin 2001}
 for image thresholding. Conceptually, the method attempts to draw a line from
 the peak of the distribution to the tail and calculates the maximum distance
 from a point to that line. The point where the distance is maximized is the

@@ -33,6 +33,8 @@ before plotting. Default 0.9}
 \item{x_label}{character. x-axis label}
 
 \item{y_label}{character. y-axis label}
+
+\item{...}{Not currently used}
 }
 \value{
 Parallel coordinate plot of scaled matrix data
@@ -43,6 +45,6 @@ for a matrix of data.
 }
 \examples{
 
-plot_parallel2(GSE161650_lc, main = "10\% Most Variable Genes")
+plot_parallel2(GSE161650_lc, plot_title = "10\% Most Variable Genes")
 
 }

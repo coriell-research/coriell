@@ -1,3 +1,45 @@
+## coriell 0.20.0
+
+- *Breaking change*: `UMAP()` now always returns a data.frame, as documented.
+Previously a matrix was returned when no metadata was supplied. Metadata column
+names are no longer altered by `check.names`.
+- *Breaking change*: `plot_meth_hist()` now uses fixed bins on [0, 1]
+(`breaks = seq(0, 1, 0.1)`) and errors on values outside that range.
+- `remove_var()` now keeps `round(nrow(x) * (1 - p))` features. Floating-point
+truncation previously dropped an extra feature (e.g. 10 rows with p = 0.8 kept 1).
+- Fixed `colmean()` dividing by the wrong group sizes when groups were not in
+factor-level order, when factors had unused levels, or when `na.rm = TRUE`.
+- Fixed `meta_de()` fixed-effect estimates being biased towards 0 when a logFC
+was missing but its SE was present.
+- Fixed exact `exact_cor_test()` / `permutation_correlation_test()` p-values
+when `y` contains values that are nearly, but not exactly, tied.
+- Fixed `list_to_matrix()` for numeric and factor sets, `pairwise_intersections()`
+with duplicated elements or a single set, `rank_threshold()` with tied maxima,
+`dsc()` with NA batch labels, and `rarefy()` with single-read columns or a
+single-row input.
+- Fixed `read_bismark()` dropping sites due to floating-point error in
+`prop_samples`, and `return_mats = TRUE` now keeps columns in the order of `files`.
+- `plot_volcano()` and `plot_md()` percent annotations are now rounded once and
+computed out of features with non-missing values, matching `plot_volcano2()`
+and `plot_md2()`.
+- `plot_dist()` gives the same result whether or not `rdist` is installed.
+- Fixed errors in `plot_parallel()` for SummarizedExperiment objects;
+`plot_boxplot()`, `plot_density()`, and `plot_parallel()` for matrices without
+rownames; `remove_components()` when keeping a single PC or removing the last
+PC; `associate_components()` with `N = 1`; `sample_n_random_cor()` with `n = 1`;
+and `dfs2se()` with columns named "rows" or "cols".
+- `dfs2se()` now errors on duplicated feature ids within an experiment instead of
+silently filling the assay with counts.
+- `edger_to_df()` returns a 0-row data.frame instead of NULL when filtering
+leaves no rows. `setup_chunk()` invisibly returns the chunk text.
+`clamp()` returns `numeric(0)` for empty input.
+- `plot_density2()` respects `show_legend`. `plot_cor_pairs()` uses
+`scatter_colramp`, and `cor_digits` now sets the number of decimal places.
+- S3 methods now accept `...` consistently with their generics.
+- Documentation fixes and missing Suggests (clipr, csaw, DelayedArray, fgsea,
+KernSmooth, limma, qsmooth) added to DESCRIPTION.
+- Greatly expanded the test suite to cover all exported functions.
+
 ## coriell 0.19.0
 
 - *Breaking change*: removed unused functions `random_rgb_palette()`,

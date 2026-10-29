@@ -1,7 +1,7 @@
 #' Calculate threshold value on ranked input
 #'
 #' Calculate a threshold value of a vector based on the unimodal threshold method
-#' described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf"}{Rosin 2001}
+#' described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf}{Rosin 2001}
 #' for image thresholding. Conceptually, the method attempts to draw a line from
 #' the peak of the distribution to the tail and calculates the maximum distance
 #' from a point to that line. The point where the distance is maximized is the
@@ -12,7 +12,7 @@
 #' indicate the rank of the data point and the value at that rank, respectively.
 #'
 #' @param x numeric vector of values.
-#' @param show_plot logical. default (FALSE). Show the scatter plot for the given distribution.
+#' @param show logical. default (FALSE). Show the scatter plot for the given distribution.
 #' @return named vector containing "x" and "y" position of calculated threshold
 #' @import data.table
 #' @export
@@ -28,7 +28,7 @@ rank_threshold <- function(x, show = FALSE) {
   # find the min and max points
   x1 <- min(rnk)
   y1 <- x[which.min(rnk)]
-  x2 <- rnk[which.max(x)]
+  x2 <- max(rnk)
   y2 <- max(x)
 
   # generate slope and intercept values from min and max points

@@ -7,7 +7,7 @@
 #' @param y_label_cex size of the y-axis label. Default = 1
 #' @param x_label_cex size of the x-axis label. Default = 1
 #' @param label_cex size of the barplot labels. Default = 0.8
-#' @param y_axis_label name of the y-axis. Default = 'Number of CpGs'
+#' @param y_axis_label name of the y-axis. Default = 'Number CpGs'
 #' @param y_axis_cex size of the y-axis values. Default = 1
 #' @param x_axis_cex size of the x-axis values. Default = 0.8
 #'
@@ -46,7 +46,7 @@ plot_meth_hist <- function(
   x_axis_cex = 0.8,
   y_axis_label = "Number CpGs"
 ) {
-  hdata <- hist(x, plot = FALSE, breaks = 10)
+  hdata <- hist(x, plot = FALSE, breaks = seq(0, 1, 0.1))
   pct <- round(hdata$counts / sum(hdata$counts) * 100, 0)
   col_labels <- paste0(pct, "%")
 

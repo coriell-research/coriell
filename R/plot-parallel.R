@@ -31,7 +31,7 @@ plot_parallel <- function(x, ...) UseMethod("plot_parallel")
 
 #' @rdname plot_parallel
 #' @export
-plot_parallel.default <- function(x) {
+plot_parallel.default <- function(x, ...) {
   stop("Object of type ", class(x), " is not supported by this function")
 }
 
@@ -59,6 +59,9 @@ plot_parallel.matrix <- function(
   }
 
   # Coerce data into plot-friendly shape
+  if (is.null(rownames(x))) {
+    rownames(x) <- seq_len(nrow(x))
+  }
   dt <- data.table::as.data.table(x, keep.rownames = ".feature")
   dt.m <- data.table::melt(
     dt,
@@ -133,5 +136,6 @@ plot_parallel.SummarizedExperiment <- function(
     stop("SummarizedExperiment package is not installed.")
   }
   m <- SummarizedExperiment::assay(x, assay)
+  metadata <- data.frame(SummarizedExperiment::colData(x))
   plot_parallel.matrix(m, metadata, colBy, removeVar, ...)
 }
