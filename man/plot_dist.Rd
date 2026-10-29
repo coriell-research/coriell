@@ -26,8 +26,8 @@ heatmap with distance values displayed in cells.
 Create a column-vs-column heatmap of a matrix
 }
 \examples{
-# Generate a matrix of simulated counts
-counts <- simulate_counts()$table
+# Use the built-in log2 expression matrix
+counts <- GSE161650_lc
 
 # Create annotation metadata
 df <- data.frame(

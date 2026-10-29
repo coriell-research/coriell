@@ -1,12 +1,18 @@
-# Perform and exact correlation test on every row of a matrix
+# Perform an exact correlation test on every row of a matrix
 
 Perform an exact correlation permutation test. Computes correlation
-value for every row of matrix X against all permutations of vector y.
+value for every row of matrix X against all distinct permutations of
+vector y.
 
 ## Usage
 
 ``` r
-exact_cor_test(X, y, ...)
+exact_cor_test(
+  X,
+  y,
+  method = c("pearson", "spearman"),
+  alternative = c("two.sided", "greater", "less")
+)
 ```
 
 ## Arguments
@@ -19,12 +25,16 @@ exact_cor_test(X, y, ...)
 
   numeric vector of data to correlate
 
-- ...:
+- method:
 
-  arguments passed to the \`cor\` function
+  character. One of "pearson" (default) or "spearman"
+
+- alternative:
+
+  character. One of "two.sided" (default), "greater" or "less"
 
 ## Value
 
 data.frame containing the original values in X along with columns
-containing the correlation of Xi and Y, the empirical p-value of the
-permutation test, and the FDR corrected empirical p-value
+containing the correlation of Xi and Y, the exact permutation p-value,
+and the FDR corrected p-value

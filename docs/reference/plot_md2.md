@@ -3,8 +3,8 @@
 This function differs from
 [`plot_md()`](https://coriell-research.github.io/coriell/reference/plot_md.md)
 as it produces a plot in base R. Points are colored by adjusted p-value
-(and logFC) significance, and the up/down counts are written beneath the
-plot rather than on the plot area.
+(and logFC) significance, and the percentage and count of up/down
+features are annotated on the plot area.
 
 ## Usage
 
@@ -20,6 +20,12 @@ plot_md2(
   label_sig = FALSE,
   n_labels = 10,
   annotate_counts = TRUE,
+  add_grid = FALSE,
+  xmax_label_offset = 0.85,
+  ymax_label_offset = 0.8,
+  ymin_label_offset = 0.8,
+  lab_size = 1,
+  lab_digits = 1,
   up_color = "red2",
   down_color = "royalblue2",
   nonde_color = "grey40",
@@ -87,8 +93,39 @@ plot_md2(
 
 - annotate_counts:
 
-  TRUE/FALSE. Write the summarized feature counts beneath the plot.
-  Default TRUE
+  TRUE/FALSE. Annotate the plot area with the percentage and count of
+  up- and down-regulated features. Default TRUE
+
+- add_grid:
+
+  TRUE/FALSE. Draw a background grid with
+  [`grid()`](https://rdrr.io/r/graphics/grid.html) beneath the points.
+  Default FALSE
+
+- xmax_label_offset:
+
+  numeric. Value between 0 and 1 inclusive. Controls the x-position of
+  the count labels as a fraction of the right x-axis limit
+
+- ymax_label_offset:
+
+  numeric. Value between 0 and 1 inclusive. Controls the y-position of
+  the 'up' count label as a fraction of the upper y-axis limit
+
+- ymin_label_offset:
+
+  numeric. Value between 0 and 1 inclusive. Controls the y-position of
+  the 'down' count label as a fraction of the lower y-axis limit
+
+- lab_size:
+
+  numeric. Size (cex) of the count labels when annotate_counts = TRUE.
+  Default 1
+
+- lab_digits:
+
+  numeric. The number of digits used when rounding percentage values
+  when annotate_counts = TRUE. Default 1
 
 - up_color:
 

@@ -10,15 +10,12 @@ reference:
   - starts_with("plot")
   - quickmap
   - theme_coriell
-  - random_rgb_palette
-  - distinct_rgb_palette
 - title: "Differential expression helpers"
   desc: "Convenience functions useful when performing differential expression analysis"
   contents:
   - edger_to_df
   - normalize_counts
   - panther_go
-  - simulate_counts
   - strip_ens
   - summarize_dge
 - title: "Meta-analysis"
@@ -46,7 +43,6 @@ reference:
   - clamp
   - clr
   - colmean
-  - env2global
   - geometric_mean
   - horvath_age
   - impute
@@ -64,7 +60,6 @@ reference:
 - title: "Tests"
   desc: "Statistical tests (use with caution)"
   contents:
-  - pairwise_fisher_test
   - permutation_correlation_test
 - title: "Package data"
   desc: "Built-in example datasets"

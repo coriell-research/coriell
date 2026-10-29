@@ -142,10 +142,6 @@ for citation information.
   : Heatmap with sensible defaults for RNA-seq expression data
 - [`theme_coriell()`](https://coriell-research.github.io/coriell/reference/theme_coriell.md)
   : ggplot2 theme for coriell package
-- [`random_rgb_palette()`](https://coriell-research.github.io/coriell/reference/random_rgb_palette.md)
-  : Generate random RGB color palette
-- [`distinct_rgb_palette()`](https://coriell-research.github.io/coriell/reference/distinct_rgb_palette.md)
-  : Generate a distinct RGB color palette
 
 ## Differential expression helpers
 
@@ -158,8 +154,6 @@ analysis
   : Normalize counts in a DGEList object
 - [`panther_go()`](https://coriell-research.github.io/coriell/reference/panther_go.md)
   : Perform GO analysis with PANTHER
-- [`simulate_counts()`](https://coriell-research.github.io/coriell/reference/simulate_counts.md)
-  : Generate simulated RNA-seq data for testing purposes
 - [`strip_ens()`](https://coriell-research.github.io/coriell/reference/strip_ens.md)
   : Strip version IDs from ENSEMBL identifiers
 - [`summarize_dge()`](https://coriell-research.github.io/coriell/reference/summarize_dge.md)
@@ -218,8 +212,6 @@ Data transformations and general utility functions
   : Centered Log-ratio transformation
 - [`colmean()`](https://coriell-research.github.io/coriell/reference/colmean.md)
   : Give means of rows of matrix based on column grouping variable
-- [`env2global()`](https://coriell-research.github.io/coriell/reference/env2global.md)
-  : Extract variable from an environment and remove that environment
 - [`geometric_mean()`](https://coriell-research.github.io/coriell/reference/geometric_mean.md)
   : Geometric mean of a vector
 - [`horvath_age()`](https://coriell-research.github.io/coriell/reference/horvath_age.md)
@@ -253,8 +245,6 @@ Data transformations and general utility functions
 
 Statistical tests (use with caution)
 
-- [`pairwise_fisher_test()`](https://coriell-research.github.io/coriell/reference/pairwise_fisher_test.md)
-  : Perform pairwise fisher.tests on an input matrix
 - [`permutation_correlation_test()`](https://coriell-research.github.io/coriell/reference/permutation_correlation_test.md)
   : Perform a permutation correlation test on every row of a matrix
 

@@ -171,5 +171,4 @@ y.qs <- normalize_counts(y, method = "qsmooth", group_factor = y$samples$group)
 
 # Cyclic loess
 y.loess <- normalize_counts(y, method = "loess")
-#> Error in normalize_counts(y, method = "loess"): csaw package is required for method='loess'
 ```

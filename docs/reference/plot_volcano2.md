@@ -6,8 +6,7 @@ as it produces a plot in base R. The defaults are also slightly
 different in that raw p-values are shown on the y-axis however,
 significance thresholds are computed on the adjusted p-values. Points
 are colored by adjusted p-value (and logFC) significance, and the
-up/down counts are written beneath the plot rather than on the plot
-area.
+percentage and count of up/down features are annotated on the plot area.
 
 ## Usage
 
@@ -23,6 +22,12 @@ plot_volcano2(
   label_sig = FALSE,
   n_labels = 10,
   annotate_counts = TRUE,
+  add_grid = FALSE,
+  xmin_label_offset = 0.8,
+  xmax_label_offset = 0.8,
+  ymax_label_offset = 0.9,
+  lab_size = 1,
+  lab_digits = 1,
   up_color = "red2",
   down_color = "royalblue2",
   nonde_color = "grey40",
@@ -88,8 +93,39 @@ plot_volcano2(
 
 - annotate_counts:
 
-  TRUE/FALSE. Write the summarized feature counts beneath the plot.
-  Default TRUE
+  TRUE/FALSE. Annotate the plot area with the percentage and count of
+  up- and down-regulated features. Default TRUE
+
+- add_grid:
+
+  TRUE/FALSE. Draw a background grid with
+  [`grid()`](https://rdrr.io/r/graphics/grid.html) beneath the points.
+  Default FALSE
+
+- xmin_label_offset:
+
+  numeric. Value between 0 and 1 inclusive. Controls the x-position of
+  the 'down' count label as a fraction of the left x-axis limit
+
+- xmax_label_offset:
+
+  numeric. Value between 0 and 1 inclusive. Controls the x-position of
+  the 'up' count label as a fraction of the right x-axis limit
+
+- ymax_label_offset:
+
+  numeric. Value between 0 and 1 inclusive. Controls the y-position of
+  the count labels as a fraction of the upper y-axis limit
+
+- lab_size:
+
+  numeric. Size (cex) of the count labels when annotate_counts = TRUE.
+  Default 1
+
+- lab_digits:
+
+  numeric. The number of digits used when rounding percentage values
+  when annotate_counts = TRUE. Default 1
 
 - up_color:
 

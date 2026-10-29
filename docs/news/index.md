@@ -1,5 +1,11 @@
 # Changelog
 
+## coriell 0.19.0
+
+- *Breaking change*: removed unused functions `random_rgb_palette()`,
+  `distinct_rgb_palette()`, `pairwise_fisher_test()`,
+  `simulate_counts()`, and `env2global()`.
+
 ## coriell 0.18.0
 
 - [`plot_volcano()`](https://coriell-research.github.io/coriell/reference/plot_volcano.md)
@@ -8,6 +14,14 @@
   get a “raster” argument. Setting raster=TRUE will allow for the point
   layers of the plots to be rasterized. this is useful when saving plots
   as vector graphics.
+- *Breaking change* to
+  [`panther_go()`](https://coriell-research.github.io/coriell/reference/panther_go.md).
+  Results no longer contain duplicated rows for each term. The nested
+  “term” column is replaced by “term_id” and “term_label” columns.
+- [`panther_go()`](https://coriell-research.github.io/coriell/reference/panther_go.md)
+  now raises an informative error when PANTHER cannot process the
+  request (e.g. when genes in `gene_list` are missing from
+  `ref_input_list`) instead of silently returning an empty table.
 
 ## coriell 0.17.0
 
@@ -117,10 +131,8 @@
   [`matrixStats::rowVars()`](https://rdrr.io/pkg/matrixStats/man/rowVars.html)
   if available. Speed up clustering and distance matrix calculations by
   performing distance matrix calculations with `rdist::rdist()` and
-  clustering with
-  [`fastcluster::hclust()`](https://rdrr.io/pkg/fastcluster/man/hclust.html)
-  if available. Round values in fix_extreme to better maintain original
-  scale limits.
+  clustering with `fastcluster::hclust()` if available. Round values in
+  fix_extreme to better maintain original scale limits.
 
 ## coriell 0.10.0
 
@@ -168,8 +180,7 @@
 ## coriell 0.7.0
 
 - Added function for performing pairwise fisher tests relative to a
-  reference.
-  [`pairwise_fisher_test()`](https://coriell-research.github.io/coriell/reference/pairwise_fisher_test.md)
+  reference. `pairwise_fisher_test()`
 - Added arguments to
   [`quickmap()`](https://coriell-research.github.io/coriell/reference/quickmap.md)
   to enable fixing the colors at the extreme ends of the data.
@@ -229,9 +240,7 @@
 - [`edger_to_df()`](https://coriell-research.github.io/coriell/reference/edger_to_df.md)
   returns a data.frame instead of a tibble
 - New functions for generating random color palettes:
-  [`distinct_rgb_palette()`](https://coriell-research.github.io/coriell/reference/distinct_rgb_palette.md)
-  and
-  [`random_rgb_palette()`](https://coriell-research.github.io/coriell/reference/random_rgb_palette.md)
+  `distinct_rgb_palette()` and `random_rgb_palette()`
 - Added function for defining threshold based on ranked data:
   [`rank_threshold()`](https://coriell-research.github.io/coriell/reference/rank_threshold.md).
   Inspired by unimodal thresholding algorithm from image analysis.

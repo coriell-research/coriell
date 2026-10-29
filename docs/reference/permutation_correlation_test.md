@@ -1,16 +1,24 @@
 # Perform a permutation correlation test on every row of a matrix
 
 Compute a correlation value for every row of X against the vector y and
-n random permutations of y. If the number of possible permutations is
-less than the the argument n_perm then an exact test is performed
-instead. In both cases the function returns a data.frame of the original
-data with additional columns for the test statistic, empirical p-value,
-and FDR corrected empirical p-value.
+n_perm random permutations of y. If the number of distinct permutations
+of y is less than or equal to n_perm then an exact test using all
+permutations is performed instead. In both cases the function returns a
+data.frame of the original data with additional columns for the test
+statistic, permutation p-value, and FDR corrected p-value.
 
 ## Usage
 
 ``` r
-permutation_correlation_test(X, y, n_perm = 10000, n_core = 1, ...)
+permutation_correlation_test(
+  X,
+  y,
+  n_perm = 10000,
+  method = c("pearson", "spearman"),
+  alternative = c("two.sided", "greater", "less"),
+  chunk_size = 1000,
+  n_core = 1
+)
 ```
 
 ## Arguments
@@ -28,13 +36,51 @@ permutation_correlation_test(X, y, n_perm = 10000, n_core = 1, ...)
   integer. The desired number of permutations to sample from. Default
   (10,000)
 
+- method:
+
+  character. One of "pearson" (default) or "spearman"
+
+- alternative:
+
+  character. One of "two.sided" (default), "greater" or "less"
+
+- chunk_size:
+
+  integer. Number of permutations to process at once. Controls memory
+  usage, nrow(X) x chunk_size correlations are held in memory at a time.
+  Default (1000)
+
 - n_core:
 
-  integer. The number of cores to use for processing. Default (1)
+  integer. The number of cores to use for processing chunks of
+  permutations. Default (1)
 
-- ...:
+## Value
 
-  Additional arguments to pass to \`cor\` function
+data.frame containing the original values in X along with columns 'cor',
+'empirical.p', and 'FDR'
+
+## Details
+
+Exact p-values are computed as the proportion of all distinct
+permutations (including the observed ordering) with a correlation at
+least as extreme as the observed value. When permutations are randomly
+sampled, p-values are computed with
+[`statmod::permp()`](https://rdrr.io/pkg/statmod/man/permp.html) (if
+installed), which gives exact p-values for permutations sampled with
+replacement (Phipson & Smyth 2010). Otherwise the conservative estimate
+(b + 1) / (n_perm + 1) is used.
+
+Correlations are computed by standardizing the rows of X once and
+performing matrix multiplication against chunks of permuted y. Rows of X
+containing missing values or with zero variance return NA.
+
+## References
+
+Phipson B, Smyth GK (2010). Permutation P-values should never be zero:
+calculating exact P-values when permutations are randomly drawn.
+Statistical Applications in Genetics and Molecular Biology 9, Article
+39.
 
 ## Examples
 
@@ -45,28 +91,28 @@ y <- 1:10
 dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:10, sep = "."))
 
 # correlate each row of X with 1,000 random permutations of vector y
-res <- permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
+res <- permutation_correlation_test(X, y, n_perm = 1e3, method = "spearman")
 
 head(res)
-#>            sample.1  sample.2  sample.3   sample.4  sample.5  sample.6
-#> feature.1 0.8083622 0.8383412 0.1309728 0.08066313 0.4570966 0.8303105
-#> feature.2 0.1862091 0.6485302 0.5776029 0.73453357 0.6566667 0.3617257
-#> feature.3 0.6550341 0.7636185 0.6608876 0.49824185 0.3085832 0.5314102
-#> feature.4 0.6083527 0.1596689 0.1662174 0.57505885 0.9627974 0.5769995
-#> feature.5 0.8929753 0.7293678 0.4999551 0.20110452 0.7460042 0.0604303
-#> feature.6 0.1571574 0.1973273 0.2653899 0.12052447 0.6094003 0.7215492
-#>            sample.7   sample.8   sample.9 sample.10         cor empirical.p
-#> feature.1 0.5623403 0.39973106 0.76813744 0.8876729  0.16363636       0.295
-#> feature.2 0.7827487 0.79909107 0.05683166 0.7807953  0.35757576       0.147
-#> feature.3 0.5906869 0.47597199 0.18499534 0.5399923 -0.60000000       0.037
-#> feature.4 0.1440349 0.56141709 0.13912811 0.3610715 -0.34545455       0.160
-#> feature.5 0.8143201 0.19901102 0.91171531 0.5939837 -0.05454545       0.433
-#> feature.6 0.6647761 0.07689694 0.27017436 0.1215346  0.01818182       0.440
+#>              sample.1   sample.2  sample.3  sample.4  sample.5  sample.6
+#> feature.1 0.141592341 0.42516774 0.4146605 0.2634410 0.3691033 0.9263442
+#> feature.2 0.635351351 0.70836595 0.2823288 0.6278566 0.3701241 0.9765515
+#> feature.3 0.987373579 0.65636057 0.1578583 0.4449980 0.3436975 0.8037980
+#> feature.4 0.459281017 0.68779913 0.3004809 0.2736790 0.3555447 0.8287041
+#> feature.5 0.005317752 0.13298787 0.6195136 0.5304429 0.5265921 0.4056231
+#> feature.6 0.202410232 0.02137243 0.3041225 0.2431722 0.2127211 0.1878105
+#>             sample.7   sample.8  sample.9 sample.10         cor empirical.p
+#> feature.1 0.68855969 0.28051254 0.7078689 0.6548090  0.53939394   0.1298700
+#> feature.2 0.12599496 0.95200286 0.3859197 0.5272708 -0.11515152   0.7432566
+#> feature.3 0.01177438 0.56333502 0.9124741 0.8295821  0.07878788   0.8311687
+#> feature.4 0.26823535 0.52765485 0.9441315 0.5284524  0.29696970   0.3886113
+#> feature.5 0.31443307 0.08967741 0.7765870 0.6204135  0.49090909   0.1728270
+#> feature.6 0.53255829 0.12447965 0.3868276 0.3544599  0.46666667   0.1698300
 #>                 FDR
-#> feature.1 0.4851974
-#> feature.2 0.4608434
-#> feature.3 0.4062500
-#> feature.4 0.4655172
-#> feature.5 0.4963274
-#> feature.6 0.4963274
+#> feature.1 0.9204271
+#> feature.2 0.9999999
+#> feature.3 0.9999999
+#> feature.4 0.9911808
+#> feature.5 0.9257751
+#> feature.6 0.9257751
 ```

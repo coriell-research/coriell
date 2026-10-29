@@ -42,7 +42,7 @@ for more information.
 \examples{
 
 # Generate some fake data with fake positive feature lengths
-counts <- coriell::simulate_counts()$table
+counts <- matrix(rnbinom(6000, mu = 10, size = 10), ncol = 6)
 gene_lengths <- rbinom(nrow(counts), 1000, 0.9)
 
 tpms <- tpm(counts, gene_lengths)

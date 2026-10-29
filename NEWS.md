@@ -1,3 +1,9 @@
+## coriell 0.19.0
+
+- *Breaking change*: removed unused functions `random_rgb_palette()`,
+`distinct_rgb_palette()`, `pairwise_fisher_test()`, `simulate_counts()`, and
+`env2global()`.
+
 ## coriell 0.18.0
 
 - `plot_volcano()` and `plot_md()` get a "raster" argument. Setting raster=TRUE

@@ -32,11 +32,6 @@ data.frame
 ``` r
 library(edgeR)
 #> Loading required package: limma
-#> 
-#> Attaching package: ‘edgeR’
-#> The following object is masked from ‘package:coriell’:
-#> 
-#>     tpm
 library(coriell)
 
 # create some fake data
@@ -52,7 +47,6 @@ x <- data.frame(
 group <- factor(c(1, 1, 2, 2))
 y <- DGEList(counts = x, group = group)
 y <- calcNormFactors(y)
-#> calcNormFactors has been renamed to normLibSizes
 design <- model.matrix(~group)
 y <- estimateDisp(y, design)
 
@@ -65,10 +59,10 @@ res_df <- edger_to_df(qlf)
 
 head(res_df)
 #>   feature_id      logFC    logCPM          F       PValue        FDR
-#> 1      gene1  -1.402956 10.105751  0.3630773 5.468704e-01 0.94424152
-#> 2      gene2 -13.101124  6.149114 16.0052202 6.546745e-05 0.03273372
-#> 3      gene3  -4.409160  9.226123  2.7029654 1.003190e-01 0.69418285
-#> 4      gene4  -3.552844  9.709009  1.9407926 1.637373e-01 0.73755547
-#> 5      gene5  -1.195803 10.592819  0.2623450 6.085702e-01 0.94424152
-#> 6      gene6   1.236282 10.423917  0.2821887 5.953292e-01 0.94424152
+#> 1      gene1  -1.882510 10.465423  0.6251378 0.4292381688 0.90176086
+#> 2      gene2 -15.139394  8.183815 14.9523685 0.0001137826 0.05689128
+#> 3      gene3  -3.444070  8.318262  1.9320795 0.1646857976 0.74669133
+#> 4      gene4  -2.251411  8.561397  0.8863766 0.3465748027 0.86952748
+#> 5      gene5  -1.210155 10.599488  0.2665029 0.6057444133 0.94302877
+#> 6      gene6   1.224415 10.424128  0.2748761 0.6001375716 0.94302877
 ```

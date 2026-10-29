@@ -50,8 +50,10 @@ panther_go(
 
 - ref_input_list:
 
-  Reference set of genes for the specified organism. If NULL (default)
-  then PANTHER will use all genes for the specified organism.
+  character vector. Reference set of genes for the specified organism
+  (e.g. all genes expressed in the experiment). Must contain all of the
+  genes in `gene_list`. Maximum of 100,000 identifiers. If NULL
+  (default) then PANTHER will use all genes for the specified organism.
 
 - enrichment_test_type:
 
@@ -61,18 +63,29 @@ panther_go(
 
   character string. One of c("fdr", "bonferroni", "none"). Default "fdr"
 
+- verbose:
+
+  integer. Verbosity level passed to
+  [`httr2::req_perform()`](https://httr2.r-lib.org/reference/req_perform.html).
+  Default 0
+
 ## Value
 
-data.table of results from over representation analysis. See [PANTHER
+data.table of results from over representation analysis with one row per
+term. The term returned by PANTHER is split into "term_id" and
+"term_label" columns ("term_id" is NA for UNCLASSIFIED). See [PANTHER
 user manual](http://www.pantherdb.org/help/PANTHER_user_manual.pdf) for
-column descriptions in "table".
+column descriptions.
 
 ## Details
 
 Sends a request to [PANTHER db](http://pantherdb.org/) to perform over
-representation analysis. This function excludes the option to import a
-reference list and reference organism. By default, in this case, PANTHER
+representation analysis. By default (`ref_input_list = NULL`) PANTHER
 will use all of the genes of the given organism as the reference list.
+If a custom reference list is supplied then every identifier in
+`gene_list` must also be present in `ref_input_list`, otherwise PANTHER
+will refuse to process the request. Identifiers that PANTHER cannot map
+are ignored.
 
 ## Examples
 
@@ -91,17 +104,17 @@ head(result)
 #>    number_in_list fold_enrichment          fdr  expected number_in_reference
 #>             <int>           <num>        <num>     <num>               <int>
 #> 1:             30        7.302534 1.988037e-17 4.1081633                2013
-#> 2:             30        7.302534 1.988037e-17 4.1081633                2013
-#> 3:             11      110.000000 1.161814e-16 0.1000000                  49
-#> 4:             11      110.000000 1.161814e-16 0.1000000                  49
-#> 5:             12       78.400000 1.013277e-16 0.1530612                  75
-#> 6:             12       78.400000 1.013277e-16 0.1530612                  75
-#>          pValue                            term plus_minus
-#>           <num>                          <list>     <char>
-#> 1: 1.444689e-21                      GO:0048513          +
-#> 2: 1.444689e-21        animal organ development          +
-#> 3: 1.688561e-20                      GO:0007219          +
-#> 4: 1.688561e-20         Notch signaling pathway          +
-#> 5: 2.209020e-20                      GO:0060070          +
-#> 6: 2.209020e-20 canonical Wnt signaling pathway          +
+#> 2:             11      110.000000 1.161814e-16 0.1000000                  49
+#> 3:             12       78.400000 1.013277e-16 0.1530612                  75
+#> 4:             31        5.111036 2.212363e-14 6.0653061                2972
+#> 5:             30        5.390539 2.414309e-14 5.5653061                2727
+#> 6:             12       47.040000 3.193091e-14 0.2551020                 125
+#>          pValue plus_minus    term_id                         term_label
+#>           <num>     <char>     <char>                             <char>
+#> 1: 1.444689e-21          + GO:0048513           animal organ development
+#> 2: 1.688561e-20          + GO:0007219            Notch signaling pathway
+#> 3: 2.209020e-20          + GO:0060070    canonical Wnt signaling pathway
+#> 4: 6.430819e-18          + GO:0007275 multicellular organism development
+#> 5: 8.772287e-18          + GO:0048731                 system development
+#> 6: 1.392235e-17          + GO:0016055              Wnt signaling pathway
 ```

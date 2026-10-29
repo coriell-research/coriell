@@ -166,41 +166,6 @@ colmean <- function(x, group, na.rm = FALSE) {
   )
 }
 
-#' Extract variable from an environment and remove that environment
-#'
-#' This function will extract all variables from the given environment and
-#' assign them to the global environment and then optionally remove the
-#' environment.
-#' @param x Environment to extract variables from
-#' @param remove Should the Environment be removed after extracting variables? Default TRUE
-#' @return variables from x are assigned to the GlobalEnv after execution
-#' @export
-#' @examples
-#' my_env <- new.env()
-#' my_env$X <- 1000
-#' my_env$Y <- 1:10
-#'
-#' # Extract X and Y to global environment and remove my_env
-#' env2global(my_env)
-#'
-#' # Extract X and Y to global environment and keep my_env
-#' env2global(my_env, remove = FALSE)
-#'
-env2global <- function(x, remove = TRUE) {
-  if (!is.environment(x)) {
-    stop("x must be an environment")
-  }
-
-  vars <- ls(x)
-  for (v in vars) {
-    assign(v, x[[v]], envir = .GlobalEnv)
-  }
-
-  if (remove) {
-    rm(list = toString(substitute(x)), envir = .GlobalEnv)
-  }
-}
-
 #' Perform simple imputation on rows of a matrix
 #'
 #' Impute NA values for each row of a matrix.
@@ -457,7 +422,7 @@ strip_ens <- function(x) {
 #' @examples
 #'
 #' # Generate some fake data with fake positive feature lengths
-#' counts <- coriell::simulate_counts()$table
+#' counts <- matrix(rnbinom(6000, mu = 10, size = 10), ncol = 6)
 #' gene_lengths <- rbinom(nrow(counts), 1000, 0.9)
 #'
 #' tpms <- tpm(counts, gene_lengths)

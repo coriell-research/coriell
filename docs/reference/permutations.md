@@ -1,8 +1,8 @@
 # Generate all permutations of a vector
 
 Given the input vector, generate a matrix of permutations where each row
-represents a permutation of the data. Stolen from:
-<https://stackoverflow.com/a/34287541>
+represents a permutation of the data. Permutations are returned in
+lexicographic order of the element positions.
 
 ## Usage
 
@@ -18,7 +18,7 @@ permutations(x)
 
 ## Value
 
-factorial(x) x length(x) matrix
+factorial(length(x)) x length(x) matrix
 
 ## Examples
 

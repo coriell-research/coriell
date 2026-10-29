@@ -45,6 +45,6 @@ dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:6, sep
 null_dist <- sample_n_random_cor(X, y, n = 1e3, method = "spearman")
 
 head(null_dist)
-#> feature.333 feature.718 feature.797 feature.335 feature.122  feature.71 
-#> -0.42857143 -0.20000000 -0.42857143 -0.08571429 -0.48571429  0.77142857 
+#> feature.449 feature.208 feature.956 feature.903 feature.674 feature.322 
+#>  0.08571429  0.65714286  0.60000000 -0.14285714  0.48571429 -0.08571429 
 ```
