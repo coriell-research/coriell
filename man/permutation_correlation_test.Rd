@@ -4,7 +4,15 @@
 \alias{permutation_correlation_test}
 \title{Perform a permutation correlation test on every row of a matrix}
 \usage{
-permutation_correlation_test(X, y, n_perm = 10000, n_core = 1, ...)
+permutation_correlation_test(
+  X,
+  y,
+  n_perm = 10000,
+  method = c("pearson", "spearman"),
+  alternative = c("two.sided", "greater", "less"),
+  chunk_size = 1000,
+  n_core = 1
+)
 }
 \arguments{
 \item{X}{numeric matrix or data.frame that can be converted to a numeric matrix}
@@ -13,17 +21,39 @@ permutation_correlation_test(X, y, n_perm = 10000, n_core = 1, ...)
 
 \item{n_perm}{integer. The desired number of permutations to sample from. Default (10,000)}
 
-\item{n_core}{integer. The number of cores to use for processing. Default (1)}
+\item{method}{character. One of "pearson" (default) or "spearman"}
 
-\item{...}{Additional arguments to pass to `cor` function}
+\item{alternative}{character. One of "two.sided" (default), "greater" or "less"}
+
+\item{chunk_size}{integer. Number of permutations to process at once. Controls
+memory usage, nrow(X) x chunk_size correlations are held in memory at a time. Default (1000)}
+
+\item{n_core}{integer. The number of cores to use for processing chunks of
+permutations. Default (1)}
+}
+\value{
+data.frame containing the original values in X along with columns
+'cor', 'empirical.p', and 'FDR'
 }
 \description{
-Compute a correlation value for every row of X against the vector y and n
-random permutations of y. If the number of possible permutations is less than
-the the argument n_perm then an exact test is performed instead. In both
-cases the function returns a data.frame of the original data with additional
-columns for the test statistic, empirical p-value, and FDR corrected empirical
-p-value.
+Compute a correlation value for every row of X against the vector y and
+n_perm random permutations of y. If the number of distinct permutations of y
+is less than or equal to n_perm then an exact test using all permutations is
+performed instead. In both cases the function returns a data.frame of the
+original data with additional columns for the test statistic, permutation
+p-value, and FDR corrected p-value.
+}
+\details{
+Exact p-values are computed as the proportion of all distinct permutations
+(including the observed ordering) with a correlation at least as extreme as
+the observed value. When permutations are randomly sampled, p-values are
+computed with \code{statmod::permp()} (if installed), which gives exact
+p-values for permutations sampled with replacement (Phipson & Smyth 2010).
+Otherwise the conservative estimate (b + 1) / (n_perm + 1) is used.
+
+Correlations are computed by standardizing the rows of X once and performing
+matrix multiplication against chunks of permuted y. Rows of X containing
+missing values or with zero variance return NA.
 }
 \examples{
 # generate example data
@@ -32,7 +62,12 @@ y <- 1:10
 dimnames(X) <- list(paste("feature", 1:1e3, sep = "."), paste("sample", 1:10, sep = "."))
 
 # correlate each row of X with 1,000 random permutations of vector y
-res <- permutation_correlation_test(X, y, n_perm = 1e3, n_core = 8, method = "spearman")
+res <- permutation_correlation_test(X, y, n_perm = 1e3, method = "spearman")
 
 head(res)
+}
+\references{
+Phipson B, Smyth GK (2010). Permutation P-values should never be
+zero: calculating exact P-values when permutations are randomly drawn.
+Statistical Applications in Genetics and Molecular Biology 9, Article 39.
 }

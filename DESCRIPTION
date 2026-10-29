@@ -16,7 +16,8 @@ Depends:
     R (>= 2.10)
 Imports: 
     data.table,
-    ggplot2
+    ggplot2,
+    parallel
 Suggests: 
     DelayedMatrixStats,
     edgeR,
@@ -34,6 +35,7 @@ Suggests:
     Rfast,
     rmarkdown,
     Rsamtools,
+    statmod,
     SummarizedExperiment,
     testthat,
     umap,
