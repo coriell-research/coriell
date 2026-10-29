@@ -7,9 +7,11 @@
 #'
 #' @details
 #' Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over
-#' representation analysis. This function excludes the option to import a reference
-#' list and reference organism. By default, in this case, PANTHER will use all
-#' of the genes of the given organism as the reference list.
+#' representation analysis. By default (\code{ref_input_list = NULL}) PANTHER
+#' will use all of the genes of the given organism as the reference list. If a
+#' custom reference list is supplied then every identifier in \code{gene_list}
+#' must also be present in \code{ref_input_list}, otherwise PANTHER will refuse
+#' to process the request. Identifiers that PANTHER cannot map are ignored.
 #'
 #' @param gene_list character vector. Maximum of 100,000 identifiers. Can be any
 #' of the following: Ensemble gene identifier, Ensemble protein identifier,
@@ -19,7 +21,9 @@
 #' @param organism character string. Taxon ID (e.g. "9606" for HUMAN, "10090" for
 #' MOUSE, "10116" for RAT). To get list of available taxon IDs see:
 #' \preformatted{curl -X GET "https://pantherdb.org/services/oai/pantherdb/supportedgenomes" -H  "accept: application/json"}
-#' @param ref_input_list Reference set of genes for the specified organism. If
+#' @param ref_input_list character vector. Reference set of genes for the
+#' specified organism (e.g. all genes expressed in the experiment). Must contain
+#' all of the genes in \code{gene_list}. Maximum of 100,000 identifiers. If
 #' NULL (default) then PANTHER will use all genes for the specified organism.
 #' @param annot_dataset character string. One of c("biological_process",
 #' "molecular_function", "cellular_component", "panther_go_slim_mf", "panther_go_slim_bp",
@@ -30,9 +34,13 @@
 #' Default "fisher"
 #' @param correction character string. One of c("fdr", "bonferroni", "none").
 #' Default "fdr"
-#' @return data.table of results from over representation analysis.
+#' @param verbose integer. Verbosity level passed to \code{httr2::req_perform()}.
+#' Default 0
+#' @return data.table of results from over representation analysis with one row
+#' per term. The term returned by PANTHER is split into "term_id" and
+#' "term_label" columns ("term_id" is NA for UNCLASSIFIED).
 #' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
-#' for column descriptions in "table".
+#' for column descriptions.
 #' @import data.table
 #' @export
 #' @examples
@@ -138,7 +146,38 @@ panther_go <- function(
   }
 
   json <- httr2::resp_body_json(resp)
-  dt <- data.table::rbindlist(json$results$result)
+
+  if (!is.null(json$search$error)) {
+    msg <- paste("PANTHER returned an error:", json$search$error)
+    if (!is.null(ref_input_list)) {
+      missing <- setdiff(gene_list, ref_input_list)
+      if (length(missing) > 0) {
+        msg <- paste0(
+          msg,
+          "\nAll genes in gene_list must also be in ref_input_list. ",
+          length(missing),
+          " not found in ref_input_list: ",
+          paste(utils::head(missing, 10), collapse = ", "),
+          if (length(missing) > 10) ", ..." else ""
+        )
+      }
+    }
+    stop(msg, call. = FALSE)
+  }
+
+  results <- json$results$result
+  if (!is.null(results$term)) {
+    results <- list(results)
+  }
+
+  rows <- lapply(results, function(x) {
+    term <- x$term
+    x$term <- NULL
+    x$term_id <- if (is.null(term$id)) NA_character_ else term$id
+    x$term_label <- term$label
+    x
+  })
+  dt <- data.table::rbindlist(rows, fill = TRUE)
 
   return(dt)
 }

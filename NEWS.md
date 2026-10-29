@@ -3,6 +3,12 @@
 - `plot_volcano()` and `plot_md()` get a "raster" argument. Setting raster=TRUE
 will allow for the point layers of the plots to be rasterized. this is useful 
 when saving plots as vector graphics.
+- *Breaking change* to `panther_go()`. Results no longer contain duplicated 
+rows for each term. The nested "term" column is replaced by "term_id" and 
+"term_label" columns. 
+- `panther_go()` now raises an informative error when PANTHER cannot process 
+the request (e.g. when genes in `gene_list` are missing from `ref_input_list`) 
+instead of silently returning an empty table.
 
 ## coriell 0.17.0
 

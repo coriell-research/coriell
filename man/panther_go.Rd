@@ -31,7 +31,9 @@ MOUSE, "10116" for RAT). To get list of available taxon IDs see:
 \preformatted{curl -X POST "https://pantherdb.org/services/oai/pantherdb/supportedannotdatasets" -H "accept: application/json"}
 for full descriptions.}
 
-\item{ref_input_list}{Reference set of genes for the specified organism. If
+\item{ref_input_list}{character vector. Reference set of genes for the
+specified organism (e.g. all genes expressed in the experiment). Must contain
+all of the genes in \code{gene_list}. Maximum of 100,000 identifiers. If
 NULL (default) then PANTHER will use all genes for the specified organism.}
 
 \item{enrichment_test_type}{character string. One of c("fisher", "binomial").
@@ -39,11 +41,16 @@ Default "fisher"}
 
 \item{correction}{character string. One of c("fdr", "bonferroni", "none").
 Default "fdr"}
+
+\item{verbose}{integer. Verbosity level passed to \code{httr2::req_perform()}.
+Default 0}
 }
 \value{
-data.table of results from over representation analysis.
+data.table of results from over representation analysis with one row
+per term. The term returned by PANTHER is split into "term_id" and
+"term_label" columns ("term_id" is NA for UNCLASSIFIED).
 See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
-for column descriptions in "table".
+for column descriptions.
 }
 \description{
 This statistical test tool, compares a test gene list to a reference gene list,
@@ -53,9 +60,11 @@ Reactome pathway) of genes is overrepresented or underrepresented.
 }
 \details{
 Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over
-representation analysis. This function excludes the option to import a reference
-list and reference organism. By default, in this case, PANTHER will use all
-of the genes of the given organism as the reference list.
+representation analysis. By default (\code{ref_input_list = NULL}) PANTHER
+will use all of the genes of the given organism as the reference list. If a
+custom reference list is supplied then every identifier in \code{gene_list}
+must also be present in \code{ref_input_list}, otherwise PANTHER will refuse
+to process the request. Identifiers that PANTHER cannot map are ignored.
 }
 \examples{
 genes <- c(
