@@ -53,11 +53,29 @@ test_that("standard methods agree with edgeR::normLibSizes including passed args
     )
   }
   expect_equal(
-    normalize_counts(y, method = "TMM", refColumn = 3, logratioTrim = 0.2, sumTrim = 0.1, doWeighting = FALSE)$samples$norm.factors,
-    edgeR::normLibSizes(y, method = "TMM", refColumn = 3, logratioTrim = 0.2, sumTrim = 0.1, doWeighting = FALSE)$samples$norm.factors
+    normalize_counts(
+      y,
+      method = "TMM",
+      refColumn = 3,
+      logratioTrim = 0.2,
+      sumTrim = 0.1,
+      doWeighting = FALSE
+    )$samples$norm.factors,
+    edgeR::normLibSizes(
+      y,
+      method = "TMM",
+      refColumn = 3,
+      logratioTrim = 0.2,
+      sumTrim = 0.1,
+      doWeighting = FALSE
+    )$samples$norm.factors
   )
   expect_false(isTRUE(all.equal(
-    normalize_counts(y, method = "TMM", doWeighting = FALSE)$samples$norm.factors,
+    normalize_counts(
+      y,
+      method = "TMM",
+      doWeighting = FALSE
+    )$samples$norm.factors,
     normalize_counts(y, method = "TMM")$samples$norm.factors
   )))
 })
@@ -72,7 +90,10 @@ test_that("TMM: geometric mean 1, scale invariance, composition bias removed", {
   y2 <- y
   y2$counts[, 2] <- y2$counts[, 2] * 3L
   y2$samples$lib.size <- colSums(y2$counts)
-  expect_equal(normalize_counts(y2, doWeighting = FALSE)$samples$norm.factors, r$samples$norm.factors)
+  expect_equal(
+    normalize_counts(y2, doWeighting = FALSE)$samples$norm.factors,
+    r$samples$norm.factors
+  )
 
   set.seed(1)
   base <- rnbinom(500, mu = 100, size = 5)
@@ -101,12 +122,22 @@ test_that("qsmooth offsets equal the centred log-ratio to qsmoothData", {
   expect_identical(r$counts, y$counts)
   expect_equal(dim(r$offset), dim(y$counts))
   qsd <- qsmooth::qsmoothData(qsmooth::qsmooth(y$counts, group_factor = g))
-  L <- log(y$counts + 0.1) - log(qsd + 0.1)
+  L <- log(y$counts + 0.5) - log(qsd + 0.5)
   expected <- L - rowMeans(L) + mean(log(y$samples$lib.size))
   expect_equal(unname(as.matrix(r$offset)), unname(expected))
 
-  r2 <- normalize_counts(y, method = "qsmooth", group_factor = g, prior_count = 1, window = 0.1)
-  qsd2 <- qsmooth::qsmoothData(qsmooth::qsmooth(y$counts, group_factor = g, window = 0.1))
+  r2 <- normalize_counts(
+    y,
+    method = "qsmooth",
+    group_factor = g,
+    prior_count = 1,
+    window = 0.1
+  )
+  qsd2 <- qsmooth::qsmoothData(qsmooth::qsmooth(
+    y$counts,
+    group_factor = g,
+    window = 0.1
+  ))
   L2 <- log(y$counts + 1) - log(qsd2 + 1)
   expect_equal(
     unname(as.matrix(r2$offset)),
@@ -141,14 +172,23 @@ test_that("loess offsets match an independent loessFit recomputation", {
   expect_equal(r$samples$norm.factors, y$samples$norm.factors)
 
   cc <- 0.5 * ls / mean(ls)
-  ab <- edgeR::aveLogCPM(y$counts, lib.size = ls, prior.count = 0.5) / log2(exp(1))
+  ab <- edgeR::aveLogCPM(y$counts, lib.size = ls, prior.count = 0.5) /
+    log2(exp(1))
   fits <- sapply(1:8, function(j) {
-    limma::loessFit(log(y$counts[, j] + cc[j]), ab, span = 0.3, iterations = 4L)$fitted
+    limma::loessFit(
+      log(y$counts[, j] + cc[j]),
+      ab,
+      span = 0.3,
+      iterations = 4L
+    )$fitted
   })
   expect_equal(unname(r$offset), unname(fits - rowMeans(fits) + mean(log(ls))))
 
   r2 <- normalize_counts(y, method = "loess", span = 0.6, iterations = 1L)
-  expect_equal(r2$offset, csaw::normOffsets(y, span = 0.6, iterations = 1L)$offset)
+  expect_equal(
+    r2$offset,
+    csaw::normOffsets(y, span = 0.6, iterations = 1L)$offset
+  )
   expect_false(isTRUE(all.equal(r$offset, r2$offset)))
 })
 
@@ -158,5 +198,8 @@ test_that("loess on identical libraries gives constant offsets", {
   set.seed(1)
   base <- rnbinom(300, mu = 100, size = 5)
   y <- edgeR::DGEList(matrix(rep(base, 4), ncol = 4))
-  expect_equal(unname(normalize_counts(y, method = "loess")$offset), matrix(log(sum(base)), 300, 4))
+  expect_equal(
+    unname(normalize_counts(y, method = "loess")$offset),
+    matrix(log(sum(base)), 300, 4)
+  )
 })

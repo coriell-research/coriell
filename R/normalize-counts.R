@@ -91,7 +91,7 @@ normalize_counts <- function(
   batch = NULL,
   norm_factors = NULL,
   window = 0.05,
-  prior_count = 0.1,
+  prior_count = 0.5,
   weights = NULL,
   span = 0.3,
   iterations = 4L,
@@ -138,6 +138,14 @@ normalize_counts <- function(
       window = window
     )
     qsd <- qsmooth::qsmoothData(qs)
+
+    if (any(qsd + prior_count <= 0)) {
+      warning(
+        "qsmooth returned values <= -prior_count (possible with `batch` or a ",
+        "continuous `group_factor`); offsets would be NaN/-Inf."
+      )
+    }
+
     offset <- log(x$counts + prior_count) - log(qsd + prior_count)
     result <- edgeR::scaleOffset(x, offset)
   }
