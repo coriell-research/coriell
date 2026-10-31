@@ -17,7 +17,7 @@ normalize_counts(
   batch = NULL,
   norm_factors = NULL,
   window = 0.05,
-  prior_count = 0.1,
+  prior_count = 0.5,
   weights = NULL,
   span = 0.3,
   iterations = 4L,
