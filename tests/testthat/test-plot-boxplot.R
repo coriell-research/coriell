@@ -23,7 +23,6 @@ local_capture_bxp <- function(cap, env = parent.frame()) {
       cap$abline <- list(...)
       invisible(NULL)
     },
-    .package = "graphics",
     .env = env
   )
 }

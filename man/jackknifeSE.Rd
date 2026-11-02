@@ -2,7 +2,7 @@
 % Please edit documentation in R/meta-analysis.R
 \name{jackknifeSE}
 \alias{jackknifeSE}
-\title{Perform jackknife resampling on all columns of a SummarizeExperiment object}
+\title{Perform jackknife resampling on all columns of a SummarizedExperiment object}
 \usage{
 jackknifeSE(x, FUN, ...)
 }
@@ -25,6 +25,7 @@ function but in theory any arbitrary function which operates on the columns
 of a SummarizedExperiment object could be used.
 }
 \examples{
+\dontshow{if (requireNamespace("SummarizedExperiment", quietly = TRUE) && requireNamespace("metapod", quietly = TRUE) && requireNamespace("matrixStats", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define three differential expression dataset data.frames
 exp1 <- data.frame(
   feature_id = c("geneA", "geneB", "geneC"),
@@ -63,4 +64,5 @@ result <- jackknifeSE(se, FUN = metafun)
 # Combine the results from calling meta_de on each resample and show
 result <- data.table::rbindlist(result, idcol = "Jackknife")
 head(result[order(Feature)])
+\dontshow{\}) # examplesIf}
 }

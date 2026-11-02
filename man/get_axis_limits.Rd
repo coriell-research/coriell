@@ -17,4 +17,9 @@ Limits set on scales (e.g. \code{xlim()}) are ignored.
 \description{
 Internal helper function used to get the axis limits of a plot
 }
+\examples{
+library(ggplot2)
+p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+get_axis_limits(p)
+}
 \keyword{internal}

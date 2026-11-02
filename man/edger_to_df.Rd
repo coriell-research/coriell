@@ -23,6 +23,7 @@ with all features. This function returns all rows unsorted by default
 i.e. \code{topTags(..., n=Inf, sort.by="none")}.
 }
 \examples{
+\dontshow{if (requireNamespace("edgeR", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(edgeR)
 library(coriell)
 
@@ -50,5 +51,5 @@ qlf <- glmQLFTest(fit, coef = 2)
 res_df <- edger_to_df(qlf)
 
 head(res_df)
-
+\dontshow{\}) # examplesIf}
 }

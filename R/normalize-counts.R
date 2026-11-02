@@ -26,7 +26,7 @@
 #' Used by method="TMM" for each pair of samples.
 #' @param p numeric value between 0 and 1 specifying which quantile of the counts should be used
 #' by method="upperquartile".
-#' @param group_factor a group level continuous or categorial covariate associated with each sample
+#' @param group_factor a group level continuous or categorical covariate associated with each sample
 #' or column in the object. The order of the group_factor must match the order of the columns in
 #' object. Used in qsmooth normalization.
 #' @param batch (Optional) batch covariate (multiple batches are not allowed). If batch covariate
@@ -53,7 +53,7 @@
 #'
 #' @returns DGEList with updated norm.factors (for standard methods) or an observation-level offset matrix in x$offset (for qsmooth and loess).
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("edgeR", quietly = TRUE) && requireNamespace("qsmooth", quietly = TRUE) && requireNamespace("csaw", quietly = TRUE)
 #' counts <- matrix(rnbinom(1e3, mu = 10, size = 20), ncol = 20)
 #'
 #' y <- edgeR::DGEList(

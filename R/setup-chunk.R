@@ -1,21 +1,23 @@
 #' Setup Chunk Generator
 #'
 #' This function prints R code to the console that can be copied and pasted into an analysis script
-#' or quarto file. It sets up standard libraries and directory paths. If installed, \code{clipr} is
-#' used to copy the code chuck to the clipboard.
+#' or quarto file. It sets up standard libraries and directory paths. In
+#' interactive sessions, if \code{clipr} is installed, the code chunk is also
+#' copied to the clipboard.
 #'
 #' @param extra_libs Character vector. Additional library names to load.
 #' @param dir_name Character string. The specific subdirectory for results (e.g., "01", "02").
 #' @param quiet boolean. If TRUE do not print the code chunk to the console (only attempt to copy to clipboard).
+#' @param clipboard boolean. If TRUE attempt to copy the code chunk to the
+#' clipboard using \code{clipr}. Defaults to \code{interactive()}.
 #'
 #' @return Prints formatted code to console. Returns the character vector invisibly.
 #' @export
 #' @examples
-#' \dontrun{
-#'  setup_chunk()
-#' }
+#' setup_chunk(extra_libs = "limma", clipboard = FALSE)
 #'
-setup_chunk <- function(extra_libs = NULL, dir_name = "01", quiet = FALSE) {
+setup_chunk <- function(extra_libs = NULL, dir_name = "01", quiet = FALSE,
+                        clipboard = interactive()) {
   base_libs <- c(
     "here",
     "coriell",
@@ -44,7 +46,7 @@ setup_chunk <- function(extra_libs = NULL, dir_name = "01", quiet = FALSE) {
     dir_creation_line
   )
 
-  if (requireNamespace("clipr", quietly = TRUE)) {
+  if (isTRUE(clipboard) && requireNamespace("clipr", quietly = TRUE)) {
     tryCatch(
       {
         clipr::write_clip(final_output)

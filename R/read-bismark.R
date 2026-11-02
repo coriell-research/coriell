@@ -21,25 +21,31 @@
 #' the coverage threshold are kept at sites that pass.
 #' @export
 #' @examples
-#' \dontrun{
-#' files <- c("P6_1.bismark.cov.gz", "P6_4.bismark.cov.gz", "P7_2.bismark.cov.gz", "P7_5.bismark.cov.gz", "P8_3.bismark.cov.gz", "P8_6.bismark.cov.gz")
-#' names(files) <- gsub("\\.bismark\\.cov\\.gz", "", files)
+#' # Write three small bismark coverage files
+#' # (chrom, start, end, percent, methylated, unmethylated)
+#' cov <- list(
+#'   S1 = "chr1\t100\t100\t50\t5\t5\nchr1\t200\t200\t100\t20\t0\nchr2\t50\t50\t0\t0\t10\n",
+#'   S2 = "chr1\t100\t100\t80\t8\t2\nchr1\t200\t200\t100\t30\t0\nchr2\t50\t50\t25\t1\t3\n",
+#'   S3 = "chr1\t100\t100\t20\t2\t8\nchr1\t200\t200\t100\t20\t0\nchr2\t50\t50\t40\t4\t6\n"
+#' )
+#' files <- vapply(names(cov), function(n) {
+#'   f <- file.path(tempdir(), paste0(n, ".bismark.cov"))
+#'   writeLines(cov[[n]], f, sep = "")
+#'   f
+#' }, character(1))
 #'
 #' # Read in all files using default parameters -- returns a data.table
 #' result <- read_bismark(files)
 #'
-#' # Filter for coverage >= 20 in at least 50% of samples and remove any zero variance features
-#' dt <- read_bismark(files, coverage = 20, prop_samples = 0.5, remove_zero_var = TRUE)
+#' # Filter for coverage >= 10 in all samples and remove zero variance features
+#' dt <- read_bismark(files, coverage = 10, remove_zero_var = TRUE)
 #'
-#' # Same filtering as above but return a list of CpG x Sample matrices
-#' l <- read_bismark(files, coverage = 20, prop_samples = 0.5, remove_zero_var = TRUE, return_mats = TRUE)
-#'
-#' # To view the CpG x Sample Coverages:
+#' # Same filtering but return a list of CpG x Sample matrices
+#' l <- read_bismark(files, coverage = 10, return_mats = TRUE)
 #' l$Coverage
-#'
-#' # Percent methylation
 #' l$Percent
-#' }
+#'
+#' unlink(files)
 read_bismark <- function(
   files,
   coverage = 1,

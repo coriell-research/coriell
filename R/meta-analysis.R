@@ -39,7 +39,7 @@
 #' in 'import'. An error is thrown if a feature id is duplicated within any
 #' experiment.
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("SummarizedExperiment", quietly = TRUE)
 #'
 #' # data.frames containing differential expression data
 #' exp1 <- data.frame(
@@ -151,7 +151,7 @@ dfs2se <- function(
 #' important for calculating the combined effects. The "meta-analysis" results returned
 #' when standard errors are provided assume fixed effects. This may not be appropriate.
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("SummarizedExperiment", quietly = TRUE) && requireNamespace("metapod", quietly = TRUE) && requireNamespace("matrixStats", quietly = TRUE)
 #'
 # Experiment 1
 #' exp1 <- data.frame(
@@ -322,7 +322,7 @@ meta_de <- function(
   )
 }
 
-#' Perform jackknife resampling on all columns of a SummarizeExperiment object
+#' Perform jackknife resampling on all columns of a SummarizedExperiment object
 #'
 #' This function provides a simple wrapper to perform jackknife resampling on
 #' all columns of a SummarizedExperiment object and returns the results of each
@@ -336,7 +336,7 @@ meta_de <- function(
 #' @param ... Additional arguments passed to FUN
 #' @return List of jackknife resampled results
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("SummarizedExperiment", quietly = TRUE) && requireNamespace("metapod", quietly = TRUE) && requireNamespace("matrixStats", quietly = TRUE)
 #' # Define three differential expression dataset data.frames
 #' exp1 <- data.frame(
 #'   feature_id = c("geneA", "geneB", "geneC"),

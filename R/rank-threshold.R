@@ -1,7 +1,7 @@
 #' Calculate threshold value on ranked input
 #'
 #' Calculate a threshold value of a vector based on the unimodal threshold method
-#' described by \href{https://users.cs.cf.ac.uk/Paul.Rosin/resources/papers/unimodal2.pdf}{Rosin 2001}
+#' described by Rosin (2001) \doi{10.1016/S0031-3203(00)00136-9}
 #' for image thresholding. Conceptually, the method attempts to draw a line from
 #' the peak of the distribution to the tail and calculates the maximum distance
 #' from a point to that line. The point where the distance is maximized is the

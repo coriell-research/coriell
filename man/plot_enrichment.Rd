@@ -90,13 +90,17 @@ customization and annotation. The source code for this function was lifted
 from: \url{https://github.com/alserglab/fgsea/blob/master/R/plot.R}.
 }
 \examples{
+\dontshow{if (requireNamespace("fgsea", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 
 pathway <- fgsea::examplePathways[["5991130_Programmed_Cell_Death"]]
 stats <- fgsea::exampleRanks
 plot_enrichment(pathway, stats)
 
 # Stat annotations can be added to the plot
-fgsea_res <- fgsea::fgsea(fgsea::examplePathways, fgsea::exampleRanks)
+fgsea_res <- fgsea::fgsea(
+  fgsea::examplePathways["5991130_Programmed_Cell_Death"],
+  fgsea::exampleRanks
+)
 cell_death <- fgsea_res[pathway == "5991130_Programmed_Cell_Death"]
 
 plot_enrichment(
@@ -108,5 +112,5 @@ plot_enrichment(
   NES = cell_death[, NES],
   plotTitle = "Programmed Cell Death"
 )
-
+\dontshow{\}) # examplesIf}
 }

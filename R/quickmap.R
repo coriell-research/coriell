@@ -3,7 +3,7 @@
 #' Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
 #'
 #' @details The default arguments to \code{pheatmap::pheatmap()} are:
-#' \itemize{
+#'
 #'   * \code{scale = "row"}
 #'   * \code{show_rownames = FALSE}
 #'   * \code{border_col = NA}
@@ -15,7 +15,6 @@
 #'   * \code{clustering_distance_cols = "euclidean"}
 #'   * \code{clustering_method = "ward.D2"}
 #'   * \code{angle_col = 315}
-#' }
 #' @md
 #'
 #' @param x numeric matrix to be passed onto pheatmap function
@@ -25,13 +24,13 @@
 #' @param ... args to be passed to \code{pheatmap()} function
 #' @return pheatmap object. See \code{?pheatmap::pheatmap()} for details
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("pheatmap", quietly = TRUE)
 #'
-#' # Display heatmap of scaled count data and add title to the plot
-#' quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
+#' # Display heatmap of the 10\% most variable features and add a title
+#' quickmap(GSE161650_lc, remove_var = 0.9, main = "THZ1 vs DMSO")
 #'
 #' # Override quickmap defaults by supplying additional args
-#' quickmap(GSE161650_lc, cluster_rows = FALSE, cluster_cols = FALSE)
+#' quickmap(GSE161650_lc, remove_var = 0.9, cluster_rows = FALSE, cluster_cols = FALSE)
 #'
 quickmap <- function(x, metadata = NULL, remove_var = NULL, ...) {
   if (!requireNamespace("pheatmap", quietly = TRUE)) {

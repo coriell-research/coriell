@@ -33,7 +33,6 @@ local_capture_par2 <- function(cap, env = parent.frame()) {
       cap$title <- list(main = main, xlab = xlab, ylab = ylab)
       invisible(NULL)
     },
-    .package = "graphics",
     .env = env
   )
 }

@@ -221,7 +221,7 @@ Default 1}
 \item{random_state}{integer; seed for random number generation used during
 umap(). Default NA}
 
-\item{transform_state}{nteger; seed for random number generation used
+\item{transform_state}{integer; seed for random number generation used
 during predict(). Default NA}
 
 \item{knn}{object of class umap.knn; precomputed nearest neighbors. Default
@@ -247,7 +247,7 @@ This function provides a wrapper around \code{umap::umap()} that exposes
 the umap defaults as function arguments.
 }
 \examples{
-
+\dontshow{if (requireNamespace("umap", quietly = TRUE) && requireNamespace("PCAtools", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Create metadata for plotting
 metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
@@ -268,5 +268,5 @@ udata3 <- suppressWarnings(UMAP(d, metadata, n_neighbors = 2))
 
 # Also on raw data
 udata4 <- suppressWarnings(UMAP(t(GSE161650_lc), metadata, n_neighbors = 2))
-
+\dontshow{\}) # examplesIf}
 }

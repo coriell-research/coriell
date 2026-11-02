@@ -56,7 +56,8 @@ plot_cor_pairs <- function(
 ) {
   panel_hist <- function(x) {
     usr <- par("usr")
-    par(usr = c(usr[1:2], 0, 1.5))
+    old_par <- par(usr = c(usr[1:2], 0, 1.5))
+    on.exit(par(old_par))
     h <- hist(x, plot = FALSE, breaks = hist_breaks)
     breaks <- h$breaks
     nB <- length(breaks)
@@ -66,7 +67,8 @@ plot_cor_pairs <- function(
   }
 
   panel_cor <- function(x, y, ...) {
-    par(usr = c(0, 1, 0, 1))
+    old_par <- par(usr = c(0, 1, 0, 1))
+    on.exit(par(old_par))
     r <- cor(x, y, method = cor_method, use = cor_use)
     txt <- formatC(r, format = "f", digits = cor_digits)
     text(0.5, 0.5, txt, cex = cor_cex)

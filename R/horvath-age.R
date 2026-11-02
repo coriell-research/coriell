@@ -5,8 +5,8 @@
 #' original scale.
 #'
 #' @details
-#' \href{https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115}{Horvath, S. DNA methylation age of human tissues and cell types.
-#' Genome Biol 14, 3156 (2013). https://doi.org/10.1186/gb-2013-14-10-r115}
+#' Horvath, S. DNA methylation age of human tissues and cell types.
+#' Genome Biol 14, R115 (2013). \doi{10.1186/gb-2013-14-10-r115}
 #' @param x numeric vector of ages
 #' @param adult_age Age of the adult of the species. From the original manuscript,
 #' 20 for humans and 15 for chimpanzees.

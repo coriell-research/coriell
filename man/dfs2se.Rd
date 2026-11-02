@@ -37,6 +37,7 @@ reported statistics columns. This function is intended to be used upstream
 of the meta-analysis functions implemented in this package.
 }
 \examples{
+\dontshow{if (requireNamespace("SummarizedExperiment", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 
 # data.frames containing differential expression data
 exp1 <- data.frame(
@@ -63,4 +64,5 @@ se <- dfs2se(l)
 
 # Data is converted to assays
 SummarizedExperiment::assays(se)
+\dontshow{\}) # examplesIf}
 }

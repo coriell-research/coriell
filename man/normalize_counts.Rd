@@ -52,7 +52,7 @@ Used by method="TMM" for each pair of samples.}
 \item{p}{numeric value between 0 and 1 specifying which quantile of the counts should be used
 by method="upperquartile".}
 
-\item{group_factor}{a group level continuous or categorial covariate associated with each sample
+\item{group_factor}{a group level continuous or categorical covariate associated with each sample
 or column in the object. The order of the group_factor must match the order of the columns in
 object. Used in qsmooth normalization.}
 
@@ -103,6 +103,7 @@ If "TMM", "TMMwsp", "RLE", "upperquartile", or "none" is selected, then
 \code{csaw::normOffsets(x, ...)} is used.
 }
 \examples{
+\dontshow{if (requireNamespace("edgeR", quietly = TRUE) && requireNamespace("qsmooth", quietly = TRUE) && requireNamespace("csaw", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 counts <- matrix(rnbinom(1e3, mu = 10, size = 20), ncol = 20)
 
 y <- edgeR::DGEList(
@@ -118,5 +119,5 @@ y.qs <- normalize_counts(y, method = "qsmooth", group_factor = y$samples$group)
 
 # Cyclic loess
 y.loess <- normalize_counts(y, method = "loess")
-
+\dontshow{\}) # examplesIf}
 }

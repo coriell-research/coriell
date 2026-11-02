@@ -7,6 +7,10 @@
 #' @return list with elements for x and y limits. These are the coordinate limits
 #' if set with \code{coord_cartesian()}, otherwise the trained range of the data.
 #' Limits set on scales (e.g. \code{xlim()}) are ignored.
+#' @examples
+#' library(ggplot2)
+#' p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+#' get_axis_limits(p)
 get_axis_limits <- function(p) {
   b <- ggplot2::ggplot_build(p)
 

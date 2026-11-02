@@ -76,10 +76,10 @@ test_that("Clipboard receives exactly the printed lines", {
     clip <<- content
     invisible(content)
   })
-  expect_message(out <- capture.output(setup_chunk(extra_libs = "limma")), "copied to clipboard")
+  expect_message(out <- capture.output(setup_chunk(extra_libs = "limma", clipboard = TRUE)), "copied to clipboard")
   expect_identical(clip, out)
   clip <- NULL
-  expect_message(out2 <- capture.output(setup_chunk(quiet = TRUE)), "copied")
+  expect_message(out2 <- capture.output(setup_chunk(quiet = TRUE, clipboard = TRUE)), "copied")
   expect_identical(out2, character(0))
   expect_length(clip, 14)
 })
@@ -87,6 +87,17 @@ test_that("Clipboard receives exactly the printed lines", {
 test_that("Clipboard failure is a warning, and the chunk is still printed", {
   skip_if_not_installed("clipr")
   mock_clip(function(...) stop("nope"))
-  expect_warning(out <- capture.output(setup_chunk()), "Could not copy to clipboard")
+  expect_warning(out <- capture.output(setup_chunk(clipboard = TRUE)), "Could not copy to clipboard")
   expect_length(out, 14)
+})
+
+test_that("Clipboard is not touched when clipboard = FALSE", {
+  skip_if_not_installed("clipr")
+  called <- FALSE
+  mock_clip(function(content, ...) {
+    called <<- TRUE
+    invisible(content)
+  })
+  expect_no_message(capture.output(setup_chunk(clipboard = FALSE)))
+  expect_false(called)
 })

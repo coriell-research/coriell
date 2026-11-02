@@ -29,4 +29,10 @@ the FDR corrected p-value
 Perform an exact correlation permutation test. Computes correlation value for
 every row of matrix X against all distinct permutations of vector y.
 }
+\examples{
+set.seed(123)
+X <- matrix(rnorm(50), nrow = 10)
+y <- 1:5
+exact_cor_test(X, y)
+}
 \keyword{internal}

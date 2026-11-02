@@ -1,3 +1,20 @@
+## coriell 0.20.1
+
+- Prepared the package for CRAN submission.
+- `setup_chunk()` gains a `clipboard` argument (default `interactive()`), so the
+clipboard is only written to in interactive sessions.
+- `panther_go()` now fails gracefully: if the PANTHER web service cannot be
+reached or returns an HTTP error, a message is printed and `NULL` is returned
+invisibly.
+- `UMAP()` now gives an informative error when the 'umap' package is not
+installed.
+- `plot_cor_pairs()` panel functions now restore graphical parameters.
+- Base R packages used by the package (stats, graphics, grDevices, utils,
+methods) are now declared in Imports.
+- Documentation: added missing return values and examples, made the
+`read_bismark()` and `setup_chunk()` examples runnable, replaced dead or moved
+links with DOIs, and fixed typos.
+
 ## coriell 0.20.0
 
 - *Breaking change*: `UMAP()` now always returns a data.frame, as documented.

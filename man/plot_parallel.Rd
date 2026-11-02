@@ -41,13 +41,16 @@ The parallel coordinates plot will display a line plot showing the expression
 value for gene on the y-axis by each sample on the x-axis.
 }
 \examples{
+# Use a subset of features to keep the example fast
+counts <- GSE161650_lc[1:1000, ]
+
 # Create metadata for plotting
-metadata <- data.frame(row.names = colnames(GSE161650_lc))
+metadata <- data.frame(row.names = colnames(counts))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 
 # Plot the PCP for each sample -- passing alpha value to geom_line()
-plot_parallel(GSE161650_lc, alpha = 0.01)
+plot_parallel(counts, alpha = 0.1)
 
 # Plot the PCP by coloring each sample by Group from metadata
-plot_parallel(GSE161650_lc, metadata, colBy = "Group", alpha = 0.01)
+plot_parallel(counts, metadata, colBy = "Group", alpha = 0.1)
 }

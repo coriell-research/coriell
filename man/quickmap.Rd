@@ -25,7 +25,6 @@ Generate a heatmap using \code{pheatmap} with sensible defaults for RNA-seq.
 \details{
 The default arguments to \code{pheatmap::pheatmap()} are:
 \itemize{
-\itemize{
 \item \code{scale = "row"}
 \item \code{show_rownames = FALSE}
 \item \code{border_col = NA}
@@ -39,13 +38,13 @@ The default arguments to \code{pheatmap::pheatmap()} are:
 \item \code{angle_col = 315}
 }
 }
-}
 \examples{
+\dontshow{if (requireNamespace("pheatmap", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 
-# Display heatmap of scaled count data and add title to the plot
-quickmap(GSE161650_lc, main = "THZ1 vs DMSO")
+# Display heatmap of the 10\\% most variable features and add a title
+quickmap(GSE161650_lc, remove_var = 0.9, main = "THZ1 vs DMSO")
 
 # Override quickmap defaults by supplying additional args
-quickmap(GSE161650_lc, cluster_rows = FALSE, cluster_cols = FALSE)
-
+quickmap(GSE161650_lc, remove_var = 0.9, cluster_rows = FALSE, cluster_cols = FALSE)
+\dontshow{\}) # examplesIf}
 }

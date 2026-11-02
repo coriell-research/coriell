@@ -15,7 +15,7 @@
 #' @param vlineType linetype of the vertical line. Default 2
 #' @export
 #' @return ggplot object
-#' @examples
+#' @examplesIf requireNamespace("umap", quietly = TRUE) && requireNamespace("PCAtools", quietly = TRUE)
 #' # Create metadata for plotting
 #' metadata <- data.frame(row.names = colnames(GSE161650_lc))
 #' metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)

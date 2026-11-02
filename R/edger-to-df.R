@@ -11,7 +11,7 @@
 #' \code{p.value}) leave no rows, a 0-row data.frame is returned.
 #' @export
 #' @return data.frame
-#' @examples
+#' @examplesIf requireNamespace("edgeR", quietly = TRUE)
 #' library(edgeR)
 #' library(coriell)
 #'

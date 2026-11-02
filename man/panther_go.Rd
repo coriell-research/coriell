@@ -48,8 +48,10 @@ Default 0}
 \value{
 data.table of results from over representation analysis with one row
 per term. The term returned by PANTHER is split into "term_id" and
-"term_label" columns ("term_id" is NA for UNCLASSIFIED).
-See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
+"term_label" columns ("term_id" is NA for UNCLASSIFIED). If the PANTHER web
+service cannot be reached or returns an HTTP error, a message is printed and
+\code{NULL} is returned invisibly.
+See \href{https://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
 for column descriptions.
 }
 \description{
@@ -59,7 +61,7 @@ process, cellular component, PANTHER protein class, the PANTHER pathway or
 Reactome pathway) of genes is overrepresented or underrepresented.
 }
 \details{
-Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over
+Sends a request to \href{https://pantherdb.org/}{PANTHER db} to perform over
 representation analysis. By default (\code{ref_input_list = NULL}) PANTHER
 will use all of the genes of the given organism as the reference list. If a
 custom reference list is supplied then every identifier in \code{gene_list}
@@ -67,6 +69,7 @@ must also be present in \code{ref_input_list}, otherwise PANTHER will refuse
 to process the request. Identifiers that PANTHER cannot map are ignored.
 }
 \examples{
+\dontshow{if (requireNamespace("httr2", quietly = TRUE) && interactive()) withAutoprint(\{ # examplesIf}
 genes <- c(
   "CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
   "CUL1", "DKK1", "DKK4", "DLL1", "DVL2", "FRAT1", "FZD1", "FZD8",
@@ -78,4 +81,5 @@ genes <- c(
 
 result <- panther_go(genes, "9606", "biological_process")
 head(result)
+\dontshow{\}) # examplesIf}
 }

@@ -118,10 +118,8 @@ test_that("PANTHER errors are reported with genes missing from the reference", {
   expect_false(grepl("G11", e))
 })
 
-test_that("HTTP errors and invalid arguments raise errors", {
+test_that("Invalid arguments raise errors", {
   skip_if_not_installed("httr2")
-  httr2::local_mocked_responses(function(req) json_resp("{}", status = 500))
-  expect_error(panther_go("A", "9606", "biological_process"))
   expect_error(panther_go(character(), "9606", "biological_process"), "Empty gene_list")
   expect_error(panther_go("A", "9606", "go_bp"), "Incorrectly specified dataset")
 })
@@ -149,4 +147,21 @@ test_that("Live PANTHER results satisfy statistical invariants", {
   expect_true(all(up$number_in_list > up$expected))
   # Wnt signaling pathway is the top term
   expect_identical(res$term_id[which.min(res$pValue)], "P00057")
+})
+
+test_that("HTTP and network failures return NULL with a message", {
+  skip_if_not_installed("httr2")
+  httr2::local_mocked_responses(function(req) json_resp("{}", status = 503))
+  expect_message(
+    res <- panther_go("AXIN1", "9606", "biological_process"),
+    "Could not retrieve results from the PANTHER web service"
+  )
+  expect_null(res)
+
+  httr2::local_mocked_responses(function(req) stop("no connection"))
+  expect_message(
+    res <- panther_go("AXIN1", "9606", "biological_process"),
+    "no connection"
+  )
+  expect_null(res)
 })

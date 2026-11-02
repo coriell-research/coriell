@@ -11,7 +11,7 @@
 #' @param ... additional values passed to \code{pheatmap::pheatmap()}
 #' @export
 #' @return heatmap with distance values displayed in cells.
-#' @examples
+#' @examplesIf requireNamespace("pheatmap", quietly = TRUE) && requireNamespace("viridisLite", quietly = TRUE)
 #' # Use the built-in log2 expression matrix
 #' counts <- GSE161650_lc
 #'

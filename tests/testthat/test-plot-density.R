@@ -20,7 +20,6 @@ local_capture_lines <- function(cap, env = parent.frame()) {
       cap$legend <- list(...)
       invisible(NULL)
     },
-    .package = "graphics",
     .env = env
   )
 }

@@ -33,14 +33,17 @@
 #' @returns ggplot2 object
 #' @export
 #'
-#' @examples
+#' @examplesIf requireNamespace("fgsea", quietly = TRUE)
 #'
 #' pathway <- fgsea::examplePathways[["5991130_Programmed_Cell_Death"]]
 #' stats <- fgsea::exampleRanks
 #' plot_enrichment(pathway, stats)
 #'
 #' # Stat annotations can be added to the plot
-#' fgsea_res <- fgsea::fgsea(fgsea::examplePathways, fgsea::exampleRanks)
+#' fgsea_res <- fgsea::fgsea(
+#'   fgsea::examplePathways["5991130_Programmed_Cell_Death"],
+#'   fgsea::exampleRanks
+#' )
 #' cell_death <- fgsea_res[pathway == "5991130_Programmed_Cell_Death"]
 #'
 #' plot_enrichment(

@@ -23,8 +23,8 @@ This function can also be used to convert transformed ages back to the
 original scale.
 }
 \details{
-\href{https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115}{Horvath, S. DNA methylation age of human tissues and cell types.
-Genome Biol 14, 3156 (2013). https://doi.org/10.1186/gb-2013-14-10-r115}
+Horvath, S. DNA methylation age of human tissues and cell types.
+Genome Biol 14, R115 (2013). \doi{10.1186/gb-2013-14-10-r115}
 }
 \examples{
 

@@ -26,6 +26,7 @@ heatmap with distance values displayed in cells.
 Create a column-vs-column heatmap of a matrix
 }
 \examples{
+\dontshow{if (requireNamespace("pheatmap", quietly = TRUE) && requireNamespace("viridisLite", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Use the built-in log2 expression matrix
 counts <- GSE161650_lc
 
@@ -46,4 +47,5 @@ plot_dist(
   color = viridisLite::rocket(n = 50),
   annotation_colors = list(Group = c("Treatment" = "firebrick2", "Control" = "grey80"))
   )
+\dontshow{\}) # examplesIf}
 }

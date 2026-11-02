@@ -39,6 +39,11 @@ permutations <- function(x) {
 #' the FDR corrected p-value
 #' @keywords internal
 #' @export
+#' @examples
+#' set.seed(123)
+#' X <- matrix(rnorm(50), nrow = 10)
+#' y <- 1:5
+#' exact_cor_test(X, y)
 exact_cor_test <- function(X, y, method = c("pearson", "spearman"),
                            alternative = c("two.sided", "greater", "less")) {
   perm_cor_test(

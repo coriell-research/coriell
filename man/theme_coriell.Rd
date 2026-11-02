@@ -9,6 +9,9 @@ theme_coriell(...)
 \arguments{
 \item{...}{Additional arguments passed to \code{ggplot2::theme_light()}}
 }
+\value{
+a \code{ggplot2} theme object that can be added to a plot.
+}
 \description{
 Based on \code{ggplot2::theme_light()} this theme will adjust the plot title,
 legend position (bottom), axis titles, axis ticks, and strip text.

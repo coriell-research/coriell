@@ -12,6 +12,10 @@ matrix. Samples in columns features in rows.}
 
 \item{depth}{desired sampling depth applied to each library.}
 }
+\value{
+numeric matrix with the same dimensions as \code{x} where every column
+sums to \code{depth}.
+}
 \description{
 This function will randomly subsample counts from rows of the input matrix
 such that the colSums all have even depth.

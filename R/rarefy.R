@@ -5,6 +5,8 @@
 #' @param x numeric matrix or data.frame that can be converted to a numeric
 #' matrix. Samples in columns features in rows.
 #' @param depth desired sampling depth applied to each library.
+#' @return numeric matrix with the same dimensions as \code{x} where every column
+#' sums to \code{depth}.
 #' @export
 #' @examples
 #' set.seed(123)

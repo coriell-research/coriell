@@ -6,7 +6,7 @@
 #' Reactome pathway) of genes is overrepresented or underrepresented.
 #'
 #' @details
-#' Sends a request to \href{http://pantherdb.org/}{PANTHER db} to perform over
+#' Sends a request to \href{https://pantherdb.org/}{PANTHER db} to perform over
 #' representation analysis. By default (\code{ref_input_list = NULL}) PANTHER
 #' will use all of the genes of the given organism as the reference list. If a
 #' custom reference list is supplied then every identifier in \code{gene_list}
@@ -38,12 +38,14 @@
 #' Default 0
 #' @return data.table of results from over representation analysis with one row
 #' per term. The term returned by PANTHER is split into "term_id" and
-#' "term_label" columns ("term_id" is NA for UNCLASSIFIED).
-#' See \href{http://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
+#' "term_label" columns ("term_id" is NA for UNCLASSIFIED). If the PANTHER web
+#' service cannot be reached or returns an HTTP error, a message is printed and
+#' \code{NULL} is returned invisibly.
+#' See \href{https://www.pantherdb.org/help/PANTHER_user_manual.pdf}{PANTHER user manual}
 #' for column descriptions.
 #' @import data.table
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("httr2", quietly = TRUE) && interactive()
 #' genes <- c(
 #'   "CTNNB1", "ADAM17", "AXIN1", "AXIN2", "CCND2", "CSNK1E", "CTNNB1",
 #'   "CUL1", "DKK1", "DKK4", "DLL1", "DVL2", "FRAT1", "FZD1", "FZD8",
@@ -139,10 +141,18 @@ panther_go <- function(
   resp <- httr2::req_method(resp, "POST")
   resp <- httr2::req_body_form(resp, !!!data)
   resp <- httr2::req_headers(resp, Accept = "application/json")
-  resp <- httr2::req_perform(resp, verbosity = verbose)
-
-  if (isTRUE(httr2::resp_is_error(resp))) {
-    stop("An error occured in the request")
+  resp <- tryCatch(
+    httr2::req_perform(resp, verbosity = verbose),
+    error = function(e) {
+      message(
+        "Could not retrieve results from the PANTHER web service: ",
+        conditionMessage(e)
+      )
+      NULL
+    }
+  )
+  if (is.null(resp)) {
+    return(invisible(NULL))
   }
 
   json <- httr2::resp_body_json(resp)

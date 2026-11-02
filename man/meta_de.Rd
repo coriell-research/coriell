@@ -60,6 +60,7 @@ these values can be used to compute fixed effect meta-analysis statistics.
 \code{SummarizedExperiment} object.
 }
 \examples{
+\dontshow{if (requireNamespace("SummarizedExperiment", quietly = TRUE) && requireNamespace("metapod", quietly = TRUE) && requireNamespace("matrixStats", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 
 exp1 <- data.frame(
   feature_id = c("geneA", "geneB", "geneC"),
@@ -100,5 +101,5 @@ se <- dfs2se(l, import = c("PValue", "logFC", "SE"))
 # Perform meta-analysis on SEs by passing assay name
 result <- meta_de(se, metapod::parallelFisher, se = "SE")
 head(result)
-
+\dontshow{\}) # examplesIf}
 }

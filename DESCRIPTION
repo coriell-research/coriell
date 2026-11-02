@@ -1,37 +1,42 @@
 Type: Package
 Package: coriell
 Title: Convenience Functions for Bioinformatics
-Version: 0.20.0
-Authors@R: 
-    person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre"))
-Description: This package provides many helper functions for common
-    bioinformatics tasks such as plotting and summarizing the results of
-    differential expression analyses, creating heatmaps from expression
-    data, performing permutation tests, selecting outliers, analyzing PCA
-    plots, and many other common tasks.
+Version: 0.20.1
+Authors@R: c(
+    person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre")),
+    person("Coriell Institute for Medical Research", role = "cph")
+  )
+Description: Helper functions for common bioinformatics tasks such as
+    plotting and summarizing the results of differential expression
+    analyses, creating heatmaps from expression data, performing
+    permutation tests, selecting outliers, performing gene ontology
+    enrichment with the 'PANTHER' web service, and visualizing principal
+    component analysis and 'UMAP' embeddings.
 License: MIT + file LICENSE
-URL: https://coriell-research.github.io/coriell, https://github.com/coriell-research/coriell
+URL: https://coriell-research.github.io/coriell/, https://github.com/coriell-research/coriell
 BugReports: https://github.com/coriell-research/coriell/issues
 Depends: 
     R (>= 2.10)
 Imports: 
     data.table,
     ggplot2,
-    parallel
+    grDevices,
+    graphics,
+    methods,
+    parallel,
+    stats,
+    utils
 Suggests: 
     clipr,
     csaw,
     DelayedArray,
     DelayedMatrixStats,
     edgeR,
-    fastcluster,
     fgsea,
-    GenomicRanges,
     ggrastr (>= 0.2.0),
     ggrepel,
     httr2,
     KernSmooth,
-    knitr,
     limma,
     matrixStats,
     metapod,
@@ -40,16 +45,13 @@ Suggests:
     qsmooth,
     rdist,
     Rfast,
-    rmarkdown,
-    Rsamtools,
     statmod,
     SummarizedExperiment,
     testthat,
     umap,
     viridisLite
 biocViews:
-VignetteBuilder: 
-    knitr
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Config/roxygen2/version: 8.1.1

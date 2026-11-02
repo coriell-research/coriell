@@ -170,7 +170,7 @@ remove_components <- function(x, components = 1, ...) {
 #' Default 1
 #' @param random_state integer; seed for random number generation used during
 #' umap(). Default NA
-#' @param transform_state nteger; seed for random number generation used
+#' @param transform_state integer; seed for random number generation used
 #' during predict(). Default NA
 #' @param knn object of class umap.knn; precomputed nearest neighbors. Default
 #' NA
@@ -183,8 +183,7 @@ remove_components <- function(x, components = 1, ...) {
 #' @export
 #' @return data.frame with the UMAP embeddings. If metadata was supplied then
 #' metadata columns are added to the results.
-#' @examples
-#'
+#' @examplesIf requireNamespace("umap", quietly = TRUE) && requireNamespace("PCAtools", quietly = TRUE)
 #' # Create metadata for plotting
 #' metadata <- data.frame(row.names = colnames(GSE161650_lc))
 #' metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
@@ -206,7 +205,12 @@ remove_components <- function(x, components = 1, ...) {
 #' # Also on raw data
 #' udata4 <- suppressWarnings(UMAP(t(GSE161650_lc), metadata, n_neighbors = 2))
 #'
-UMAP <- function(x, ...) UseMethod("UMAP")
+UMAP <- function(x, ...) {
+  if (!requireNamespace("umap", quietly = TRUE)) {
+    stop("umap package is required. Install it with install.packages(\"umap\")")
+  }
+  UseMethod("UMAP")
+}
 
 #' @export
 #' @rdname UMAP

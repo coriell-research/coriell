@@ -49,6 +49,7 @@ This function creates a simple plot of the data.frame returned by the
 \code{umap()} function.
 }
 \examples{
+\dontshow{if (requireNamespace("umap", quietly = TRUE) && requireNamespace("PCAtools", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Create metadata for plotting
 metadata <- data.frame(row.names = colnames(GSE161650_lc))
 metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
@@ -57,4 +58,5 @@ metadata$Group <- rep(c("DMSO", "THZ1"), each = 3)
 p <- PCAtools::pca(GSE161650_lc, metadata, center = TRUE, scale = TRUE)
 udata <- suppressWarnings(coriell::UMAP(p, n_neighbors = 2))
 plot_umap(udata, colBy = "Group")
+\dontshow{\}) # examplesIf}
 }
