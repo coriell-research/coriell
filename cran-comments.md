@@ -4,8 +4,9 @@ This is a new submission.
 
 ## Test environments
 
-* local macOS (aarch64), R 4.5.1
-* win-builder (devel and release) -- TODO
+* local Ubuntu 24.04 (Pop!_OS), R 4.6.2
+* win-builder, R-devel (2026-11-01 r90825 ucrt)
+* win-builder, R-release -- TODO
 * macOS builder (release) -- TODO
 * R-hub (linux, windows, macos, nosuggests) -- TODO
 
@@ -13,9 +14,7 @@ This is a new submission.
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release. The same NOTE lists URLs on pantherdb.org and
-  stats.stackexchange.com that return HTTP 403 to automated checkers (see
-  below).
+* This is a new release.
 
 ## Notes for reviewers
 
@@ -28,6 +27,3 @@ This is a new submission.
   interactive sessions, the tests mock all HTTP responses (the one live test
   is skipped on CRAN), and the function returns `NULL` with a message when
   the service is unavailable.
-* URLs on pantherdb.org and stats.stackexchange.com may return HTTP 403 to
-  automated checkers. These pages are valid and open normally in a web
-  browser.

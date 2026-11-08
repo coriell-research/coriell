@@ -1,6 +1,6 @@
 #' Calculate the Dispersion Separability Criterion (DSC)
 #'
-#' This function computes the \href{https://ibl.mdanderson.org/public-software/tcga-batch-effects/}{Dispersion Separability Criterion (DSC)}
+#' This function computes the \href{https://bioinformatics.mdanderson.org/public-software/tcga-batch-effects/}{Dispersion Separability Criterion (DSC)}
 #' metric which was defined by the MD Anderson Bioinformatics team for computing the strength of
 #' batch effects in high-throughput sequencing data from TCGA.
 #'

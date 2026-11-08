@@ -84,48 +84,58 @@ export(summarize_dge)
 export(theme_coriell)
 export(tpm)
 import(data.table)
-importFrom(ggplot2,"%+replace%")
-importFrom(ggplot2,.data)
-importFrom(grDevices,adjustcolor)
-importFrom(grDevices,hcl.colors)
-importFrom(graphics,abline)
-importFrom(graphics,axis)
-importFrom(graphics,barplot)
-importFrom(graphics,bxp)
-importFrom(graphics,grid)
-importFrom(graphics,hist)
-importFrom(graphics,legend)
-importFrom(graphics,lines)
-importFrom(graphics,mtext)
-importFrom(graphics,pairs)
-importFrom(graphics,par)
-importFrom(graphics,plot.new)
-importFrom(graphics,plot.window)
-importFrom(graphics,points)
-importFrom(graphics,rect)
-importFrom(graphics,smoothScatter)
-importFrom(graphics,strheight)
-importFrom(graphics,strwidth)
-importFrom(graphics,text)
-importFrom(graphics,title)
+importFrom(ggplot2,
+  "%+replace%",
+  .data
+)
+importFrom(grDevices,
+  adjustcolor,
+  hcl.colors
+)
+importFrom(graphics,
+  abline,
+  axis,
+  barplot,
+  bxp,
+  grid,
+  hist,
+  legend,
+  lines,
+  mtext,
+  pairs,
+  par,
+  plot.new,
+  plot.window,
+  points,
+  rect,
+  smoothScatter,
+  strheight,
+  strwidth,
+  text,
+  title
+)
 importFrom(methods,is)
-importFrom(stats,IQR)
-importFrom(stats,coef)
-importFrom(stats,complete.cases)
-importFrom(stats,cor)
-importFrom(stats,cor.test)
-importFrom(stats,dist)
-importFrom(stats,fisher.test)
-importFrom(stats,kruskal.test)
-importFrom(stats,lm)
-importFrom(stats,lowess)
-importFrom(stats,mad)
-importFrom(stats,median)
-importFrom(stats,p.adjust)
-importFrom(stats,pnorm)
-importFrom(stats,prcomp)
-importFrom(stats,quantile)
-importFrom(stats,var)
-importFrom(stats,wilcox.test)
-importFrom(utils,head)
-importFrom(utils,modifyList)
+importFrom(stats,
+  IQR,
+  coef,
+  complete.cases,
+  cor,
+  cor.test,
+  dist,
+  fisher.test,
+  kruskal.test,
+  lm,
+  lowess,
+  mad,
+  median,
+  p.adjust,
+  pnorm,
+  prcomp,
+  quantile,
+  var,
+  wilcox.test
+)
+importFrom(utils,
+  head,
+  modifyList
+)

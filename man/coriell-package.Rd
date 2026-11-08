@@ -20,6 +20,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Gennaro Calendo \email{gcalendo@coriell.org}
 
+Authors:
+\itemize{
+  \item Gennaro Calendo \email{gcalendo@coriell.org}
+}
+
 Other contributors:
 \itemize{
   \item Coriell Institute for Medical Research [copyright holder]
