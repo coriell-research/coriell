@@ -13,6 +13,7 @@ reference:
 - title: "Differential expression helpers"
   desc: "Convenience functions useful when performing differential expression analysis"
   contents:
+  - TEtranscripts2DGEList
   - edger_to_df
   - normalize_counts
   - panther_go

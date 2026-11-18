@@ -16,5 +16,6 @@ NULL
 # Column names used via data.table non-standard evaluation
 utils::globalVariables(c(
   ".", "..fdr", "..lfc", ".sample", "Chrom", "Location", "Me", "N",
-  "P.Value", "Sample", "Start", "Un", "Var", "direction"
+  "P.Value", "Sample", "Start", "Un", "Var", "direction", "te_n_loci",
+  "te_total_width", "w"
 ))

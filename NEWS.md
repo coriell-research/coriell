@@ -1,3 +1,11 @@
+## coriell (development version)
+
+- New `TEtranscripts2DGEList()` imports TEtranscripts, TEcount and TElocal
+count tables into an `edgeR::DGEList`. The tool is detected automatically,
+TE subfamily/family/class (and TElocal locus) are parsed from the feature IDs,
+and gene and TE annotations can be added from the gene GTF (`gene_gtf`) and
+the TE GTF or TElocal locations table (`te_gtf`).
+
 ## coriell 0.20.1
 
 - Prepared the package for CRAN submission.

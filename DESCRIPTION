@@ -1,14 +1,15 @@
 Type: Package
 Package: coriell
 Title: Convenience Functions for Bioinformatics
-Version: 0.20.1
+Version: 0.20.1.9000
 Authors@R: c(
     person("Gennaro", "Calendo", , "gcalendo@coriell.org", role = c("aut", "cre")),
     person("Coriell Institute for Medical Research", role = "cph")
   )
 Description: Helper functions for common bioinformatics tasks such as
     plotting and summarizing the results of differential expression
-    analyses, creating heatmaps from expression data, performing
+    analyses, importing 'TEtranscripts' and 'TElocal' transposable
+    element counts, creating heatmaps from expression data, performing
     permutation tests, selecting outliers, performing gene ontology
     enrichment with the 'PANTHER' web service, and visualizing principal
     component analysis and 'UMAP' embeddings.

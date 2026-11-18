@@ -6,7 +6,7 @@
 \alias{coriell-package}
 \title{coriell: Convenience Functions for Bioinformatics}
 \description{
-Helper functions for common bioinformatics tasks such as plotting and summarizing the results of differential expression analyses, creating heatmaps from expression data, performing permutation tests, selecting outliers, performing gene ontology enrichment with the 'PANTHER' web service, and visualizing principal component analysis and 'UMAP' embeddings.
+Helper functions for common bioinformatics tasks such as plotting and summarizing the results of differential expression analyses, importing 'TEtranscripts' and 'TElocal' transposable element counts, creating heatmaps from expression data, performing permutation tests, selecting outliers, performing gene ontology enrichment with the 'PANTHER' web service, and visualizing principal component analysis and 'UMAP' embeddings.
 }
 \seealso{
 Useful links:
