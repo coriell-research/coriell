@@ -13,7 +13,7 @@ Reactome pathway) of genes is overrepresented or underrepresented."></head><body
 
     <a class="navbar-brand me-2" href="../index.html">coriell</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.20.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,9 +136,23 @@ to process the request. Identifiers that PANTHER cannot map are ignored.</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">panther_go</span><span class="op">(</span><span class="va">genes</span>, <span class="st">"9606"</span>, <span class="st">"biological_process"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Could not retrieve results from the PANTHER web service: HTTP 524.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    number_in_list fold_enrichment          fdr  expected number_in_reference</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             &lt;int&gt;           &lt;num&gt;        &lt;num&gt;     &lt;num&gt;               &lt;int&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:             30        7.302534 1.988037e-17 4.1081633                2013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:             11      110.000000 1.161814e-16 0.1000000                  49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:             12       78.400000 1.013277e-16 0.1530612                  75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:             31        5.111036 2.212363e-14 6.0653061                2972</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:             30        5.390539 2.414309e-14 5.5653061                2727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:             12       47.040000 3.193091e-14 0.2551020                 125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          pValue plus_minus    term_id                         term_label</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;num&gt;     &lt;char&gt;     &lt;char&gt;                             &lt;char&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1.444689e-21          + GO:0048513           animal organ development</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 1.688561e-20          + GO:0007219            Notch signaling pathway</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 2.209020e-20          + GO:0060070    canonical Wnt signaling pathway</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 6.430819e-18          + GO:0007275 multicellular organism development</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 8.772287e-18          + GO:0048731                 system development</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 1.392235e-17          + GO:0016055              Wnt signaling pathway</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
